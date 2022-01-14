@@ -6,6 +6,8 @@ module.exports = {
     localeDetection: false,
   },
   env: {
+    PORT: process.env.PORT,
+
     ENABLE_WRITE_LOG_CLIENT: process.env.ENABLE_WRITE_LOG,
     API_DOMAIN_CLIENT: process.env.API_DOMAIN,
     SIGNATURE_CLIENT: process.env.SIGNATURE,

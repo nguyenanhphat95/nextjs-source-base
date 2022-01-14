@@ -8,9 +8,9 @@ configure({
     },
     file: {
       type: "file",
-      filename: "./app.log",
+      filename: process.env.FILE_NAME_LOG,
       compression: true,
-      maxLogSize: 10485760,
+      maxLogSize: parseInt(process.env.MAX_SIZE_LOG || "51200"), // 50MB
       backups: 100,
     },
   },
