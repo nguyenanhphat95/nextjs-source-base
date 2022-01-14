@@ -16,11 +16,11 @@
       "btnSubmit": "Tiếp tục"
     },
     "loginSuccessForm": {
-      "title": "Đăng nhập thành công eBanking",
-      "subtitle1": "Chúc mừng bạn đã đăng nhập thành công dịch vụ eBanking HDBank.",
-      "subtitle2": "Vui lòng tiếp tục với SBH để hoàn tất thanh toán.",
+      "title": "Kết nối tài khoản thanh toán thành công",
+      "subtitle1": "Chúc mừng bạn đã kết nối thành công tài khoản thanh toán HDBank.",
+      "subtitle2": "Vui lòng tiếp tục với Sổ Bán Hàng để hoàn tất thanh toán.",
       "btnContinue": "Tiếp tục với SBH",
-      "btnDownApp": "Tải app HDBank",
+      "btnDownApp": "Tải App HDBank",
       "textInstruction": "Hướng dẫn nạp tiền tài khoản thanh toán HDMoney"
     },
     "loginForm": {
@@ -95,7 +95,7 @@
       "termOfUse": "Điều khoản sử dụng",
       "safeAndSecure": "An toàn và bảo mật",
       "siteMap": "Sơ đồ trang",
-      "downloadHDBankApp": "Tải app HDBank",
+      "downloadHDBankApp": "Tải App HDBank",
       "connectHDBank": "Kết nối với HDBank"
     }
   },

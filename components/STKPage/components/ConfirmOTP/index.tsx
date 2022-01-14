@@ -106,19 +106,26 @@ const ConfirmOTP = (props: Props) => {
             <Grid item className={cn(classes.textCenter)}>
               <InputOTP onChange={setOtp} />
             </Grid>
-            <Grid item className={cn(classes.textCenter, classes.caption)}>
-              {t.question}
-            </Grid>
-            <Grid
-              onClick={_handleResendOTP}
-              item
-              className={cn(
-                classes.textCenter,
-                classes.textLink,
-                !isResendValid && classes.disabledResentOTP
-              )}
-            >
-              {t.resendOTP}
+            <Grid item>
+              <Grid container justifyContent="center">
+                <Grid
+                  item
+                  xs={8}
+                  className={cn(classes.textCenter, classes.caption)}
+                >
+                  {t.question}{" "}
+                  <span
+                    onClick={_handleResendOTP}
+                    className={cn(
+                      classes.textCenter,
+                      classes.textLink,
+                      !isResendValid && classes.disabledResentOTP
+                    )}
+                  >
+                    {t.resendOTP}
+                  </span>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item className={cn(classes.textCenter)}>
               <span className={classes.textTimer} ref={timerRef} />

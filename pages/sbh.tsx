@@ -33,7 +33,8 @@ import desktopPic from "public/images/desktop.png";
 import bannerMobile from "public/images/bannerMobile.png";
 import STKContext from "components/STKPage/contexts/STKContextValue";
 
-import { ToastContainer, toast } from "react-toastify";
+import { showToastError, showToastSuccess } from "commons/helpers/toast";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import _get from "lodash/get";
 
@@ -132,7 +133,7 @@ const SBHPage = () => {
     const publicKey = _get(resp, "data.data.key");
 
     if (!publicKey) {
-      toast.error("Get public key error");
+      showToastError("Get public key error");
       return;
     }
     _toggleLoading("loadingBtnSubmit", true);
@@ -143,20 +144,23 @@ const SBHPage = () => {
         _toggleLoading("loadingBtnSubmit");
 
         if (responseCode === ERROR_CODE.Success) {
-          stkService.getListAccountApi(data.username).then((res) => {
+          const cif = _get(res, "data.data.cif");
+          stkService.getListAccountApi(cif).then((res) => {
             setListAccount(_get(res, "data.data", []));
           });
           usernameRef.current = data.username;
           passwordRef.current = data.password;
 
           setLoginStep(LOGIN_STEP.step2);
-          toast.success("Login success");
+          showToastSuccess("Login success");
           return;
         }
-        toast.error(ERROR_MESSAGE_VERIFY_USER[responseCode] || "Login failed");
+        showToastError(
+          ERROR_MESSAGE_VERIFY_USER[responseCode] || "Login failed"
+        );
       })
       .catch((err) => {
-        toast.error("Login failed");
+        showToastError("Login failed");
         _toggleLoading("loadingBtnSubmit");
         console.log(err);
       });
@@ -169,12 +173,12 @@ const SBHPage = () => {
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
         if (_get(res, "data.data.userId")) {
-          toast.success("Send OTP success, please check your phone");
+          showToastSuccess("Send OTP success, please check your phone");
           setLoginStep(LOGIN_STEP.step3);
         }
       })
       .catch((err) => {
-        toast.error("Send OTP failed");
+        showToastError("Send OTP failed");
         _toggleLoading("loadingBtnSubmit", false);
         console.log(err);
       });
@@ -192,14 +196,14 @@ const SBHPage = () => {
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
         if (_get(res, "data.data.userId")) {
-          toast.success("Confirm OTP success");
+          showToastSuccess("Confirm OTP success");
           setLoginStep(LOGIN_STEP.step4);
           return;
         }
-        toast.error(_get(res, "data.data.resultMessage", "Invalid OTP"));
+        showToastError(_get(res, "data.data.resultMessage", "Invalid OTP"));
       })
       .catch((err) => {
-        toast.error("Send OTP failed");
+        showToastError("Send OTP failed");
         _toggleLoading("loadingBtnSubmit", false);
         console.log(err);
       });
@@ -220,7 +224,9 @@ const SBHPage = () => {
         _toggleLoading("loadingBtnSubmit", false);
         if (!code) {
           const errorCode = _get(res, "data.response.responseCode");
-          toast.error(ERROR_MESSAGE_VERIFY_USER[errorCode] || "Login failed");
+          showToastError(
+            ERROR_MESSAGE_VERIFY_USER[errorCode] || "Login failed"
+          );
           return;
         }
         // Redirect to redirect uri
@@ -232,7 +238,7 @@ const SBHPage = () => {
         });
       })
       .catch((err) => {
-        toast.error("Verify failed");
+        showToastError("Verify failed");
         _toggleLoading("loadingBtnSubmit", false);
         console.log(err);
       });
@@ -254,7 +260,7 @@ const SBHPage = () => {
       <ToastContainer
         theme="colored"
         position="bottom-center"
-        autoClose={3000}
+        autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

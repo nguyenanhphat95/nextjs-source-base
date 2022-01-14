@@ -64,8 +64,6 @@ const LoginSuccessForm = (props: Props) => {
         </Grid>
         <Grid item>
           <Box className={classes.textCenter}>{t.subtitle1}</Box>
-        </Grid>
-        <Grid item>
           <Box className={classes.textCenter}>{t.subtitle2}</Box>
         </Grid>
       </Grid>
