@@ -1,11 +1,6 @@
-import * as React from "react";
-import type { NextPage } from "next";
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import React from "react";
 
-const Home: NextPage = () => {
-  return <Container maxWidth="lg">Home component</Container>;
+const Home = () => {
+  return <div>Home component</div>;
 };
-
 export default Home;

@@ -6,8 +6,8 @@ import { OptionSelectType } from "commons/constants/types";
 import cn from "classnames";
 const useStyles = makeStyles(() => ({
   root: {
-    borderRadius: "40px !important",
-    height: 58,
+    borderRadius: "5px !important",
+    height: 50,
   },
 }));
 interface Props<T> extends SelectProps {
@@ -33,13 +33,7 @@ function getLabel<T extends OptionSelectType>({
 }
 
 const SelectCustom = <T extends OptionSelectType>(props: Props<T>) => {
-  const {
-    options,
-    renderLabel,
-    className,
-    placeholder,
-    ...rest
-  } = props;
+  const { options, renderLabel, className, placeholder, ...rest } = props;
   const classes = useStyles();
   return (
     <Select displayEmpty {...rest} className={cn(classes.root, className)}>

@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     textAlign: "center",
     borderRadius: "4px",
     border: "1px solid rgba(0, 0, 0, 0.3)",
-    [theme.breakpoints?.down("sm")]: {
+    [theme.breakpoints.down("sm")]: {
       width: "2rem",
       height: "2rem",
     },
@@ -31,10 +31,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface Props {
   onFinish?: (otp: string) => void;
   onChange?: (otp: string) => void;
+  label?: string | React.ReactElement;
 }
 
 const InputOTP = (props: Props) => {
-  const { onFinish, onChange } = props;
+  const { onFinish, onChange, label } = props;
 
   const classes = useStyles();
   const otpEl1 = useRef<HTMLInputElement>(null);
@@ -87,9 +88,9 @@ const InputOTP = (props: Props) => {
       }
     } else {
       const next = _get(e, "target.tabIndex");
-      const value = e.key;
+      const value = _get(e, "target.value");
 
-      if (next < 6 && isNumber(+value)) {
+      if (next < 6 && value && isNumber(+value)) {
         const element = _get(e, `target.form.elements[${next}]`);
         element && element.focus();
       }
@@ -98,7 +99,7 @@ const InputOTP = (props: Props) => {
 
   return (
     <form>
-      <Grid justifyContent="center" container spacing={2}>
+      <Grid wrap="nowrap" justifyContent="center" container spacing={2}>
         <Grid item xs="auto">
           <input
             ref={otpEl1}
