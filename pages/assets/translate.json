@@ -1,0 +1,204 @@
+{
+  "vi": {
+    "confirmOTP": {
+      "title": "Xác thực ký hợp đồng điện tử",
+      "content": "Vui lòng nhập mã xác thực đã được gửi đến số điện thoại của bạn",
+      "label": "Nhập mã xác nhận",
+      "question": "Quý khách không nhận được tin nhắn?",
+      "resendOTP": "Gửi lại OTP",
+      "btnSubmit": "Xác nhận"
+    },
+    "chooseAccountForm": {
+      "title": "Chọn tài khoản thanh toán",
+      "content": "Vui lòng chọn Tài khoản thanh toán mà bạn muốn liên kết với Sổ Bán Hàng",
+      "labelAccount": "Lựa chọn Số tài khoản thanh toán:",
+      "placeholderAccount": "Chọn",
+      "btnSubmit": "Tiếp tục"
+    },
+    "loginSuccessForm": {
+      "title": "Đăng nhập thành công eBanking",
+      "subtitle1": "Chúc mừng bạn đã đăng nhập thành công dịch vụ eBanking HDBank.",
+      "subtitle2": "Vui lòng tiếp tục với SBH để hoàn tất thanh toán.",
+      "btnContinue": "Tiếp tục với SBH",
+      "btnDownApp": "Tải app HDBank",
+      "textInstruction": "Hướng dẫn nạp tiền tài khoản thanh toán HDMoney"
+    },
+    "loginForm": {
+      "title": "Đăng nhập eBanking",
+      "subtitle1": "Bạn đã có tài khoản thanh toán HDBank",
+      "subtitle2": "Vui lòng đăng nhập eBanking để chọn tài khoản thanh toán",
+      "username": "Tên đăng nhập",
+      "password": "Mật khẩu",
+      "btnSubmit": "Đăng nhập",
+      "cantLogin": "Bạn không thể đăng nhập?",
+      "registerAccount": "Tạo tài khoản ngay",
+      "personal": "Cá nhân",
+      "enterprise": "Doanh nghiệp",
+      "textForgotAccount": "Quên tên đăng nhập/mật khẩu"
+    },
+    "utilityBank": {
+      "title": "Khám phá tiện ích eBanking",
+      "utility1": "Thanh toán hóa đơn",
+      "utility2": "Gửi tiết kiệm online",
+      "utility3": "Khóa thẻ tạm thời",
+      "utility4": "Chuyển tiền nhanh 24/7",
+      "utility5": "Mobile BankPlus",
+      "utility6": "eFactoring",
+      "utility7": "eCredit",
+      "utility8": "eDrawdown",
+      "utility9": "eFEX"
+    },
+    "notification": {
+      "title": "Thông báo mới",
+      "itemTitle1": "HƯỞNG ƯU ĐÃI SHOCK - NGHỈ DƯỠNG CỰC BỐC",
+      "itemContent1": "Khách hàng cá nhân đăng ký thành công 'Cộng tác viên' và thực hiện giới thiệu khách hàng trên App HDBank...",
+      "itemShortContent1": "Thanh toán hóa đơn điện nước, internet... chỉ trong 1 cú chạm...",
+
+      "itemTitle2": "CẬP NHẬT BIỂU PHÍ THÁNG 11",
+      "itemContent2": "Khách hàng cá nhân đăng ký thành công 'Cộng tác viên' và thực hiện giới thiệu khách hàng trên App HDBank...",
+      "itemShortContent2": "Từ ngày 1/11/2021 HDBank chính thức cập nhật biểu phí dành cho...",
+
+      "itemTitle3": "HƯỞNG ƯU ĐÃI SHOCK - NGHỈ DƯỠNG CỰC BỐC",
+      "itemContent3": "Khách hàng cá nhân đăng ký thành công 'Cộng tác viên' và thực hiện giới thiệu khách hàng trên App HDBank..."
+    },
+    "footer": {
+      "col1title1": "Vì sao chọn HDBank?",
+      "col1content1": "Về chúng tôi",
+      "col1content2": "Tuyển dụng",
+      "col1content3": "Ưu đãi",
+      "col1content4": "Tin tức và sự kiện",
+      "col1content5": "Thư viện",
+
+      "col2title2": "Khách hàng cá nhân",
+      "col2content1": "Sản phẩm tiền gửi",
+      "col2content2": "Sản phẩm Vay",
+      "col2content3": "Thẻ",
+      "col2content4": "Bảo hiểm",
+      "col2content5": "Ngân hàng điện tử",
+
+      "col3title3": "Khách hàng doanh nghiệp",
+      "col3content1": "Tín dụng",
+      "col3content2": "Thẻ doanh nghiệp",
+      "col3content3": "Quản lý dòng tiền",
+      "col3content4": "Tài trợ thương mại",
+      "col3content5": "Thanh toán quốc tế",
+
+      "col4title4": "Hỗ trợ",
+      "col4content1": "Hotline",
+      "col4content2": "Chi nhánh/ATM",
+      "col4content3": "e-Invoice",
+      "col4content4": "Chat trực tuyến",
+      "col4content5": "Trung tâm trợ giúp",
+      "col4content6": "Bảo mật",
+
+      "copyright": "Bản quyền ©2021 thuộc về HDBank",
+      "termOfUse": "Điều khoản sử dụng",
+      "safeAndSecure": "An toàn và bảo mật",
+      "siteMap": "Sơ đồ trang",
+      "downloadHDBankApp": "Tải app HDBank",
+      "connectHDBank": "Kết nối với HDBank"
+    }
+  },
+  "en": {
+    "confirmOTP": {
+      "title": "Authentication of electronic contract signing",
+      "content": "Please enter the verification code sent to your phone number",
+      "label": "Enter the confirmation code",
+      "question": "You did not receive the message?",
+      "resendOTP": "Resend OTP",
+      "btnSubmit": "Confirm"
+    },
+    "chooseAccountForm": {
+      "title": "Choose a payment account",
+      "content": "Please select the Payment Account you want to link to the Sales Book",
+      "labelAccount": "Select Payment Account Number:",
+      "placeholderAccount": "Select",
+      "btnSubmit": "Continue"
+    },
+    "loginSuccessForm": {
+      "title": "Successfully logged in to eBanking",
+      "subtitle1": "Congratulations, you have successfully logged into HDBank eBanking service.",
+      "subtitle2": "Please proceed to SBH to complete payment.",
+      "btnContinue": "Continue with SBH",
+      "btnDownApp": "Download app",
+      "textInstruction": "Instructions to top up HDMoney payment account"
+    },
+    "loginForm": {
+      "title": "Login to eBanking",
+      "subtitle1": "You already have an HDBank payment account",
+      "subtitle2": "Please login to eBanking to choose a payment account",
+      "username": "Username",
+      "password": "Password",
+      "btnSubmit": "Sign in",
+      "cantLogin": "You can't login?",
+      "registerAccount": "Create an account now",
+      "personal": "Personal",
+      "enterprise": "Enterprise",
+      "textForgotAccount": "Forgot username/password"
+    },
+    "utilityBank": {
+      "title": "Discover the utility of eBanking",
+      "utility1": "Pay the bill",
+      "utility2": "Send savings online",
+      "utility3": "Temporary card lock",
+      "utility4": "Quick money transfer 24/7",
+      "utility5": "Mobile BankPlus",
+      "utility6": "eFactoring",
+      "utility7": "eCredit",
+      "utility8": "eDrawdown",
+      "utility9": "eFEX"
+    },
+
+    "notification": {
+      "title": "New notification",
+      "itemTitle1": "ENJOY SHOCK PROMOTION - EXCELLENT HOLIDAYS",
+      "itemContent1": "Individual customers successfully register 'Associate' and refer customers on HDBank App...",
+      "itemShortContent1": "Pay utility bills, internet... in just 1 touch...",
+
+      "itemTitle2": "UPDATE FEE SCHEDULE FOR NOVEMBER",
+      "itemContent2": "Individual customers successfully register 'Associate' and refer customers on HDBank App...",
+      "itemShortContent2": "Từ ngày 1/11/2021 HDBank chính thức cập nhật biểu phí dành cho...",
+
+      "itemTitle3": "UPDATE FEE SCHEDULE FOR NOVEMBER",
+      "itemContent3": "Individual customers successfully register 'Associate' and refer customers on HDBank App..."
+    },
+
+    "footer": {
+      "col1title1": "Why choose HDBank?",
+      "col1content1": "About us",
+      "col1content2": "Recruitment",
+      "col1content3": "Endow",
+      "col1content4": "News and events",
+      "col1content5": "Library",
+
+      "col2title2": "Individual customers",
+      "col2content1": "Deposit products",
+      "col2content2": "Loan products",
+      "col2content3": "Card",
+      "col2content4": "Insurrance",
+      "col2content5": "Electronic banking",
+
+      "col3title3": "Corporate customers",
+      "col3content1": "Credit",
+      "col3content2": "Business card",
+      "col3content3": "Cash flow management",
+      "col3content4": "Commercial finance",
+      "col3content5": "International payments",
+
+      "col4title4": "Support",
+      "col4content1": "Hotline",
+      "col4content2": "Branch/ATM",
+      "col4content3": "e-Invoice",
+      "col4content4": "Chat online",
+      "col4content5": "Help Center",
+      "col4content6": "Security",
+
+      "copyright": "Copyright ©2021 belongs to HDBank",
+      "termOfUse": "Terms of use",
+      "safeAndSecure": "Safe and secure",
+      "siteMap": "Sitemap",
+      "downloadHDBankApp": "Download HDBank app",
+      "connectHDBank": "Connect with HDBank"
+    }
+  }
+}
