@@ -2,7 +2,7 @@ import React, { ChangeEvent, useState } from "react";
 import { Grid, Box, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { ButtonCustom, CheckboxCustom, InputCustom } from "components/commons";
-import { parseInfoFromEKYC } from "commons/helpers";
+import { parseInfoFromEKYC, checkResultEkyc } from "commons/helpers";
 import { FormDataFinal, TypeCustomer } from "../interfaces";
 import _get from "lodash/get";
 
@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 interface Props {
   data: FormDataFinal;
   onSubmit: () => void;
+  redoEKYC?: () => void;
   typeCustomer: TypeCustomer;
 }
 
@@ -307,8 +308,9 @@ const MOCK_DATA = {
 const ConfirmInfoPage = (props: Props) => {
   const classes = useStyles();
   const info = parseInfoFromEKYC(MOCK_DATA);
+  const resultEKYC = checkResultEkyc(MOCK_DATA);
 
-  const { data, onSubmit, typeCustomer } = props;
+  const { data, onSubmit, typeCustomer, redoEKYC } = props;
   const [isAceptCondition, setIsAceptCondition] = useState(true);
 
   const [formData, setFormData] = useState({
@@ -328,148 +330,171 @@ const ConfirmInfoPage = (props: Props) => {
 
   return (
     <div className={classes.root}>
-      <div className={classes.tittle}>Xác nhận thông tin đăng ký mở TKCK</div>
-      <Box mt={1} className={classes.content}>
-        <Grid container direction="column" spacing={1}>
-          <Grid item>
-            <Grid container spacing={1} direction="column">
-              <Grid item>Tên khách hàng:</Grid>
-              <Grid item>
-                <InputCustom
-                  onChange={(e) =>
-                    _handleChangeInput("fullName", _get(e, "target.value"))
-                  }
-                  fullWidth
-                  value={formData.fullName}
-                />
-              </Grid>
-            </Grid>
+      {!resultEKYC.validEKYC && (
+        <Grid container direction="column" spacing={2}>
+          <Grid item xs={12}>
+            {resultEKYC.messageEKYC}
           </Grid>
-          <Grid item>
-            <Grid container spacing={1} direction="column">
-              <Grid item>Giới tính:</Grid>
-              <Grid item>
-                <b>{info?.gender}</b>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container spacing={1} direction="column">
-              <Grid item>Ngày sinh:</Grid>
-              <Grid item>
-                <b>{info?.birthDateOcr}</b>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container spacing={1} direction="column">
-              <Grid item>CMND/CCCD:</Grid>
-              <Grid item>
-                <b>{info?.idNumber}</b>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container spacing={1} direction="column">
-              <Grid item>Ngày cấp:</Grid>
-              <Grid item>
-                <b>{info?.dateOfIssueOcr}</b>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container spacing={1} direction="column">
-              <Grid item>Nơi cấp:</Grid>
-              <Grid item>
-                <b>{info?.placeOfIssueOcr}</b>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container spacing={1} direction="column">
-              <Grid item>Địa chỉ tường trú:</Grid>
-              <Grid item>
-                <b>{info?.recent_location}</b>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container spacing={1} direction="column">
-              <Grid item>Quốc tịch:</Grid>
-              <Grid item>
-                <b>{info?.nationalityId}</b>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container spacing={1} direction="column">
-              <Grid item> Số điện thoại:</Grid>
-              <Grid item>{/* <b>0962486390</b> */}</Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container spacing={1} direction="column">
-              <Grid item>Địa chỉ liên lạc:</Grid>
-              <Grid item>
-                <b>{info?.recent_location}</b>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container spacing={1} direction="column">
-              <Grid item>Địa chỉ email:</Grid>
-              <Grid item>{/* <b>email</b> */}</Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container spacing={1} direction="column">
-              <Grid item>Địa điểm mở TKCK:</Grid>
-              <Grid item>
-                <b>{data.location}</b>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container spacing={1} direction="column">
-              <Grid item>Số TKTT tại HDBank:</Grid>
-              <Grid item>
-                <b>{data.account}</b>
-              </Grid>
-            </Grid>
+          <Grid item xs={12}>
+            <ButtonCustom
+              onClick={() => redoEKYC && redoEKYC()}
+              fullWidth
+              variant="contained"
+              color="secondary"
+            >
+              Thực hiện lại
+            </ButtonCustom>
           </Grid>
         </Grid>
-      </Box>
-      <Box mt={1}>
-        <CheckboxCustom
-          checked={isAceptCondition}
-          onChange={_handleChange}
-          label={
-            <div>
-              Tôi đồng ý và ủy quyền cho HDBank để cung cấp các thông tin cá
-              nhân, thông tài khoản của tôi cho Công ty chứng khoán
-              xxxxxxxxxxxx, để thực hiện các thủ tục mở tài khoản chứng khoán
-              tại Công ty chứng khoán xxxxxxxxxxx. Tôi đã đọc, hiểu rõ và đồng ý
-              với{" "}
-              <span className={classes.textTermAndCondition}>
-                Điều khoản và Điều kiện
-              </span>{" "}
-              đính kèm
-            </div>
-          }
-        />
-      </Box>
+      )}
+      {resultEKYC.validEKYC && (
+        <>
+          <div className={classes.tittle}>
+            Xác nhận thông tin đăng ký mở TKCK
+          </div>
+          <Box mt={1} className={classes.content}>
+            <Grid container direction="column" spacing={1}>
+              <Grid item>
+                <Grid container spacing={1} direction="column">
+                  <Grid item>Tên khách hàng:</Grid>
+                  <Grid item>
+                    <InputCustom
+                      onChange={(e) =>
+                        _handleChangeInput("fullName", _get(e, "target.value"))
+                      }
+                      fullWidth
+                      value={formData.fullName}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Grid container spacing={1} direction="column">
+                  <Grid item>Giới tính:</Grid>
+                  <Grid item>
+                    <b>{info?.gender}</b>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Grid container spacing={1} direction="column">
+                  <Grid item>Ngày sinh:</Grid>
+                  <Grid item>
+                    <b>{info?.birthDateOcr}</b>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Grid container spacing={1} direction="column">
+                  <Grid item>CMND/CCCD:</Grid>
+                  <Grid item>
+                    <b>{info?.idNumber}</b>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Grid container spacing={1} direction="column">
+                  <Grid item>Ngày cấp:</Grid>
+                  <Grid item>
+                    <b>{info?.dateOfIssueOcr}</b>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Grid container spacing={1} direction="column">
+                  <Grid item>Nơi cấp:</Grid>
+                  <Grid item>
+                    <b>{info?.placeOfIssueOcr}</b>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Grid container spacing={1} direction="column">
+                  <Grid item>Địa chỉ tường trú:</Grid>
+                  <Grid item>
+                    <b>{info?.recent_location}</b>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Grid container spacing={1} direction="column">
+                  <Grid item>Quốc tịch:</Grid>
+                  <Grid item>
+                    <b>{info?.nationalityId}</b>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Grid container spacing={1} direction="column">
+                  <Grid item> Số điện thoại:</Grid>
+                  <Grid item>{/* <b>0962486390</b> */}</Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Grid container spacing={1} direction="column">
+                  <Grid item>Địa chỉ liên lạc:</Grid>
+                  <Grid item>
+                    <b>{info?.recent_location}</b>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Grid container spacing={1} direction="column">
+                  <Grid item>Địa chỉ email:</Grid>
+                  <Grid item>{/* <b>email</b> */}</Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Grid container spacing={1} direction="column">
+                  <Grid item>Địa điểm mở TKCK:</Grid>
+                  <Grid item>
+                    <b>{data.location}</b>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item>
+                <Grid container spacing={1} direction="column">
+                  <Grid item>Số TKTT tại HDBank:</Grid>
+                  <Grid item>
+                    <b>{data.account}</b>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Box>
+          <Box mt={1}>
+            <CheckboxCustom
+              checked={isAceptCondition}
+              onChange={_handleChange}
+              label={
+                <div>
+                  Tôi đồng ý và ủy quyền cho HDBank để cung cấp các thông tin cá
+                  nhân, thông tài khoản của tôi cho Công ty chứng khoán
+                  xxxxxxxxxxxx, để thực hiện các thủ tục mở tài khoản chứng
+                  khoán tại Công ty chứng khoán xxxxxxxxxxx. Tôi đã đọc, hiểu rõ
+                  và đồng ý với{" "}
+                  <span className={classes.textTermAndCondition}>
+                    Điều khoản và Điều kiện
+                  </span>{" "}
+                  đính kèm
+                </div>
+              }
+            />
+          </Box>
 
-      <Box mt={2} className={classes.content}>
-        <ButtonCustom
-          disabled={!isAceptCondition}
-          fullWidth
-          variant="contained"
-          color="secondary"
-          onClick={onSubmit}
-        >
-          Tiếp tục
-        </ButtonCustom>
-      </Box>
+          <Box mt={2} className={classes.content}>
+            <ButtonCustom
+              disabled={!isAceptCondition}
+              fullWidth
+              variant="contained"
+              color="secondary"
+              onClick={onSubmit}
+            >
+              Tiếp tục
+            </ButtonCustom>
+          </Box>
+        </>
+      )}
     </div>
   );
 };

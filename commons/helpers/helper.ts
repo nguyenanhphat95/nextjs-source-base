@@ -61,3 +61,58 @@ export const parseInfoFromEKYC = (ekycData: any) => {
     nationalityId: _get(ekycData, "ekycData.ocr.object.id", ""),
   };
 };
+
+export const checkResultEkyc = (
+  ekycData: any
+): {
+  validEKYC: boolean;
+  messageEKYC: string;
+} => {
+  let validEKYC = true;
+  let messageEKYC = "";
+  const compareObj = _get(ekycData, "compare.object.msg");
+  const compareMsg = _get(ekycData, "compare.object.result");
+
+  const livenessCardBack = _get(ekycData, "liveness_card_back.object.liveness");
+  const livenessCardBackMsg = _get(
+    ekycData,
+    "liveness_card_back.object.liveness_msg"
+  );
+
+  const livenessCardFront = _get(
+    ekycData,
+    "liveness_card_front.object.liveness"
+  );
+  const livenessCardFrontMsg = _get(
+    ekycData,
+    "liveness_card_front.object.liveness_msg"
+  );
+
+  const livenessFace = _get(ekycData, "liveness_face.object.liveness");
+  const livenessFaceMsg = _get(ekycData, "liveness_face.object.liveness_msg");
+
+  if (compareObj === "NOMATCH") {
+    validEKYC = false;
+    messageEKYC = compareMsg;
+  }
+
+  if (livenessCardBack !== "success") {
+    validEKYC = false;
+    messageEKYC = livenessCardBackMsg;
+  }
+
+  if (livenessCardFront !== "success") {
+    validEKYC = false;
+    messageEKYC = livenessCardFrontMsg;
+  }
+
+  if (livenessFace !== "success") {
+    validEKYC = false;
+    messageEKYC = livenessFaceMsg;
+  }
+
+  return {
+    validEKYC,
+    messageEKYC,
+  };
+};

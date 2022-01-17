@@ -46,9 +46,9 @@ const HDBSPage = () => {
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
 
   const [typeCustomer, setTypeCustomer] = useState<TypeCustomer>(
-    TypeCustomer.KHHH
+    TypeCustomer.KHM
   );
-  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step1);
+  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step3);
 
   const [dataForm, setDataForm] = useState({
     account: "",
@@ -130,6 +130,7 @@ const HDBSPage = () => {
               typeCustomer={typeCustomer}
               data={dataForm}
               onSubmit={_handleSubmitStep3}
+              redoEKYC={() => _onNextStep(STEP_KHHH.step2)}
             />
           )}
           {stepCurrent === STEP_KHHH.step4 && <RegisterSuccessPage />}

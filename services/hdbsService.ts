@@ -24,6 +24,33 @@ import {
   UpdateTokenKeyPartnerResponse,
 } from "interfaces/IUpdateTokenKeyPartner";
 
+function generateBodyRequest<T>(key: string, body: T) {
+  return {
+    [key]: {
+      header: {
+        common: {
+          serviceVersion: "1",
+          messageId: "",
+          transactionId: "",
+          messageTimestamp: "",
+        },
+        client: {
+          sourceAppID: "IB",
+          targetAppIDs: ["ESB"],
+          userDetail: {
+            userID: "DTC",
+            userPassword: "RFRDMTIz",
+          },
+        },
+      },
+      bodyReq: {
+        functionCode: "HDB2C-INQUIRYEKYCPRESENT-JDBC-ECRM",
+        data: body,
+      },
+    },
+  };
+}
+
 export const getListAccountApi = async (clientNo: string) => {
   const body: ListAccountRequest = {
     requestId: uuidv4() as string,
@@ -46,7 +73,8 @@ export const getMerchant = async () => {
 
   const resp: AxiosResponse<GetMerchantResponse> = await axios.post(
     "/api/getMerchant",
-    body
+    body,
+    generateBodyRequest("getMerchantReq", body)
   );
   return resp.data;
 };
@@ -59,7 +87,7 @@ export const checkUserEKYC = async () => {
   };
   const resp: AxiosResponse<CheckUserEKYCResponse> = await axios.post(
     "/api/checkUserEKYC",
-    body
+    generateBodyRequest("checkUserEkycReq", body)
   );
   return resp.data;
 };
@@ -68,7 +96,7 @@ export const inquiryEKYCPresent = async () => {
   const body: any = {};
   const resp: AxiosResponse<InquiryEKYCPresentResponse> = await axios.post(
     "/api/inquiryEKYCPresent",
-    body
+    generateBodyRequest("inquiryEkycPresentReq", body)
   );
   return resp.data;
 };
@@ -81,7 +109,7 @@ export const confirmEKYCPresent = async (otp: string) => {
   };
   const resp: AxiosResponse<ConfirmEKYCResponse> = await axios.post(
     "/api/confirmEKYCPresent",
-    body
+    generateBodyRequest("checkUserEkycReq", body)
   );
   return resp.data;
 };
