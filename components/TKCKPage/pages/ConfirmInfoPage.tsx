@@ -1,18 +1,18 @@
 import React, { ChangeEvent, useState } from "react";
 import { Grid, Box, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { ButtonCustom, CheckboxCustom } from "components/commons";
+import { ButtonCustom, CheckboxCustom, InputCustom } from "components/commons";
 import { parseInfoFromEKYC } from "commons/helpers";
 import { FormDataFinal, TypeCustomer } from "../interfaces";
+import _get from "lodash/get";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    paddingLeft: 3,
-    paddingRight: 3,
+    padding: "5px",
   },
   content: {
-    paddingLeft: 18,
-    paddingRight: 18,
+    paddingLeft: "18px",
+    paddingRight: "18px",
   },
   textTermAndCondition: {
     color: theme.palette.error.main,
@@ -306,13 +306,25 @@ const MOCK_DATA = {
 
 const ConfirmInfoPage = (props: Props) => {
   const classes = useStyles();
+  const info = parseInfoFromEKYC(MOCK_DATA);
+
   const { data, onSubmit, typeCustomer } = props;
   const [isAceptCondition, setIsAceptCondition] = useState(true);
+
+  const [formData, setFormData] = useState({
+    fullName: info.fullNameOcr,
+  });
 
   const _handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setIsAceptCondition(event.target.checked);
   };
-  const info = parseInfoFromEKYC(MOCK_DATA);
+
+  const _handleChangeInput = (field: string, value: string) => {
+    setFormData({
+      ...formData,
+      [field]: value,
+    });
+  };
 
   return (
     <div className={classes.root}>
@@ -323,7 +335,13 @@ const ConfirmInfoPage = (props: Props) => {
             <Grid container spacing={1} direction="column">
               <Grid item>Tên khách hàng:</Grid>
               <Grid item>
-                <b>{info?.fullNameOcr}</b>
+                <InputCustom
+                  onChange={(e) =>
+                    _handleChangeInput("fullName", _get(e, "target.value"))
+                  }
+                  fullWidth
+                  value={formData.fullName}
+                />
               </Grid>
             </Grid>
           </Grid>

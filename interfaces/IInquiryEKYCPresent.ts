@@ -1,3 +1,5 @@
+import { Gender } from "./ICommon";
+
 export interface InquiryEKYCPresentRequest {
   username: string;
   requestId: string;
@@ -67,4 +69,3 @@ export interface InquiryEKYCPresentResponse {
     hasSendOtp: boolean;
   };
 }
-type Gender = "M" | "F";

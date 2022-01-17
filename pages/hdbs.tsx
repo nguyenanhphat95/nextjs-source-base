@@ -45,7 +45,9 @@ const HDBSPage = () => {
   const classes = useStyles();
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
 
-  const [typeCustomer, setTypeCustomer] = useState(TypeCustomer.KHHH);
+  const [typeCustomer, setTypeCustomer] = useState<TypeCustomer>(
+    TypeCustomer.KHHH
+  );
   const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step1);
 
   const [dataForm, setDataForm] = useState({
@@ -96,13 +98,17 @@ const HDBSPage = () => {
 
   const _handleSubmitStep3 = () => {
     // TODO: api send OTP
-    _toggleModalVerifyOTP();
+    hdbsServices.inquiryEKYCPresent().then((res) => {
+      _toggleModalVerifyOTP();
+    });
   };
 
   const _handleVerifyOtp = (otp: string) => {
     // TODO: verify OTP
-    _toggleModalVerifyOTP();
-    _onNextStep(STEP_KHHH.step4);
+    hdbsServices.confirmEKYCPresent(otp).then((res) => {
+      _toggleModalVerifyOTP();
+      _onNextStep(STEP_KHHH.step4);
+    });
   };
 
   return (

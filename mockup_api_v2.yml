@@ -1,0 +1,945 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/dangvanhai271990/VerifyPartner/1.0.0
+info:
+  version: 1.0.0
+  title: Sample API
+  
+paths:
+  /getMerchant:
+    post:
+      tags:
+        - API
+      summary: Get Merchant
+      operationId: "getMerchant"
+      requestBody:
+        required: true
+        content:
+          Request:
+            schema:
+              $ref: '#/components/schemas/GetMerchantRequest'
+      responses:
+        '200':
+          description: Success Response
+          content:
+            Success Response:
+              schema:
+               $ref: '#/components/schemas/GetMerchantResponse'
+               
+  /checkUserEkyc:
+    post:
+      tags:
+        - API
+      summary: Check User eKYC
+      operationId: "checkUserEkyc"
+      requestBody:
+        required: true
+        content:
+          Request:
+            schema:
+              $ref: '#/components/schemas/CheckUserEkycRequest'
+      responses:
+        '200':
+          description: Success Response
+          content:
+            Success Response:
+              schema:
+               $ref: '#/components/schemas/CheckUserEkycResponse'
+  
+  /inquiryEkycPresent:
+    post:
+      tags:
+        - API
+      summary: Inquiry Ekyc Present
+      operationId: "inquiryEkycPresent"
+      requestBody:
+        required: true
+        content:
+          Request:
+            schema:
+              $ref: '#/components/schemas/InquiryEkycPresentRequest'
+      responses:
+        '200':
+          description: Success Response
+          content:
+            Success Response:
+              schema:
+               $ref: '#/components/schemas/InquiryEkycPresentResponse'
+    
+  /confirmEkycPresent:
+    post:
+      tags:
+        - API
+      summary: Confirm eKYC Present
+      operationId: "confirmEkycPresent"
+      requestBody:
+        required: true
+        content:
+          Request:
+            schema:
+              $ref: '#/components/schemas/ConfirmEkycPresentRequest'
+      responses:
+        '200':
+          description: Success Response
+          content:
+            Success Response:
+              schema:
+               $ref: '#/components/schemas/ConfirmEkycPresentResponse'
+               
+  /updateTokenKeyPartner:
+    post:
+      tags:
+        - API
+      summary: Update Token Key Partner
+      operationId: "updateTokenKeyPartner"
+      requestBody:
+        required: true
+        content:
+          Request:
+            schema:
+              $ref: '#/components/schemas/UpdateTokenKeyPartnerRequest'
+      responses:
+        '200':
+          description: Success Response
+          content:
+            Success Response:
+              schema:
+               $ref: '#/components/schemas/UpdateTokenKeyPartnerResponse'
+               
+components:
+  schemas:
+    GetMerchantRequest:
+      type: "object"
+      properties:
+        getMerchantReq:
+          type: "object"
+          properties:
+            header:
+              type: "object"
+              properties:
+                common:
+                  type: "object"
+                  properties:
+                    serviceVersion: 
+                      type: number
+                      example: 1
+                    messageId:
+                      type: string
+                      example: 'b277edbe-e1e8-48cf-a692-b7ca89e0f540'
+                    transactionId: 
+                      type: string 
+                      example: '5155e6ff-faac-4a34-bbca-4c2403420132'
+                    messageTimestamp:
+                      type: string 
+                      example: "2021-11-18'T'03:00:20.73"
+                client:
+                  type: "object"
+                  properties:
+                    sourceAppID: 
+                      type: string 
+                      example: IB
+                    targetAppIDs:
+                      type: array
+                      items:
+                        type: string
+                        example: ESB
+                    userDetail: 
+                      type: "object"
+                      properties:
+                        userID:
+                          type: string
+                          example: DTC
+                        userPassword: 
+                          type: string
+                          example: RFRDMTIz
+                bodyReq:
+                  type: "object"
+                  properties:
+                    functionCode:
+                      type: string
+                      example: 'HDB2C-GETMERCHANT-JDBC-ECRM'
+                    data:
+                      type: "object"
+                      properties:
+                        partnerKey:
+                          type: string
+                          example: '123'
+                        partnetId: 
+                          type: string
+                          example: 'hdbs'
+    GetMerchantResponse:
+      type: "object"
+      properties:
+        checkEcardUserRes:
+          type: "object" 
+          properties:
+            header:
+              type: "object" 
+              properties:
+                common:
+                  type: "object"
+                  properties:
+                    serviceVersion: 
+                      type: number
+                      example: 1
+                    messageId:
+                      type: string
+                      example: 'b277edbe-e1e8-48cf-a692-b7ca89e0f540'
+                    transactionId: 
+                      type: string 
+                      example: '5155e6ff-faac-4a34-bbca-4c2403420132'
+                    messageTimestamp:
+                      type: string 
+                      example: "2021-11-18'T'03:00:20.73"
+                client:
+                  type: "object"
+                  properties:
+                    sourceAppID: 
+                      type: string 
+                      example: IB
+                    targetAppIDs:
+                      type: array
+                      items:
+                        type: string
+                        example: ESB
+                    userDetail: 
+                      type: "object"
+                      properties:
+                        userID:
+                          type: string
+                          example: DTC
+                        userPassword: 
+                          type: string
+                          example: RFRDMTIz
+            responseStatus:
+              type: "object"
+              properties:
+                status:
+                  type: string
+                  example: '0'
+                globalErrorCode:
+                  type: string
+                  example: '00'
+                globalErrorDescription: 
+                  type: string
+                  example: 'Successful'
+            bodyRes:
+              type: "object"
+              properties:
+                data:
+                  type: "object"
+                  properties:
+                    responseCode:
+                      type: string
+                      example: '00'
+                    responseDesc: 
+                      type: string
+                      example: 'Successful'
+                    merchantNames:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          merchantId:
+                            type: string
+                            example: 'abc'
+                          merchantName:
+                            type: string
+                            example: 'abc'
+                    ternimalNames:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          terminalId:
+                            type: string
+                            example: 'abc'
+                          terminalName:
+                            type: string
+                            example: 'abc'  
+                          merchantId:
+                            type: string
+                            example: 'abc'
+  
+    CheckUserEkycRequest:
+      type: "object"
+      properties:
+        checkUserEkycReq:
+          type: "object"
+          properties:
+            header:
+              type: "object"
+              properties:
+                common:
+                  type: "object"
+                  properties:
+                    serviceVersion: 
+                      type: number
+                      example: 1
+                    messageId:
+                      type: string
+                      example: 'b277edbe-e1e8-48cf-a692-b7ca89e0f540'
+                    transactionId: 
+                      type: string 
+                      example: '5155e6ff-faac-4a34-bbca-4c2403420132'
+                    messageTimestamp:
+                      type: string 
+                      example: "2021-11-18'T'03:00:20.73"
+                client:
+                  type: "object"
+                  properties:
+                    sourceAppID: 
+                      type: string 
+                      example: IB
+                    targetAppIDs:
+                      type: array
+                      items:
+                        type: string
+                        example: ESB
+                    userDetail: 
+                      type: "object"
+                      properties:
+                        userID:
+                          type: string
+                          example: DTC
+                        userPassword: 
+                          type: string
+                          example: RFRDMTIz
+                bodyReq:
+                  type: "object"
+                  properties:
+                    functionCode:
+                      type: string
+                      example: 'HDB2C-CHECKUSERINFO-JDBC-ECRM'
+                    data:
+                      type: "object"
+                      properties:
+                        userId:
+                          type: string
+                          example: '0915423641'
+                        clientNo:
+                          type: string
+                          example: '02887123'
+                        partnetId: 
+                          type: string
+                          example: 'hdbs' 
+    CheckUserEkycResponse:
+      type: "object"
+      properties:
+        checkUserEkycRes:
+          type: "object" 
+          properties:
+            header:
+              type: "object" 
+              properties:
+                common:
+                  type: "object"
+                  properties:
+                    serviceVersion: 
+                      type: number
+                      example: 1
+                    messageId:
+                      type: string
+                      example: 'b277edbe-e1e8-48cf-a692-b7ca89e0f540'
+                    transactionId: 
+                      type: string 
+                      example: '5155e6ff-faac-4a34-bbca-4c2403420132'
+                    messageTimestamp:
+                      type: string 
+                      example: "2021-11-18'T'03:00:20.73"
+                client:
+                  type: "object"
+                  properties:
+                    sourceAppID: 
+                      type: string 
+                      example: IB
+                    targetAppIDs:
+                      type: array
+                      items:
+                        type: string
+                        example: ESB
+                    userDetail: 
+                      type: "object"
+                      properties:
+                        userID:
+                          type: string
+                          example: DTC
+                        userPassword: 
+                          type: string
+                          example: RFRDMTIz
+            responseStatus:
+              type: "object"
+              properties:
+                status:
+                  type: string
+                  example: '0'
+                globalErrorCode:
+                  type: string
+                  example: '00'
+                globalErrorDescription: 
+                  type: string
+                  example: 'Successful'
+            bodyRes:
+              type: "object"
+              properties:
+                data:
+                  type: "object"
+                  properties:
+                    responseCode:
+                      type: string
+                      example: '00'
+                    responseDesc: 
+                      type: string
+                      example: 'Successful'
+                    hasSendOtp:
+                      type: boolean
+                      example: false
+                
+    InquiryEkycPresentRequest:
+      type: "object"
+      properties:
+        inquiryEkycPresentReq:
+          type: "object"
+          properties:
+            header:
+              type: "object"
+              properties:
+                common:
+                  type: "object"
+                  properties:
+                    serviceVersion: 
+                      type: number
+                      example: 1
+                    messageId:
+                      type: string
+                      example: 'b277edbe-e1e8-48cf-a692-b7ca89e0f540'
+                    transactionId: 
+                      type: string 
+                      example: '5155e6ff-faac-4a34-bbca-4c2403420132'
+                    messageTimestamp:
+                      type: string 
+                      example: "2021-11-18'T'03:00:20.73"
+                client:
+                  type: "object"
+                  properties:
+                    sourceAppID: 
+                      type: string 
+                      example: IB
+                    targetAppIDs:
+                      type: array
+                      items:
+                        type: string
+                        example: ESB
+                    userDetail: 
+                      type: "object"
+                      properties:
+                        userID:
+                          type: string
+                          example: DTC
+                        userPassword: 
+                          type: string
+                          example: RFRDMTIz
+                bodyReq:
+                  type: "object"
+                  properties:
+                    functionCode:
+                      type: string
+                      example: 'HDB2C-REGISTERUSER-JDBC-ECRM'
+                    data:
+                      type: "object"
+                      properties:
+                        username:
+                          type: string
+                          example: '0915423641'
+                        requestId:
+                          type: string
+                          example: 'MB-8bfc5029-2aef-430d-8827-b62ad919229a'
+                        isEkyc:
+                          type: string
+                          example: 'Y'
+                        phoneNumber:
+                          type: string
+                          example: '0915423641'
+                        registerType:
+                          type: string
+                          example: 'REGISTER_WITHOUT_CARD_OCR'
+                        fullName:
+                          type: string
+                          example: 'Nguyen Van A'
+                        birthDate:
+                          type: string
+                          example: '14/02/1984'
+                        fullNameOcr:
+                          type: string
+                          example: 'Nguyen Van A'
+                        birthDateOcr:
+                          type: string
+                          example: '14/02/1984'
+                        dateOfIssueOcr:
+                          type: string
+                          example: '25/04/2016'
+                        placeOfIssueOcr:
+                          type: string
+                          example: 'Hồ Chí Minh'
+                        expireOfIssueOcr:
+                          type: string
+                          example: '14/02/2024'
+                        idNumber:
+                          type: string
+                          example: '092084001651'
+                        idNumberType:
+                          type: string
+                          example: 'CCCD'
+                        idNumberOld:
+                          type: string
+                          example: ''
+                        dateOfIssue: 
+                          type: string
+                          example: '25/04/2016'
+                        placeOfIssue: 
+                          type: string
+                          example: 'Hồ Chí Minh'
+                        expireOfIssue:
+                          type: string
+                          example: '14/02/2024'
+                        gender:
+                          type: string
+                          example: 'M'
+                        address:
+                          type: string
+                          example: 'số nhà, P.Bến Nghé, Q.1, TP.HCM'
+                        stateIdContact:
+                          type: string
+                          example: '79'
+                        stateNameContact:
+                          type: string
+                          example: 'TP.HCM'
+                        districtIdContact:
+                          type: string
+                          example: '760'
+                        districtNameContact:
+                          type: string
+                          example: 'Q.1'
+                        wardIdContact:
+                          type: string
+                          example: '26740'
+                        wardNameContact:
+                          type: string
+                          example: 'P.Bến Nghé'
+                        streetNameContact: 
+                          type: string
+                          example: 'số nhà'
+                        stateIdCurrent:
+                          type: string
+                          example: '79'
+                        stateNameCurrent:
+                          type: string
+                          example: 'TP.HCM'
+                        districtIdCurrent:
+                          type: string
+                          example: '760'
+                        districtNameCurrent:
+                          type: string
+                          example: 'Q.1'
+                        wardIdCurrent:
+                          type: string
+                          example: '26740'
+                        wardNameCurrent:
+                          type: string
+                          example: 'P.Bến Nghé'
+                        streetNameCurrent:
+                          type: string
+                          example: 'số nhà'
+                        nationalityId:
+                          type: string
+                          example: '84'
+                        nationalityName: 
+                          type: string
+                          example: 'Việt Nam'
+                        branchId:
+                          type: string
+                          example: '165'
+                        branchName:
+                          type: string
+                          example: 'PGD Lái Thiêu'
+                        literacyName:
+                          type: string 
+                          example: 'DAI_HOC'
+                        literacyDesc:
+                          type: string
+                          example: ''
+                        maritalStatus:
+                          type: string
+                          example: 'M'
+                        maritalDesc:
+                          type: string
+                          example: ''
+                        careerId:
+                          type: string
+                          example: 'CJ1.09'
+                        careerName:
+                          type: string
+                          example: 'Khoa học - Công nghệ'
+                        positionId:
+                          type: string
+                          example: 'CJ1.09.3'
+                        positionName: 
+                          type: string
+                          example: 'Khác'
+                        salaryIncome:
+                          type: string
+                          example: '12000000'
+                        isFatca:
+                          type: string
+                          example: 'N'
+                        biometricsRate:
+                          type: string
+                          example: '96.82'
+                        ekycId:
+                          type: string
+                          example: "ea735cb9-727d-11ec-9c83-096050e62dec-c27aa41f-Zuulserver|fe944184-727d-11ec-9c83-c72adac84fb2-927e55ee-Zuulserver"
+                        faceMatching: 
+                          type: string
+                          example: 'Y'
+                        partnetId: 
+                          type: string
+                          example: 'hdbs' 
+    InquiryEkycPresentResponse:
+      type: "object"
+      properties:
+        inquiryEkycPresentRes:
+          type: "object" 
+          properties:
+            header:
+              type: "object" 
+              properties:
+                common:
+                  type: "object"
+                  properties:
+                    serviceVersion: 
+                      type: number
+                      example: 1
+                    messageId:
+                      type: string
+                      example: 'b277edbe-e1e8-48cf-a692-b7ca89e0f540'
+                    transactionId: 
+                      type: string 
+                      example: '5155e6ff-faac-4a34-bbca-4c2403420132'
+                    messageTimestamp:
+                      type: string 
+                      example: "2021-11-18'T'03:00:20.73"
+                client:
+                  type: "object"
+                  properties:
+                    sourceAppID: 
+                      type: string 
+                      example: IB
+                    targetAppIDs:
+                      type: array
+                      items:
+                        type: string
+                        example: ESB
+                    userDetail: 
+                      type: "object"
+                      properties:
+                        userID:
+                          type: string
+                          example: DTC
+                        userPassword: 
+                          type: string
+                          example: RFRDMTIz
+            responseStatus:
+              type: "object"
+              properties:
+                status:
+                  type: string
+                  example: '0'
+                globalErrorCode:
+                  type: string
+                  example: '00'
+                globalErrorDescription: 
+                  type: string
+                  example: 'Successful'
+            bodyRes:
+              type: "object"
+              properties:
+                data:
+                  type: "object"
+                  properties:
+                    responseCode:
+                      type: string
+                      example: '00'
+                    responseDesc: 
+                      type: string
+                      example: 'Successful'
+                    hasSendOtp:
+                      type: boolean
+                      example: true
+                      
+    ConfirmEkycPresentRequest:
+      type: "object"
+      properties:
+        confirmEkycPresentReq:
+          type: "object"
+          properties:
+            header:
+              type: "object"
+              properties:
+                common:
+                  type: "object"
+                  properties:
+                    serviceVersion: 
+                      type: number
+                      example: 1
+                    messageId:
+                      type: string
+                      example: 'b277edbe-e1e8-48cf-a692-b7ca89e0f540'
+                    transactionId: 
+                      type: string 
+                      example: '5155e6ff-faac-4a34-bbca-4c2403420132'
+                    messageTimestamp:
+                      type: string 
+                      example: "2021-11-18'T'03:00:20.73"
+                client:
+                  type: "object"
+                  properties:
+                    sourceAppID: 
+                      type: string 
+                      example: IB
+                    targetAppIDs:
+                      type: array
+                      items:
+                        type: string
+                        example: ESB
+                    userDetail: 
+                      type: "object"
+                      properties:
+                        userID:
+                          type: string
+                          example: DTC
+                        userPassword: 
+                          type: string
+                          example: RFRDMTIz
+                bodyReq:
+                  type: "object"
+                  properties:
+                    functionCode:
+                      type: string
+                      example: 'HDB2C-CONFIRMREGISTERUSER-JDBC-ECRM'
+                    data:
+                      type: "object"
+                      properties:
+                        requestId:
+                          type: string
+                          example: 'MB-8bfc5029-2aef-430d-8827-b62ad919229a'
+                        accountOtp:
+                          type: string
+                          example: '926547'
+                        partnetId: 
+                          type: string
+                          example: 'hdbs' 
+    ConfirmEkycPresentResponse:
+      type: "object"
+      properties:
+        confirmEkycPresentRes:
+          type: "object" 
+          properties:
+            header:
+              type: "object" 
+              properties:
+                common:
+                  type: "object"
+                  properties:
+                    serviceVersion: 
+                      type: number
+                      example: 1
+                    messageId:
+                      type: string
+                      example: 'b277edbe-e1e8-48cf-a692-b7ca89e0f540'
+                    transactionId: 
+                      type: string 
+                      example: '5155e6ff-faac-4a34-bbca-4c2403420132'
+                    messageTimestamp:
+                      type: string 
+                      example: "2021-11-18'T'03:00:20.73"
+                client:
+                  type: "object"
+                  properties:
+                    sourceAppID: 
+                      type: string 
+                      example: IB
+                    targetAppIDs:
+                      type: array
+                      items:
+                        type: string
+                        example: ESB
+                    userDetail: 
+                      type: "object"
+                      properties:
+                        userID:
+                          type: string
+                          example: DTC
+                        userPassword: 
+                          type: string
+                          example: RFRDMTIz
+            responseStatus:
+              type: "object"
+              properties:
+                status:
+                  type: string
+                  example: '0'
+                globalErrorCode:
+                  type: string
+                  example: '00'
+                globalErrorDescription: 
+                  type: string
+                  example: 'Successful'
+            bodyRes:
+              type: "object"
+              properties:
+                data:
+                  type: "object"
+                  properties:
+                    responseCode:
+                      type: string
+                      example: '00'
+                    responseDesc: 
+                      type: string
+                      example: 'Successful'
+      
+    UpdateTokenKeyPartnerRequest:
+      type: "object"
+      properties:
+        updateTokenKeyPartnerReq:
+          type: "object"
+          properties:
+            header:
+              type: "object"
+              properties:
+                common:
+                  type: "object"
+                  properties:
+                    serviceVersion: 
+                      type: number
+                      example: 1
+                    messageId:
+                      type: string
+                      example: 'b277edbe-e1e8-48cf-a692-b7ca89e0f540'
+                    transactionId: 
+                      type: string 
+                      example: '5155e6ff-faac-4a34-bbca-4c2403420132'
+                    messageTimestamp:
+                      type: string 
+                      example: "2021-11-18'T'03:00:20.73"
+                client:
+                  type: "object"
+                  properties:
+                    sourceAppID: 
+                      type: string 
+                      example: IB
+                    targetAppIDs:
+                      type: array
+                      items:
+                        type: string
+                        example: ESB
+                    userDetail: 
+                      type: "object"
+                      properties:
+                        userID:
+                          type: string
+                          example: DTC
+                        userPassword: 
+                          type: string
+                          example: RFRDMTIz
+                bodyReq:
+                  type: "object"
+                  properties:
+                    functionCode:
+                      type: string
+                      example: 'HDB2C-UPDATEPARTNERMESSAGE-JDBC-ECRM'
+                    data:
+                      type: "object"
+                      properties:
+                        userId:
+                          type: string
+                          example: '0915423641'
+                        clientNo:
+                          type: string
+                          example: '02887123'
+                        token:
+                          type: string
+                          example: 'token'
+                        partnetId: 
+                          type: string
+                          example: 'hdbs' 
+    UpdateTokenKeyPartnerResponse:
+      type: "object"
+      properties:
+        updateTokenKeyPartnerRes:
+          type: "object" 
+          properties:
+            header:
+              type: "object" 
+              properties:
+                common:
+                  type: "object"
+                  properties:
+                    serviceVersion: 
+                      type: number
+                      example: 1
+                    messageId:
+                      type: string
+                      example: 'b277edbe-e1e8-48cf-a692-b7ca89e0f540'
+                    transactionId: 
+                      type: string 
+                      example: '5155e6ff-faac-4a34-bbca-4c2403420132'
+                    messageTimestamp:
+                      type: string 
+                      example: "2021-11-18'T'03:00:20.73"
+                client:
+                  type: "object"
+                  properties:
+                    sourceAppID: 
+                      type: string 
+                      example: IB
+                    targetAppIDs:
+                      type: array
+                      items:
+                        type: string
+                        example: ESB
+                    userDetail: 
+                      type: "object"
+                      properties:
+                        userID:
+                          type: string
+                          example: DTC
+                        userPassword: 
+                          type: string
+                          example: RFRDMTIz
+            responseStatus:
+              type: "object"
+              properties:
+                status:
+                  type: string
+                  example: '0'
+                globalErrorCode:
+                  type: string
+                  example: '00'
+                globalErrorDescription: 
+                  type: string
+                  example: 'Successful'
+            bodyRes:
+              type: "object"
+              properties:
+                data:
+                  type: "object"
+                  properties:
+                    responseCode:
+                      type: string
+                      example: '00'
+                    responseDesc: 
+                      type: string
+                      example: 'Successful'
+                                    

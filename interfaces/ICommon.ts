@@ -11,3 +11,5 @@ export interface LogData {
   content: string;
   body?: Record<string, string>;
 }
+
+export type Gender = "M" | "F";

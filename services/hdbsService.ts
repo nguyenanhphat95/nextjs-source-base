@@ -15,6 +15,14 @@ import { InquiryEKYCPresentResponse } from "interfaces/IInquiryEKYCPresent";
 
 import { v4 as uuidv4 } from "uuid";
 import _get from "lodash/get";
+import {
+  ConfirmEKYCRequest,
+  ConfirmEKYCResponse,
+} from "interfaces/IConfirmEKYCPresent";
+import {
+  UpdateTokenKeyPartnerRequest,
+  UpdateTokenKeyPartnerResponse,
+} from "interfaces/IUpdateTokenKeyPartner";
 
 export const getListAccountApi = async (clientNo: string) => {
   const body: ListAccountRequest = {
@@ -60,6 +68,33 @@ export const inquiryEKYCPresent = async () => {
   const body: any = {};
   const resp: AxiosResponse<InquiryEKYCPresentResponse> = await axios.post(
     "/api/inquiryEKYCPresent",
+    body
+  );
+  return resp.data;
+};
+
+export const confirmEKYCPresent = async (otp: string) => {
+  const body: ConfirmEKYCRequest = {
+    requestId: uuidv4() as string,
+    accountOtp: otp,
+    partnetId: "hdbs",
+  };
+  const resp: AxiosResponse<ConfirmEKYCResponse> = await axios.post(
+    "/api/confirmEKYCPresent",
+    body
+  );
+  return resp.data;
+};
+
+export const updateTokenKeyPartner = async () => {
+  const body: UpdateTokenKeyPartnerRequest = {
+    userId: "0915423641",
+    clientNo: "02887123",
+    token: "token",
+    partnerId: "hdbs",
+  };
+  const resp: AxiosResponse<UpdateTokenKeyPartnerResponse> = await axios.post(
+    "/api/updateTokenKeyPartner",
     body
   );
   return resp.data;
