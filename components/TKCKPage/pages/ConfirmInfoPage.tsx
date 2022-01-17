@@ -7,6 +7,13 @@ import { FormDataFinal, TypeCustomer } from "../interfaces";
 import _get from "lodash/get";
 
 const useStyles = makeStyles((theme: Theme) => ({
+  rootError: {
+    padding: "10px",
+    height: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+  },
   root: {
     padding: "5px",
   },
@@ -19,6 +26,9 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   tittle: {
     fontWeight: 600,
+  },
+  h100: {
+    height: "100%",
   },
 }));
 
@@ -329,13 +339,11 @@ const ConfirmInfoPage = (props: Props) => {
   };
 
   return (
-    <div className={classes.root}>
+    <>
       {!resultEKYC.validEKYC && (
-        <Grid container direction="column" spacing={2}>
-          <Grid item xs={12}>
-            {resultEKYC.messageEKYC}
-          </Grid>
-          <Grid item xs={12}>
+        <div className={classes.rootError}>
+          <Box>{resultEKYC.messageEKYC}</Box>
+          <Box>
             <ButtonCustom
               onClick={() => redoEKYC && redoEKYC()}
               fullWidth
@@ -344,11 +352,11 @@ const ConfirmInfoPage = (props: Props) => {
             >
               Thực hiện lại
             </ButtonCustom>
-          </Grid>
-        </Grid>
+          </Box>
+        </div>
       )}
       {resultEKYC.validEKYC && (
-        <>
+        <div className={classes.root}>
           <div className={classes.tittle}>
             Xác nhận thông tin đăng ký mở TKCK
           </div>
@@ -493,9 +501,9 @@ const ConfirmInfoPage = (props: Props) => {
               Tiếp tục
             </ButtonCustom>
           </Box>
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
