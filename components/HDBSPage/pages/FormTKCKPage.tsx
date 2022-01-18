@@ -10,6 +10,8 @@ import { AccountItem } from "interfaces/IListAccount";
 import { FormDataStep1 } from "../interfaces";
 import { OptionSelectType } from "commons/constants/types";
 
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+
 import * as hdbsServices from "services/hdbsService";
 
 import warningIcon from "public/asset/images/warning.png";
@@ -37,7 +39,14 @@ interface Props {
   onSubmit: (data: FormDataStep1) => void;
 }
 
-const clientNo = "00012132";
+type FormValues = {
+  account: string;
+  merchantId: string;
+  terminalId: string;
+  transferInternet: boolean;
+  transferAuto: boolean;
+  transferBonds: boolean;
+};
 
 export const TYPE_MODAL_INFO = {
   transferInternet: "transferInternet",
@@ -48,6 +57,23 @@ export const TYPE_MODAL_INFO = {
 const FormTKCKPage = (props: Props) => {
   const { onSubmit } = props;
   const classes = useStyles();
+  const {
+    handleSubmit,
+    formState: { errors },
+    control,
+    setValue,
+    watch,
+  } = useForm<FormValues>({
+    defaultValues: {
+      account: "",
+      merchantId: "",
+      terminalId: "",
+      transferInternet: true,
+      transferAuto: true,
+      transferBonds: true,
+    },
+  });
+  const merchantIdValue = watch("merchantId");
 
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
   const [listMerchant, setListMerchant] = useState<MerchantNameItem[]>([]);
@@ -56,17 +82,8 @@ const FormTKCKPage = (props: Props) => {
   const typeModal = useRef<string>("");
   const [openModalInfo, setOpenModalInfo] = useState(false);
 
-  const [data, setData] = useState({
-    account: "",
-    merchantId: "",
-    terminalId: "",
-    transferInternet: true,
-    transferAuto: true,
-    transferBonds: true,
-  });
-
   useEffect(() => {
-    hdbsServices.getListAccountApi(clientNo).then((res) => {
+    hdbsServices.getListAccountApi().then((res) => {
       const listAccount = _get(res, "data.data", []);
       setListAccount(listAccount);
     });
@@ -94,12 +111,12 @@ const FormTKCKPage = (props: Props) => {
   }, [listMerchant]);
 
   const listTerminalNew = useMemo(() => {
-    if (!listTerminal.length || !data.merchantId) {
+    if (!listTerminal.length || !merchantIdValue) {
       return [];
     }
     const listData: OptionSelectType[] = [];
     listTerminal.forEach((item) => {
-      if (item.merchantId === data.merchantId) {
+      if (item.merchantId === merchantIdValue) {
         listData.push({
           id: item.terminalId,
           value: item.terminalName,
@@ -107,22 +124,7 @@ const FormTKCKPage = (props: Props) => {
       }
     });
     return listData;
-  }, [listTerminal, data.merchantId]);
-
-  const _handleChange = (field: string, value: string) => {
-    if (field === "merchantId") {
-      setData({
-        ...data,
-        terminalId: "",
-        [field]: value,
-      });
-      return;
-    }
-    setData({
-      ...data,
-      [field]: value,
-    });
-  };
+  }, [listTerminal, merchantIdValue]);
 
   const _handleShowInfo = (key: string) => {
     typeModal.current = key;
@@ -136,53 +138,66 @@ const FormTKCKPage = (props: Props) => {
     });
   };
 
-  const _handleSubmit = () => {
-    if (!data.account || !data.merchantId || !data.terminalId) {
-      return;
-    }
-    onSubmit(data);
-  };
   return (
-    <div className={classes.root}>
+    <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
       <Card className={classes.content}>
         <Grid container direction="column" spacing={2}>
           <Grid item className={classes.title}>
             Thông tin TKTT
           </Grid>
           <Grid item>
-            <SelectCustom
-              value={data.account}
-              placeholder="Chọn TKTT"
-              options={listAccountNew}
-              fullWidth
-              onChange={(event) => {
-                _handleChange("account", _get(event, "target.value"));
-              }}
+            <Controller
+              name="account"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <SelectCustom
+                  errorMsg={errors.account && "This field is required"}
+                  placeholder="Chọn TKTT"
+                  options={listAccountNew}
+                  fullWidth
+                  {...field}
+                />
+              )}
             />
           </Grid>
           <Grid item className={classes.title}>
             Thông tin bổ sung TKCK
           </Grid>
           <Grid item>
-            <SelectCustom
-              value={data.merchantId}
-              placeholder="Chọn công ty CK"
-              options={listMerchantNew}
-              fullWidth
-              onChange={(event) => {
-                _handleChange("merchantId", _get(event, "target.value"));
-              }}
+            <Controller
+              name="merchantId"
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { onChange: _onChange, ...rest } }) => (
+                <SelectCustom
+                  errorMsg={errors.merchantId && "This field is required"}
+                  placeholder="Chọn công ty CK"
+                  options={listMerchantNew}
+                  fullWidth
+                  onChange={(e) => {
+                    setValue("terminalId", "");
+                    _onChange(e);
+                  }}
+                  {...rest}
+                />
+              )}
             />
           </Grid>
           <Grid item>
-            <SelectCustom
-              value={data.terminalId}
-              placeholder="Chọn địa điểm mở TKCK"
-              options={listTerminalNew}
-              fullWidth
-              onChange={(event) => {
-                _handleChange("terminalId", _get(event, "target.value"));
-              }}
+            <Controller
+              name="terminalId"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <SelectCustom
+                  errorMsg={errors.terminalId && "This field is required"}
+                  placeholder="Chọn địa điểm mở TKCK"
+                  options={listTerminalNew}
+                  fullWidth
+                  {...field}
+                />
+              )}
             />
           </Grid>
         </Grid>
@@ -190,49 +205,65 @@ const FormTKCKPage = (props: Props) => {
         <Box mt={3}>
           <Grid container direction="column" spacing={1}>
             <Grid item>
-              <CheckboxCustom
-                checked={data.transferInternet}
-                endIcon={<Image width={20} height={20} src={warningIcon} />}
-                label="Giao dịch qua Internet (Web và App)"
-                onClickEndIcon={() =>
-                  _handleShowInfo(TYPE_MODAL_INFO.transferInternet)
-                }
-                onChange={(event) => {
-                  _handleChange(
-                    "transferInternet",
-                    _get(event, "target.checked", false)
+              <Controller
+                name="transferInternet"
+                control={control}
+                render={({ field: { value, ...rest } }) => {
+                  return (
+                    <CheckboxCustom
+                      checked={value}
+                      endIcon={
+                        <Image width={20} height={20} src={warningIcon} />
+                      }
+                      label="Giao dịch qua Internet (Web và App)"
+                      onClickEndIcon={() =>
+                        _handleShowInfo(TYPE_MODAL_INFO.transferInternet)
+                      }
+                      {...rest}
+                    />
+                  );
+                }}
+              />
+            </Grid>
+
+            <Grid item>
+              <Controller
+                name="transferAuto"
+                control={control}
+                render={({ field: { value, ...rest } }) => {
+                  return (
+                    <CheckboxCustom
+                      checked={value}
+                      endIcon={
+                        <Image width={20} height={20} src={warningIcon} />
+                      }
+                      label="Ứng trước tiền bán chứng khoán tự động"
+                      onClickEndIcon={() =>
+                        _handleShowInfo(TYPE_MODAL_INFO.transferAuto)
+                      }
+                      {...rest}
+                    />
                   );
                 }}
               />
             </Grid>
             <Grid item>
-              <CheckboxCustom
-                checked={data.transferAuto}
-                endIcon={<Image width={20} height={20} src={warningIcon} />}
-                label="Ứng trước tiền bán chứng khoán tự động"
-                onClickEndIcon={() =>
-                  _handleShowInfo(TYPE_MODAL_INFO.transferAuto)
-                }
-                onChange={(event) => {
-                  _handleChange(
-                    "transferAuto",
-                    _get(event, "target.checked", false)
-                  );
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <CheckboxCustom
-                checked={data.transferBonds}
-                endIcon={<Image width={20} height={20} src={warningIcon} />}
-                label="Giao dịch trái phiếu phát hành riêng lẻ"
-                onClickEndIcon={() =>
-                  _handleShowInfo(TYPE_MODAL_INFO.transferBonds)
-                }
-                onChange={(event) => {
-                  _handleChange(
-                    "transferBonds",
-                    _get(event, "target.checked", false)
+              <Controller
+                name="transferBonds"
+                control={control}
+                render={({ field: { value, ...rest } }) => {
+                  return (
+                    <CheckboxCustom
+                      checked={value}
+                      endIcon={
+                        <Image width={20} height={20} src={warningIcon} />
+                      }
+                      label="Giao dịch trái phiếu phát hành riêng lẻ"
+                      onClickEndIcon={() =>
+                        _handleShowInfo(TYPE_MODAL_INFO.transferBonds)
+                      }
+                      {...rest}
+                    />
                   );
                 }}
               />
@@ -243,10 +274,10 @@ const FormTKCKPage = (props: Props) => {
 
       <Box px={3} py={1}>
         <ButtonCustom
-          onClick={_handleSubmit}
           fullWidth
           variant="contained"
           color="secondary"
+          type="submit"
         >
           Tiếp tục
         </ButtonCustom>
@@ -261,7 +292,7 @@ const FormTKCKPage = (props: Props) => {
           <Information type={typeModal.current} onClose={_toggleModalInfo} />
         </div>
       </Modal>
-    </div>
+    </form>
   );
 };
 

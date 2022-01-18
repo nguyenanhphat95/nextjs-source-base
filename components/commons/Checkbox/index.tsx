@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Checkbox, CheckboxProps, FormControlLabel, Grid } from "@mui/material";
 
 import { Theme } from "@mui/material/styles";
@@ -16,26 +16,34 @@ interface Props extends CheckboxProps {
   endIcon?: React.ReactElement;
   onClickEndIcon?: () => void;
 }
-const CheckboxCustom = (props: Props) => {
-  const classes = useStyles();
-  const { label, endIcon, onClickEndIcon, ...rest } = props;
 
-  return (
-    <Grid wrap="nowrap" container alignItems="center">
-      <Grid item xs={true}>
-        <FormControlLabel
-          className={classes.root}
-          control={<Checkbox {...rest} />}
-          label={label || ""}
-        />
-      </Grid>
-      {endIcon && (
-        <Grid onClick={() => onClickEndIcon && onClickEndIcon()} item xs="auto">
-          {endIcon}
+const CheckboxCustom = React.forwardRef(
+  (props: Props, ref: React.Ref<HTMLButtonElement>) => {
+    const classes = useStyles();
+    const { label, endIcon, onClickEndIcon, ...rest } = props;
+
+    return (
+      <Grid wrap="nowrap" container alignItems="center">
+        <Grid item xs={true}>
+          <FormControlLabel
+            ref={ref}
+            className={classes.root}
+            control={<Checkbox {...rest} />}
+            label={label || ""}
+          />
         </Grid>
-      )}
-    </Grid>
-  );
-};
+        {endIcon && (
+          <Grid
+            onClick={() => onClickEndIcon && onClickEndIcon()}
+            item
+            xs="auto"
+          >
+            {endIcon}
+          </Grid>
+        )}
+      </Grid>
+    );
+  }
+);
 
 export default CheckboxCustom;

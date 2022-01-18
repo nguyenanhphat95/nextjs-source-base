@@ -456,7 +456,7 @@ const ConfirmInfoPage = (props: Props) => {
                 <Grid container spacing={1} direction="column">
                   <Grid item>Địa điểm mở TKCK:</Grid>
                   <Grid item>
-                    <b>{data.location}</b>
+                    <b>{data.terminalId}</b>
                   </Grid>
                 </Grid>
               </Grid>

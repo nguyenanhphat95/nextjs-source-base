@@ -26,7 +26,7 @@ import {
 
 const partnerId = "hdbs";
 let userId: string = "0915423641";
-let clientNo: string = "02887123";
+let clientNo: string = "00012132";
 
 export function updateMasterData(userId: string, clientNo: string) {
   userId = userId;
@@ -60,7 +60,7 @@ function generateBodyRequest<T>(key: string, body: T) {
   };
 }
 
-export const getListAccountApi = async (clientNo: string) => {
+export const getListAccountApi = async () => {
   const body: ListAccountRequest = {
     requestId: uuidv4() as string,
     data: {
