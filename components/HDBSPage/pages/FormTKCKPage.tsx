@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useMemo, useRef } from "react";
+import React, { useState, useEffect, useMemo, useRef, useContext } from "react";
 import Image from "next/image";
+
+import { useForm, Controller } from "react-hook-form";
 
 import { makeStyles } from "@mui/styles";
 import { Card, Grid, Box, Modal } from "@mui/material";
@@ -10,9 +12,8 @@ import { AccountItem } from "interfaces/IListAccount";
 import { FormDataStep1 } from "../interfaces";
 import { OptionSelectType } from "commons/constants/types";
 
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
-
 import * as hdbsServices from "services/hdbsService";
+import TKCKContext from "components/HDBSPage/contexts/TKCKContextValue";
 
 import warningIcon from "public/asset/images/warning.png";
 import _get from "lodash/get";
@@ -74,6 +75,7 @@ const FormTKCKPage = (props: Props) => {
     },
   });
   const merchantIdValue = watch("merchantId");
+  const { loadingBtnSubmit } = useContext(TKCKContext);
 
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
   const [listMerchant, setListMerchant] = useState<MerchantNameItem[]>([]);
@@ -278,6 +280,7 @@ const FormTKCKPage = (props: Props) => {
           variant="contained"
           color="secondary"
           type="submit"
+          loading={loadingBtnSubmit}
         >
           Tiếp tục
         </ButtonCustom>

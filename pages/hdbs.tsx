@@ -45,10 +45,11 @@ const HDBSPage = () => {
   const classes = useStyles();
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
 
-  const [typeCustomer, setTypeCustomer] = useState<TypeCustomer>(
-    TypeCustomer.KHM
-  );
+  const [typeCustomer] = useState<TypeCustomer>(TypeCustomer.KHM);
   const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step1);
+  const [loading, setLoading] = useState({
+    loadingBtnSubmit: false,
+  });
 
   const [dataForm, setDataForm] = useState({
     account: "",
@@ -68,17 +69,20 @@ const HDBSPage = () => {
     setOpenVerifyOTP((prev) => !prev);
   };
 
-  const TKCKContextValue = {};
+  const TKCKContextValue = {
+    loadingBtnSubmit: loading.loadingBtnSubmit,
+  };
 
   const _handleSubmitStep1 = (data: FormDataStep1) => {
+    _toggleLoading("loadingBtnSubmit", true);
     setDataForm({
       ...dataForm,
       ...data,
     });
-
     hdbsServices
       .checkUserEKYC(dataForm.merchantId, dataForm.terminalId)
       .then((res) => {
+        _toggleLoading("loadingBtnSubmit", false);
         if (res.data.hasSendOtp) {
           // User EKYCED
           _onNextStep(STEP_KHHH.step4);
@@ -113,6 +117,13 @@ const HDBSPage = () => {
       _onNextStep(STEP_KHHH.step4);
     });
   };
+
+  function _toggleLoading(field: string, isLoading?: boolean) {
+    setLoading({
+      ...loading,
+      [field]: isLoading ? true : false,
+    });
+  }
 
   return (
     <>
