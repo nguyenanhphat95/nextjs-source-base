@@ -58,8 +58,8 @@ const FormTKCKPage = (props: Props) => {
 
   const [data, setData] = useState({
     account: "",
-    company: "",
-    location: "",
+    merchantId: "",
+    terminalId: "",
     transferInternet: true,
     transferAuto: true,
     transferBonds: true,
@@ -94,12 +94,12 @@ const FormTKCKPage = (props: Props) => {
   }, [listMerchant]);
 
   const listTerminalNew = useMemo(() => {
-    if (!listTerminal.length || !data.company) {
+    if (!listTerminal.length || !data.merchantId) {
       return [];
     }
     const listData: OptionSelectType[] = [];
     listTerminal.forEach((item) => {
-      if (item.merchantId === data.company) {
+      if (item.merchantId === data.merchantId) {
         listData.push({
           id: item.terminalId,
           value: item.terminalName,
@@ -107,13 +107,13 @@ const FormTKCKPage = (props: Props) => {
       }
     });
     return listData;
-  }, [listTerminal, data.company]);
+  }, [listTerminal, data.merchantId]);
 
   const _handleChange = (field: string, value: string) => {
-    if (field === "company") {
+    if (field === "merchantId") {
       setData({
         ...data,
-        location: "",
+        terminalId: "",
         [field]: value,
       });
       return;
@@ -137,7 +137,7 @@ const FormTKCKPage = (props: Props) => {
   };
 
   const _handleSubmit = () => {
-    if (!data.account || !data.company || !data.location) {
+    if (!data.account || !data.merchantId || !data.terminalId) {
       return;
     }
     onSubmit(data);
@@ -165,23 +165,23 @@ const FormTKCKPage = (props: Props) => {
           </Grid>
           <Grid item>
             <SelectCustom
-              value={data.company}
+              value={data.merchantId}
               placeholder="Chọn công ty CK"
               options={listMerchantNew}
               fullWidth
               onChange={(event) => {
-                _handleChange("company", _get(event, "target.value"));
+                _handleChange("merchantId", _get(event, "target.value"));
               }}
             />
           </Grid>
           <Grid item>
             <SelectCustom
-              value={data.location}
+              value={data.terminalId}
               placeholder="Chọn địa điểm mở TKCK"
               options={listTerminalNew}
               fullWidth
               onChange={(event) => {
-                _handleChange("location", _get(event, "target.value"));
+                _handleChange("terminalId", _get(event, "target.value"));
               }}
             />
           </Grid>

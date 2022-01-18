@@ -1,7 +1,7 @@
 export interface ConfirmEKYCRequest {
   requestId: string;
   accountOtp: string;
-  partnetId: string;
+  partnerId: string;
 }
 
 export interface ConfirmEKYCResponse {

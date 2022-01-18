@@ -48,12 +48,12 @@ const HDBSPage = () => {
   const [typeCustomer, setTypeCustomer] = useState<TypeCustomer>(
     TypeCustomer.KHM
   );
-  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step3);
+  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step1);
 
   const [dataForm, setDataForm] = useState({
     account: "",
-    company: "",
-    location: "",
+    merchantId: "",
+    terminalId: "",
     transferInternet: false,
     transferAuto: false,
     transferBonds: false,
@@ -75,14 +75,17 @@ const HDBSPage = () => {
       ...dataForm,
       ...data,
     });
-    hdbsServices.checkUserEKYC().then((res) => {
-      if (res.data.hasSendOtp) {
-        // User EKYCED
-        _onNextStep(STEP_KHHH.step4);
-        return;
-      }
-      _onNextStep(STEP_KHHH.step2);
-    });
+
+    hdbsServices
+      .checkUserEKYC(dataForm.merchantId, dataForm.terminalId)
+      .then((res) => {
+        if (res.data.hasSendOtp) {
+          // User EKYCED
+          _onNextStep(STEP_KHHH.step4);
+          return;
+        }
+        _onNextStep(STEP_KHHH.step2);
+      });
   };
 
   const _handleSubmitStep2 = (data: any) => {

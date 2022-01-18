@@ -1,7 +1,9 @@
 export interface CheckUserENCYRequest {
   userId: string;
   clientNo: string;
-  partnetId: string;
+  merchantId: string;
+  terminalId: string;
+  partnerId: string;
 }
 
 export interface CheckUserEKYCResponse {

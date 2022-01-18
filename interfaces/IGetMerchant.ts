@@ -1,6 +1,6 @@
 export interface GetMerchantRequest {
   partnerKey: string;
-  partnetId: string;
+  partnerId: string;
 }
 
 export interface GetMerchantResponse {

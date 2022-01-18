@@ -24,6 +24,15 @@ import {
   UpdateTokenKeyPartnerResponse,
 } from "interfaces/IUpdateTokenKeyPartner";
 
+const partnerId = "hdbs";
+let userId: string = "0915423641";
+let clientNo: string = "02887123";
+
+export function updateMasterData(userId: string, clientNo: string) {
+  userId = userId;
+  clientNo = clientNo;
+}
+
 function generateBodyRequest<T>(key: string, body: T) {
   return {
     [key]: {
@@ -68,7 +77,7 @@ export const getListAccountApi = async (clientNo: string) => {
 export const getMerchant = async () => {
   const body: GetMerchantRequest = {
     partnerKey: "123",
-    partnetId: "hdbs",
+    partnerId,
   };
 
   const resp: AxiosResponse<GetMerchantResponse> = await axios.post(
@@ -79,11 +88,13 @@ export const getMerchant = async () => {
   return resp.data;
 };
 
-export const checkUserEKYC = async () => {
+export const checkUserEKYC = async (merchantId: string, terminalId: string) => {
   const body: CheckUserENCYRequest = {
-    userId: "userId",
-    clientNo: "clientNo",
-    partnetId: "hdbs",
+    userId,
+    clientNo,
+    merchantId,
+    terminalId,
+    partnerId,
   };
   const resp: AxiosResponse<CheckUserEKYCResponse> = await axios.post(
     "/api/checkUserEKYC",
@@ -105,25 +116,25 @@ export const confirmEKYCPresent = async (otp: string) => {
   const body: ConfirmEKYCRequest = {
     requestId: uuidv4() as string,
     accountOtp: otp,
-    partnetId: "hdbs",
+    partnerId,
   };
   const resp: AxiosResponse<ConfirmEKYCResponse> = await axios.post(
     "/api/confirmEKYCPresent",
-    generateBodyRequest("checkUserEkycReq", body)
+    generateBodyRequest("confirmEKYCPresentReq", body)
   );
   return resp.data;
 };
 
 export const updateTokenKeyPartner = async () => {
   const body: UpdateTokenKeyPartnerRequest = {
-    userId: "0915423641",
-    clientNo: "02887123",
+    userId,
+    clientNo,
     token: "token",
-    partnerId: "hdbs",
+    partnerId,
   };
   const resp: AxiosResponse<UpdateTokenKeyPartnerResponse> = await axios.post(
     "/api/updateTokenKeyPartner",
-    body
+    generateBodyRequest("updateTokenKeyPartnerReq", body)
   );
   return resp.data;
 };
