@@ -10,9 +10,9 @@ import {
   ConfirmInfoPage,
   RegisterSuccessPage,
   VerifyOTP,
-} from "components/TKCKPage";
-import TKCKContext from "components/TKCKPage/contexts/TKCKContextValue";
-import { FormDataStep1, TypeCustomer } from "components/TKCKPage/interfaces";
+} from "components/HDBSPage";
+import TKCKContext from "components/HDBSPage/contexts/TKCKContextValue";
+import { FormDataStep1, TypeCustomer } from "components/HDBSPage/interfaces";
 
 import * as hdbsServices from "services/hdbsService";
 

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Card, Grid, Box, Modal, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
-import { TYPE_MODAL_INFO } from "components/TKCKPage/pages/FormTKCKPage";
+import { TYPE_MODAL_INFO } from "components/HDBSPage/pages/FormTKCKPage";
 
 import xIcon from "public/asset/images/X.png";
 import _get from "lodash/get";
