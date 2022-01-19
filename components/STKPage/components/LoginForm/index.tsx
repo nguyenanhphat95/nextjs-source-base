@@ -1,14 +1,15 @@
-import React, { useState, ChangeEvent, useContext } from "react";
+import React, { useState, useContext } from "react";
 import Script from "next/script";
 import { useRouter } from "next/router";
 
-import { Grid, Box, InputAdornment, IconButton } from "@mui/material";
+import { useForm, Controller, Resolver, FieldErrors } from "react-hook-form";
+
+import { Grid, Box } from "@mui/material";
 import { InputCustom, ButtonCustom } from "components/commons";
 import { makeStyles } from "@mui/styles";
 
 import resources from "pages/assets/translate.json";
 import { LANGUAGE } from "commons/constants";
-import { toast } from "react-toastify";
 import STKContext from "components/STKPage/contexts/STKContextValue";
 
 import _get from "lodash/get";
@@ -44,6 +45,25 @@ const useStyles = makeStyles(() => ({
 interface Props {
   onSubmit: (data: { username: string; password: string }) => void;
 }
+type FormValues = {
+  username: string;
+  password: string;
+};
+
+const getErrorMessage = (
+  errors: FieldErrors,
+  key: string,
+  requiredMsg?: string,
+  minLengthMsg?: string
+) => {
+  const typeMaxLength = _get(errors, `${key}.type`);
+  if (typeMaxLength === "minLength") {
+    return minLengthMsg;
+  }
+  if (typeMaxLength === "required") {
+    return requiredMsg;
+  }
+};
 
 const LoginForm = (props: Props) => {
   const { onSubmit } = props;
@@ -51,28 +71,19 @@ const LoginForm = (props: Props) => {
   const { locale } = useRouter();
   const t = _get(resources, [locale || LANGUAGE.VI, "loginForm"]);
 
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
+  const {
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm<FormValues>({
+    defaultValues: {
+      username: "",
+      password: "",
+    },
   });
 
-  const { loadingBtnSubmit } = useContext(STKContext);
+  const { loadingBtnSubmit, toggleNotify } = useContext(STKContext);
 
-  const _handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setFormData({
-      ...formData,
-      [id]: value,
-    });
-  };
-
-  const _handleSubmit = () => {
-    if (!formData.username || !formData.password) {
-      toast.error("Please enter username and password");
-      return;
-    }
-    onSubmit(formData);
-  };
   return (
     <Box py={3} px={2} className={classes.root}>
       <Script id="jsencrypt-id" src="/js/jsencrypt.min.js" />
@@ -102,46 +113,83 @@ const LoginForm = (props: Props) => {
         </Grid>
 
         <Grid item xs={12}>
-          <Grid container direction="column" spacing={2}>
-            <Grid item>
-              <InputCustom
-                id="username"
-                placeholder={t?.username}
-                variant="outlined"
-                value={formData.username}
-                onChange={_handleChange}
-                label={t?.username}
-              />
-            </Grid>
-            <Grid item>
-              <InputCustom
-                id="password"
-                placeholder={t?.password}
-                variant="outlined"
-                value={formData.password}
-                onChange={_handleChange}
-                type="password"
-                label={t?.password}
-              />
-            </Grid>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Grid container direction="column" spacing={2}>
+              <Grid item>
+                <Controller
+                  name="username"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <InputCustom
+                      regex={new RegExp(/^[a-z0-9@_-]+$/i)}
+                      maxLength={100}
+                      errorMsg={getErrorMessage(
+                        errors,
+                        "username",
+                        "Xin vui lòng nhập Tên đăng nhập của bạn"
+                      )}
+                      placeholder={t?.username}
+                      variant="outlined"
+                      label={t?.username}
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>
+              <Grid item>
+                <Controller
+                  name="password"
+                  control={control}
+                  rules={{ required: true, minLength: 6 }}
+                  render={({ field }) => (
+                    <InputCustom
+                      maxLength={21}
+                      regex={new RegExp(/^\S*$/)}
+                      errorMsg={getErrorMessage(
+                        errors,
+                        "password",
+                        "Xin vui lòng nhập Mật khẩu của bạn",
+                        "Mật khẩu phải có độ dài tối thiếu 6 ký tự"
+                      )}
+                      placeholder={t?.password}
+                      variant="outlined"
+                      type="password"
+                      label={t?.password}
+                      {...field}
+                    />
+                  )}
+                />
+              </Grid>
 
-            <Grid item>
-              <Box mt={3} justifyContent="center" display="flex">
-                <ButtonCustom
-                  variant="contained"
-                  color="secondary"
-                  loading={loadingBtnSubmit}
-                  onClick={_handleSubmit}
-                >
-                  {t?.btnSubmit}
-                </ButtonCustom>
-              </Box>
+              <Grid item>
+                <Box mt={3} justifyContent="center" display="flex">
+                  <ButtonCustom
+                    variant="contained"
+                    color="secondary"
+                    loading={loadingBtnSubmit}
+                    type="submit"
+                  >
+                    {t?.btnSubmit}
+                  </ButtonCustom>
+                </Box>
+              </Grid>
             </Grid>
-          </Grid>
+          </form>
         </Grid>
 
         <Grid item xs={12}>
-          <Box className={classes.textForgot}>Quên tên đăng nhập/mật khẩu</Box>
+          <Box
+            onClick={() =>
+              toggleNotify(
+                "Thông báo",
+                "Quý khách vui lòng liên hệ 19006060 hoặc đến điểm giao dịch HDBank gần nhất để được hỗ trợ.Trân trọng cảm ơn!"
+              )
+            }
+            className={classes.textForgot}
+          >
+            Quên tên đăng nhập/mật khẩu
+          </Box>
         </Grid>
       </Grid>
     </Box>

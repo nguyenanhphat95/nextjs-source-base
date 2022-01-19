@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   rootDialog: {
     "& .MuiPaper-root": {
       width: "20vw",
+      borderRadius: "15px",
       [theme.breakpoints?.down("sm")]: {
         width: "90vw",
       },

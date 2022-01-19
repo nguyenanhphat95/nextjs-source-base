@@ -28,15 +28,10 @@ import {
   generateRequestBody,
   handleErrorWithResponse,
 } from "commons/helpers";
-// import { CLIENT_SECRET } from "commons/constants";
 
 import desktopPic from "public/images/desktop.png";
 import bannerMobile from "public/images/bannerMobile.png";
 import STKContext from "components/STKPage/contexts/STKContextValue";
-
-// import { showToastError, showToastSuccess } from "commons/helpers/toast";
-// import { ToastContainer } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 import _get from "lodash/get";
 
 createTheme();
@@ -52,7 +47,8 @@ const useStyles = makeStyles(() => ({
 }));
 
 export const ERROR_MESSAGE_VERIFY_USER = {
-  [ERROR_CODE.Unauthorized]: "Username or password incorrect",
+  [ERROR_CODE.Unauthorized]:
+    "Tên đăng nhập hoặc Mật khẩu không đúng. Quý khách vui lòng kiểm tra lại",
   [ERROR_CODE.SessionExpired]: "Session Expired",
   [ERROR_CODE.UserNotExist]: "User Not Exist",
   [ERROR_CODE.SessionIdNotFound]: "Session Id Not Found",
@@ -61,6 +57,8 @@ export const ERROR_MESSAGE_VERIFY_USER = {
   [ERROR_CODE.PasswordExpired]:
     "Expired password requires accessing ebank.hdbank.com.vn to change password",
   [ERROR_CODE.VerifyClientFailed]: "Verify client failed",
+  [ERROR_CODE.AccountLocked]:
+    "Tài khoản của quý khách đã bị khóa. Quý khách có thể sử dụng dịch vụ Internet Banking để mở khóa. Hoặc gọi đến số 19006060  để được hỗ trợ.",
 };
 
 export const LOGIN_STEP = {
@@ -149,7 +147,6 @@ const SBHPage = () => {
       .then((res) => {
         const responseCode = _get(res, "data.response.responseCode");
         _toggleLoading("loadingBtnSubmit");
-
         if (responseCode === ERROR_CODE.Success) {
           const cif = _get(res, "data.data.cif");
           stkService.getListAccountApi(cif).then((res) => {
@@ -159,12 +156,12 @@ const SBHPage = () => {
           passwordRef.current = data.password;
 
           setLoginStep(LOGIN_STEP.step2);
-          // showToastSuccess("Login success");
           return;
         }
         toggleNotify(
           "Thông báo",
-          ERROR_MESSAGE_VERIFY_USER[responseCode] || "Login failed"
+          _get(ERROR_MESSAGE_VERIFY_USER, responseCode) ||
+            ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.Unauthorized]
         );
       })
       .catch((err) => {
@@ -181,7 +178,6 @@ const SBHPage = () => {
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
         if (_get(res, "data.data.userId")) {
-          // showToastSuccess("Send OTP success, please check your phone");
           setLoginStep(LOGIN_STEP.step3);
         }
       })
@@ -204,11 +200,10 @@ const SBHPage = () => {
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
         if (_get(res, "data.data.userId")) {
-          // showToastSuccess("Confirm OTP success");
           setLoginStep(LOGIN_STEP.step4);
           return;
         }
-        toggleNotify("Thông báo", "Invalid OTP");
+        toggleNotify("Thông báo", "OTP không đúng. Vui lòng nhập lại OTP");
       })
       .catch((err) => {
         // showToastError("Send OTP failed");
@@ -279,6 +274,7 @@ const SBHPage = () => {
 
   const stkContextValue = {
     loadingBtnSubmit: loading.loadingBtnSubmit,
+    toggleNotify,
   };
 
   return (
@@ -291,18 +287,6 @@ const SBHPage = () => {
           toggleModal={toggleNotify}
         />
       )}
-      {/* <ToastContainer
-        theme="colored"
-        position="bottom-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnH over
-      /> */}
 
       <Grid item xs={12}>
         <SectionHeader />
