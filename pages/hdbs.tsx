@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Script from "next/script";
 
 import { makeStyles } from "@mui/styles";
@@ -15,6 +15,7 @@ import TKCKContext from "components/HDBSPage/contexts/TKCKContextValue";
 import { FormDataStep1, TypeCustomer } from "components/HDBSPage/interfaces";
 
 import * as hdbsServices from "services/hdbsService";
+import _get from "lodash/get";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -60,6 +61,11 @@ const HDBSPage = () => {
     transferBonds: false,
     ekycData: null,
   });
+
+  useEffect(() => {
+    const md5 = _get(window, "md5");
+    console.log("window----:", window);
+  }, []);
 
   const _onNextStep = (step: string) => {
     setStepCurrent(step);
@@ -130,6 +136,7 @@ const HDBSPage = () => {
       <Script id="lottie-id" src="/asset/js/lottie.min.js" />
       <Script id="jsqr-id" src="/asset/js/jsQR.js" />
       <Script id="vnptbrowser-id" src="/asset/js/VNPTBrowserSDKAppV2.3.3.js" />
+      <Script id="md5-id" src="/asset/js/md5.min.js" />
 
       <div className={classes.root}>
         <TKCKContext.Provider value={TKCKContextValue}>

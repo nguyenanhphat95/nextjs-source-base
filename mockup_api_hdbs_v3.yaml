@@ -1,0 +1,587 @@
+openapi: 3.0.0
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/dangvanhai271990/VerifyPartner/1.0.0
+info:
+  version: 1.0.0
+  title: Sample API
+
+paths:
+  /api/hdbs/accessToken:
+    post:
+      tags:
+        - API
+      summary: Access Token
+      operationId: "accessToken"
+      requestBody:
+        required: true
+        content:
+          Request:
+            schema:
+              $ref: "#/components/schemas/GetAccessTokenRequest"
+      responses:
+        "200":
+          description: Success Response
+          content:
+            Success Response:
+              schema:
+                $ref: "#/components/schemas/GetAccessTokenResponse"
+
+  /api/hdbs/getMerchant:
+    post:
+      tags:
+        - API
+      summary: Get Merchant
+      operationId: "getMerchant"
+      parameters:
+        - in: header
+          name: Authorization
+          description: The authentication token from access-token api
+          required: true
+          schema:
+            type: string
+            example: JWT token
+      requestBody:
+        required: true
+        content:
+          Request:
+            schema:
+              $ref: "#/components/schemas/GetMerchantRequest"
+      responses:
+        "200":
+          description: Success Response
+          content:
+            Success Response:
+              schema:
+                $ref: "#/components/schemas/GetMerchantResponse"
+
+  /api/hdbs/checkUserEkyc:
+    post:
+      tags:
+        - API
+      summary: Check User eKYC
+      operationId: "checkUserEkyc"
+      parameters:
+        - in: header
+          name: Authorization
+          description: The authentication token from access-token api
+          required: true
+          schema:
+            type: string
+            example: JWT token
+      requestBody:
+        required: true
+        content:
+          Request:
+            schema:
+              $ref: "#/components/schemas/CheckUserEkycRequest"
+      responses:
+        "200":
+          description: Success Response
+          content:
+            Success Response:
+              schema:
+                $ref: "#/components/schemas/CheckUserEkycResponse"
+
+  /api/hdbs/inquiryEkycPresent:
+    post:
+      tags:
+        - API
+      summary: Inquiry Ekyc Present
+      operationId: "inquiryEkycPresent"
+      parameters:
+        - in: header
+          name: Authorization
+          description: The authentication token from access-token api
+          required: true
+          schema:
+            type: string
+            example: JWT token
+      requestBody:
+        required: true
+        content:
+          Request:
+            schema:
+              $ref: "#/components/schemas/InquiryEkycPresentRequest"
+      responses:
+        "200":
+          description: Success Response
+          content:
+            Success Response:
+              schema:
+                $ref: "#/components/schemas/InquiryEkycPresentResponse"
+
+  /api/hdbs/confirmEkycPresent:
+    post:
+      tags:
+        - API
+      summary: Confirm eKYC Present
+      operationId: "confirmEkycPresent"
+      parameters:
+        - in: header
+          name: Authorization
+          description: The authentication token from access-token api
+          required: true
+          schema:
+            type: string
+            example: JWT token
+      requestBody:
+        required: true
+        content:
+          Request:
+            schema:
+              $ref: "#/components/schemas/ConfirmEkycPresentRequest"
+      responses:
+        "200":
+          description: Success Response
+          content:
+            Success Response:
+              schema:
+                $ref: "#/components/schemas/ConfirmEkycPresentResponse"
+
+  /api/hdbs/updateTokenKeyPartner:
+    post:
+      tags:
+        - API
+      summary: Update Token Key Partner
+      operationId: "updateTokenKeyPartner"
+      parameters:
+        - in: header
+          name: Authorization
+          description: The authentication token from access-token api
+          required: true
+          schema:
+            type: string
+            example: JWT token
+      requestBody:
+        required: true
+        content:
+          Request:
+            schema:
+              $ref: "#/components/schemas/UpdateTokenKeyPartnerRequest"
+      responses:
+        "200":
+          description: Success Response
+          content:
+            Success Response:
+              schema:
+                $ref: "#/components/schemas/UpdateTokenKeyPartnerResponse"
+
+components:
+  schemas:
+    GetAccessTokenRequest:
+      type: "object"
+      properties:
+        requestId:
+          type: "string"
+          example: "5ccd9f48-054b-4c3f-8f25-654f2bb213bd"
+        language:
+          type: "string"
+          example: "VI"
+        userName:
+          type: "string"
+          example: "username"
+        password:
+          type: string
+          example: "password"
+        transactionTime:
+          type: string
+          example: "18/01/2022 16:00:00"
+        checksum:
+          type: string
+          example: "ab512b3d518bab64198e94ce9040b7f9"
+          description: MD5(userName + password + transactionTime +  key)
+    GetAccessTokenResponse:
+      type: "object"
+      properties:
+        resultCode:
+          type: string
+          example: "00"
+        resultMessage:
+          type: string
+          example: "Success"
+        accessToken:
+          type: string
+          example: "jwt token"
+        expiryIn:
+          type: number
+          example: 3600
+          description: second
+
+    GetMerchantRequest:
+      type: "object"
+      properties:
+        requestId:
+          type: "string"
+          example: "5ccd9f48-054b-4c3f-8f25-654f2bb213bd"
+        channel:
+          type: "string"
+          example: "mbank"
+        partnerId:
+          type: string
+          example: "hdbs"
+        language:
+          type: "string"
+          example: "VI"
+        transactionTime:
+          type: string
+          example: "18/01/2022 16:00:00"
+        checksum:
+          type: string
+          example: "ab512b3d518bab64198e94ce9040b7f9"
+          description: MD5(partnerId + transactionTime +  key)
+    GetMerchantResponse:
+      type: "object"
+      properties:
+        resultCode:
+          type: string
+          example: "00"
+        resultMessage:
+          type: string
+          example: "Success"
+        merchantNames:
+          type: array
+          items:
+            type: object
+            properties:
+              merchantId:
+                type: string
+                example: "abc"
+              merchantName:
+                type: string
+                example: "abc"
+        terminalNames:
+          type: array
+          items:
+            type: object
+            properties:
+              terminalId:
+                type: string
+                example: "abc"
+              terminalName:
+                type: string
+                example: "abc"
+              merchantId:
+                type: string
+                example: "abc"
+
+    CheckUserEkycRequest:
+      type: "object"
+      properties:
+        requestId:
+          type: "string"
+          example: "5ccd9f48-054b-4c3f-8f25-654f2bb213bd"
+        channel:
+          type: "string"
+          example: "mbank"
+        userId:
+          type: string
+          example: "0915423641"
+        clientNo:
+          type: string
+          example: "02887123"
+        merchantId:
+          type: string
+          example: "123"
+        terminalId:
+          type: string
+          example: "123"
+        partnetId:
+          type: string
+          example: "hdbs"
+        transactionTime:
+          type: string
+          example: "18/01/2022 16:00:00"
+        language:
+          type: "string"
+          example: "VI"
+        checksum:
+          type: string
+          example: "ab512b3d518bab64198e94ce9040b7f9"
+          description: MD5(userId + clientNo + transactionTime + merchantId + terminalId + partnetId + key)
+    CheckUserEkycResponse:
+      type: "object"
+      properties:
+        resultCode:
+          type: string
+          example: "00"
+        resultMessage:
+          type: string
+          example: "Success"
+        hasSendOtp:
+          type: boolean
+          example: false
+
+    InquiryEkycPresentRequest:
+      type: "object"
+      properties:
+        requestId:
+          type: "string"
+          example: "5ccd9f48-054b-4c3f-8f25-654f2bb213bd"
+        channel:
+          type: "string"
+          example: "mbank"
+        ekyType:
+          type: string
+          example: "NEW_CUSTOMER | CURRENT_CUSTOMER"
+        username:
+          type: string
+          example: "0915423641"
+        clientNo:
+          type: string
+          example: "02887123"
+        accountNo:
+          type: string
+          example: "accountNo"
+        accountType:
+          type: string
+          example: "accountType"
+        email:
+          type: string
+          example: "abc@gmail.com"
+        phoneNumber:
+          type: string
+          example: "0915423641"
+        fullName:
+          type: string
+          example: "Nguyen Van A"
+        birthDate:
+          type: string
+          example: "14/02/1984"
+        fullNameOcr:
+          type: string
+          example: "Nguyen Van A"
+        birthDateOcr:
+          type: string
+          example: "14/02/1984"
+        dateOfIssueOcr:
+          type: string
+          example: "25/04/2016"
+        placeOfIssueOcr:
+          type: string
+          example: "Hồ Chí Minh"
+        expireOfIssueOcr:
+          type: string
+          example: "14/02/2024"
+        idNumber:
+          type: string
+          example: "092084001651"
+        idNumberType:
+          type: string
+          example: "CCCD"
+        idNumberOld:
+          type: string
+          example: ""
+        dateOfIssue:
+          type: string
+          example: "25/04/2016"
+        placeOfIssue:
+          type: string
+          example: "Hồ Chí Minh"
+        expireOfIssue:
+          type: string
+          example: "14/02/2024"
+        gender:
+          type: string
+          example: "M"
+        address:
+          type: string
+          example: "số nhà, P.Bến Nghé, Q.1, TP.HCM"
+        stateIdContact:
+          type: string
+          example: "79"
+        stateNameContact:
+          type: string
+          example: "TP.HCM"
+        districtIdContact:
+          type: string
+          example: "760"
+        districtNameContact:
+          type: string
+          example: "Q.1"
+        wardIdContact:
+          type: string
+          example: "26740"
+        wardNameContact:
+          type: string
+          example: "P.Bến Nghé"
+        streetNameContact:
+          type: string
+          example: "số nhà"
+        stateIdCurrent:
+          type: string
+          example: "79"
+        stateNameCurrent:
+          type: string
+          example: "TP.HCM"
+        districtIdCurrent:
+          type: string
+          example: "760"
+        districtNameCurrent:
+          type: string
+          example: "Q.1"
+        wardIdCurrent:
+          type: string
+          example: "26740"
+        wardNameCurrent:
+          type: string
+          example: "P.Bến Nghé"
+        streetNameCurrent:
+          type: string
+          example: "số nhà"
+        nationalityId:
+          type: string
+          example: "84"
+        nationalityName:
+          type: string
+          example: "Việt Nam"
+        branchId:
+          type: string
+          example: "165"
+        branchName:
+          type: string
+          example: "PGD Lái Thiêu"
+        literacyName:
+          type: string
+          example: "DAI_HOC"
+        literacyDesc:
+          type: string
+          example: ""
+        maritalStatus:
+          type: string
+          example: "M"
+        maritalDesc:
+          type: string
+          example: ""
+        careerId:
+          type: string
+          example: "CJ1.09"
+        careerName:
+          type: string
+          example: "Khoa học - Công nghệ"
+        positionId:
+          type: string
+          example: "CJ1.09.3"
+        positionName:
+          type: string
+          example: "Khác"
+        salaryIncome:
+          type: string
+          example: "12000000"
+        biometricsRate:
+          type: string
+          example: "96.82"
+        ekycId:
+          type: string
+          example: "ea735cb9-727d-11ec-9c83-096050e62dec-c27aa41f-Zuulserver|fe944184-727d-11ec-9c83-c72adac84fb2-927e55ee-Zuulserver"
+        faceMatching:
+          type: string
+          example: "Y"
+        transactionTime:
+          type: string
+          example: "18/01/2022 16:00:00"
+        partnetId:
+          type: string
+          example: "hdbs"
+        language:
+          type: "string"
+          example: "VI"
+        checksum:
+          type: string
+          example: "ab512b3d518bab64198e94ce9040b7f9"
+          description: MD5(username + clientNo + transactionTime + partnetId + key)
+    InquiryEkycPresentResponse:
+      type: "object"
+      properties:
+        resultCode:
+          type: string
+          example: "00"
+        resultMessage:
+          type: string
+          example: "Success"
+        hasSendOtp:
+          type: boolean
+          example: false
+
+    ConfirmEkycPresentRequest:
+      type: "object"
+      properties:
+        requestId:
+          type: "string"
+          example: "5ccd9f48-054b-4c3f-8f25-654f2bb213bd"
+        channel:
+          type: "string"
+          example: "mbank"
+        userId:
+          type: string
+          example: "0915423641"
+        clientNo:
+          type: string
+          example: "02887123"
+        accountOtp:
+          type: string
+          example: "111111"
+        partnerId:
+          type: string
+          example: "HDBS"
+        transactionTime:
+          type: string
+          example: "18/01/2022 16:00:00"
+        language:
+          type: "string"
+          example: "VI"
+        checksum:
+          type: string
+          example: "ab512b3d518bab64198e94ce9040b7f9"
+          description: MD5(userId + clientNo + accountOtp + transactionTime + partnetId + key)
+    ConfirmEkycPresentResponse:
+      type: "object"
+      properties:
+        resultCode:
+          type: string
+          example: "00"
+        resultMessage:
+          type: string
+          example: "Success"
+
+    UpdateTokenKeyPartnerRequest:
+      type: "object"
+      properties:
+        requestId:
+          type: "string"
+          example: "5ccd9f48-054b-4c3f-8f25-654f2bb213bd"
+        channel:
+          type: "string"
+          example: "mbank"
+        userId:
+          type: string
+          example: "0915423641"
+        clientNo:
+          type: string
+          example: "02887123"
+        token:
+          type: string
+          example: "token"
+        transactionTime:
+          type: string
+          example: "18/01/2022 16:00:00"
+        partnerId:
+          type: string
+          example: "HDBS"
+        language:
+          type: "string"
+          example: "VI"
+        checksum:
+          type: string
+          example: "ab512b3d518bab64198e94ce9040b7f9"
+          description: MD5(userId + clientNo + token + transactionTime + partnetId + key)
+    UpdateTokenKeyPartnerResponse:
+      type: "object"
+      properties:
+        resultCode:
+          type: string
+          example: "00"
+        resultMessage:
+          type: string
+          example: "Success"
