@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import TextField, { TextFieldProps } from "@mui/material/TextField";
 import { makeStyles } from "@mui/styles";
-import { Grid } from "@mui/material";
+import { Grid, IconButton, InputAdornment } from "@mui/material";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -26,8 +28,25 @@ export type BaseInputProps = TextFieldProps & {
 };
 
 const InputCustom = (props: BaseInputProps) => {
-  const { label, ...rest } = props;
+  const { label, type, ...rest } = props;
   const classes = useStyles();
+  const [showPassword, setShowPassword] = useState(false);
+  const isPassword = type === "password";
+
+  const _toggleShowPassword = () => {
+    setShowPassword((prev) => !prev);
+  };
+
+  const _mouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
+  const typeNew = useMemo(() => {
+    if (isPassword) {
+      return showPassword ? "text" : "password";
+    }
+    return type;
+  }, [isPassword, showPassword]);
 
   return (
     <Grid direction="column" container spacing={1}>
@@ -37,7 +56,24 @@ const InputCustom = (props: BaseInputProps) => {
         </Grid>
       )}
       <Grid item>
-        <TextField {...rest} className={classes.root} />
+        <TextField
+          type={typeNew}
+          {...rest}
+          className={classes.root}
+          InputProps={{
+            endAdornment: isPassword && (
+              <InputAdornment position="end">
+                <IconButton
+                  onClick={_toggleShowPassword}
+                  onMouseDown={_mouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
       </Grid>
     </Grid>
   );

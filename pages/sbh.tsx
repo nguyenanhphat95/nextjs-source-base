@@ -8,6 +8,7 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { SectionNotification } from "components/LoginPage";
+import { PopupNotify } from "components/commons";
 
 import {
   SectionLogin,
@@ -33,9 +34,9 @@ import desktopPic from "public/images/desktop.png";
 import bannerMobile from "public/images/bannerMobile.png";
 import STKContext from "components/STKPage/contexts/STKContextValue";
 
-import { showToastError, showToastSuccess } from "commons/helpers/toast";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { showToastError, showToastSuccess } from "commons/helpers/toast";
+// import { ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 import _get from "lodash/get";
 
 createTheme();
@@ -76,6 +77,12 @@ const SBHPage = () => {
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const [popupNotify, setPopupNotify] = useState({
+    open: false,
+    title: "",
+    desc: "",
+  });
 
   const [loginStep, setLoginStep] = useState(LOGIN_STEP.step1);
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
@@ -133,7 +140,7 @@ const SBHPage = () => {
     const publicKey = _get(resp, "data.data.key");
 
     if (!publicKey) {
-      showToastError("Get public key error");
+      toggleNotify("Thông báo", "Get public key error");
       return;
     }
     _toggleLoading("loadingBtnSubmit", true);
@@ -152,15 +159,16 @@ const SBHPage = () => {
           passwordRef.current = data.password;
 
           setLoginStep(LOGIN_STEP.step2);
-          showToastSuccess("Login success");
+          // showToastSuccess("Login success");
           return;
         }
-        showToastError(
+        toggleNotify(
+          "Thông báo",
           ERROR_MESSAGE_VERIFY_USER[responseCode] || "Login failed"
         );
       })
       .catch((err) => {
-        showToastError("Login failed");
+        toggleNotify("Thông báo", "Login failed");
         _toggleLoading("loadingBtnSubmit");
         console.log(err);
       });
@@ -173,12 +181,12 @@ const SBHPage = () => {
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
         if (_get(res, "data.data.userId")) {
-          showToastSuccess("Send OTP success, please check your phone");
+          // showToastSuccess("Send OTP success, please check your phone");
           setLoginStep(LOGIN_STEP.step3);
         }
       })
       .catch((err) => {
-        showToastError("Send OTP failed");
+        toggleNotify("Thông báo", "Send OTP failed");
         _toggleLoading("loadingBtnSubmit", false);
         console.log(err);
       });
@@ -196,14 +204,14 @@ const SBHPage = () => {
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
         if (_get(res, "data.data.userId")) {
-          showToastSuccess("Confirm OTP success");
+          // showToastSuccess("Confirm OTP success");
           setLoginStep(LOGIN_STEP.step4);
           return;
         }
-        showToastError(_get(res, "data.data.resultMessage", "Invalid OTP"));
+        toggleNotify("Thông báo", "Invalid OTP");
       })
       .catch((err) => {
-        showToastError("Send OTP failed");
+        // showToastError("Send OTP failed");
         _toggleLoading("loadingBtnSubmit", false);
         console.log(err);
       });
@@ -224,7 +232,8 @@ const SBHPage = () => {
         _toggleLoading("loadingBtnSubmit", false);
         if (!code) {
           const errorCode = _get(res, "data.response.responseCode");
-          showToastError(
+          toggleNotify(
+            "Thông báo",
             ERROR_MESSAGE_VERIFY_USER[errorCode] || "Login failed"
           );
           return;
@@ -238,7 +247,7 @@ const SBHPage = () => {
         });
       })
       .catch((err) => {
-        showToastError("Verify failed");
+        toggleNotify("Thông báo", "Verify failed");
         _toggleLoading("loadingBtnSubmit", false);
         console.log(err);
       });
@@ -251,13 +260,38 @@ const SBHPage = () => {
     });
   }
 
+  function toggleNotify(title?: string, desc?: string) {
+    setPopupNotify(() => {
+      if (title && desc) {
+        return {
+          open: true,
+          title,
+          desc,
+        };
+      }
+      return {
+        open: false,
+        title: "",
+        desc: "",
+      };
+    });
+  }
+
   const stkContextValue = {
     loadingBtnSubmit: loading.loadingBtnSubmit,
   };
 
   return (
     <Grid container direction="column">
-      <ToastContainer
+      {popupNotify.open && (
+        <PopupNotify
+          title={popupNotify.title}
+          desc={popupNotify.desc}
+          open={popupNotify.open}
+          toggleModal={toggleNotify}
+        />
+      )}
+      {/* <ToastContainer
         theme="colored"
         position="bottom-center"
         autoClose={5000}
@@ -267,8 +301,8 @@ const SBHPage = () => {
         rtl={false}
         pauseOnFocusLoss
         draggable
-        pauseOnHover
-      />
+        pauseOnH over
+      /> */}
 
       <Grid item xs={12}>
         <SectionHeader />

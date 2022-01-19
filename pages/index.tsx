@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 const Home: NextPage = () => {
-  return <Container maxWidth="lg">Home component</Container>;
+  return <Container maxWidth="lg"></Container>;
 };
 
 export default Home;
