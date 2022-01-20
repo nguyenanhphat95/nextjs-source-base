@@ -54,9 +54,6 @@ const InputOTP = (props: Props) => {
 
   const _handleChange = (key: string, e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    if (+value > 9) {
-      return;
-    }
     if (isNumber(+value)) {
       let finalValue = {
         ...otpValue,
@@ -106,26 +103,26 @@ const InputOTP = (props: Props) => {
           <input
             ref={otpEl1}
             name="otp1"
-            type="number"
+            type="text"
             autoComplete="off"
             className={classes.otpInput}
             value={otpValue.otp1}
             onChange={(e) => _handleChange("otp1", e)}
             tabIndex={1}
-            max={9}
+            maxLength={1}
             onKeyUp={_handleFocus}
           />
         </Grid>
         <Grid item xs="auto">
           <input
             name="otp2"
-            type="number"
+            type="text"
             autoComplete="off"
             className={classes.otpInput}
             value={otpValue.otp2}
             onChange={(e) => _handleChange("otp2", e)}
             tabIndex={2}
-            max={9}
+            maxLength={1}
             onKeyUp={_handleFocus}
           />
         </Grid>
@@ -133,13 +130,13 @@ const InputOTP = (props: Props) => {
         <Grid item xs="auto">
           <input
             name="otp3"
-            type="number"
+            type="text"
             autoComplete="off"
             className={classes.otpInput}
             value={otpValue.otp3}
             onChange={(e) => _handleChange("otp3", e)}
             tabIndex={3}
-            max={9}
+            maxLength={1}
             onKeyUp={_handleFocus}
           />
         </Grid>
@@ -147,13 +144,13 @@ const InputOTP = (props: Props) => {
         <Grid item xs="auto">
           <input
             name="otp4"
-            type="number"
+            type="text"
             autoComplete="off"
             className={classes.otpInput}
             value={otpValue.otp4}
             onChange={(e) => _handleChange("otp4", e)}
             tabIndex={4}
-            max={9}
+            maxLength={1}
             onKeyUp={_handleFocus}
           />
         </Grid>
@@ -161,26 +158,26 @@ const InputOTP = (props: Props) => {
         <Grid item xs="auto">
           <input
             name="otp5"
-            type="number"
+            type="text"
             autoComplete="off"
             className={classes.otpInput}
             value={otpValue.otp5}
             onChange={(e) => _handleChange("otp5", e)}
             tabIndex={5}
-            max={9}
+            maxLength={1}
             onKeyUp={_handleFocus}
           />
         </Grid>
         <Grid item xs="auto">
           <input
             name="otp6"
-            type="number"
+            type="text"
             autoComplete="off"
             className={classes.otpInput}
             value={otpValue.otp6}
             onChange={(e) => _handleChange("otp6", e)}
             tabIndex={6}
-            max={9}
+            maxLength={1}
             onKeyUp={_handleFocus}
           />
         </Grid>

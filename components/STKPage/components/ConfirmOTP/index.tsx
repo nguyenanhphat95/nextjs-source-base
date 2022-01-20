@@ -59,17 +59,21 @@ interface Props {
   onSendOTP?: () => void;
 }
 
+const NUMBER_ALLOW_RESEND_OTP = 5;
+
 const ConfirmOTP = (props: Props) => {
-  const { onSubmit, onSendOTP } = props;
+  const { locale } = useRouter();
   const classes = useStyles();
+  const { onSubmit, onSendOTP } = props;
+  const { loadingBtnSubmit, toggleNotify } = useContext(STKContext);
+
   const timerRef = useRef<any>();
 
   const [otp, setOtp] = useState("");
   const [isResendValid, setIsResendValid] = useState(false);
+  const [countResendOTP, setCountResendOTP] = useState(0);
 
-  const { locale } = useRouter();
   const t = _get(resources, [locale || LANGUAGE.VI, "confirmOTP"]);
-  const { loadingBtnSubmit } = useContext(STKContext);
 
   const onCallTimer = useCallback(async () => {
     const isDone = await startTimer(119, timerRef.current);
@@ -81,12 +85,20 @@ const ConfirmOTP = (props: Props) => {
   }, []);
 
   const _handleResendOTP = () => {
+    if (countResendOTP === NUMBER_ALLOW_RESEND_OTP) {
+      toggleNotify(
+        "Thông báo",
+        "chờ BA chốt lại câu thông báo Nhấn Đóng quay trở về màn hình nhập thông tin ban đầu"
+      );
+      return;
+    }
     if (!isResendValid || !onSendOTP) {
       return;
     }
     onSendOTP();
     setIsResendValid(false);
     onCallTimer();
+    setCountResendOTP((prev) => prev + 1);
   };
 
   return (

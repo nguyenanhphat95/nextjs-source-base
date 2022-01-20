@@ -12,6 +12,7 @@ export const ERROR_CODE = {
   SystemError: "99",
   VerifyClientFailed: "100",
   AccountLocked: "12",
+  PhoneNumberLock: "22",
 };
 
 export function handleErrorWithResponse(

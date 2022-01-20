@@ -28,6 +28,7 @@ import {
   generateRequestBody,
   handleErrorWithResponse,
 } from "commons/helpers";
+import { addHourFromNow } from "commons/helpers/date";
 
 import desktopPic from "public/images/desktop.png";
 import bannerMobile from "public/images/bannerMobile.png";
@@ -47,12 +48,16 @@ const useStyles = makeStyles(() => ({
 }));
 
 export const ERROR_MESSAGE_VERIFY_USER = {
+  [ERROR_CODE.PhoneNumberLock]: `Qúy khách đã nhập sai OTP quá 5 lần. Vui lòng thử lại sau hh:mm:ss để sử dụng tiếp dịch vụ.(${addHourFromNow(
+    24
+  )}) Nhấn Đóng quay trở về màn hình nhập thông tin ban đầu`,
   [ERROR_CODE.Unauthorized]:
     "Tên đăng nhập hoặc Mật khẩu không đúng. Quý khách vui lòng kiểm tra lại",
   [ERROR_CODE.SessionExpired]: "Session Expired",
   [ERROR_CODE.UserNotExist]: "User Not Exist",
   [ERROR_CODE.SessionIdNotFound]: "Session Id Not Found",
-  [ERROR_CODE.FormatMessageInvalid]: "Format Message Invalid",
+  [ERROR_CODE.FormatMessageInvalid]:
+    "Tên đăng nhập hoặc Mật khẩu không hợp lệ. Qúy khách vui lòng kiểm tra lại",
   [ERROR_CODE.SystemError]: "System Error",
   [ERROR_CODE.PasswordExpired]:
     "Expired password requires accessing ebank.hdbank.com.vn to change password",
@@ -68,6 +73,8 @@ export const LOGIN_STEP = {
   step4: "stepLoginSuccess",
 };
 
+const NUMBER_ALLOW_ENTER_WRONG_OTP = 5;
+
 const SBHPage = () => {
   const classes = useStyles();
   const router = useRouter();
@@ -82,6 +89,7 @@ const SBHPage = () => {
     desc: "",
   });
 
+  const [countEnterWrongOTP, setCountEnterWrongOTP] = useState(0);
   const [loginStep, setLoginStep] = useState(LOGIN_STEP.step1);
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
   const [loading, setLoading] = useState({
@@ -177,9 +185,14 @@ const SBHPage = () => {
       .createOTPApi(usernameRef.current)
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
+        const errorCode = _get(res, "data.resultCode");
         if (_get(res, "data.data.userId")) {
           setLoginStep(LOGIN_STEP.step3);
         }
+        toggleNotify(
+          "Thông báo",
+          _get(ERROR_MESSAGE_VERIFY_USER, errorCode, "Gửi OTP không thành công")
+        );
       })
       .catch((err) => {
         toggleNotify("Thông báo", "Send OTP failed");
@@ -194,6 +207,15 @@ const SBHPage = () => {
   };
 
   const _handleConfirmOTP = (otp: string) => {
+    if (countEnterWrongOTP === NUMBER_ALLOW_ENTER_WRONG_OTP) {
+      toggleNotify(
+        "Thông báo",
+        `Qúy khách đã nhập sai OTP quá 5 lần. Vui lòng thử lại sau hh:mm:ss để sử dụng tiếp dịch vụ.(${addHourFromNow(
+          24
+        )}) Nhấn Đóng quay trở về màn hình nhập thông tin ban đầu`
+      );
+      return;
+    }
     _toggleLoading("loadingBtnSubmit", true);
     stkService
       .verifyOTPApi(usernameRef.current, otp)
@@ -203,7 +225,11 @@ const SBHPage = () => {
           setLoginStep(LOGIN_STEP.step4);
           return;
         }
-        toggleNotify("Thông báo", "OTP không đúng. Vui lòng nhập lại OTP");
+        setCountEnterWrongOTP((prev) => prev + 1);
+        toggleNotify(
+          "Thông báo",
+          "Mã xác thực OTP không chính xác. Quý khách vui lòng nhập lại"
+        );
       })
       .catch((err) => {
         // showToastError("Send OTP failed");
