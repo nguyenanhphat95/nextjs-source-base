@@ -1,17 +1,26 @@
-import { Gender } from "./ICommon";
+import { Gender, EkycType } from "./ICommon";
 
 export interface InquiryEKYCPresentRequest {
-  username: string;
   requestId: string;
-  isEkyc: string;
-  phoneNumber: string;
-  registerType: string;
+  channel: string;
+  ekyType: EkycType;
+  username: string;
+  clientNo: string;
+  transactionTime: string;
+  partnerId: string;
+  language: string;
+  checksum: string;
 
-  birthDate: string;
-  birthDateOcr: string;
+  accountNo?: string;
+  accountType?: string;
+  email?: string;
+  phoneNumber?: string;
 
   fullName: string;
   fullNameOcr: string;
+
+  birthDate: string;
+  birthDateOcr: string;
 
   dateOfIssue: string;
   dateOfIssueOcr: string;
@@ -55,11 +64,9 @@ export interface InquiryEKYCPresentRequest {
   positionId: string;
   positionName: string;
   salaryIncome: string;
-  isFatca: string;
   biometricsRate: string;
   ekycId: string;
   faceMatching: string;
-  partnetId: string;
 }
 
 export interface InquiryEKYCPresentResponse {

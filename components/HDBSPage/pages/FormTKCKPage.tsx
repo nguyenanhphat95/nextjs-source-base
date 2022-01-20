@@ -38,6 +38,7 @@ const useStyles = makeStyles(() => ({
 
 interface Props {
   onSubmit: (data: FormDataStep1) => void;
+  md5?: any;
 }
 
 type FormValues = {
@@ -93,8 +94,8 @@ const FormTKCKPage = (props: Props) => {
 
   useEffect(() => {
     hdbsServices.getMerchant().then((res) => {
-      setListMerchant(res.data.merchantNames);
-      setListTerminal(res.data.ternimalNames);
+      setListMerchant(res.merchantNames);
+      setListTerminal(res.terminalNames);
     });
   }, []);
 

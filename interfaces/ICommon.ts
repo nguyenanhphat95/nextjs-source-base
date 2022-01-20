@@ -13,3 +13,4 @@ export interface LogData {
 }
 
 export type Gender = "M" | "F";
+export type EkycType = "NEW_CUSTOMER" | "CURRENT_CUSTOMER";

@@ -12,9 +12,6 @@ import {
   CheckUserEKYCResponse,
 } from "interfaces/ICheckUserEKYS";
 import { InquiryEKYCPresentResponse } from "interfaces/IInquiryEKYCPresent";
-
-import { v4 as uuidv4 } from "uuid";
-import _get from "lodash/get";
 import {
   ConfirmEKYCRequest,
   ConfirmEKYCResponse,
@@ -24,41 +21,126 @@ import {
   UpdateTokenKeyPartnerResponse,
 } from "interfaces/IUpdateTokenKeyPartner";
 
+import {
+  GetAccessTokenRequest,
+  GetAccessTokenResponse,
+} from "interfaces/IGetAccessToken";
+
+import { v4 as uuidv4 } from "uuid";
+import _get from "lodash/get";
+import { MasterData } from "components/HDBSPage/interfaces";
+
 const partnerId = "hdbs";
+const channel = "mbank";
 let userId: string = "0915423641";
 let clientNo: string = "00012132";
+let language: string = "VI";
+let accessToken: string = "";
 
-export function updateMasterData(userId: string, clientNo: string) {
-  userId = userId;
-  clientNo = clientNo;
+export function updateMasterData(data: MasterData) {
+  userId = data.userId;
+  clientNo = data.clientNo;
+  language = data.language;
+  accessToken = data.accessToken;
 }
 
-function generateBodyRequest<T>(key: string, body: T) {
+function generateCommonBodyRequest() {
   return {
-    [key]: {
-      header: {
-        common: {
-          serviceVersion: "1",
-          messageId: "",
-          transactionId: "",
-          messageTimestamp: "",
-        },
-        client: {
-          sourceAppID: "IB",
-          targetAppIDs: ["ESB"],
-          userDetail: {
-            userID: "DTC",
-            userPassword: "RFRDMTIz",
-          },
-        },
-      },
-      bodyReq: {
-        functionCode: "HDB2C-INQUIRYEKYCPRESENT-JDBC-ECRM",
-        data: body,
-      },
-    },
+    requestId: uuidv4() as string,
+    language,
+    transactionTime: "18/01/2022 16:00:00",
   };
 }
+
+function generateCheckSum(object: Record<string, string>) {
+  let str = "";
+  const md5 = _get(window, "md5");
+
+  const keys = Object.keys(object);
+  keys.forEach((key) => {
+    str += object[key];
+  });
+  return md5(str);
+}
+
+export const getAccessToken = async () => {
+  const { requestId, language, transactionTime } = generateCommonBodyRequest();
+  const body: GetAccessTokenRequest = {
+    requestId,
+    language,
+    transactionTime,
+    userName: "userName",
+    password: "password",
+    checksum: generateCheckSum({
+      userName: "userName",
+      password: "password",
+      transactionTime,
+    }),
+  };
+  const resp: AxiosResponse<GetAccessTokenResponse> = await axios.post(
+    "/api/getAccessToken",
+    body
+  );
+  return resp.data;
+};
+
+export const getMerchant = async () => {
+  const { requestId, language, transactionTime } = generateCommonBodyRequest();
+  const body: GetMerchantRequest = {
+    requestId,
+    language,
+    channel,
+    transactionTime,
+    partnerId,
+    checksum: generateCheckSum({
+      partnerId,
+      transactionTime,
+    }),
+  };
+
+  const resp: AxiosResponse<GetMerchantResponse> = await axios.post(
+    "/api/getMerchant",
+    body
+  );
+  return resp.data;
+};
+
+export const checkUserEKYC = async (merchantId: string, terminalId: string) => {
+  const { requestId, language, transactionTime } = generateCommonBodyRequest();
+  const body: CheckUserENCYRequest = {
+    requestId,
+    language,
+    transactionTime,
+    channel,
+    clientNo,
+    merchantId,
+    terminalId,
+    userId,
+    partnerId,
+    checksum: generateCheckSum({
+      userId,
+      clientNo,
+      transactionTime,
+      merchantId,
+      terminalId,
+      partnerId,
+    }),
+  };
+  const resp: AxiosResponse<CheckUserEKYCResponse> = await axios.post(
+    "/api/checkUserEKYC",
+    body
+  );
+  return resp.data;
+};
+
+export const inquiryEKYCPresent = async () => {
+  const body: any = {};
+  const resp: AxiosResponse<InquiryEKYCPresentResponse> = await axios.post(
+    "/api/inquiryEKYCPresent",
+    body
+  );
+  return resp.data;
+};
 
 export const getListAccountApi = async () => {
   const body: ListAccountRequest = {
@@ -74,44 +156,6 @@ export const getListAccountApi = async () => {
   return resp;
 };
 
-export const getMerchant = async () => {
-  const body: GetMerchantRequest = {
-    partnerKey: "123",
-    partnerId,
-  };
-
-  const resp: AxiosResponse<GetMerchantResponse> = await axios.post(
-    "/api/getMerchant",
-    body,
-    generateBodyRequest("getMerchantReq", body)
-  );
-  return resp.data;
-};
-
-export const checkUserEKYC = async (merchantId: string, terminalId: string) => {
-  const body: CheckUserENCYRequest = {
-    userId,
-    clientNo,
-    merchantId,
-    terminalId,
-    partnerId,
-  };
-  const resp: AxiosResponse<CheckUserEKYCResponse> = await axios.post(
-    "/api/checkUserEKYC",
-    generateBodyRequest("checkUserEkycReq", body)
-  );
-  return resp.data;
-};
-
-export const inquiryEKYCPresent = async () => {
-  const body: any = {};
-  const resp: AxiosResponse<InquiryEKYCPresentResponse> = await axios.post(
-    "/api/inquiryEKYCPresent",
-    generateBodyRequest("inquiryEkycPresentReq", body)
-  );
-  return resp.data;
-};
-
 export const confirmEKYCPresent = async (otp: string) => {
   const body: ConfirmEKYCRequest = {
     requestId: uuidv4() as string,
@@ -120,7 +164,7 @@ export const confirmEKYCPresent = async (otp: string) => {
   };
   const resp: AxiosResponse<ConfirmEKYCResponse> = await axios.post(
     "/api/confirmEKYCPresent",
-    generateBodyRequest("confirmEKYCPresentReq", body)
+    body
   );
   return resp.data;
 };
@@ -134,7 +178,7 @@ export const updateTokenKeyPartner = async () => {
   };
   const resp: AxiosResponse<UpdateTokenKeyPartnerResponse> = await axios.post(
     "/api/updateTokenKeyPartner",
-    generateBodyRequest("updateTokenKeyPartnerReq", body)
+    body
   );
   return resp.data;
 };

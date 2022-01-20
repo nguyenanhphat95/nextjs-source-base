@@ -1,13 +1,15 @@
 export interface GetMerchantRequest {
-  partnerKey: string;
+  requestId: string;
+  channel: string;
   partnerId: string;
+  language: string;
+  transactionTime: string;
+  checksum: string;
 }
 
 export interface GetMerchantResponse {
-  data: {
-    merchantNames: MerchantNameItem[];
-    ternimalNames: TerminalNameItem[];
-  };
+  merchantNames: MerchantNameItem[];
+  terminalNames: TerminalNameItem[];
 }
 
 export interface MerchantNameItem {

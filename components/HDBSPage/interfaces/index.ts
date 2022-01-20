@@ -14,3 +14,10 @@ export enum TypeCustomer {
   KHHH = "KHHH",
   KHM = "KHM",
 }
+
+export interface MasterData {
+  userId: string;
+  clientNo: string;
+  language: string;
+  accessToken: string;
+}

@@ -45,6 +45,7 @@ export const STEP_KHHH = {
 const HDBSPage = () => {
   const classes = useStyles();
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
+  const [md5, setMd5] = useState(null);
 
   const [typeCustomer] = useState<TypeCustomer>(TypeCustomer.KHM);
   const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step1);
@@ -63,9 +64,16 @@ const HDBSPage = () => {
   });
 
   useEffect(() => {
-    const md5 = _get(window, "md5");
-    console.log("window----:", window);
-  }, []);
+    if (!md5) return;
+    hdbsServices.getAccessToken().then((res) => {
+      hdbsServices.updateMasterData({
+        userId: "0915423641",
+        clientNo: "00012132",
+        language: "VI",
+        accessToken: res.accessToken,
+      });
+    });
+  }, [md5]);
 
   const _onNextStep = (step: string) => {
     setStepCurrent(step);
@@ -89,7 +97,7 @@ const HDBSPage = () => {
       .checkUserEKYC(dataForm.merchantId, dataForm.terminalId)
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
-        if (res.data.hasSendOtp) {
+        if (res.hasSendOtp) {
           // User EKYCED
           _onNextStep(STEP_KHHH.step4);
           return;
@@ -136,27 +144,37 @@ const HDBSPage = () => {
       <Script id="lottie-id" src="/asset/js/lottie.min.js" />
       <Script id="jsqr-id" src="/asset/js/jsQR.js" />
       <Script id="vnptbrowser-id" src="/asset/js/VNPTBrowserSDKAppV2.3.3.js" />
-      <Script id="md5-id" src="/asset/js/md5.min.js" />
+      <Script
+        id="md5-id"
+        src="/asset/js/md5.min.js"
+        onLoad={() => {
+          const md5 = _get(window, "md5");
+          setMd5(md5);
+        }}
+      />
 
-      <div className={classes.root}>
-        <TKCKContext.Provider value={TKCKContextValue}>
-          {stepCurrent === STEP_KHHH.step1 && (
-            <FormTKCKPage onSubmit={_handleSubmitStep1} />
-          )}
-          {stepCurrent === STEP_KHHH.step2 && (
-            <EKYCVerifyPage onSubmit={_handleSubmitStep2} />
-          )}
-          {stepCurrent === STEP_KHHH.step3 && (
-            <ConfirmInfoPage
-              typeCustomer={typeCustomer}
-              data={dataForm}
-              onSubmit={_handleSubmitStep3}
-              redoEKYC={() => _onNextStep(STEP_KHHH.step2)}
-            />
-          )}
-          {stepCurrent === STEP_KHHH.step4 && <RegisterSuccessPage />}
-        </TKCKContext.Provider>
-      </div>
+      {md5 && (
+        <div className={classes.root}>
+          <TKCKContext.Provider value={TKCKContextValue}>
+            {stepCurrent === STEP_KHHH.step1 && (
+              <FormTKCKPage onSubmit={_handleSubmitStep1} />
+            )}
+            {stepCurrent === STEP_KHHH.step2 && (
+              <EKYCVerifyPage onSubmit={_handleSubmitStep2} />
+            )}
+            {stepCurrent === STEP_KHHH.step3 && (
+              <ConfirmInfoPage
+                typeCustomer={typeCustomer}
+                data={dataForm}
+                onSubmit={_handleSubmitStep3}
+                redoEKYC={() => _onNextStep(STEP_KHHH.step2)}
+              />
+            )}
+            {stepCurrent === STEP_KHHH.step4 && <RegisterSuccessPage />}
+          </TKCKContext.Provider>
+        </div>
+      )}
+
       <Dialog
         className={classes.dialogCustom}
         open={openVerifyOTP}
