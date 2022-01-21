@@ -90,7 +90,7 @@ const SBHPage = () => {
   });
 
   const [countEnterWrongOTP, setCountEnterWrongOTP] = useState(0);
-  const [loginStep, setLoginStep] = useState(LOGIN_STEP.step1);
+  const [loginStep, setLoginStep] = useState(LOGIN_STEP.step4);
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
@@ -173,9 +173,11 @@ const SBHPage = () => {
         );
       })
       .catch((err) => {
-        toggleNotify("Thông báo", "Login failed");
+        toggleNotify(
+          "Thông báo",
+          "Kết nối gián đoạn. Qúy khách vui lòng thử lại sau"
+        );
         _toggleLoading("loadingBtnSubmit");
-        console.log(err);
       });
   };
 
@@ -195,7 +197,10 @@ const SBHPage = () => {
         );
       })
       .catch((err) => {
-        toggleNotify("Thông báo", "Send OTP failed");
+        toggleNotify(
+          "Thông báo",
+          "Kết nối gián đoạn. Qúy khách vui lòng thử lại sau"
+        );
         _toggleLoading("loadingBtnSubmit", false);
         console.log(err);
       });
@@ -268,7 +273,10 @@ const SBHPage = () => {
         });
       })
       .catch((err) => {
-        toggleNotify("Thông báo", "Verify failed");
+        toggleNotify(
+          "Thông báo",
+          "Kết nối gián đoạn. Qúy khách vui lòng thử lại sau"
+        );
         _toggleLoading("loadingBtnSubmit", false);
         console.log(err);
       });
