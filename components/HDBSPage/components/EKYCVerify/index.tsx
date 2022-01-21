@@ -214,6 +214,7 @@ const EKYCComponent = (props: Props) => {
               },
               (res: any) => {
                 const result = { ...data, ...res };
+                console.log("result------:", result);
                 onFinish && onFinish(result);
               }
             );

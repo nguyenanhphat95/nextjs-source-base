@@ -12,7 +12,11 @@ import {
   VerifyOTP,
 } from "components/HDBSPage";
 import TKCKContext from "components/HDBSPage/contexts/TKCKContextValue";
-import { FormDataStep1, TypeCustomer } from "components/HDBSPage/interfaces";
+import {
+  FormDataStep1,
+  TypeCustomer,
+  FormDataStep3,
+} from "components/HDBSPage/interfaces";
 
 import * as hdbsServices from "services/hdbsService";
 import _get from "lodash/get";
@@ -47,7 +51,7 @@ const HDBSPage = () => {
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
   const [md5, setMd5] = useState(null);
 
-  const [typeCustomer] = useState<TypeCustomer>(TypeCustomer.KHM);
+  const [typeCustomer] = useState<TypeCustomer>(TypeCustomer.KHHH);
   const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step1);
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
@@ -57,9 +61,9 @@ const HDBSPage = () => {
     account: "",
     merchantId: "",
     terminalId: "",
-    transferInternet: false,
-    transferAuto: false,
-    transferBonds: false,
+    isTranInternet: true,
+    isUttb: true,
+    isBond: true,
     ekycData: null,
   });
 
@@ -102,7 +106,8 @@ const HDBSPage = () => {
           _onNextStep(STEP_KHHH.step4);
           return;
         }
-        _onNextStep(STEP_KHHH.step2);
+        // _onNextStep(STEP_KHHH.step2);
+        _onNextStep(STEP_KHHH.step3);
       });
   };
 
@@ -117,16 +122,36 @@ const HDBSPage = () => {
     _onNextStep(STEP_KHHH.step3);
   };
 
-  const _handleSubmitStep3 = () => {
-    // TODO: api send OTP
-    hdbsServices.inquiryEKYCPresent().then((res) => {
+  const _handleSubmitStep3 = async (data: FormDataStep3) => {
+    const finalData = {
+      ...dataForm,
+      ...data,
+    };
+    setDataForm(finalData);
+
+    const inquiryResponse = await hdbsServices.inquiryENCYPresent(finalData);
+    if (inquiryResponse.hasSendOtp) {
+      // Send OTP
       _toggleModalVerifyOTP();
-    });
+      // const createOTPResponse = await hdbsServices.createOTPApi("0915423641");
+
+      // const userId = _get(createOTPResponse, "data.data.userId");
+      // if (userId) {
+      //   _toggleModalVerifyOTP();
+      // }
+      return;
+    }
   };
 
-  const _handleVerifyOtp = (otp: string) => {
+  const _handleVerifyOtp = (accountOtp: string) => {
+    const finalData = {
+      ...dataForm,
+      accountOtp,
+    };
+    setDataForm(finalData);
+
     // TODO: verify OTP
-    hdbsServices.confirmEKYCPresent(otp).then((res) => {
+    hdbsServices.confirmEKYCPresent(finalData).then((res) => {
       _toggleModalVerifyOTP();
       _onNextStep(STEP_KHHH.step4);
     });

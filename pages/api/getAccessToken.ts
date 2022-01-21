@@ -16,7 +16,7 @@ export default async function handler(
   res: NextApiResponse<GetAccessTokenResponse>
 ) {
   // const url = `${API_DOMAIN}/api/hdbs/accessToken`;
-  // const resp: AxiosResponse<GetMerchantResponse> = await axiosWrapper.post(
+  // const resp: AxiosResponse<GetAccessTokenResponse> = await axiosWrapper.post(
   //   url,
   //   req.body
   // );

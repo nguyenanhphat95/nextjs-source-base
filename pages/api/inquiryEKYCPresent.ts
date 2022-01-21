@@ -5,11 +5,9 @@ import { API_DOMAIN } from "commons/constants";
 import { InquiryEKYCPresentResponse } from "interfaces/IInquiryEKYCPresent";
 
 const MOCK_DATA = {
-  data: {
-    responseCode: "00",
-    responseDesc: "Successfully",
-    hasSendOtp: false,
-  },
+  resultCode: "00",
+  resultMessage: "Successfully",
+  hasSendOtp: true,
 };
 export default async function handler(
   req: NextApiRequest,

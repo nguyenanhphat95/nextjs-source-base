@@ -14,10 +14,10 @@ import { OptionSelectType } from "commons/constants/types";
 
 import * as hdbsServices from "services/hdbsService";
 import TKCKContext from "components/HDBSPage/contexts/TKCKContextValue";
+import { Information } from "..";
 
 import warningIcon from "public/asset/images/warning.png";
 import _get from "lodash/get";
-import { Information } from "..";
 
 const useStyles = makeStyles(() => ({
   root: {},
@@ -45,9 +45,11 @@ type FormValues = {
   account: string;
   merchantId: string;
   terminalId: string;
-  transferInternet: boolean;
-  transferAuto: boolean;
-  transferBonds: boolean;
+  isTranInternet: boolean;
+  isUttb: boolean;
+  isBond: boolean;
+  merchantName: string;
+  terminalName: string;
 };
 
 export const TYPE_MODAL_INFO = {
@@ -67,12 +69,14 @@ const FormTKCKPage = (props: Props) => {
     watch,
   } = useForm<FormValues>({
     defaultValues: {
-      account: "",
+      account: "1223455",
       merchantId: "",
+      merchantName: "",
       terminalId: "",
-      transferInternet: true,
-      transferAuto: true,
-      transferBonds: true,
+      terminalName: "",
+      isTranInternet: true,
+      isUttb: true,
+      isBond: true,
     },
   });
   const merchantIdValue = watch("merchantId");
@@ -179,7 +183,14 @@ const FormTKCKPage = (props: Props) => {
                   options={listMerchantNew}
                   fullWidth
                   onChange={(e) => {
+                    const id = e.target.value;
+                    const itemSelected = listMerchantNew.find(
+                      (item) => item.id === id
+                    );
                     setValue("terminalId", "");
+                    setValue("terminalName", "");
+                    itemSelected &&
+                      setValue("merchantName", itemSelected.value);
                     _onChange(e);
                   }}
                   {...rest}
@@ -192,13 +203,22 @@ const FormTKCKPage = (props: Props) => {
               name="terminalId"
               control={control}
               rules={{ required: true }}
-              render={({ field }) => (
+              render={({ field: { onChange: _onChange, ...rest } }) => (
                 <SelectCustom
                   errorMsg={errors.terminalId && "This field is required"}
                   placeholder="Chọn địa điểm mở TKCK"
                   options={listTerminalNew}
+                  onChange={(e) => {
+                    const id = e.target.value;
+                    const itemSelected = listTerminalNew.find(
+                      (item) => item.id === id
+                    );
+                    itemSelected &&
+                      setValue("terminalName", itemSelected.value);
+                    _onChange(e);
+                  }}
                   fullWidth
-                  {...field}
+                  {...rest}
                 />
               )}
             />
@@ -209,7 +229,7 @@ const FormTKCKPage = (props: Props) => {
           <Grid container direction="column" spacing={1}>
             <Grid item>
               <Controller
-                name="transferInternet"
+                name="isTranInternet"
                 control={control}
                 render={({ field: { value, ...rest } }) => {
                   return (
@@ -231,7 +251,7 @@ const FormTKCKPage = (props: Props) => {
 
             <Grid item>
               <Controller
-                name="transferAuto"
+                name="isUttb"
                 control={control}
                 render={({ field: { value, ...rest } }) => {
                   return (
@@ -252,7 +272,7 @@ const FormTKCKPage = (props: Props) => {
             </Grid>
             <Grid item>
               <Controller
-                name="transferBonds"
+                name="isBond"
                 control={control}
                 render={({ field: { value, ...rest } }) => {
                   return (
