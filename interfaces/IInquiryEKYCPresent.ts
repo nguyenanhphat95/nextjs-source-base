@@ -4,7 +4,7 @@ export interface InquiryEKYCPresentRequest {
   requestId?: string;
   channel?: string;
   ekyType?: EkycType;
-  username?: string;
+  userId?: string;
   clientNo?: string;
   transactionTime?: string;
   partnerId?: string;

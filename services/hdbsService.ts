@@ -190,7 +190,7 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
     requestId,
     channel: CHANNEL_HDBS as string,
     ekyType: "CURRENT_CUSTOMER",
-    username: "",
+    userId,
     clientNo,
     transactionTime,
     partnerId: PARTNER_ID as string,
