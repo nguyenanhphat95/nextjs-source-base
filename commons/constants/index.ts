@@ -13,3 +13,5 @@ export const LANGUAGE = {
   VI: "vi",
   EN: "en",
 };
+
+export const KEY_TOKEN = "HDBS_TOKEN";

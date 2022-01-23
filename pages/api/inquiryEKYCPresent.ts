@@ -3,21 +3,20 @@ import axiosWrapper from "commons/helpers/axios/axios-instance";
 import { AxiosResponse } from "axios";
 import { API_DOMAIN } from "commons/constants";
 import { InquiryEKYCPresentResponse } from "interfaces/IInquiryEKYCPresent";
+import _get from "lodash/get";
 
-const MOCK_DATA = {
-  resultCode: "00",
-  resultMessage: "Successfully",
-  hasSendOtp: true,
-};
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<InquiryEKYCPresentResponse>
 ) {
-  // const url = `${API_DOMAIN}/getMerchant`;
-  // const resp: AxiosResponse<GetMerchantResponse> = await axiosWrapper.post(
-  //   url,
-  //   req.body
-  // );
-  // res.status(200).json(resp.data);
-  res.status(200).json(MOCK_DATA);
+  const token = _get(req, "headers.authorization");
+  const url = `${API_DOMAIN}/getMerchant`;
+
+  const resp: AxiosResponse<InquiryEKYCPresentResponse> =
+    await axiosWrapper.post(url, req.body, {
+      headers: {
+        Authorization: token,
+      },
+    });
+  res.status(200).json(resp.data);
 }

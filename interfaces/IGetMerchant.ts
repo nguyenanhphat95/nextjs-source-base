@@ -5,11 +5,12 @@ export interface GetMerchantRequest {
   language: string;
   transactionTime: string;
   checksum: string;
+  accessToken?: string;
 }
 
 export interface GetMerchantResponse {
-  merchantNames: MerchantNameItem[];
-  terminalNames: TerminalNameItem[];
+  merchants: MerchantNameItem[];
+  terminals: TerminalNameItem[];
 }
 
 export interface MerchantNameItem {

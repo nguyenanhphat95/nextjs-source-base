@@ -25,27 +25,31 @@ import {
 } from "interfaces/IGetAccessToken";
 
 import { v4 as uuidv4 } from "uuid";
-import _get from "lodash/get";
 import { FormDataFinal, MasterData } from "components/HDBSPage/interfaces";
 import { getTodayWithFormat } from "commons/helpers/date";
 import {
   CHANNEL_HDBS,
   IS_REQ_CHAL_CODE_SBH,
   KEY_CHECK_SUM,
+  KEY_TOKEN,
   NARRATIVE_SBH,
   PARTNER_ID,
   SERVICE_CODE_SBH,
 } from "commons/constants";
 import { CreateOTPRequest, CreateOTPResponse } from "interfaces/ICreateOTP";
+
+import * as Cookies from "commons/helpers/cookies";
+import axiosWrapper from "commons/helpers/axios/axios-instance";
+
 import _omit from "lodash/omit";
+import _get from "lodash/get";
 
 let userId: string = "0915423641";
 let clientNo: string = "02887123";
 // let userId: string = "0903092112";
 // let clientNo: string = "05961710";
-
 let language: string = "VI";
-let accessToken: string = "";
+export let accessToken: string = "";
 
 export function updateMasterData(data: MasterData) {
   userId = data.userId;
@@ -58,13 +62,14 @@ function generateCommonBodyRequest() {
   return {
     requestId: uuidv4() as string,
     language,
-    transactionTime: getTodayWithFormat(),
+    transactionTime: "23/01/2022 22:00:00",
+    // transactionTime: getTodayWithFormat(),
   };
 }
 
-function generateCheckSum(object: Record<string, string>) {
-  let str = "";
+function generateCheckSum(object: Record<string, string>): string {
   const md5 = _get(window, "md5");
+  let str = "";
   const keys = Object.keys(object);
   keys.forEach((key) => {
     str += object[key];
@@ -78,12 +83,13 @@ export const getAccessToken = async () => {
   const body: GetAccessTokenRequest = {
     requestId,
     language,
+    channel: CHANNEL_HDBS as string,
     transactionTime,
     userName: "hdbsservice",
     password: "v5J]BrS=6~3n5^6E",
     checksum: generateCheckSum({
-      userName: "userName",
-      password: "password",
+      userName: "hdbsservice",
+      password: "v5J]BrS=6~3n5^6E",
       transactionTime,
     }),
   };
@@ -91,50 +97,15 @@ export const getAccessToken = async () => {
     "/api/getAccessToken",
     body
   );
+  const token = _get(resp, "data.accessToken");
+  if (token) {
+    Cookies.set(KEY_TOKEN, token);
+  }
   return resp.data;
 };
 
 export const getMerchant = async () => {
   const { requestId, language, transactionTime } = generateCommonBodyRequest();
-  // const keyCheckSum = generateCheckSum({
-  //   userId,
-  //   clientNo,
-  //   accountOtp: "111111",
-  //   transactionTime: "20/01/2022 22:00:00",
-  //   partnerId: PARTNER_ID as string,
-  // });
-  // console.log("keyCheckSum---:", keyCheckSum);
-  // const keyCheckSum = generateCheckSum({
-  //   username: "0915423641",
-  //   clientNo,
-  //   transactionTime: "20/01/2022 22:00:00",
-  //   partnerId: PARTNER_ID as string,
-  // });
-  // console.log("keyCheckSum---:", keyCheckSum);
-
-  // const keyCheckSum = generateCheckSum({
-  //   username: "0915423641",
-  //   clientNo,
-  //   transactionTime: "20/01/2022 22:00:00",
-  //   partnerId: PARTNER_ID as string,
-  // });
-  // console.log("keyCheckSum---:", keyCheckSum);
-  // const keyCheckSum = generateCheckSum({
-  //   userId,
-  //   clientNo,
-  //   transactionTime: "20/01/2022 22:00:00",
-  //   merchantId: "1",
-  //   terminalId: "1",
-  //   partnerId: PARTNER_ID as string,
-  // });
-  // console.log("keyCheckSum---:", keyCheckSum);
-
-  // const keyCheckSum = generateCheckSum({
-  //   partnerId: PARTNER_ID as string,
-  //   transactionTime: "20/01/2022 22:00:00",
-  //   key: KEY_CHECK_SUM as string,
-  // });
-  // console.log("keyCheckSum---:", keyCheckSum);
   const body: GetMerchantRequest = {
     requestId,
     language,
@@ -144,12 +115,17 @@ export const getMerchant = async () => {
     checksum: generateCheckSum({
       partnerId: PARTNER_ID as string,
       transactionTime,
-      key: KEY_CHECK_SUM as string,
     }),
+    accessToken,
   };
-  const resp: AxiosResponse<GetMerchantResponse> = await axios.post(
+  const resp: AxiosResponse<GetMerchantResponse> = await axiosWrapper.post(
     "/api/getMerchant",
-    body
+    body,
+    {
+      headers: {
+        Authorization: Cookies.get(KEY_TOKEN) || "",
+      },
+    }
   );
   return resp.data;
 };
@@ -177,7 +153,12 @@ export const checkUserEKYC = async (merchantId: string, terminalId: string) => {
   };
   const resp: AxiosResponse<CheckUserEKYCResponse> = await axios.post(
     "/api/checkUserEKYC",
-    body
+    body,
+    {
+      headers: {
+        Authorization: Cookies.get(KEY_TOKEN) || "",
+      },
+    }
   );
   return resp.data;
 };
@@ -186,7 +167,7 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
   const { requestId, language, transactionTime } = generateCommonBodyRequest();
 
   const body: InquiryEKYCPresentRequest = {
-    ..._omit(data, ["ekycData", "merchantName", "terminalName"]),
+    ..._omit(data, ["ekycData", "merchantName", "terminalName", "ekycData"]),
     requestId,
     channel: CHANNEL_HDBS as string,
     ekyType: "CURRENT_CUSTOMER",
@@ -196,12 +177,9 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
     partnerId: PARTNER_ID as string,
     language,
     accountType: "accountType",
-    email: "",
-    phoneNumber: "",
     checksum: generateCheckSum({
-      username: "",
+      userId,
       clientNo,
-      accountOtp: data.accountOtp || "",
       transactionTime,
       partnerId: PARTNER_ID as string,
     }),
@@ -209,7 +187,12 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
 
   const resp: AxiosResponse<InquiryEKYCPresentResponse> = await axios.post(
     "/api/inquiryEKYCPresent",
-    body
+    body,
+    {
+      headers: {
+        Authorization: Cookies.get(KEY_TOKEN) || "",
+      },
+    }
   );
   return resp.data;
 };

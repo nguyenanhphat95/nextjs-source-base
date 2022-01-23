@@ -15,11 +15,10 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<GetAccessTokenResponse>
 ) {
-  // const url = `${API_DOMAIN}/api/hdbs/accessToken`;
-  // const resp: AxiosResponse<GetAccessTokenResponse> = await axiosWrapper.post(
-  //   url,
-  //   req.body
-  // );
-  // res.status(200).json(resp.data);
-  res.status(200).json(MOCK_DATA);
+  const url = `${API_DOMAIN}/api/hdbs/accessToken`;
+  const resp: AxiosResponse<GetAccessTokenResponse> = await axiosWrapper.post(
+    url,
+    req.body
+  );
+  res.status(200).json(resp.data);
 }

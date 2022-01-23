@@ -5,6 +5,7 @@ export interface GetAccessTokenRequest {
   password: string;
   transactionTime: string;
   checksum: string;
+  channel: string;
 }
 
 export interface GetAccessTokenResponse {

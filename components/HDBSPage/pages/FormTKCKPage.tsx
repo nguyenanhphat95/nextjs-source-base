@@ -7,7 +7,6 @@ import { makeStyles } from "@mui/styles";
 import { Card, Grid, Box, Modal } from "@mui/material";
 import { ButtonCustom, CheckboxCustom, SelectCustom } from "components/commons";
 
-import { MerchantNameItem, TerminalNameItem } from "interfaces/IGetMerchant";
 import { AccountItem } from "interfaces/IListAccount";
 import { FormDataStep1 } from "../interfaces";
 import { OptionSelectType } from "commons/constants/types";
@@ -69,7 +68,7 @@ const FormTKCKPage = (props: Props) => {
     watch,
   } = useForm<FormValues>({
     defaultValues: {
-      account: "1223455",
+      account: "",
       merchantId: "",
       merchantName: "",
       terminalId: "",
@@ -80,11 +79,10 @@ const FormTKCKPage = (props: Props) => {
     },
   });
   const merchantIdValue = watch("merchantId");
-  const { loadingBtnSubmit } = useContext(TKCKContext);
+  const { loadingBtnSubmit, listMerchant, listTerminal } =
+    useContext(TKCKContext);
 
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
-  const [listMerchant, setListMerchant] = useState<MerchantNameItem[]>([]);
-  const [listTerminal, setListTerminal] = useState<TerminalNameItem[]>([]);
 
   const typeModal = useRef<string>("");
   const [openModalInfo, setOpenModalInfo] = useState(false);
@@ -93,13 +91,6 @@ const FormTKCKPage = (props: Props) => {
     hdbsServices.getListAccountApi().then((res) => {
       const listAccount = _get(res, "data.data", []);
       setListAccount(listAccount);
-    });
-  }, []);
-
-  useEffect(() => {
-    hdbsServices.getMerchant().then((res) => {
-      setListMerchant(res.merchantNames);
-      setListTerminal(res.terminalNames);
     });
   }, []);
 
@@ -156,7 +147,7 @@ const FormTKCKPage = (props: Props) => {
             <Controller
               name="account"
               control={control}
-              rules={{ required: true }}
+              // rules={{ required: true }}
               render={({ field }) => (
                 <SelectCustom
                   errorMsg={errors.account && "This field is required"}

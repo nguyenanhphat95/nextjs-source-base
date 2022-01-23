@@ -17,7 +17,9 @@ import {
   TypeCustomer,
   FormDataStep3,
 } from "components/HDBSPage/interfaces";
+import { MerchantNameItem, TerminalNameItem } from "interfaces/IGetMerchant";
 
+import { ERROR_CODE } from "commons/helpers/error";
 import * as hdbsServices from "services/hdbsService";
 import _get from "lodash/get";
 
@@ -51,6 +53,9 @@ const HDBSPage = () => {
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
   const [md5, setMd5] = useState(null);
 
+  const [listMerchant, setListMerchant] = useState<MerchantNameItem[]>([]);
+  const [listTerminal, setListTerminal] = useState<TerminalNameItem[]>([]);
+
   const [typeCustomer] = useState<TypeCustomer>(TypeCustomer.KHHH);
   const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step1);
   const [loading, setLoading] = useState({
@@ -76,6 +81,10 @@ const HDBSPage = () => {
         language: "VI",
         accessToken: res.accessToken,
       });
+      hdbsServices.getMerchant().then((res) => {
+        setListMerchant(res?.merchants || []);
+        setListTerminal(res?.terminals || []);
+      });
     });
   }, [md5]);
 
@@ -89,25 +98,30 @@ const HDBSPage = () => {
 
   const TKCKContextValue = {
     loadingBtnSubmit: loading.loadingBtnSubmit,
+    listMerchant,
+    listTerminal,
   };
 
   const _handleSubmitStep1 = (data: FormDataStep1) => {
     _toggleLoading("loadingBtnSubmit", true);
-    setDataForm({
+    const finalData = {
       ...dataForm,
       ...data,
-    });
+    };
+    setDataForm(finalData);
+
     hdbsServices
-      .checkUserEKYC(dataForm.merchantId, dataForm.terminalId)
+      .checkUserEKYC(finalData.merchantId, finalData.terminalId)
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
-        if (res.hasSendOtp) {
-          // User EKYCED
-          _onNextStep(STEP_KHHH.step4);
+        const code = res.resultCode;
+        if (code === ERROR_CODE.SessionIdNotFound) {
+          // do EKYC
+          // _onNextStep(STEP_KHHH.step2);
+          _onNextStep(STEP_KHHH.step3);
           return;
         }
-        // _onNextStep(STEP_KHHH.step2);
-        _onNextStep(STEP_KHHH.step3);
+        _onNextStep(STEP_KHHH.step4);
       });
   };
 
@@ -128,19 +142,18 @@ const HDBSPage = () => {
       ...data,
     };
     setDataForm(finalData);
-
     const inquiryResponse = await hdbsServices.inquiryENCYPresent(finalData);
-    if (inquiryResponse.hasSendOtp) {
-      // Send OTP
-      _toggleModalVerifyOTP();
-      // const createOTPResponse = await hdbsServices.createOTPApi("0915423641");
+    console.log("inquiryResponse---:", inquiryResponse);
+    // if (inquiryResponse.hasSendOtp) {
+    //   _toggleModalVerifyOTP();
+    //   const createOTPResponse = await hdbsServices.createOTPApi("0915423641");
 
-      // const userId = _get(createOTPResponse, "data.data.userId");
-      // if (userId) {
-      //   _toggleModalVerifyOTP();
-      // }
-      return;
-    }
+    //   const userId = _get(createOTPResponse, "data.data.userId");
+    //   if (userId) {
+    //     _toggleModalVerifyOTP();
+    //   }
+    //   return;
+    // }
   };
 
   const _handleVerifyOtp = (accountOtp: string) => {

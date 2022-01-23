@@ -3,7 +3,7 @@
   "version": "5.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 4200",
+    "dev": "next dev -p 4300",
     "build": "next build",
     "start": "node scripts/prod.js",
     "lint": "next lint"
@@ -20,6 +20,7 @@
     "date-fns": "^2.28.0",
     "install": "^0.13.0",
     "ip": "^1.1.5",
+    "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
     "log4js": "^6.3.0",
     "next": "12.0.4",
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "@types/ip": "^1.1.0",
+    "@types/js-cookie": "^3.0.1",
     "@types/lodash": "^4.14.178",
     "@types/react": "17.0.37",
     "@types/uuid": "^8.3.4",
