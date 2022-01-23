@@ -1,3 +1,4 @@
+import { CHANNEL_SBH } from "./../commons/constants/index";
 import axios, { AxiosResponse } from "axios";
 import {
   ListAccountResponse,
@@ -35,6 +36,8 @@ import {
   NARRATIVE_SBH,
   PARTNER_ID,
   SERVICE_CODE_SBH,
+  TOKEN_USERNAME,
+  TOKEN_PASSWORD,
 } from "commons/constants";
 import { CreateOTPRequest, CreateOTPResponse } from "interfaces/ICreateOTP";
 
@@ -84,11 +87,11 @@ export const getAccessToken = async () => {
     language,
     channel: CHANNEL_HDBS as string,
     transactionTime,
-    userName: "hdbsservice",
-    password: "v5J]BrS=6~3n5^6E",
+    userName: TOKEN_USERNAME as string,
+    password: TOKEN_PASSWORD as string,
     checksum: generateCheckSum({
-      userName: "hdbsservice",
-      password: "v5J]BrS=6~3n5^6E",
+      userName: TOKEN_USERNAME as string,
+      password: TOKEN_PASSWORD as string,
       transactionTime,
     }),
   };
@@ -168,7 +171,6 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
   const body: InquiryEKYCPresentRequest = {
     ..._omit(data, ["ekycData", "merchantName", "terminalName", "ekycData"]),
     requestId,
-    accountNo: "accountNo",
     channel: CHANNEL_HDBS as string,
     ekyType: "CURRENT_CUSTOMER",
     userId,
@@ -185,7 +187,6 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
       partnerId: PARTNER_ID as string,
     }),
   };
-  console.log("body---:", body);
   const resp: AxiosResponse<InquiryEKYCPresentResponse> = await axios.post(
     "/api/inquiryEKYCPresent",
     body,
@@ -206,7 +207,7 @@ export const confirmEKYCPresent = async (data: FormDataFinal) => {
     userId,
     clientNo,
     transactionTime,
-    accountOtp: data.accountOtp || "",
+    accountOtp: data.accountOtp || "123456",
     partnerId: PARTNER_ID as string,
     isTranInternet: data.isTranInternet,
     isUttb: data.isUttb,
@@ -215,14 +216,19 @@ export const confirmEKYCPresent = async (data: FormDataFinal) => {
     checksum: generateCheckSum({
       userId,
       clientNo,
-      accountOtp: data.accountOtp || "",
+      accountOtp: data.accountOtp || "123456",
       transactionTime,
       partnerId: PARTNER_ID as string,
     }),
   };
   const resp: AxiosResponse<ConfirmEKYCResponse> = await axios.post(
     "/api/confirmEKYCPresent",
-    body
+    body,
+    {
+      headers: {
+        Authorization: Cookies.get(KEY_TOKEN) || "",
+      },
+    }
   );
   return resp.data;
 };
@@ -231,7 +237,7 @@ export const getListAccountApi = async () => {
   const body: ListAccountRequest = {
     requestId: uuidv4() as string,
     data: {
-      clientNo,
+      clientNo: "00013695",
     },
   };
   const resp: AxiosResponse<ListAccountResponse> = await axios.post(
@@ -246,7 +252,7 @@ export const createOTPApi = async (userId: string) => {
   const body: CreateOTPRequest = {
     requestId,
     data: {
-      channel: CHANNEL_HDBS as string,
+      channel: CHANNEL_SBH as string,
       serviceCode: SERVICE_CODE_SBH as string,
       userId,
       serialNo: "",

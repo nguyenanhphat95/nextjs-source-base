@@ -13,6 +13,8 @@ module.exports = {
     PARTNER_ID_CLIENT: process.env.PARTNER_ID,
     KEY_CHECK_SUM_CLIENT: process.env.KEY_CHECK_SUM,
     CHANNEL_HDBS_CLIENT: process.env.CHANNEL_HDBS,
+    TOKEN_USERNAME_CLIENT: process.env.TOKEN_USERNAME,
+    TOKEN_PASSWORD_CLIENT: process.env.TOKEN_PASSWORD,
     // CLIENT_SECRET_CLIENT: process.env.CLIENT_SECRET,
 
     // Config for SBH

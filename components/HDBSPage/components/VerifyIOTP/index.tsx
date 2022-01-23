@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Card, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import InputOTP from "components/commons/InputOTP";
 import ButtonCustom from "components/commons/Button";
+import TKCKContext from "components/HDBSPage/contexts/TKCKContextValue";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -27,12 +28,14 @@ const useStyles = makeStyles(() => ({
 
 interface Props {
   onSubmit?: (otp: string) => void;
+  loading?: boolean;
 }
 
 const VerifyOTP = (props: Props) => {
-  const { onSubmit } = props;
+  const { onSubmit, loading } = props;
   const classes = useStyles();
   const [otp, setOtp] = useState("");
+
   return (
     <div className={classes.root}>
       <Card>
@@ -51,6 +54,7 @@ const VerifyOTP = (props: Props) => {
       </Card>
       <Box px={2} mt={4}>
         <ButtonCustom
+          loading={loading}
           disabled={otp.length < 6}
           fullWidth
           variant="contained"

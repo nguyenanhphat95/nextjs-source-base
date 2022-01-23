@@ -60,10 +60,11 @@ const HDBSPage = () => {
   const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step1);
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
+    loadingBtnConfirmOTP: false,
   });
 
   const [dataForm, setDataForm] = useState({
-    account: "",
+    accountNo: "",
     merchantId: "",
     terminalId: "",
     isTranInternet: true,
@@ -143,17 +144,15 @@ const HDBSPage = () => {
     };
     setDataForm(finalData);
     const inquiryResponse = await hdbsServices.inquiryENCYPresent(finalData);
-    console.log("inquiryResponse---:", inquiryResponse);
-    // if (inquiryResponse.hasSendOtp) {
-    //   _toggleModalVerifyOTP();
-    //   const createOTPResponse = await hdbsServices.createOTPApi("0915423641");
-
-    //   const userId = _get(createOTPResponse, "data.data.userId");
-    //   if (userId) {
-    //     _toggleModalVerifyOTP();
-    //   }
-    //   return;
-    // }
+    if (inquiryResponse.hasSendOtp) {
+      const createOTPResponse = await hdbsServices.createOTPApi("anhdtp");
+      const userId = _get(createOTPResponse, "data.data.userId");
+      if (userId) {
+        _toggleModalVerifyOTP();
+      }
+      return;
+    }
+    _onNextStep(STEP_KHHH.step4);
   };
 
   const _handleVerifyOtp = (accountOtp: string) => {
@@ -163,11 +162,23 @@ const HDBSPage = () => {
     };
     setDataForm(finalData);
 
-    // TODO: verify OTP
-    hdbsServices.confirmEKYCPresent(finalData).then((res) => {
-      _toggleModalVerifyOTP();
-      _onNextStep(STEP_KHHH.step4);
-    });
+    _toggleLoading("loadingBtnConfirmOTP", true);
+    hdbsServices
+      .confirmEKYCPresent(finalData)
+      .then((res) => {
+        const code = res.resultCode;
+        _toggleLoading("loadingBtnConfirmOTP", false);
+
+        if (code === ERROR_CODE.Success) {
+          _toggleModalVerifyOTP();
+          _onNextStep(STEP_KHHH.step4);
+          _onNextStep(STEP_KHHH.step4);
+          return;
+        }
+      })
+      .catch((err) => {
+        _toggleLoading("loadingBtnConfirmOTP", false);
+      });
   };
 
   function _toggleLoading(field: string, isLoading?: boolean) {
@@ -219,7 +230,10 @@ const HDBSPage = () => {
         onClose={_toggleModalVerifyOTP}
       >
         <Box px={1} py={2} className={classes.otpContainer}>
-          <VerifyOTP onSubmit={_handleVerifyOtp} />
+          <VerifyOTP
+            loading={loading.loadingBtnConfirmOTP}
+            onSubmit={_handleVerifyOtp}
+          />
         </Box>
       </Dialog>
     </>
