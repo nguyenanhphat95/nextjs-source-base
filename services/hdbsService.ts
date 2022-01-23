@@ -62,8 +62,7 @@ function generateCommonBodyRequest() {
   return {
     requestId: uuidv4() as string,
     language,
-    transactionTime: "23/01/2022 22:00:00",
-    // transactionTime: getTodayWithFormat(),
+    transactionTime: getTodayWithFormat(),
   };
 }
 
@@ -169,6 +168,7 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
   const body: InquiryEKYCPresentRequest = {
     ..._omit(data, ["ekycData", "merchantName", "terminalName", "ekycData"]),
     requestId,
+    accountNo: "accountNo",
     channel: CHANNEL_HDBS as string,
     ekyType: "CURRENT_CUSTOMER",
     userId,
@@ -177,6 +177,7 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
     partnerId: PARTNER_ID as string,
     language,
     accountType: "accountType",
+    faceMatching: "Y",
     checksum: generateCheckSum({
       userId,
       clientNo,
@@ -184,7 +185,7 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
       partnerId: PARTNER_ID as string,
     }),
   };
-
+  console.log("body---:", body);
   const resp: AxiosResponse<InquiryEKYCPresentResponse> = await axios.post(
     "/api/inquiryEKYCPresent",
     body,

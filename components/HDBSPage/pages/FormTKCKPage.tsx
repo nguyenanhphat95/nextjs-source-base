@@ -41,7 +41,7 @@ interface Props {
 }
 
 type FormValues = {
-  account: string;
+  accountNo: string;
   merchantId: string;
   terminalId: string;
   isTranInternet: boolean;
@@ -68,7 +68,7 @@ const FormTKCKPage = (props: Props) => {
     watch,
   } = useForm<FormValues>({
     defaultValues: {
-      account: "",
+      accountNo: "",
       merchantId: "",
       merchantName: "",
       terminalId: "",
@@ -145,12 +145,12 @@ const FormTKCKPage = (props: Props) => {
           </Grid>
           <Grid item>
             <Controller
-              name="account"
+              name="accountNo"
               control={control}
               // rules={{ required: true }}
               render={({ field }) => (
                 <SelectCustom
-                  errorMsg={errors.account && "This field is required"}
+                  errorMsg={errors.accountNo && "This field is required"}
                   placeholder="Chọn TKTT"
                   options={listAccountNew}
                   fullWidth

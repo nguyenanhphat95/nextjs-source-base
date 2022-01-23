@@ -2,7 +2,7 @@ import createHttpClient, { HttpClient } from "./http-client";
 
 const httpClient = createHttpClient(
   {
-    timeout: 15000,
+    timeout: 150000,
   },
   {
     interceptors: [],

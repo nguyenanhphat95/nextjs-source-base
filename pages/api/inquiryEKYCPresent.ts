@@ -10,7 +10,7 @@ export default async function handler(
   res: NextApiResponse<InquiryEKYCPresentResponse>
 ) {
   const token = _get(req, "headers.authorization");
-  const url = `${API_DOMAIN}/getMerchant`;
+  const url = `${API_DOMAIN}/api/hdbs/inquiryEkycPresent`;
 
   const resp: AxiosResponse<InquiryEKYCPresentResponse> =
     await axiosWrapper.post(url, req.body, {
