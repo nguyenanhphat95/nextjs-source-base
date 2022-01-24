@@ -22,7 +22,6 @@ import { MerchantNameItem, TerminalNameItem } from "interfaces/IGetMerchant";
 
 import { ERROR_CODE, getStatusResponse } from "commons/helpers/error";
 import { parseJwt } from "commons/helpers/helper";
-import { LANGUAGE } from "commons/constants";
 
 import * as hdbsServices from "services/hdbsService";
 
@@ -59,7 +58,6 @@ const HDBSPage = () => {
   const classes = useStyles();
   const router = useRouter();
   const query = router.query;
-  const lang = query?.language || LANGUAGE.VI;
 
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
   const [md5, setMd5] = useState(null);
@@ -167,13 +165,11 @@ const HDBSPage = () => {
     };
     setDataForm(finalData);
     const inquiryResponse = await hdbsServices.inquiryENCYPresent(finalData);
-
     _toggleLoading("loadingBtnSubmit", false);
     const code = _get(inquiryResponse, "resultCode");
     const status = getStatusResponse(code);
-
     if (status.success) {
-      _onCreateOTP;
+      _onCreateOTP();
       return;
     }
     _toggleLoading("loadingBtnSubmit", false);

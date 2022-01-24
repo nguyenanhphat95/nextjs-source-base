@@ -177,9 +177,7 @@ const FormTKCKPage = (props: Props) => {
 
   const router = useRouter();
   const lang = _get(router, "query.language", LANGUAGE.VI);
-  console.log("lang---:", lang);
   const t = _get(resources, [lang, "formTKCKPage"]);
-  console.log("lang---:", t);
 
   useEffect(() => {
     hdbsServices.getListAccountApi().then((res) => {
