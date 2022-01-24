@@ -1,10 +1,13 @@
 import React from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 import { Card, Grid, Box, Modal, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
 import { TYPE_MODAL_INFO } from "components/HDBSPage/pages/FormTKCKPage";
+import { LANGUAGE } from "commons/constants";
+import resources from "pages/assets/translate.json";
 
 import xIcon from "public/asset/images/X.png";
 import _get from "lodash/get";
@@ -26,21 +29,22 @@ interface Props {
 const Information = (props: Props) => {
   const classes = useStyles();
   const { onClose, type } = props;
+  const router = useRouter();
+  const lang = _get(router, "query.language", LANGUAGE.VI);
+  const t = _get(resources, [lang, "informationModal"]);
+
   const info = {
     [TYPE_MODAL_INFO.transferInternet]: {
-      title: "Giao dich qua Internet",
-      content:
-        "HDBS sẽ cung cấp Tài khoản và Mật khẩu cho Quý Khách hàng đăng nhập vào Hệ thống trực tuyến của HDBS để đặt lệnh giao dịch và quản lý danh mục đầu tư",
+      title: "titleTransferInternet",
+      content: "contentTransferInternet",
     },
     [TYPE_MODAL_INFO.transferAuto]: {
-      title: "Ứng trước tiền bán chứng khoán tự động",
-      content:
-        "Dịch vụ ứng trước tiền bán chứng khoán tự động cung cấp cho Quý khách để gia tăng sức mua chứng khoán ngay sau khi lệnh bán chứng khoán trước đó đã khớp lệnh thành công, đồng thời giảm thiểu thời gian thao tác cho Quý khách",
+      title: "titleTransferAuto",
+      content: "contentTransferAuto",
     },
     [TYPE_MODAL_INFO.transferBonds]: {
-      title: "Giao dịch trái phiếu phát hành riêng lẻ",
-      content:
-        "Là Trái phiếu chưa thực hiện niêm yết trên Thị trường Chứng khoán. Trái phiếu do HDBS thực hiện tư vấn, phát hành và làm Đại lý đăng ký Lưu ký, quản lý chuyển nhượng",
+      title: "titleTransferBonds",
+      content: "contentTransferBonds",
     },
   };
   return (
@@ -51,8 +55,9 @@ const Information = (props: Props) => {
           spacing={1}
           container
           justifyContent="space-between"
+          wrap="nowrap"
         >
-          <Grid item>{_get(info, `${type}.title`, "")}</Grid>
+          <Grid item>{t[`${_get(info, `${type}.title`, "")}`]}</Grid>
           {onClose && (
             <Grid item onClick={onClose}>
               <Image width={15} height={15} src={xIcon} />
@@ -60,7 +65,7 @@ const Information = (props: Props) => {
           )}
         </Grid>
       </Box>
-      <Box p={2}>{_get(info, `${type}.content`, "")}</Box>
+      <Box p={2}>{t[`${_get(info, `${type}.content`, "")}`]}</Box>
     </Card>
   );
 };

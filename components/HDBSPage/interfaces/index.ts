@@ -1,5 +1,6 @@
 export interface FormDataStep1 {
-  accountNo?: string;
+  accountNo: string;
+  accountType: string;
   merchantId: string;
   merchantName?: string;
   terminalId: string;

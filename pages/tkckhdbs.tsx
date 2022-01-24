@@ -74,6 +74,7 @@ const HDBSPage = () => {
 
   const [dataForm, setDataForm] = useState({
     accountNo: "",
+    accountType: "",
     merchantId: "",
     terminalId: "",
     isTranInternet: true,
@@ -83,16 +84,15 @@ const HDBSPage = () => {
   });
 
   useEffect(() => {
-    if (!md5) return;
-    // if (!md5 || !query?.jwt) return;
-    // const jwtInfo = parseJwt(query.jwt as string);
+    if (!md5 || !query?.jwt) return;
+    const jwtInfo = parseJwt(query.jwt as string);
     hdbsServices.getAccessToken().then((res) => {
       hdbsServices.updateMasterData({
-        // userId: _get(jwtInfo, "userName"),
-        // clientNo: get(jwtInfo, "clientNo"),
-        userId: "anhdtp",
-        clientNo: "00013695",
-        language: "VI",
+        userId: _get(jwtInfo, "userName"),
+        clientNo: _get(jwtInfo, "clientNo"),
+        // userId: "anhdtp",
+        // clientNo: "00013695",
+        language: "vi",
         accessToken: res.accessToken,
       });
       hdbsServices.getMerchant().then((res) => {
@@ -132,16 +132,18 @@ const HDBSPage = () => {
         const status = getStatusResponse(code);
 
         if (status.success) {
-          _onNextStep(STEP_KHHH.step4);
+          if (!res.hasSendOtp) {
+            _onNextStep(STEP_KHHH.step4);
+            return;
+          }
+          _onCreateOTP();
           return;
         }
 
         if (status.code === ERROR_CODE.UserEKYCNotFound) {
-          // _onNextStep(STEP_KHHH.step2);
-          _onNextStep(STEP_KHHH.step3);
+          _onNextStep(STEP_KHHH.step2);
           return;
         }
-
         toast.error(status.msg);
       });
   };
@@ -168,8 +170,13 @@ const HDBSPage = () => {
     _toggleLoading("loadingBtnSubmit", false);
     const code = _get(inquiryResponse, "resultCode");
     const status = getStatusResponse(code);
+
     if (status.success) {
-      _onCreateOTP();
+      if (inquiryResponse.hasSendOtp) {
+        _onCreateOTP();
+        return;
+      }
+      _onNextStep(STEP_KHHH.step4);
       return;
     }
     _toggleLoading("loadingBtnSubmit", false);

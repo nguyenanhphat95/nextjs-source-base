@@ -1,4 +1,3 @@
-import { CHANNEL_SBH } from "./../commons/constants/index";
 import axios, { AxiosResponse } from "axios";
 import {
   ListAccountResponse,
@@ -30,12 +29,12 @@ import { FormDataFinal, MasterData } from "components/HDBSPage/interfaces";
 import { getTodayWithFormat } from "commons/helpers/date";
 import {
   CHANNEL_HDBS,
-  IS_REQ_CHAL_CODE_SBH,
+  IS_REQ_CHAL_CODE_HDBS,
   KEY_CHECK_SUM,
   KEY_TOKEN,
-  NARRATIVE_SBH,
+  NARRATIVE_HDBS,
   PARTNER_ID,
-  SERVICE_CODE_SBH,
+  SERVICE_CODE_HDBS,
   TOKEN_USERNAME,
   TOKEN_PASSWORD,
 } from "commons/constants";
@@ -60,7 +59,7 @@ export let accessToken: string = "";
 export function updateMasterData(data: MasterData) {
   userId = data.userId;
   clientNo = data.clientNo;
-  language = data.language;
+  language = "VI";
   accessToken = data.accessToken;
 }
 
@@ -189,7 +188,6 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
     transactionTime,
     partnerId: PARTNER_ID as string,
     language,
-    accountType: "accountType",
     faceMatching: "Y",
     checksum: generateCheckSum({
       userId,
@@ -262,14 +260,14 @@ export const createOTPApi = async () => {
     requestId,
     data: {
       channel: CHANNEL_HDBS as string,
-      serviceCode: SERVICE_CODE_SBH as string,
+      serviceCode: SERVICE_CODE_HDBS as string,
       userId,
       serialNo: "",
-      narrative: NARRATIVE_SBH as string,
+      narrative: NARRATIVE_HDBS as string,
       language: "vi",
       clientImei: "",
       partner: "",
-      isReqChalCode: IS_REQ_CHAL_CODE_SBH as string,
+      isReqChalCode: IS_REQ_CHAL_CODE_HDBS as string,
       mediaType: "",
     },
   };
@@ -285,10 +283,10 @@ export const verifyOTPApi = async (otp: string) => {
     requestId: uuidv4() as string,
     data: {
       channel: CHANNEL_HDBS as string,
-      serviceCode: SERVICE_CODE_SBH as string,
+      serviceCode: SERVICE_CODE_HDBS as string,
       userId,
       serialNo: "",
-      narrative: NARRATIVE_SBH as string,
+      narrative: NARRATIVE_HDBS as string,
       mediaType: "",
       challengeCode: "",
       otp,

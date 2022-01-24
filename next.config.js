@@ -17,13 +17,10 @@ module.exports = {
     TOKEN_PASSWORD_CLIENT: process.env.TOKEN_PASSWORD,
     // CLIENT_SECRET_CLIENT: process.env.CLIENT_SECRET,
 
-    // Config for SBH
-    CHANNEL_CLIENT: process.env.CHANNEL,
+    // Config for Sanbox
     SERVICE_CODE_CLIENT: process.env.SERVICE_CODE,
     NARRATIVE_CLIENT: process.env.NARRATIVE,
     IS_REQ_CHAL_CODE_CLIENT: process.env.IS_REQ_CHAL_CODE,
-    // CLIENT_ID_SBH_CLIENT: process.env.CLIENT_ID_SBH,
-    // CLIENT_SECRET_SBH_CLIENT: process.env.CLIENT_SECRET_SBH,
     API_DOMAIN_SANDBOX_SBH_CLIENT: process.env.API_DOMAIN_SANDBOX_SBH,
   },
 };

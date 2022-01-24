@@ -6,9 +6,8 @@ B1: Clone repository https://github.com/nguyenanhphat95/nextjs-keycloak
 B2: yarn install hoặc npm install
 B3: yarn dev hoặc npm run dev
 
-- App will listen at http://localhost:3000/
-- URL example to run app: http://localhost:3000/auth?response_type=code&client_id=minhnq9&scope=openid&redirect_uri=http://127.0.0.1
-- URL example to run sbh app: http://localhost:3000/sbh?response_type=code&client_id=minhnq9&scope=openid&redirect_uri=http://127.0.0.1
+- App will listen at http://localhost:4200/
+- URL example to run hdbs app: http://localhost:4200/tkckhdbs?language=vn&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyTmFtZSI6Im5nYXR0YiIsImNsaWVudE5vIjoiMDAxOTA0ODQiLCJITUFDIjoiYmYzMDRjODg0NTU5YWRiMjhjNmQzNWE2MDdiYWQ5OTg4ODUxY2Y5NDFiYzQ3N2U2NDk0ZTYyMjIzM2RlNWYxZiJ9.CiGvaehs5xAqwXqi73y8IFBjpTlOJtJqA8zDU_oQ1p0
 
 ## Deploy application
 

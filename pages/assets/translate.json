@@ -1,5 +1,5 @@
 {
-  "vi": {
+  "vn": {
     "formTKCKPage": {
       "titleSection1": "Thông tin TKTT",
       "placeholderAccount": "Chọn TKTT",
@@ -18,7 +18,7 @@
       "birthday": "Ngày sinh",
       "dateIssue": "Ngày cấp",
       "placeIssue": "Nơi cấp",
-      "address": "Địa chỉ tường trú",
+      "address": "Địa chỉ thường trú",
       "nationality": "Quốc tịch",
       "phoneNumber": "Số điện thoại:",
       "contactAddress": "Địa chỉ liên lạc",
@@ -34,43 +34,59 @@
       "content": "Quý khách đã yêu cầu đăng ký mở tài khoản giao dịch chứng khoán HDBS thành công. HDBS sẽ liên hệ với Quý khách để hướng dẫn hoàn tất thủ tục trong vòng 1 ngày làm việc. Trường hợp cần hỗ trợ. Quý khách vui lòng liên hệ hotline của HDBS theo số xxxxxxxxxxx",
       "question": "Quý khách đã thực hiện đăng ký mở tài khoản chứng khoán thành công. Quý khách đánh giá giao dịch này thế nào ?",
       "otherTransaction": "Giao dịch khác"
+    },
+    "informationModal": {
+      "titleTransferInternet": "Giao dịch qua Internet",
+      "contentTransferInternet": "HDBS sẽ cung cấp Tài khoản và Mật khẩu cho Quý Khách hàng đăng nhập vào Hệ thống trực tuyến của HDBS để đặt lệnh giao dịch và quản lý danh mục đầu tư",
+      "titleTransferAuto": "Ứng trước tiền bán chứng khoán tự động",
+      "contentTransferAuto": "Dịch vụ ứng trước tiền bán chứng khoán tự động cung cấp cho Quý khách để gia tăng sức mua chứng khoán ngay sau khi lệnh bán chứng khoán trước đó đã khớp lệnh thành công, đồng thời giảm thiểu thời gian thao tác cho Quý khách",
+      "titleTransferBonds": "Giao dịch trái phiếu phát hành riêng lẻ",
+      "contentTransferBonds": "Là Trái phiếu chưa thực hiện niêm yết trên Thị trường Chứng khoán. Trái phiếu do HDBS thực hiện tư vấn, phát hành và làm Đại lý đăng ký Lưu ký, quản lý chuyển nhượng"
     }
   },
   "en": {
     "formTKCKPage": {
-      "titleSection1": "Thông tin TKTT",
-      "placeholderAccount": "Chọn TKTT",
-      "titleSection2": "Thông tin bổ sung TKCK",
-      "placeholderMerchant": "Chọn công ty CK",
-      "placeholderTerminal": "Chọn địa điểm mở TKCK",
-      "labelCheckbox1": "Giao dịch qua Internet (Web và App)",
-      "labelCheckbox2": "Ứng trước tiền bán chứng khoán tự động",
-      "labelCheckbox3": "Giao dịch trái phiếu phát hành riêng lẻ",
-      "btnContinue": "Tiếp tục"
+      "titleSection1": "Information about TKTT",
+      "placeholderAccount": "Select TKTT",
+      "titleSection2": "Additional information on balance sheet",
+      "placeholderMerchant": "Select company",
+      "placeholderTerminal": "Choose a location",
+      "labelCheckbox1": "Transactions over the Internet (Web and App)",
+      "labelCheckbox2": "Advance payment for securities sales automaticall",
+      "labelCheckbox3": "Privately issued bond trading",
+      "btnContinue": "Continue"
     },
     "confirmInfoPage": {
-      "title": "Xác nhận thông tin đăng ký mở TKCK",
-      "username": "Tên khách hàng",
-      "gender": "Giới tính",
-      "birthday": "Ngày sinh",
-      "dateIssue": "Ngày cấp",
-      "placeIssue": "Nơi cấp",
-      "address": "Địa chỉ tường trú",
-      "nationality": "Quốc tịch",
-      "phoneNumber": "Số điện thoại:",
-      "contactAddress": "Địa chỉ liên lạc",
-      "email": "Địa chỉ email",
-      "terminalName": "Địa điểm mở TKCK",
-      "accountNo": "Số TKTT tại HDBank",
-      "doEKYCAgain": "Thực hiện lại",
-      "btnContinue": "Tiếp tục"
+      "title": "Confirmation of registration information to open a deposit account",
+      "username": "Customer name",
+      "gender": "Sex",
+      "birthday": "Date of birth",
+      "dateIssue": "Date Range",
+      "placeIssue": "Issued by",
+      "address": "Permanent address",
+      "nationality": "Nationality",
+      "phoneNumber": "Phone number",
+      "contactAddress": "Contact address",
+      "email": "Email address",
+      "terminalName": "Location of opening a deposit account",
+      "accountNo": "Account number at HDBank",
+      "doEKYCAgain": "Do it again",
+      "btnContinue": "Continue"
     },
     "registerSuccessPage": {
-      "title": "ĐĂNG KÝ THÀNH CÔNG",
-      "subtitle": "Công ty cổ phần chứng khoán HDBS",
-      "content": "Quý khách đã yêu cầu đăng ký mở tài khoản giao dịch chứng khoán HDBS thành công. HDBS sẽ liên hệ với Quý khách để hướng dẫn hoàn tất thủ tục trong vòng 1 ngày làm việc. Trường hợp cần hỗ trợ. Quý khách vui lòng liên hệ hotline của HDBS theo số xxxxxxxxxxx",
-      "question": "Quý khách đã thực hiện đăng ký mở tài khoản chứng khoán thành công. Quý khách đánh giá giao dịch này thế nào ?",
-      "otherTransaction": "Giao dịch khác"
+      "title": "SIGN UP SUCCESS",
+      "subtitle": "HDBS Securities Joint Stock Company",
+      "content": "You have successfully registered to open an HDBS securities trading account. HDBS will contact you to complete the procedure within 1 working day. In case you need support. Please contact HDBS hotline at xxxxxxxxxxx",
+      "question": "You have successfully registered to open a securities account. How would you rate this transaction?",
+      "otherTransaction": "Other transactions"
+    },
+    "informationModal": {
+      "titleTransferInternet": "Transactions over the Internet",
+      "contentTransferInternet": "HDBS will provide an Account and Password for customers to log into HDBS's online system to place trading orders and manage investment portfolios.",
+      "titleTransferAuto": "Advance payment for securities sales automatically",
+      "contentTransferAuto": "Automated securities sales advance service is provided to customers to increase their purchasing power as soon as the previous order has been successfully matched, and at the same time to reduce the operation time for customers.",
+      "titleTransferBonds": "Privately issued bond trading",
+      "contentTransferBonds": "An unrealized bond listed on the Stock Exchange. Bonds are consulted, issued by HDBS and act as a Depository Registration Agent and transfer manager"
     }
   }
 }

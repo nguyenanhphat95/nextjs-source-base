@@ -45,6 +45,7 @@ interface Props {
 
 type FormValues = {
   accountNo: string;
+  accountType: string;
   merchantId: string;
   terminalId: string;
   isTranInternet: boolean;
@@ -60,91 +61,6 @@ export const TYPE_MODAL_INFO = {
   transferBonds: "transferBonds",
 };
 
-const LIST_ACCOUNT_MOCK = {
-  responseId: "1c1853a0-4aaa-4e6e-88aa-48f692e761e3",
-  data: [
-    {
-      AcctType: "700",
-      accountNo: "009840070000077",
-      accountName: "DAO THI PHUONG ANH",
-      balance: "5.3",
-      Ccy: "USD",
-      Branchname: "CN HA NOI",
-      AcctTypeName: "TGTT TRONG NUOC CN/360",
-      clientInd: "N",
-      acctStatus: "A",
-    },
-    {
-      AcctType: "70M",
-      accountNo: "009704070000594",
-      accountName: "DAO THI PHUONG ANH",
-      balance: "14160637693",
-      Ccy: "VND",
-      Branchname: "CN HA NOI",
-      AcctTypeName: "GOI HDB SKY DIAMOND",
-      clientInd: "N",
-      acctStatus: "A",
-    },
-    {
-      AcctType: "700",
-      accountNo: "062704070000179",
-      accountName: "DAO THI PHUONG ANH",
-      balance: "2125",
-      Ccy: "VND",
-      Branchname: "PGD TAY HO - CN BA DINH",
-      AcctTypeName: "TGTT TRONG NUOC CN/360",
-      clientInd: "N",
-      acctStatus: "A",
-    },
-    {
-      AcctType: "70G",
-      accountNo: "062704070000889",
-      accountName: "DAO THI PHUONG ANH",
-      balance: "302505907",
-      Ccy: "VND",
-      Branchname: "PGD TAY HO - CN BA DINH",
-      AcctTypeName: "GOI HDB SKY GOLD",
-      clientInd: "N",
-      acctStatus: "A",
-    },
-    {
-      AcctType: "70G",
-      accountNo: "062704070001274",
-      accountName: "DAO THI PHUONG ANH",
-      balance: "2523063",
-      Ccy: "VND",
-      Branchname: "PGD TAY HO - CN BA DINH",
-      AcctTypeName: "GOI HDB SKY GOLD",
-      clientInd: "S",
-      acctStatus: "A",
-    },
-    {
-      AcctType: "70G",
-      accountNo: "013704070007269",
-      accountName: "DAO THI PHUONG ANH",
-      balance: "2500418",
-      Ccy: "VND",
-      Branchname: "CN BA DINH",
-      AcctTypeName: "GOI HDB SKY GOLD",
-      clientInd: "N",
-      acctStatus: "A",
-    },
-    {
-      AcctType: "7OD",
-      accountNo: "062704070003128",
-      accountName: "DAO THI PHUONG ANH",
-      balance: "0",
-      Ccy: "VND",
-      Branchname: "PGD TAY HO - CN BA DINH",
-      AcctTypeName: "TK THU LAI THAU CHI CN VND",
-      clientInd: "N",
-      acctStatus: "A",
-    },
-  ],
-  resultCode: "00",
-  resultMessage: "Success",
-};
-
 const FormTKCKPage = (props: Props) => {
   const { onSubmit } = props;
   const classes = useStyles();
@@ -157,6 +73,7 @@ const FormTKCKPage = (props: Props) => {
   } = useForm<FormValues>({
     defaultValues: {
       accountNo: "",
+      accountType: "",
       merchantId: "",
       merchantName: "",
       terminalId: "",
@@ -190,6 +107,7 @@ const FormTKCKPage = (props: Props) => {
     return (listAccount || []).map((item) => ({
       id: item.accountNo,
       value: item.accountNo,
+      label: item.AcctType,
     }));
   }, [listAccount]);
 
@@ -240,13 +158,21 @@ const FormTKCKPage = (props: Props) => {
               name="accountNo"
               control={control}
               rules={{ required: true }}
-              render={({ field }) => (
+              render={({ field: { onChange: _onChange, ...rest } }) => (
                 <SelectCustom
                   errorMsg={errors.accountNo && "This field is required"}
                   placeholder={t?.placeholderAccount}
                   options={listAccountNew}
                   fullWidth
-                  {...field}
+                  onChange={(e) => {
+                    const id = e.target.value;
+                    const itemSelected = listAccountNew.find(
+                      (item) => item.id === id
+                    );
+                    setValue("accountType", itemSelected?.label || "");
+                    _onChange(e);
+                  }}
+                  {...rest}
                 />
               )}
             />

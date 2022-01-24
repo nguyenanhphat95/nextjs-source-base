@@ -30,7 +30,9 @@ export const parseInfoFromEKYC = (ekycData: any): EKYCData => {
     gender:
       _get(ekycData, "ocr.object.gender") === "-"
         ? ""
-        : _get(ekycData, "ocr.object.gender", ""),
+        : _get(ekycData, "ocr.object.gender") === "Nam"
+        ? "M"
+        : "F",
     birthDateOcr:
       _get(ekycData, "ocr.object.birth_day") === "-"
         ? ""
