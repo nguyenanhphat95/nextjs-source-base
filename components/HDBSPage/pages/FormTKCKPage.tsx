@@ -163,6 +163,7 @@ const FormTKCKPage = (props: Props) => {
                   errorMsg={errors.accountNo && "This field is required"}
                   placeholder={t?.placeholderAccount}
                   options={listAccountNew}
+                  loading={listAccountNew.length ? false : true}
                   fullWidth
                   onChange={(e) => {
                     const id = e.target.value;
