@@ -40,6 +40,7 @@ import {
   TOKEN_PASSWORD,
 } from "commons/constants";
 import { CreateOTPRequest, CreateOTPResponse } from "interfaces/ICreateOTP";
+import { VerifyOTPRequest, VerifyOTPResponse } from "interfaces/IVerifyOTP";
 
 import * as Cookies from "commons/helpers/cookies";
 import axiosWrapper from "commons/helpers/axios/axios-instance";
@@ -171,7 +172,15 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
   const { requestId, language, transactionTime } = generateCommonBodyRequest();
 
   const body: InquiryEKYCPresentRequest = {
-    ..._omit(data, ["ekycData", "merchantName", "terminalName", "ekycData"]),
+    ..._omit(data, [
+      "ekycData",
+      "merchantName",
+      "terminalName",
+      "ekycData",
+      "isBond",
+      "isTranInternet",
+      "isUttb",
+    ]),
     requestId,
     channel: CHANNEL_HDBS as string,
     ekyType: "CURRENT_CUSTOMER",
@@ -209,7 +218,6 @@ export const confirmEKYCPresent = async (data: FormDataFinal) => {
     userId,
     clientNo,
     transactionTime,
-    accountOtp: data.accountOtp || "123456",
     partnerId: PARTNER_ID as string,
     isTranInternet: data.isTranInternet,
     isUttb: data.isUttb,
@@ -218,7 +226,6 @@ export const confirmEKYCPresent = async (data: FormDataFinal) => {
     checksum: generateCheckSum({
       userId,
       clientNo,
-      accountOtp: data.accountOtp || "123456",
       transactionTime,
       partnerId: PARTNER_ID as string,
     }),
@@ -249,12 +256,12 @@ export const getListAccountApi = async () => {
   return resp;
 };
 
-export const createOTPApi = async (userId: string) => {
+export const createOTPApi = async () => {
   const { requestId } = generateCommonBodyRequest();
   const body: CreateOTPRequest = {
     requestId,
     data: {
-      channel: CHANNEL_SBH as string,
+      channel: CHANNEL_HDBS as string,
       serviceCode: SERVICE_CODE_SBH as string,
       userId,
       serialNo: "",
@@ -268,6 +275,27 @@ export const createOTPApi = async (userId: string) => {
   };
   const resp: AxiosResponse<CreateOTPResponse> = await axios.post(
     "/api/createOTP",
+    body
+  );
+  return resp;
+};
+
+export const verifyOTPApi = async (otp: string) => {
+  const body: VerifyOTPRequest = {
+    requestId: uuidv4() as string,
+    data: {
+      channel: CHANNEL_HDBS as string,
+      serviceCode: SERVICE_CODE_SBH as string,
+      userId,
+      serialNo: "",
+      narrative: NARRATIVE_SBH as string,
+      mediaType: "",
+      challengeCode: "",
+      otp,
+    },
+  };
+  const resp: AxiosResponse<VerifyOTPResponse> = await axios.post(
+    "/api/verifyOTP",
     body
   );
   return resp;

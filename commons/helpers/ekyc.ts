@@ -15,19 +15,46 @@ interface EKYCData {
 
 export const parseInfoFromEKYC = (ekycData: any): EKYCData => {
   return {
-    idNumber: _get(ekycData, "ocr.object.id", ""),
+    idNumber:
+      _get(ekycData, "ocr.object.id") === "-"
+        ? ""
+        : _get(ekycData, "ocr.object.id", ""),
     idNumberType:
       _get(ekycData, "ocr.object.card_type") === "CĂN CƯỚC CÔNG DÂN"
         ? "CCCD"
         : "CMND",
-    fullNameOcr: _get(ekycData, "ocr.object.name", ""),
-    gender: _get(ekycData, "ocr.object.gender", ""),
-    birthDateOcr: _get(ekycData, "ocr.object.birth_day", ""),
-    dateOfIssueOcr: _get(ekycData, "ocr.object.issue_date", ""),
-    placeOfIssueOcr: _get(ekycData, "ocr.object.issue_place", ""),
-    expireOfIssueOcr: _get(ekycData, "ocr.object.valid_date"),
-    address: _get(ekycData, "ocr.object.recent_location", ""),
-    nationalityName: _get(ekycData, "ocr.object.nationality"),
+    fullNameOcr:
+      _get(ekycData, "ocr.object.name") === "-"
+        ? ""
+        : _get(ekycData, "ocr.object.name", ""),
+    gender:
+      _get(ekycData, "ocr.object.gender") === "-"
+        ? ""
+        : _get(ekycData, "ocr.object.gender", ""),
+    birthDateOcr:
+      _get(ekycData, "ocr.object.birth_day") === "-"
+        ? ""
+        : _get(ekycData, "ocr.object.birth_day", ""),
+    dateOfIssueOcr:
+      _get(ekycData, "ocr.object.issue_date") === "-"
+        ? ""
+        : _get(ekycData, "ocr.object.issue_date", ""),
+    placeOfIssueOcr:
+      _get(ekycData, "ocr.object.issue_place") === "-"
+        ? ""
+        : _get(ekycData, "ocr.object.issue_place", ""),
+    expireOfIssueOcr:
+      _get(ekycData, "ocr.object.valid_date") === "-"
+        ? ""
+        : _get(ekycData, "ocr.object.valid_date", ""),
+    address:
+      _get(ekycData, "ocr.object.recent_location") === "-"
+        ? ""
+        : _get(ekycData, "ocr.object.recent_location", ""),
+    nationalityName:
+      _get(ekycData, "ocr.object.nationality") === "-"
+        ? ""
+        : _get(ekycData, "ocr.object.nationality", ""),
   };
 };
 

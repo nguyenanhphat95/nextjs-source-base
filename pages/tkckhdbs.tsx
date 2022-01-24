@@ -22,6 +22,7 @@ import { MerchantNameItem, TerminalNameItem } from "interfaces/IGetMerchant";
 
 import { ERROR_CODE, getStatusResponse } from "commons/helpers/error";
 import { parseJwt } from "commons/helpers/helper";
+import { LANGUAGE } from "commons/constants";
 
 import * as hdbsServices from "services/hdbsService";
 
@@ -58,7 +59,8 @@ const HDBSPage = () => {
   const classes = useStyles();
   const router = useRouter();
   const query = router.query;
-  console.log("query---:", query);
+  const lang = query?.language || LANGUAGE.VI;
+
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
   const [md5, setMd5] = useState(null);
 
@@ -66,7 +68,7 @@ const HDBSPage = () => {
   const [listTerminal, setListTerminal] = useState<TerminalNameItem[]>([]);
 
   const [typeCustomer] = useState<TypeCustomer>(TypeCustomer.KHHH);
-  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step3);
+  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step1);
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
     loadingBtnConfirmOTP: false,
@@ -83,9 +85,9 @@ const HDBSPage = () => {
   });
 
   useEffect(() => {
-    if (!md5 || !query?.jwt) return;
-    const jwtInfo = parseJwt(query.jwt as string);
-
+    if (!md5) return;
+    // if (!md5 || !query?.jwt) return;
+    // const jwtInfo = parseJwt(query.jwt as string);
     hdbsServices.getAccessToken().then((res) => {
       hdbsServices.updateMasterData({
         // userId: _get(jwtInfo, "userName"),
@@ -137,7 +139,8 @@ const HDBSPage = () => {
         }
 
         if (status.code === ERROR_CODE.UserEKYCNotFound) {
-          _onNextStep(STEP_KHHH.step2);
+          // _onNextStep(STEP_KHHH.step2);
+          _onNextStep(STEP_KHHH.step3);
           return;
         }
 
@@ -157,38 +160,62 @@ const HDBSPage = () => {
   };
 
   const _handleSubmitStep3 = async (data: FormDataStep3) => {
+    _toggleLoading("loadingBtnSubmit", true);
     const finalData = {
       ...dataForm,
       ...data,
     };
     setDataForm(finalData);
-    // const inquiryResponse = await hdbsServices.inquiryENCYPresent(finalData);
-    // const code = _get(inquiryResponse, "resultCode");
-    // const status = getStatusResponse(code);
-    // if (status.success) {
-    //   if (inquiryResponse.hasSendOtp) {
-    //     const createOTPResponse = await hdbsServices.createOTPApi("anhdtp");
-    //     const userId = _get(createOTPResponse, "data.data.userId");
-    //     if (userId) {
-    //       _toggleModalVerifyOTP();
-    //     }
-    //   }
-    //   return;
-    // }
+    const inquiryResponse = await hdbsServices.inquiryENCYPresent(finalData);
 
-    // toast.error(status.msg);
+    _toggleLoading("loadingBtnSubmit", false);
+    const code = _get(inquiryResponse, "resultCode");
+    const status = getStatusResponse(code);
+
+    if (status.success) {
+      _onCreateOTP;
+      return;
+    }
+    _toggleLoading("loadingBtnSubmit", false);
+    toast.error(status.msg);
   };
 
   const _handleVerifyOtp = (accountOtp: string) => {
-    const finalData = {
-      ...dataForm,
-      accountOtp,
-    };
-    setDataForm(finalData);
-
     _toggleLoading("loadingBtnConfirmOTP", true);
     hdbsServices
-      .confirmEKYCPresent(finalData)
+      .verifyOTPApi(accountOtp)
+      .then((res) => {
+        _toggleLoading("loadingBtnConfirmOTP", false);
+        if (_get(res, "data.data.userId")) {
+          _onConfirmEKYC();
+          return;
+        }
+        toast.error("Invalid OTP");
+      })
+      .catch((err) => {
+        _toggleLoading("loadingBtnConfirmOTP", false);
+      });
+  };
+
+  const _onCreateOTP = () => {
+    _toggleLoading("loadingBtnSubmit", true);
+    hdbsServices
+      .createOTPApi()
+      .then((res) => {
+        _toggleLoading("loadingBtnSubmit", false);
+        if (_get(res, "data.data.userId")) {
+          _toggleModalVerifyOTP();
+        }
+      })
+      .catch((err) => {
+        _toggleLoading("loadingBtnSubmit", false);
+      });
+  };
+
+  const _onConfirmEKYC = () => {
+    _toggleLoading("loadingBtnConfirmOTP", true);
+    hdbsServices
+      .confirmEKYCPresent(dataForm)
       .then((res) => {
         const code = _get(res, "resultCode");
         const status = getStatusResponse(code);
@@ -197,10 +224,8 @@ const HDBSPage = () => {
         if (status.success) {
           _toggleModalVerifyOTP();
           _onNextStep(STEP_KHHH.step4);
-          _onNextStep(STEP_KHHH.step4);
           return;
         }
-
         toast.error(status.msg);
       })
       .catch((err) => {

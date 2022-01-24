@@ -1,4 +1,5 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, useContext } from "react";
+import { useRouter } from "next/router";
 import { Grid, Box, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm, Controller } from "react-hook-form";
@@ -6,6 +7,11 @@ import { useForm, Controller } from "react-hook-form";
 import { ButtonCustom, CheckboxCustom, InputCustom } from "components/commons";
 import { parseInfoFromEKYC, checkResultEkyc } from "commons/helpers/ekyc";
 import { FormDataFinal, FormDataStep3, TypeCustomer } from "../interfaces";
+import TKCKContext from "components/HDBSPage/contexts/TKCKContextValue";
+
+import { LANGUAGE } from "commons/constants";
+import resources from "pages/assets/translate.json";
+
 import _get from "lodash/get";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -328,6 +334,8 @@ const ConfirmInfoPage = (props: Props) => {
   const info = parseInfoFromEKYC(MOCK_DATA);
   const resultEKYC = checkResultEkyc(MOCK_DATA);
 
+  const { loadingBtnSubmit } = useContext(TKCKContext);
+
   const {
     handleSubmit,
     formState: { errors },
@@ -341,6 +349,9 @@ const ConfirmInfoPage = (props: Props) => {
       expireOfIssue: info.expireOfIssueOcr,
     },
   });
+  const router = useRouter();
+  const lang = _get(router, "query.language", LANGUAGE.VI);
+  const t = _get(resources, [lang, "confirmInfoPage"]);
 
   const _handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setIsAceptCondition(event.target.checked);
@@ -365,22 +376,20 @@ const ConfirmInfoPage = (props: Props) => {
               variant="contained"
               color="secondary"
             >
-              Thực hiện lại
+              {t?.doEKYCAgain}
             </ButtonCustom>
           </Box>
         </div>
       )}
       {resultEKYC.validEKYC && (
         <div className={classes.root}>
-          <div className={classes.tittle}>
-            Xác nhận thông tin đăng ký mở TKCK
-          </div>
+          <div className={classes.tittle}>{t?.title}</div>
           <form className={classes.root} onSubmit={handleSubmit(_handleSubmit)}>
             <Box mt={1} className={classes.content}>
               <Grid container direction="column" spacing={1}>
                 <Grid item>
                   <Grid container spacing={1} direction="column">
-                    <Grid item>Tên khách hàng:</Grid>
+                    <Grid item>{t?.username}:</Grid>
                     <Grid item>
                       <Controller
                         name="fullName"
@@ -402,7 +411,7 @@ const ConfirmInfoPage = (props: Props) => {
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      Giới tính: <b>{info?.gender}</b>
+                      {t?.gender}: <b>{info?.gender}</b>
                     </Grid>
                     <Grid item></Grid>
                   </Grid>
@@ -410,7 +419,7 @@ const ConfirmInfoPage = (props: Props) => {
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      Ngày sinh: <b>{info?.birthDateOcr}</b>
+                      {t?.birthday}: <b>{info?.birthDateOcr}</b>
                     </Grid>
                     <Grid item></Grid>
                   </Grid>
@@ -426,7 +435,7 @@ const ConfirmInfoPage = (props: Props) => {
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      Ngày cấp: <b>{info?.dateOfIssueOcr}</b>
+                      {t?.dateIssue}: <b>{info?.dateOfIssueOcr}</b>
                     </Grid>
                     <Grid item></Grid>
                   </Grid>
@@ -434,7 +443,7 @@ const ConfirmInfoPage = (props: Props) => {
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      Nơi cấp: <b>{info?.placeOfIssueOcr}</b>
+                      {t?.placeIssue}: <b>{info?.placeOfIssueOcr}</b>
                     </Grid>
                     <Grid item></Grid>
                   </Grid>
@@ -442,7 +451,7 @@ const ConfirmInfoPage = (props: Props) => {
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      Địa chỉ tường trú: <b>{info?.address}</b>
+                      {t?.address}: <b>{info?.address}</b>
                     </Grid>
                     <Grid item></Grid>
                   </Grid>
@@ -450,35 +459,35 @@ const ConfirmInfoPage = (props: Props) => {
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      Quốc tịch: <b>{info?.nationalityName}</b>
+                      {t?.nationality}: <b>{info?.nationalityName}</b>
                     </Grid>
                     <Grid item></Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
                   <Grid container spacing={1} direction="column">
-                    <Grid item> Số điện thoại:</Grid>
+                    <Grid item>{t?.phoneNumber}:</Grid>
                     <Grid item></Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      Địa chỉ liên lạc: <b>{info?.address}</b>
+                      {t?.contactAddress}: <b>{info?.address}</b>
                     </Grid>
                     <Grid item></Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
                   <Grid container spacing={1} direction="column">
-                    <Grid item>Địa chỉ email:</Grid>
+                    <Grid item>{t?.email}:</Grid>
                     <Grid item></Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      Địa điểm mở TKCK: <b>{data.terminalName}</b>
+                      {t?.terminalName}: <b>{data.terminalName}</b>
                     </Grid>
                     <Grid item></Grid>
                   </Grid>
@@ -486,7 +495,7 @@ const ConfirmInfoPage = (props: Props) => {
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      Số TKTT tại HDBank: <b>{data.accountNo}</b>
+                      {t?.accountNo}: <b>{data.accountNo}</b>
                     </Grid>
                     <Grid item></Grid>
                   </Grid>
@@ -501,9 +510,9 @@ const ConfirmInfoPage = (props: Props) => {
                   <div>
                     Tôi đồng ý và ủy quyền cho HDBank để cung cấp các thông tin
                     cá nhân, thông tài khoản của tôi cho Công ty chứng khoán
-                    xxxxxxxxxxxx, để thực hiện các thủ tục mở tài khoản chứng
-                    khoán tại Công ty chứng khoán xxxxxxxxxxx. Tôi đã đọc, hiểu
-                    rõ và đồng ý với{" "}
+                    {data.terminalName}, để thực hiện các thủ tục mở tài khoản
+                    chứng khoán tại Công ty chứng khoán {data.terminalName}. Tôi
+                    đã đọc, hiểu rõ và đồng ý với{" "}
                     <span className={classes.textTermAndCondition}>
                       Điều khoản và Điều kiện
                     </span>{" "}
@@ -515,6 +524,7 @@ const ConfirmInfoPage = (props: Props) => {
 
             <Box mt={2} className={classes.content}>
               <ButtonCustom
+                loading={loadingBtnSubmit}
                 disabled={!isAceptCondition}
                 fullWidth
                 variant="contained"

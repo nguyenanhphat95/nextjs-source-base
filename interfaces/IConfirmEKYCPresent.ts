@@ -3,7 +3,6 @@ export interface ConfirmEKYCRequest {
   channel: string;
   userId: string;
   clientNo: string;
-  accountOtp: string;
   partnerId: string;
   transactionTime: string;
   isTranInternet: boolean;

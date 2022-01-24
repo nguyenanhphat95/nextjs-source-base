@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef, useContext } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 
 import { useForm, Controller } from "react-hook-form";
@@ -15,6 +16,8 @@ import * as hdbsServices from "services/hdbsService";
 import TKCKContext from "components/HDBSPage/contexts/TKCKContextValue";
 import { Information } from "..";
 
+import { LANGUAGE } from "commons/constants";
+import resources from "pages/assets/translate.json";
 import warningIcon from "public/asset/images/warning.png";
 import _get from "lodash/get";
 
@@ -172,6 +175,12 @@ const FormTKCKPage = (props: Props) => {
   const typeModal = useRef<string>("");
   const [openModalInfo, setOpenModalInfo] = useState(false);
 
+  const router = useRouter();
+  const lang = _get(router, "query.language", LANGUAGE.VI);
+  console.log("lang---:", lang);
+  const t = _get(resources, [lang, "formTKCKPage"]);
+  console.log("lang---:", t);
+
   useEffect(() => {
     hdbsServices.getListAccountApi().then((res) => {
       const listAccount = _get(res, "data.data", []);
@@ -226,7 +235,7 @@ const FormTKCKPage = (props: Props) => {
       <Card className={classes.content}>
         <Grid container direction="column" spacing={2}>
           <Grid item className={classes.title}>
-            Thông tin TKTT
+            {t?.titleSection1}
           </Grid>
           <Grid item>
             <Controller
@@ -236,7 +245,7 @@ const FormTKCKPage = (props: Props) => {
               render={({ field }) => (
                 <SelectCustom
                   errorMsg={errors.accountNo && "This field is required"}
-                  placeholder="Chọn TKTT"
+                  placeholder={t?.placeholderAccount}
                   options={listAccountNew}
                   fullWidth
                   {...field}
@@ -245,7 +254,7 @@ const FormTKCKPage = (props: Props) => {
             />
           </Grid>
           <Grid item className={classes.title}>
-            Thông tin bổ sung TKCK
+            {t?.titleSection2}
           </Grid>
           <Grid item>
             <Controller
@@ -255,7 +264,7 @@ const FormTKCKPage = (props: Props) => {
               render={({ field: { onChange: _onChange, ...rest } }) => (
                 <SelectCustom
                   errorMsg={errors.merchantId && "This field is required"}
-                  placeholder="Chọn công ty CK"
+                  placeholder={t?.placeholderMerchant}
                   options={listMerchantNew}
                   fullWidth
                   loading={listMerchant.length ? false : true}
@@ -283,7 +292,7 @@ const FormTKCKPage = (props: Props) => {
               render={({ field: { onChange: _onChange, ...rest } }) => (
                 <SelectCustom
                   errorMsg={errors.terminalId && "This field is required"}
-                  placeholder="Chọn địa điểm mở TKCK"
+                  placeholder={t?.placeholderTerminal}
                   options={listTerminalNew}
                   loading={listMerchant.length ? false : true}
                   onChange={(e) => {
@@ -316,7 +325,7 @@ const FormTKCKPage = (props: Props) => {
                       endIcon={
                         <Image width={20} height={20} src={warningIcon} />
                       }
-                      label="Giao dịch qua Internet (Web và App)"
+                      label={t?.labelCheckbox1}
                       onClickEndIcon={() =>
                         _handleShowInfo(TYPE_MODAL_INFO.transferInternet)
                       }
@@ -338,7 +347,7 @@ const FormTKCKPage = (props: Props) => {
                       endIcon={
                         <Image width={20} height={20} src={warningIcon} />
                       }
-                      label="Ứng trước tiền bán chứng khoán tự động"
+                      label={t?.labelCheckbox2}
                       onClickEndIcon={() =>
                         _handleShowInfo(TYPE_MODAL_INFO.transferAuto)
                       }
@@ -359,7 +368,7 @@ const FormTKCKPage = (props: Props) => {
                       endIcon={
                         <Image width={20} height={20} src={warningIcon} />
                       }
-                      label="Giao dịch trái phiếu phát hành riêng lẻ"
+                      label={t?.labelCheckbox3}
                       onClickEndIcon={() =>
                         _handleShowInfo(TYPE_MODAL_INFO.transferBonds)
                       }
@@ -381,7 +390,7 @@ const FormTKCKPage = (props: Props) => {
           type="submit"
           loading={loadingBtnSubmit}
         >
-          Tiếp tục
+          {t?.btnContinue}
         </ButtonCustom>
       </Box>
 
