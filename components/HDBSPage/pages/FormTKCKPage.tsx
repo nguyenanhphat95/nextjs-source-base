@@ -232,7 +232,7 @@ const FormTKCKPage = (props: Props) => {
             <Controller
               name="accountNo"
               control={control}
-              // rules={{ required: true }}
+              rules={{ required: true }}
               render={({ field }) => (
                 <SelectCustom
                   errorMsg={errors.accountNo && "This field is required"}
@@ -258,6 +258,7 @@ const FormTKCKPage = (props: Props) => {
                   placeholder="Chọn công ty CK"
                   options={listMerchantNew}
                   fullWidth
+                  loading={listMerchant.length ? false : true}
                   onChange={(e) => {
                     const id = e.target.value;
                     const itemSelected = listMerchantNew.find(
@@ -284,6 +285,7 @@ const FormTKCKPage = (props: Props) => {
                   errorMsg={errors.terminalId && "This field is required"}
                   placeholder="Chọn địa điểm mở TKCK"
                   options={listTerminalNew}
+                  loading={listMerchant.length ? false : true}
                   onChange={(e) => {
                     const id = e.target.value;
                     const itemSelected = listTerminalNew.find(

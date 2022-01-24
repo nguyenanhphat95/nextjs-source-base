@@ -75,10 +75,10 @@ export const checkResultEkyc = (
     messageEKYC = livenessCardFrontMsg;
   }
 
-  if (livenessFace !== "success") {
-    validEKYC = false;
-    messageEKYC = livenessFaceMsg;
-  }
+  // if (livenessFace !== "success") {
+  //   validEKYC = false;
+  //   messageEKYC = livenessFaceMsg;
+  // }
 
   return {
     validEKYC,

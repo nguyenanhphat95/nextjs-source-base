@@ -47,8 +47,10 @@ import axiosWrapper from "commons/helpers/axios/axios-instance";
 import _omit from "lodash/omit";
 import _get from "lodash/get";
 
-let userId: string = "0915423641";
-let clientNo: string = "02887123";
+let userId: string;
+let clientNo: string;
+// let userId: string = "0915423641";
+// let clientNo: string = "02887123";
 // let userId: string = "0903092112";
 // let clientNo: string = "05961710";
 let language: string = "VI";

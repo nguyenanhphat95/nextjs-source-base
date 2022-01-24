@@ -19,6 +19,7 @@ interface Props<T> extends SelectProps {
   className?: string;
   placeholder?: string;
   errorMsg?: string;
+  loading?: boolean;
 }
 
 function getLabel<T extends OptionSelectType>({
@@ -41,13 +42,23 @@ const SelectCustom = React.forwardRef(
     props: Props<T>,
     ref: React.Ref<HTMLInputElement>
   ) => {
-    const { options, renderLabel, className, placeholder, errorMsg, ...rest } =
-      props;
+    const {
+      disabled,
+      options,
+      loading,
+      renderLabel,
+      className,
+      placeholder,
+      errorMsg,
+      ...rest
+    } = props;
+
     const classes = useStyles();
 
     return (
       <>
         <Select
+          disabled={disabled || loading}
           ref={ref}
           displayEmpty
           {...rest}
@@ -55,7 +66,7 @@ const SelectCustom = React.forwardRef(
         >
           {placeholder && (
             <MenuItem disabled value="">
-              <em>{placeholder}</em>
+              <em>{loading ? "Loading data" : placeholder}</em>
             </MenuItem>
           )}
           {options &&

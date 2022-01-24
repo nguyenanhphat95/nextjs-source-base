@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Script from "next/script";
+import { useRouter } from "next/router";
 
 import { makeStyles } from "@mui/styles";
 import { Dialog, Box } from "@mui/material";
@@ -19,8 +20,13 @@ import {
 } from "components/HDBSPage/interfaces";
 import { MerchantNameItem, TerminalNameItem } from "interfaces/IGetMerchant";
 
-import { ERROR_CODE } from "commons/helpers/error";
+import { ERROR_CODE, getStatusResponse } from "commons/helpers/error";
+import { parseJwt } from "commons/helpers/helper";
+
 import * as hdbsServices from "services/hdbsService";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import _get from "lodash/get";
 
 const useStyles = makeStyles(() => ({
@@ -50,6 +56,9 @@ export const STEP_KHHH = {
 
 const HDBSPage = () => {
   const classes = useStyles();
+  const router = useRouter();
+  const query = router.query;
+  console.log("query---:", query);
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
   const [md5, setMd5] = useState(null);
 
@@ -57,7 +66,7 @@ const HDBSPage = () => {
   const [listTerminal, setListTerminal] = useState<TerminalNameItem[]>([]);
 
   const [typeCustomer] = useState<TypeCustomer>(TypeCustomer.KHHH);
-  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step1);
+  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step3);
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
     loadingBtnConfirmOTP: false,
@@ -74,11 +83,15 @@ const HDBSPage = () => {
   });
 
   useEffect(() => {
-    if (!md5) return;
+    if (!md5 || !query?.jwt) return;
+    const jwtInfo = parseJwt(query.jwt as string);
+
     hdbsServices.getAccessToken().then((res) => {
       hdbsServices.updateMasterData({
-        userId: "0915423641",
-        clientNo: "00012132",
+        // userId: _get(jwtInfo, "userName"),
+        // clientNo: get(jwtInfo, "clientNo"),
+        userId: "anhdtp",
+        clientNo: "00013695",
         language: "VI",
         accessToken: res.accessToken,
       });
@@ -87,7 +100,7 @@ const HDBSPage = () => {
         setListTerminal(res?.terminals || []);
       });
     });
-  }, [md5]);
+  }, [md5, query?.jwt]);
 
   const _onNextStep = (step: string) => {
     setStepCurrent(step);
@@ -115,14 +128,20 @@ const HDBSPage = () => {
       .checkUserEKYC(finalData.merchantId, finalData.terminalId)
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
-        const code = res.resultCode;
-        if (code === ERROR_CODE.SessionIdNotFound) {
-          // do EKYC
-          // _onNextStep(STEP_KHHH.step2);
-          _onNextStep(STEP_KHHH.step3);
+        const code = _get(res, "resultCode");
+        const status = getStatusResponse(code);
+
+        if (status.success) {
+          _onNextStep(STEP_KHHH.step4);
           return;
         }
-        _onNextStep(STEP_KHHH.step4);
+
+        if (status.code === ERROR_CODE.UserEKYCNotFound) {
+          _onNextStep(STEP_KHHH.step2);
+          return;
+        }
+
+        toast.error(status.msg);
       });
   };
 
@@ -143,16 +162,21 @@ const HDBSPage = () => {
       ...data,
     };
     setDataForm(finalData);
-    const inquiryResponse = await hdbsServices.inquiryENCYPresent(finalData);
-    if (inquiryResponse.hasSendOtp) {
-      const createOTPResponse = await hdbsServices.createOTPApi("anhdtp");
-      const userId = _get(createOTPResponse, "data.data.userId");
-      if (userId) {
-        _toggleModalVerifyOTP();
-      }
-      return;
-    }
-    _onNextStep(STEP_KHHH.step4);
+    // const inquiryResponse = await hdbsServices.inquiryENCYPresent(finalData);
+    // const code = _get(inquiryResponse, "resultCode");
+    // const status = getStatusResponse(code);
+    // if (status.success) {
+    //   if (inquiryResponse.hasSendOtp) {
+    //     const createOTPResponse = await hdbsServices.createOTPApi("anhdtp");
+    //     const userId = _get(createOTPResponse, "data.data.userId");
+    //     if (userId) {
+    //       _toggleModalVerifyOTP();
+    //     }
+    //   }
+    //   return;
+    // }
+
+    // toast.error(status.msg);
   };
 
   const _handleVerifyOtp = (accountOtp: string) => {
@@ -166,15 +190,18 @@ const HDBSPage = () => {
     hdbsServices
       .confirmEKYCPresent(finalData)
       .then((res) => {
-        const code = res.resultCode;
+        const code = _get(res, "resultCode");
+        const status = getStatusResponse(code);
         _toggleLoading("loadingBtnConfirmOTP", false);
 
-        if (code === ERROR_CODE.Success) {
+        if (status.success) {
           _toggleModalVerifyOTP();
           _onNextStep(STEP_KHHH.step4);
           _onNextStep(STEP_KHHH.step4);
           return;
         }
+
+        toast.error(status.msg);
       })
       .catch((err) => {
         _toggleLoading("loadingBtnConfirmOTP", false);
@@ -201,7 +228,18 @@ const HDBSPage = () => {
           setMd5(md5);
         }}
       />
-
+      <ToastContainer
+        theme="colored"
+        position="bottom-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       {md5 && (
         <div className={classes.root}>
           <TKCKContext.Provider value={TKCKContextValue}>
