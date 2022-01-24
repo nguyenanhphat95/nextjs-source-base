@@ -13,6 +13,7 @@ import { LANGUAGE } from "commons/constants";
 import resources from "pages/assets/translate.json";
 
 import _get from "lodash/get";
+import { MOCK_DATA } from "../consts";
 
 const useStyles = makeStyles((theme: Theme) => ({
   rootError: {
@@ -60,8 +61,10 @@ const ConfirmInfoPage = (props: Props) => {
   const { data, onSubmit, typeCustomer, redoEKYC } = props;
   const [isAceptCondition, setIsAceptCondition] = useState(true);
 
-  const info = parseInfoFromEKYC(_get(data, "ekycData"));
-  const resultEKYC = checkResultEkyc(_get(data, "ekycData"));
+  // const info = parseInfoFromEKYC(_get(data, "ekycData"));
+  // const resultEKYC = checkResultEkyc(_get(data, "ekycData"));
+  const info = parseInfoFromEKYC(MOCK_DATA);
+  const resultEKYC = checkResultEkyc(MOCK_DATA);
   const { loadingBtnSubmit } = useContext(TKCKContext);
 
   const {
@@ -139,7 +142,7 @@ const ConfirmInfoPage = (props: Props) => {
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      {t?.gender}: <b>{info?.gender}</b>
+                      {t?.gender}: <b>{info?.gender === "M" ? "Nam" : "Nữ"}</b>
                     </Grid>
                     <Grid item></Grid>
                   </Grid>

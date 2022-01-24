@@ -1,4 +1,5 @@
 import _get from "lodash/get";
+import { compareTwoDateDesc, addYearFromNow } from "./date";
 
 interface EKYCData {
   idNumber: string;
@@ -103,10 +104,15 @@ export const checkResultEkyc = (
     validEKYC = false;
     messageEKYC = livenessCardFrontMsg;
   }
-
-  // if (livenessFace !== "success") {
+  if (livenessFace !== "success") {
+    validEKYC = false;
+    messageEKYC = livenessFaceMsg;
+  }
+  // const expiredDate = _get(ekycData, "ocr.object.valid_date");
+  // const index = compareTwoDateDesc(new Date(), new Date(expiredDate));
+  // if (index === 1) {
   //   validEKYC = false;
-  //   messageEKYC = livenessFaceMsg;
+  //   messageEKYC = "CMND/CCCD đã hết hạn";
   // }
 
   return {

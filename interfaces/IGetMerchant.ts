@@ -5,7 +5,6 @@ export interface GetMerchantRequest {
   language: string;
   transactionTime: string;
   checksum: string;
-  accessToken?: string;
 }
 
 export interface GetMerchantResponse {

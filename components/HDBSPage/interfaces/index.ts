@@ -42,5 +42,6 @@ export interface MasterData {
   userId: string;
   clientNo: string;
   language: string;
-  accessToken: string;
+  accessToken?: string;
+  expireIn?: number;
 }

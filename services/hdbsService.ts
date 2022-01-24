@@ -26,7 +26,7 @@ import {
 
 import { v4 as uuidv4 } from "uuid";
 import { FormDataFinal, MasterData } from "components/HDBSPage/interfaces";
-import { getTodayWithFormat } from "commons/helpers/date";
+import { addMinuteFromNow, getTodayWithFormat } from "commons/helpers/date";
 import {
   CHANNEL_HDBS,
   IS_REQ_CHAL_CODE_HDBS,
@@ -49,18 +49,22 @@ import _get from "lodash/get";
 
 let userId: string;
 let clientNo: string;
+let language: string;
+let tokenExpired: string;
+
 // let userId: string = "0915423641";
 // let clientNo: string = "02887123";
 // let userId: string = "0903092112";
 // let clientNo: string = "05961710";
-let language: string = "VI";
-export let accessToken: string = "";
 
 export function updateMasterData(data: MasterData) {
   userId = data.userId;
   clientNo = data.clientNo;
   language = "VI";
-  accessToken = data.accessToken;
+}
+
+function updateTokenExpired(expireIn: number) {
+  tokenExpired = addMinuteFromNow(expireIn / 60 - 5, "MM/dd/yyyy H:mm:ss");
 }
 
 function generateCommonBodyRequest() {
@@ -70,6 +74,19 @@ function generateCommonBodyRequest() {
     transactionTime: getTodayWithFormat(),
   };
 }
+
+const refreshAccessToken = async () => {
+  const today = new Date();
+  const timeToday = today.getTime();
+
+  const expired = new Date(tokenExpired);
+  const timeExpired = expired.getTime();
+
+  if (timeToday > timeExpired) {
+    return await getAccessToken();
+  }
+  return Promise.resolve(true);
+};
 
 function generateCheckSum(object: Record<string, string>): string {
   const md5 = _get(window, "md5");
@@ -102,13 +119,18 @@ export const getAccessToken = async () => {
     body
   );
   const token = _get(resp, "data.accessToken");
+  const expired = _get(resp, "data.expiryIn");
   if (token) {
     Cookies.set(KEY_TOKEN, token);
+  }
+  if (expired) {
+    updateTokenExpired(expired);
   }
   return resp.data;
 };
 
 export const getMerchant = async () => {
+  await refreshAccessToken();
   const { requestId, language, transactionTime } = generateCommonBodyRequest();
   const body: GetMerchantRequest = {
     requestId,
@@ -120,7 +142,6 @@ export const getMerchant = async () => {
       partnerId: PARTNER_ID as string,
       transactionTime,
     }),
-    accessToken,
   };
   const resp: AxiosResponse<GetMerchantResponse> = await axiosWrapper.post(
     "/api/getMerchant",
@@ -135,6 +156,7 @@ export const getMerchant = async () => {
 };
 
 export const checkUserEKYC = async (merchantId: string, terminalId: string) => {
+  await refreshAccessToken();
   const { requestId, language, transactionTime } = generateCommonBodyRequest();
   const body: CheckUserENCYRequest = {
     requestId,
@@ -168,6 +190,7 @@ export const checkUserEKYC = async (merchantId: string, terminalId: string) => {
 };
 
 export const inquiryENCYPresent = async (data: FormDataFinal) => {
+  await refreshAccessToken();
   const { requestId, language, transactionTime } = generateCommonBodyRequest();
 
   const body: InquiryEKYCPresentRequest = {
@@ -209,6 +232,7 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
 };
 
 export const confirmEKYCPresent = async (data: FormDataFinal) => {
+  await refreshAccessToken();
   const { requestId, language, transactionTime } = generateCommonBodyRequest();
   const body: ConfirmEKYCRequest = {
     requestId,

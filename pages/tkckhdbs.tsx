@@ -90,10 +90,9 @@ const HDBSPage = () => {
       hdbsServices.updateMasterData({
         userId: _get(jwtInfo, "userName"),
         clientNo: _get(jwtInfo, "clientNo"),
+        language: "vi",
         // userId: "anhdtp",
         // clientNo: "00013695",
-        language: "vi",
-        accessToken: res.accessToken,
       });
       hdbsServices.getMerchant().then((res) => {
         setListMerchant(res?.merchants || []);
