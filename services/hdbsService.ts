@@ -49,7 +49,7 @@ import _get from "lodash/get";
 
 let userId: string;
 let clientNo: string;
-let language: string;
+let language: string = "VI";
 let tokenExpired: string;
 
 // let userId: string = "0915423641";
@@ -64,6 +64,7 @@ export function updateMasterData(data: MasterData) {
 }
 
 function updateTokenExpired(expireIn: number) {
+  const test = addMinuteFromNow(expireIn / 60 - 5, "MM/dd/yyyy H:mm:ss");
   tokenExpired = addMinuteFromNow(expireIn / 60 - 5, "MM/dd/yyyy H:mm:ss");
 }
 
@@ -81,7 +82,6 @@ const refreshAccessToken = async () => {
 
   const expired = new Date(tokenExpired);
   const timeExpired = expired.getTime();
-
   if (timeToday > timeExpired) {
     return await getAccessToken();
   }
@@ -118,6 +118,8 @@ export const getAccessToken = async () => {
     "/api/getAccessToken",
     body
   );
+  console.log("body---:", body);
+  console.log("getAccessToken----:", resp);
   const token = _get(resp, "data.accessToken");
   const expired = _get(resp, "data.expiryIn");
   if (token) {
