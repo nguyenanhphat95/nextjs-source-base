@@ -19,7 +19,6 @@ import cn from "classnames";
 import _get from "lodash/get";
 import STKContext from "components/STKPage/contexts/STKContextValue";
 import { LOGIN_STEP } from "pages/sbh";
-
 const useStyles = makeStyles(() => ({
   root: {
     background: "white",
