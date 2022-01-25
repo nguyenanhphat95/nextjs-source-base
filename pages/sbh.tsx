@@ -247,7 +247,6 @@ const SBHPage = () => {
         );
       })
       .catch((err) => {
-        // showToastError("Send OTP failed");
         _toggleLoading("loadingBtnSubmit", false);
         console.log(err);
       });

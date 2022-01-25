@@ -60,7 +60,8 @@ interface Props {
 }
 
 const NUMBER_ALLOW_RESEND_OTP = 5;
-
+const MSG_MAXIMUM_SEND_OTP =
+  "Quý khách đã nhận OTP quá 5 lần. Vui lòng thử lại sau 24 giờ để sử dụng tiếp dịch vụ";
 const ConfirmOTP = (props: Props) => {
   const { locale } = useRouter();
   const classes = useStyles();
@@ -86,10 +87,7 @@ const ConfirmOTP = (props: Props) => {
 
   const _handleResendOTP = () => {
     if (countResendOTP === NUMBER_ALLOW_RESEND_OTP) {
-      toggleNotify(
-        "Thông báo",
-        "chờ BA chốt lại câu thông báo Nhấn Đóng quay trở về màn hình nhập thông tin ban đầu"
-      );
+      toggleNotify("Thông báo", MSG_MAXIMUM_SEND_OTP);
       return;
     }
     if (!isResendValid || !onSendOTP) {
