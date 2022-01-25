@@ -190,6 +190,7 @@ const SBHPage = () => {
         const errorCode = _get(res, "data.resultCode");
         if (_get(res, "data.data.userId")) {
           setLoginStep(LOGIN_STEP.step3);
+          return;
         }
         toggleNotify(
           "Thông báo",
