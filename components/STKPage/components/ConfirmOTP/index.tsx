@@ -85,7 +85,6 @@ const ConfirmOTP = (props: Props) => {
 
   useEffect(() => {
     onCallTimer();
-    toggleNotify("Thông báo", MSG_MAXIMUM_SEND_OTP, _handleClosePopup);
   }, []);
 
   const _handleResendOTP = () => {

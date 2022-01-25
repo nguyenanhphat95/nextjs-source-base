@@ -95,7 +95,7 @@ const SBHPage = () => {
   });
 
   const [countEnterWrongOTP, setCountEnterWrongOTP] = useState(0);
-  const [loginStep, setLoginStep] = useState(LOGIN_STEP.step3);
+  const [loginStep, setLoginStep] = useState(LOGIN_STEP.step1);
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
