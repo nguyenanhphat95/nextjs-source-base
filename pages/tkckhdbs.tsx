@@ -88,11 +88,11 @@ const HDBSPage = () => {
     const jwtInfo = parseJwt(query.jwt as string);
     hdbsServices.getAccessToken().then((res) => {
       hdbsServices.updateMasterData({
-        // userId: _get(jwtInfo, "userName"),
-        // clientNo: _get(jwtInfo, "clientNo"),
+        userId: _get(jwtInfo, "userName"),
+        clientNo: _get(jwtInfo, "clientNo"),
         language: "vi",
-        userId: "anhdtp",
-        clientNo: "00013695",
+        // userId: "anhdtp",
+        // clientNo: "00013695",
       });
       hdbsServices.getMerchant().then((res) => {
         setListMerchant(res?.merchants || []);
