@@ -61,10 +61,10 @@ const ConfirmInfoPage = (props: Props) => {
   const { data, onSubmit, typeCustomer, redoEKYC } = props;
   const [isAceptCondition, setIsAceptCondition] = useState(true);
 
-  const info = parseInfoFromEKYC(_get(data, "ekycData"));
-  const resultEKYC = checkResultEkyc(_get(data, "ekycData"));
-  // const info = parseInfoFromEKYC(MOCK_DATA);
-  // const resultEKYC = checkResultEkyc(MOCK_DATA);
+  // const info = parseInfoFromEKYC(_get(data, "ekycData"));
+  // const resultEKYC = checkResultEkyc(_get(data, "ekycData"));
+  const info = parseInfoFromEKYC(MOCK_DATA);
+  const resultEKYC = checkResultEkyc(MOCK_DATA);
   const { loadingBtnSubmit } = useContext(TKCKContext);
 
   const {
