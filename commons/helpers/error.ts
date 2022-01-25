@@ -13,6 +13,8 @@ export const ERROR_CODE = {
   VerifyClientFailed: "100",
   AccountLocked: "12",
   PhoneNumberLock: "22",
+  OTPExpired: "21",
+  OTPInValid: "08",
 };
 
 export function handleErrorWithResponse(

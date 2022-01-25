@@ -48,6 +48,10 @@ const useStyles = makeStyles(() => ({
 }));
 
 export const ERROR_MESSAGE_VERIFY_USER = {
+  [ERROR_CODE.OTPInValid]:
+    "Mã xác thực OTP không chính xác. Quý khách vui lòng nhập lại",
+  [ERROR_CODE.OTPExpired]:
+    "Mã xác thực đã hết thời gian hiệu lực. Quý khách vui lòng lấy lại mã xác thực mới.",
   [ERROR_CODE.PhoneNumberLock]: `Qúy khách đã nhập sai OTP quá 5 lần. Vui lòng thử lại sau hh:mm:ss để sử dụng tiếp dịch vụ.(${addHourFromNow(
     24
   )}) Nhấn Đóng quay trở về màn hình nhập thông tin ban đầu`,
@@ -227,6 +231,7 @@ const SBHPage = () => {
       .verifyOTPApi(usernameRef.current, otp)
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
+        const errorCode = _get(res, "data.resultCode");
         if (_get(res, "data.data.userId")) {
           setLoginStep(LOGIN_STEP.step4);
           return;
@@ -234,7 +239,11 @@ const SBHPage = () => {
         setCountEnterWrongOTP((prev) => prev + 1);
         toggleNotify(
           "Thông báo",
-          "Mã xác thực OTP không chính xác. Quý khách vui lòng nhập lại"
+          _get(
+            ERROR_MESSAGE_VERIFY_USER,
+            errorCode,
+            "Mã xác thực OTP không chính xác. Quý khách vui lòng nhập lại"
+          )
         );
       })
       .catch((err) => {
