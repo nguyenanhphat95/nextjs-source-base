@@ -91,10 +91,11 @@ const SBHPage = () => {
     open: false,
     title: "",
     desc: "",
+    onClose: () => null,
   });
 
   const [countEnterWrongOTP, setCountEnterWrongOTP] = useState(0);
-  const [loginStep, setLoginStep] = useState(LOGIN_STEP.step1);
+  const [loginStep, setLoginStep] = useState(LOGIN_STEP.step3);
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
@@ -298,19 +299,22 @@ const SBHPage = () => {
     });
   }
 
-  function toggleNotify(title?: string, desc?: string) {
-    setPopupNotify(() => {
+  function toggleNotify(title?: string, desc?: string, onClose?: any) {
+    setPopupNotify((prev) => {
       if (title && desc) {
         return {
           open: true,
           title,
           desc,
+          onClose: onClose ? onClose : () => null,
         };
       }
+      prev.onClose && prev?.onClose();
       return {
         open: false,
         title: "",
         desc: "",
+        onClose: () => null,
       };
     });
   }
@@ -318,6 +322,7 @@ const SBHPage = () => {
   const stkContextValue = {
     loadingBtnSubmit: loading.loadingBtnSubmit,
     toggleNotify,
+    setLoginStep,
   };
 
   return (

@@ -18,6 +18,7 @@ import resources from "pages/assets/translate.json";
 import cn from "classnames";
 import _get from "lodash/get";
 import STKContext from "components/STKPage/contexts/STKContextValue";
+import { LOGIN_STEP } from "pages/sbh";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -66,7 +67,8 @@ const ConfirmOTP = (props: Props) => {
   const { locale } = useRouter();
   const classes = useStyles();
   const { onSubmit, onSendOTP } = props;
-  const { loadingBtnSubmit, toggleNotify } = useContext(STKContext);
+  const { loadingBtnSubmit, toggleNotify, setLoginStep } =
+    useContext(STKContext);
 
   const timerRef = useRef<any>();
 
@@ -83,11 +85,12 @@ const ConfirmOTP = (props: Props) => {
 
   useEffect(() => {
     onCallTimer();
+    toggleNotify("Thông báo", MSG_MAXIMUM_SEND_OTP, _handleClosePopup);
   }, []);
 
   const _handleResendOTP = () => {
     if (countResendOTP === NUMBER_ALLOW_RESEND_OTP) {
-      toggleNotify("Thông báo", MSG_MAXIMUM_SEND_OTP);
+      toggleNotify("Thông báo", MSG_MAXIMUM_SEND_OTP, _handleClosePopup);
       return;
     }
     if (!isResendValid || !onSendOTP) {
@@ -98,6 +101,11 @@ const ConfirmOTP = (props: Props) => {
     onCallTimer();
     setCountResendOTP((prev) => prev + 1);
   };
+
+  function _handleClosePopup() {
+    console.log("_handleClosePopup");
+    setLoginStep(LOGIN_STEP.step1);
+  }
 
   return (
     <Box py={3} px={2} className={classes.root}>
