@@ -270,7 +270,7 @@ export const getListAccountApi = async () => {
   const body: ListAccountRequest = {
     requestId: uuidv4() as string,
     data: {
-      clientNo: "00013695",
+      clientNo,
     },
   };
   const resp: AxiosResponse<ListAccountResponse> = await axios.post(

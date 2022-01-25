@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef, useContext } from "react";
+import React, { useState, useMemo, useRef, useContext } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 
@@ -8,7 +8,6 @@ import { makeStyles } from "@mui/styles";
 import { Card, Grid, Box, Modal } from "@mui/material";
 import { ButtonCustom, CheckboxCustom, SelectCustom } from "components/commons";
 
-import { AccountItem } from "interfaces/IListAccount";
 import { FormDataStep1 } from "../interfaces";
 import { OptionSelectType } from "commons/constants/types";
 
@@ -84,10 +83,8 @@ const FormTKCKPage = (props: Props) => {
     },
   });
   const merchantIdValue = watch("merchantId");
-  const { loadingBtnSubmit, listMerchant, listTerminal } =
+  const { loadingBtnSubmit, listMerchant, listTerminal, listAccount } =
     useContext(TKCKContext);
-
-  const [listAccount, setListAccount] = useState<AccountItem[]>([]);
 
   const typeModal = useRef<string>("");
   const [openModalInfo, setOpenModalInfo] = useState(false);
@@ -95,13 +92,6 @@ const FormTKCKPage = (props: Props) => {
   const router = useRouter();
   const lang = _get(router, "query.language", LANGUAGE.VI);
   const t = _get(resources, [lang, "formTKCKPage"]);
-
-  useEffect(() => {
-    hdbsServices.getListAccountApi().then((res) => {
-      const listAccount = _get(res, "data.data", []);
-      setListAccount(listAccount);
-    });
-  }, []);
 
   const listAccountNew = useMemo(() => {
     return (listAccount || []).map((item) => ({

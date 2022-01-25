@@ -18,7 +18,9 @@ import {
   TypeCustomer,
   FormDataStep3,
 } from "components/HDBSPage/interfaces";
+
 import { MerchantNameItem, TerminalNameItem } from "interfaces/IGetMerchant";
+import { AccountItem } from "interfaces/IListAccount";
 
 import { ERROR_CODE, getStatusResponse } from "commons/helpers/error";
 import { parseJwt } from "commons/helpers/helper";
@@ -64,6 +66,7 @@ const HDBSPage = () => {
 
   const [listMerchant, setListMerchant] = useState<MerchantNameItem[]>([]);
   const [listTerminal, setListTerminal] = useState<TerminalNameItem[]>([]);
+  const [listAccount, setListAccount] = useState<AccountItem[]>([]);
 
   const [typeCustomer] = useState<TypeCustomer>(TypeCustomer.KHHH);
   const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step1);
@@ -98,6 +101,11 @@ const HDBSPage = () => {
         setListMerchant(res?.merchants || []);
         setListTerminal(res?.terminals || []);
       });
+
+      hdbsServices.getListAccountApi().then((res) => {
+        const listAccount = _get(res, "data.data", []);
+        setListAccount(listAccount);
+      });
     });
   }, [md5, query?.jwt]);
 
@@ -113,6 +121,7 @@ const HDBSPage = () => {
     loadingBtnSubmit: loading.loadingBtnSubmit,
     listMerchant,
     listTerminal,
+    listAccount,
   };
 
   const _handleSubmitStep1 = (data: FormDataStep1) => {
