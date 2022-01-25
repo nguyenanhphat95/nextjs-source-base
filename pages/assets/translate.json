@@ -1,5 +1,8 @@
 {
   "vn": {
+    "homePage": {
+      "openStockAccount": "Mở tài khoản chứng khoán"
+    },
     "formTKCKPage": {
       "titleSection1": "Thông tin TKTT",
       "placeholderAccount": "Chọn TKTT",
@@ -31,7 +34,7 @@
     "registerSuccessPage": {
       "title": "ĐĂNG KÝ THÀNH CÔNG",
       "subtitle": "Công ty cổ phần chứng khoán HDBS",
-      "content": "Quý khách đã yêu cầu đăng ký mở tài khoản giao dịch chứng khoán HDBS thành công. HDBS sẽ liên hệ với Quý khách để hướng dẫn hoàn tất thủ tục trong vòng 1 ngày làm việc. Trường hợp cần hỗ trợ. Quý khách vui lòng liên hệ hotline của HDBS theo số xxxxxxxxxxx",
+      "content": "Quý khách đã yêu cầu đăng ký mở tài khoản giao dịch chứng khoán HDBS thành công. HDBS sẽ liên hệ với Quý khách để hướng dẫn hoàn tất thủ tục trong vòng 1 ngày làm việc. Trường hợp cần hỗ trợ. Quý khách vui lòng liên hệ hotline của HDBS theo số (84.28) 7307 6966",
       "question": "Quý khách đã thực hiện đăng ký mở tài khoản chứng khoán thành công. Quý khách đánh giá giao dịch này thế nào ?",
       "otherTransaction": "Giao dịch khác"
     },
@@ -45,6 +48,9 @@
     }
   },
   "en": {
+    "homePage": {
+      "openStockAccount": "Open a stock account"
+    },
     "formTKCKPage": {
       "titleSection1": "Information about TKTT",
       "placeholderAccount": "Select TKTT",
@@ -76,7 +82,7 @@
     "registerSuccessPage": {
       "title": "SIGN UP SUCCESS",
       "subtitle": "HDBS Securities Joint Stock Company",
-      "content": "You have successfully registered to open an HDBS securities trading account. HDBS will contact you to complete the procedure within 1 working day. In case you need support. Please contact HDBS hotline at xxxxxxxxxxx",
+      "content": "You have successfully registered to open an HDBS securities trading account. HDBS will contact you to complete the procedure within 1 working day. In case you need support. Please contact HDBS hotline at (84.28) 7307 6966",
       "question": "You have successfully registered to open a securities account. How would you rate this transaction?",
       "otherTransaction": "Other transactions"
     },

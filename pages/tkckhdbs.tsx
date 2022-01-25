@@ -10,6 +10,7 @@ import {
   EKYCVerifyPage,
   ConfirmInfoPage,
   RegisterSuccessPage,
+  HomePage,
   VerifyOTP,
 } from "components/HDBSPage";
 import TKCKContext from "components/HDBSPage/contexts/TKCKContextValue";
@@ -50,6 +51,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export const STEP_KHHH = {
+  stepHome: "Step home page",
   step1: "Step enter TKCK",
   step2: "Step eKYC verify",
   step3: "Step confirm info register TKCK",
@@ -69,7 +71,7 @@ const HDBSPage = () => {
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
 
   const [typeCustomer] = useState<TypeCustomer>(TypeCustomer.KHHH);
-  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step1);
+  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.stepHome);
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
     loadingBtnConfirmOTP: false,
@@ -279,6 +281,9 @@ const HDBSPage = () => {
       {md5 && (
         <div className={classes.root}>
           <TKCKContext.Provider value={TKCKContextValue}>
+            {stepCurrent === STEP_KHHH.stepHome && (
+              <HomePage onSelect={() => _onNextStep(STEP_KHHH.step1)} />
+            )}
             {stepCurrent === STEP_KHHH.step1 && (
               <FormTKCKPage onSubmit={_handleSubmitStep1} />
             )}
@@ -293,7 +298,11 @@ const HDBSPage = () => {
                 redoEKYC={() => _onNextStep(STEP_KHHH.step2)}
               />
             )}
-            {stepCurrent === STEP_KHHH.step4 && <RegisterSuccessPage />}
+            {stepCurrent === STEP_KHHH.step4 && (
+              <RegisterSuccessPage
+                onClickOtherTransaction={() => _onNextStep(STEP_KHHH.stepHome)}
+              />
+            )}
           </TKCKContext.Provider>
         </div>
       )}

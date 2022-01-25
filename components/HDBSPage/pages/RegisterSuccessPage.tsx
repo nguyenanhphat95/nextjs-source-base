@@ -35,7 +35,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const RegisterSuccessPage = () => {
+interface Props {
+  onClickOtherTransaction: () => void;
+}
+
+const RegisterSuccessPage = (props: Props) => {
+  const { onClickOtherTransaction } = props;
   const classes = useStyles();
 
   const router = useRouter();
@@ -73,13 +78,7 @@ const RegisterSuccessPage = () => {
                 {t?.subtitle}
               </Box>
             </Grid>
-            <Grid item>
-              {t?.content}
-              {/* Quý khách đã yêu cầu đăng ký mở tài khoản giao dịch chứng khoán
-              HDBS thành công. HDBS sẽ liên hệ với Quý khách để hướng dẫn hoàn
-              tất thủ tục trong vòng 1 ngày làm việc. Trường hợp cần hỗ trợ. Quý
-              khách vui lòng liên hệ hotline của HDBS theo số xxxxxxxxxxx */}
-            </Grid>
+            <Grid item>{t?.content}</Grid>
           </Grid>
         </Box>
 
@@ -87,8 +86,6 @@ const RegisterSuccessPage = () => {
           <Grid container spacing={1}>
             <Grid item xs={8}>
               {t?.question}
-              {/* Quý khách đã thực hiện đăng ký mở tài khoản chứng khoán thành
-              công. Quý khách đánh giá giao dịch này thế nào ? */}
             </Grid>
             <Grid item xs={4} className={classes.imageRatingWrapper}>
               <Image
@@ -103,7 +100,12 @@ const RegisterSuccessPage = () => {
       </Card>
 
       <Box mt={2}>
-        <ButtonCustom fullWidth variant="contained" color="secondary">
+        <ButtonCustom
+          onClick={onClickOtherTransaction}
+          fullWidth
+          variant="contained"
+          color="secondary"
+        >
           {t?.otherTransaction}
           {/* Giao dịch khác */}
         </ButtonCustom>
