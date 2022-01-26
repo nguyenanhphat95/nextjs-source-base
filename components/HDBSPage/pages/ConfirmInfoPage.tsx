@@ -56,6 +56,15 @@ type FormValues = {
   expireOfIssue: string;
 };
 
+const ERROR_FORM = {
+  [LANGUAGE.EN]: {
+    required: "This field is required",
+  },
+  [LANGUAGE.VI]: {
+    required: "Trường này là bắt buộc",
+  },
+};
+
 const ConfirmInfoPage = (props: Props) => {
   const classes = useStyles();
   const { data, onSubmit, typeCustomer, redoEKYC } = props;
@@ -129,7 +138,8 @@ const ConfirmInfoPage = (props: Props) => {
                         render={({ field }) => (
                           <InputCustom
                             errorMsg={
-                              errors.fullName && "This field is required"
+                              errors.fullName &&
+                              _get(ERROR_FORM, [lang, "required"])
                             }
                             fullWidth
                             {...field}

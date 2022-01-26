@@ -11,7 +11,6 @@ import { ButtonCustom, CheckboxCustom, SelectCustom } from "components/commons";
 import { FormDataStep1 } from "../interfaces";
 import { OptionSelectType } from "commons/constants/types";
 
-import * as hdbsServices from "services/hdbsService";
 import TKCKContext from "components/HDBSPage/contexts/TKCKContextValue";
 import { Information } from "..";
 
@@ -58,6 +57,15 @@ export const TYPE_MODAL_INFO = {
   transferInternet: "transferInternet",
   transferAuto: "transferAuto",
   transferBonds: "transferBonds",
+};
+
+const ERROR_FORM = {
+  [LANGUAGE.EN]: {
+    required: "This field is required",
+  },
+  [LANGUAGE.VI]: {
+    required: "Trường này là bắt buộc",
+  },
 };
 
 const FormTKCKPage = (props: Props) => {
@@ -150,7 +158,9 @@ const FormTKCKPage = (props: Props) => {
               rules={{ required: true }}
               render={({ field: { onChange: _onChange, ...rest } }) => (
                 <SelectCustom
-                  errorMsg={errors.accountNo && "This field is required"}
+                  errorMsg={
+                    errors.accountNo && _get(ERROR_FORM, [lang, "required"])
+                  }
                   placeholder={t?.placeholderAccount}
                   options={listAccountNew}
                   loading={listAccountNew.length ? false : true}
@@ -178,7 +188,9 @@ const FormTKCKPage = (props: Props) => {
               rules={{ required: true }}
               render={({ field: { onChange: _onChange, ...rest } }) => (
                 <SelectCustom
-                  errorMsg={errors.merchantId && "This field is required"}
+                  errorMsg={
+                    errors.merchantId && _get(ERROR_FORM, [lang, "required"])
+                  }
                   placeholder={t?.placeholderMerchant}
                   options={listMerchantNew}
                   fullWidth
