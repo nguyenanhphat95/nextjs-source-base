@@ -26,7 +26,7 @@ const logger = getLogger();
 
 export const writeLog = (
   path: string,
-  date: Date,
+  date: string,
   content: string,
   bodyData?: string
 ) => {
