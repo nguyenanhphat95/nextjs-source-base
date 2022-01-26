@@ -71,7 +71,7 @@ const HDBSPage = () => {
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
 
   const [typeCustomer] = useState<TypeCustomer>(TypeCustomer.KHHH);
-  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step2);
+  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.stepHome);
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
     loadingBtnConfirmOTP: false,

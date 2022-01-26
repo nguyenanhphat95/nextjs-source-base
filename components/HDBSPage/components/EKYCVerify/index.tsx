@@ -225,10 +225,6 @@ const EKYCComponent = (props: Props) => {
       };
     } catch (error) {
       console.log("Exception: ", error);
-      axios.post("/api/writeLog", {
-        content: "error-from-ekyc----",
-        body: JSON.stringify(error),
-      });
     }
   }
 
