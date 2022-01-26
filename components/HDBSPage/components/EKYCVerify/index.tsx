@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { makeStyles } from "@mui/styles";
 import { Theme } from "@mui/material";
 import _get from "lodash/get";
+import axios from "axios";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -224,6 +225,10 @@ const EKYCComponent = (props: Props) => {
       };
     } catch (error) {
       console.log("Exception: ", error);
+      axios.post("/api/writeLog", {
+        content: "error-from-ekyc----",
+        body: JSON.stringify(error),
+      });
     }
   }
 
