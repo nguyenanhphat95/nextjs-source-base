@@ -249,15 +249,13 @@ const ConfirmInfoPage = (props: Props) => {
                 onChange={_handleChange}
                 label={
                   <div>
-                    Tôi đồng ý và ủy quyền cho HDBank để cung cấp các thông tin
-                    cá nhân, thông tài khoản của tôi cho Công ty chứng khoán
-                    {data.terminalName}, để thực hiện các thủ tục mở tài khoản
-                    chứng khoán tại Công ty chứng khoán {data.terminalName}. Tôi
-                    đã đọc, hiểu rõ và đồng ý với{" "}
+                    {t?.termCondition1}
+                    {data.terminalName}, {t?.termCondition2} {data.terminalName}
+                    . {t?.termCondition3}
                     <span className={classes.textTermAndCondition}>
-                      Điều khoản và Điều kiện
+                      {t?.termCondition4}
                     </span>{" "}
-                    đính kèm
+                    {t?.termCondition5}
                   </div>
                 }
               />
