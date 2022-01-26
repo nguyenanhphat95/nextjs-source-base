@@ -30,7 +30,10 @@ export function handleErrorWithResponse(
   });
 }
 
-export function getStatusResponse(code: string): {
+export function getStatusResponse(
+  code: string,
+  language: string
+): {
   code: string;
   success: boolean;
   msg: string;
@@ -46,6 +49,10 @@ export function getStatusResponse(code: string): {
   return {
     code,
     success: false,
-    msg: _get(ERROR_CODE_WITH_MESSAGE, code, "Có lỗi xảy ra vui lòng thử lại"),
+    msg: _get(
+      ERROR_CODE_WITH_MESSAGE,
+      [language, code],
+      "Có lỗi xảy ra vui lòng thử lại"
+    ),
   };
 }

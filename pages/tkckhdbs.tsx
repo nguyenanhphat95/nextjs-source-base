@@ -19,6 +19,7 @@ import {
   TypeCustomer,
   FormDataStep3,
 } from "components/HDBSPage/interfaces";
+import { PopupNotify } from "components/commons";
 
 import { MerchantNameItem, TerminalNameItem } from "interfaces/IGetMerchant";
 import { AccountItem } from "interfaces/IListAccount";
@@ -27,10 +28,8 @@ import { ERROR_CODE, getStatusResponse } from "commons/helpers/error";
 import { parseJwt } from "commons/helpers/helper";
 
 import * as hdbsServices from "services/hdbsService";
-
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import _get from "lodash/get";
+import { LANGUAGE } from "commons/constants";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -62,9 +61,15 @@ const HDBSPage = () => {
   const classes = useStyles();
   const router = useRouter();
   const query = router.query;
+  const lang = _get(router, "query.language", LANGUAGE.VI);
 
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
   const [md5, setMd5] = useState(null);
+
+  const [popupNotify, setPopupNotify] = useState({
+    open: false,
+    desc: "",
+  });
 
   const [listMerchant, setListMerchant] = useState<MerchantNameItem[]>([]);
   const [listTerminal, setListTerminal] = useState<TerminalNameItem[]>([]);
@@ -139,7 +144,7 @@ const HDBSPage = () => {
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
         const code = _get(res, "resultCode");
-        const status = getStatusResponse(code);
+        const status = getStatusResponse(code, lang);
 
         if (status.success) {
           if (!res.hasSendOtp) {
@@ -154,7 +159,7 @@ const HDBSPage = () => {
           _onNextStep(STEP_KHHH.step2);
           return;
         }
-        toast.error(status.msg);
+        toggleNotify(status.msg);
       });
   };
 
@@ -179,7 +184,7 @@ const HDBSPage = () => {
     const inquiryResponse = await hdbsServices.inquiryENCYPresent(finalData);
     _toggleLoading("loadingBtnSubmit", false);
     const code = _get(inquiryResponse, "resultCode");
-    const status = getStatusResponse(code);
+    const status = getStatusResponse(code, lang);
 
     if (status.success) {
       if (inquiryResponse.hasSendOtp) {
@@ -190,7 +195,7 @@ const HDBSPage = () => {
       return;
     }
     _toggleLoading("loadingBtnSubmit", false);
-    toast.error(status.msg);
+    toggleNotify(status.msg);
   };
 
   const _handleVerifyOtp = (accountOtp: string) => {
@@ -203,7 +208,7 @@ const HDBSPage = () => {
           _onConfirmEKYC();
           return;
         }
-        toast.error("Invalid OTP");
+        toggleNotify("Invalid OTP");
       })
       .catch((err) => {
         _toggleLoading("loadingBtnConfirmOTP", false);
@@ -231,7 +236,7 @@ const HDBSPage = () => {
       .confirmEKYCPresent(dataForm)
       .then((res) => {
         const code = _get(res, "resultCode");
-        const status = getStatusResponse(code);
+        const status = getStatusResponse(code, lang);
         _toggleLoading("loadingBtnConfirmOTP", false);
 
         if (status.success) {
@@ -239,7 +244,7 @@ const HDBSPage = () => {
           _onNextStep(STEP_KHHH.step4);
           return;
         }
-        toast.error(status.msg);
+        toggleNotify(status.msg);
       })
       .catch((err) => {
         _toggleLoading("loadingBtnConfirmOTP", false);
@@ -250,6 +255,21 @@ const HDBSPage = () => {
     setLoading({
       ...loading,
       [field]: isLoading ? true : false,
+    });
+  }
+
+  function toggleNotify(desc?: string) {
+    setPopupNotify(() => {
+      if (desc) {
+        return {
+          open: true,
+          desc,
+        };
+      }
+      return {
+        open: false,
+        desc: "",
+      };
     });
   }
 
@@ -266,18 +286,15 @@ const HDBSPage = () => {
           setMd5(md5);
         }}
       />
-      <ToastContainer
-        theme="colored"
-        position="bottom-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+
+      {popupNotify.open && (
+        <PopupNotify
+          desc={popupNotify.desc}
+          open={popupNotify.open}
+          toggleModal={toggleNotify}
+        />
+      )}
+
       {md5 && (
         <div className={classes.root}>
           <TKCKContext.Provider value={TKCKContextValue}>

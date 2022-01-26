@@ -1,5 +1,10 @@
 {
   "vn": {
+    "popupNotify": {
+      "close": "Đóng",
+      "autoClose": "Tự động đóng sau",
+      "notify": "Thông báo"
+    },
     "homePage": {
       "openStockAccount": "Mở tài khoản chứng khoán"
     },
@@ -48,6 +53,11 @@
     }
   },
   "en": {
+    "popupNotify": {
+      "close": "Close",
+      "autoClose": "Auto close after",
+      "notify": "Notify"
+    },
     "homePage": {
       "openStockAccount": "Open a stock account"
     },

@@ -64,7 +64,6 @@ export function updateMasterData(data: MasterData) {
 }
 
 function updateTokenExpired(expireIn: number) {
-  const test = addMinuteFromNow(expireIn / 60 - 5, "MM/dd/yyyy H:mm:ss");
   tokenExpired = addMinuteFromNow(expireIn / 60 - 5, "MM/dd/yyyy H:mm:ss");
 }
 
@@ -118,8 +117,6 @@ export const getAccessToken = async () => {
     "/api/getAccessToken",
     body
   );
-  console.log("body---:", body);
-  console.log("getAccessToken----:", resp);
   const token = _get(resp, "data.accessToken");
   const expired = _get(resp, "data.expiryIn");
   if (token) {
@@ -179,23 +176,6 @@ export const checkUserEKYC = async (merchantId: string, terminalId: string) => {
       partnerId: PARTNER_ID as string,
     }),
   };
-
-  await axios.post("/api/writeLog", {
-    content: "Call api checkUserEKYC",
-    body: {
-      requestId,
-      merchantId,
-      terminalId,
-      transactionTime,
-    },
-  });
-
-  await axios.post("/api/writeLog", {
-    content: "Call api checkUserEKYC get Token",
-    body: {
-      token: Cookies.get(KEY_TOKEN) || "get token failed",
-    },
-  });
 
   const resp: AxiosResponse<CheckUserEKYCResponse> = await axios.post(
     "/api/checkUserEKYC",
