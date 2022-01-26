@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getTodayWithFormat } from "commons/helpers/date";
 import axiosWrapper from "commons/helpers/axios/axios-instance";
 import { AxiosResponse } from "axios";
 import { VerifyOTPResponse } from "interfaces/IVerifyOTP";
@@ -27,7 +28,7 @@ export default async function handler(
   } catch (err) {
     writeLog(
       ip.address(),
-      new Date(),
+      getTodayWithFormat(),
       `Verify OTP api: ${_get(err, "message")}`,
       JSON.stringify(req.body)
     );

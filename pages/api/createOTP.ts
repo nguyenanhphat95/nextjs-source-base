@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import axiosWrapper from "commons/helpers/axios/axios-instance";
+import { getTodayWithFormat } from "commons/helpers/date";
 import { AxiosResponse } from "axios";
 import { CreateOTPResponse } from "interfaces/ICreateOTP";
 import { API_DOMAIN_SBH_SANDBOX } from "commons/constants";
@@ -25,6 +26,10 @@ export default async function handler(
     );
     res.status(200).json(resp.data);
   } catch (e) {
-    writeLog(ip.address(), new Date(), `createOtp: ${_get(e, "message")}`);
+    writeLog(
+      ip.address(),
+      getTodayWithFormat(),
+      `createOtp: ${_get(e, "message")}`
+    );
   }
 }

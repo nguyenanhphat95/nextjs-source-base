@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import axiosWrapper from "commons/helpers/axios/axios-instance";
+import { getTodayWithFormat } from "commons/helpers/date";
 import { AxiosResponse } from "axios";
 import { ListAccountResponse } from "interfaces/IListAccount";
 import { API_DOMAIN_SBH_SANDBOX } from "commons/constants";
@@ -26,7 +27,7 @@ export default async function handler(
   } catch (err) {
     writeLog(
       ip.address(),
-      new Date(),
+      getTodayWithFormat(),
       `Get list account api: ${_get(err, "message")}`,
       JSON.stringify(req.body)
     );
