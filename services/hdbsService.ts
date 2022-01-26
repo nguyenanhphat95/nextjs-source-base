@@ -179,6 +179,24 @@ export const checkUserEKYC = async (merchantId: string, terminalId: string) => {
       partnerId: PARTNER_ID as string,
     }),
   };
+
+  await axios.post("/api/writeLog", {
+    content: "Call api checkUserEKYC",
+    body: {
+      requestId,
+      merchantId,
+      terminalId,
+      transactionTime,
+    },
+  });
+
+  await axios.post("/api/writeLog", {
+    content: "Call api checkUserEKYC get Token",
+    body: {
+      token: Cookies.get(KEY_TOKEN) || "get token failed",
+    },
+  });
+
   const resp: AxiosResponse<CheckUserEKYCResponse> = await axios.post(
     "/api/checkUserEKYC",
     body,
