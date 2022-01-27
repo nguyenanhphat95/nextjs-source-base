@@ -88,7 +88,8 @@ const ConfirmOTP = (props: Props) => {
 
   const _handleResendOTP = () => {
     if (countResendOTP === NUMBER_ALLOW_RESEND_OTP) {
-      toggleNotify("Thông báo", MSG_MAXIMUM_SEND_OTP, _handleClosePopup);
+      toggleNotify &&
+        toggleNotify("Thông báo", MSG_MAXIMUM_SEND_OTP, _handleClosePopup);
       return;
     }
     if (!isResendValid || !onSendOTP) {
@@ -102,7 +103,7 @@ const ConfirmOTP = (props: Props) => {
 
   function _handleClosePopup() {
     console.log("_handleClosePopup");
-    setLoginStep(LOGIN_STEP.step1);
+    setLoginStep && setLoginStep(LOGIN_STEP.step1);
   }
 
   return (

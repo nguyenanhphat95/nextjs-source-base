@@ -181,6 +181,7 @@ const LoginForm = (props: Props) => {
         <Grid item xs={12}>
           <Box
             onClick={() =>
+              toggleNotify &&
               toggleNotify(
                 "Thông báo",
                 "Quý khách vui lòng liên hệ 19006060 hoặc đến điểm giao dịch HDBank gần nhất để được hỗ trợ.Trân trọng cảm ơn!"
