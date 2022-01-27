@@ -18,7 +18,7 @@ import resources from "pages/assets/translate.json";
 import cn from "classnames";
 import _get from "lodash/get";
 import STKContext from "components/STKPage/contexts/STKContextValue";
-
+import { LOGIN_STEP } from "pages/sbh";
 const useStyles = makeStyles(() => ({
   root: {
     background: "white",
@@ -59,17 +59,23 @@ interface Props {
   onSendOTP?: () => void;
 }
 
+const NUMBER_ALLOW_RESEND_OTP = 5;
+const MSG_MAXIMUM_SEND_OTP =
+  "Quý khách đã nhận OTP quá 5 lần. Vui lòng thử lại sau 24 giờ để sử dụng tiếp dịch vụ";
 const ConfirmOTP = (props: Props) => {
-  const { onSubmit, onSendOTP } = props;
+  const { locale } = useRouter();
   const classes = useStyles();
+  const { onSubmit, onSendOTP } = props;
+  const { loadingBtnSubmit, toggleNotify, setLoginStep } =
+    useContext(STKContext);
+
   const timerRef = useRef<any>();
 
   const [otp, setOtp] = useState("");
   const [isResendValid, setIsResendValid] = useState(false);
+  const [countResendOTP, setCountResendOTP] = useState(0);
 
-  const { locale } = useRouter();
   const t = _get(resources, [locale || LANGUAGE.VI, "confirmOTP"]);
-  const { loadingBtnSubmit } = useContext(STKContext);
 
   const onCallTimer = useCallback(async () => {
     const isDone = await startTimer(119, timerRef.current);
@@ -81,13 +87,23 @@ const ConfirmOTP = (props: Props) => {
   }, []);
 
   const _handleResendOTP = () => {
+    if (countResendOTP === NUMBER_ALLOW_RESEND_OTP) {
+      toggleNotify("Thông báo", MSG_MAXIMUM_SEND_OTP, _handleClosePopup);
+      return;
+    }
     if (!isResendValid || !onSendOTP) {
       return;
     }
     onSendOTP();
     setIsResendValid(false);
     onCallTimer();
+    setCountResendOTP((prev) => prev + 1);
   };
+
+  function _handleClosePopup() {
+    console.log("_handleClosePopup");
+    setLoginStep(LOGIN_STEP.step1);
+  }
 
   return (
     <Box py={3} px={2} className={classes.root}>
@@ -106,19 +122,26 @@ const ConfirmOTP = (props: Props) => {
             <Grid item className={cn(classes.textCenter)}>
               <InputOTP onChange={setOtp} />
             </Grid>
-            <Grid item className={cn(classes.textCenter, classes.caption)}>
-              {t.question}
-            </Grid>
-            <Grid
-              onClick={_handleResendOTP}
-              item
-              className={cn(
-                classes.textCenter,
-                classes.textLink,
-                !isResendValid && classes.disabledResentOTP
-              )}
-            >
-              {t.resendOTP}
+            <Grid item>
+              <Grid container justifyContent="center">
+                <Grid
+                  item
+                  xs={8}
+                  className={cn(classes.textCenter, classes.caption)}
+                >
+                  {t.question}{" "}
+                  <span
+                    onClick={_handleResendOTP}
+                    className={cn(
+                      classes.textCenter,
+                      classes.textLink,
+                      !isResendValid && classes.disabledResentOTP
+                    )}
+                  >
+                    {t.resendOTP}
+                  </span>
+                </Grid>
+              </Grid>
             </Grid>
             <Grid item className={cn(classes.textCenter)}>
               <span className={classes.textTimer} ref={timerRef} />

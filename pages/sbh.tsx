@@ -8,6 +8,7 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
 import { SectionNotification } from "components/LoginPage";
+import { PopupNotify } from "components/commons";
 
 import {
   SectionLogin,
@@ -27,14 +28,11 @@ import {
   generateRequestBody,
   handleErrorWithResponse,
 } from "commons/helpers";
-// import { CLIENT_SECRET } from "commons/constants";
+import { addHourFromNow } from "commons/helpers/date";
 
 import desktopPic from "public/images/desktop.png";
 import bannerMobile from "public/images/bannerMobile.png";
 import STKContext from "components/STKPage/contexts/STKContextValue";
-
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import _get from "lodash/get";
 
 createTheme();
@@ -50,15 +48,26 @@ const useStyles = makeStyles(() => ({
 }));
 
 export const ERROR_MESSAGE_VERIFY_USER = {
-  [ERROR_CODE.Unauthorized]: "Username or password incorrect",
+  [ERROR_CODE.OTPInValid]:
+    "Mã xác thực OTP không chính xác. Quý khách vui lòng nhập lại",
+  [ERROR_CODE.OTPExpired]:
+    "Mã xác thực đã hết thời gian hiệu lực. Quý khách vui lòng lấy lại mã xác thực mới.",
+  [ERROR_CODE.PhoneNumberLock]: `Qúy khách đã nhập sai OTP quá 5 lần. Vui lòng thử lại sau hh:mm:ss để sử dụng tiếp dịch vụ.(${addHourFromNow(
+    24
+  )}) Nhấn Đóng quay trở về màn hình nhập thông tin ban đầu`,
+  [ERROR_CODE.Unauthorized]:
+    "Tên đăng nhập hoặc Mật khẩu không đúng. Quý khách vui lòng kiểm tra lại",
   [ERROR_CODE.SessionExpired]: "Session Expired",
   [ERROR_CODE.UserNotExist]: "User Not Exist",
   [ERROR_CODE.SessionIdNotFound]: "Session Id Not Found",
-  [ERROR_CODE.FormatMessageInvalid]: "Format Message Invalid",
+  [ERROR_CODE.FormatMessageInvalid]:
+    "Tên đăng nhập hoặc Mật khẩu không hợp lệ. Qúy khách vui lòng kiểm tra lại",
   [ERROR_CODE.SystemError]: "System Error",
   [ERROR_CODE.PasswordExpired]:
     "Expired password requires accessing ebank.hdbank.com.vn to change password",
   [ERROR_CODE.VerifyClientFailed]: "Verify client failed",
+  [ERROR_CODE.AccountLocked]:
+    "Tài khoản của quý khách đã bị khóa. Quý khách có thể sử dụng dịch vụ Internet Banking để mở khóa. Hoặc gọi đến số 19006060  để được hỗ trợ.",
 };
 
 export const LOGIN_STEP = {
@@ -68,6 +77,8 @@ export const LOGIN_STEP = {
   step4: "stepLoginSuccess",
 };
 
+const NUMBER_ALLOW_ENTER_WRONG_OTP = 5;
+
 const SBHPage = () => {
   const classes = useStyles();
   const router = useRouter();
@@ -76,6 +87,14 @@ const SBHPage = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const [popupNotify, setPopupNotify] = useState({
+    open: false,
+    title: "",
+    desc: "",
+    onClose: () => null,
+  });
+
+  const [countEnterWrongOTP, setCountEnterWrongOTP] = useState(0);
   const [loginStep, setLoginStep] = useState(LOGIN_STEP.step1);
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
   const [loading, setLoading] = useState({
@@ -132,7 +151,7 @@ const SBHPage = () => {
     const publicKey = _get(resp, "data.data.key");
 
     if (!publicKey) {
-      toast.error("Get public key error");
+      toggleNotify("Thông báo", "Get public key error");
       return;
     }
     _toggleLoading("loadingBtnSubmit", true);
@@ -141,24 +160,29 @@ const SBHPage = () => {
       .then((res) => {
         const responseCode = _get(res, "data.response.responseCode");
         _toggleLoading("loadingBtnSubmit");
-
         if (responseCode === ERROR_CODE.Success) {
-          stkService.getListAccountApi(data.username).then((res) => {
+          const cif = _get(res, "data.data.cif");
+          stkService.getListAccountApi(cif).then((res) => {
             setListAccount(_get(res, "data.data", []));
           });
           usernameRef.current = data.username;
           passwordRef.current = data.password;
 
           setLoginStep(LOGIN_STEP.step2);
-          toast.success("Login success");
           return;
         }
-        toast.error(ERROR_MESSAGE_VERIFY_USER[responseCode] || "Login failed");
+        toggleNotify(
+          "Thông báo",
+          _get(ERROR_MESSAGE_VERIFY_USER, responseCode) ||
+            ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.Unauthorized]
+        );
       })
       .catch((err) => {
-        toast.error("Login failed");
+        toggleNotify(
+          "Thông báo",
+          "Kết nối gián đoạn. Qúy khách vui lòng thử lại sau"
+        );
         _toggleLoading("loadingBtnSubmit");
-        console.log(err);
       });
   };
 
@@ -168,13 +192,21 @@ const SBHPage = () => {
       .createOTPApi(usernameRef.current)
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
+        const errorCode = _get(res, "data.resultCode");
         if (_get(res, "data.data.userId")) {
-          toast.success("Send OTP success, please check your phone");
           setLoginStep(LOGIN_STEP.step3);
+          return;
         }
+        toggleNotify(
+          "Thông báo",
+          _get(ERROR_MESSAGE_VERIFY_USER, errorCode, "Gửi OTP không thành công")
+        );
       })
       .catch((err) => {
-        toast.error("Send OTP failed");
+        toggleNotify(
+          "Thông báo",
+          "Kết nối gián đoạn. Qúy khách vui lòng thử lại sau"
+        );
         _toggleLoading("loadingBtnSubmit", false);
         console.log(err);
       });
@@ -186,20 +218,36 @@ const SBHPage = () => {
   };
 
   const _handleConfirmOTP = (otp: string) => {
+    if (countEnterWrongOTP === NUMBER_ALLOW_ENTER_WRONG_OTP) {
+      toggleNotify(
+        "Thông báo",
+        `Qúy khách đã nhập sai OTP quá 5 lần. Vui lòng thử lại sau hh:mm:ss để sử dụng tiếp dịch vụ.(${addHourFromNow(
+          24
+        )}) Nhấn Đóng quay trở về màn hình nhập thông tin ban đầu`
+      );
+      return;
+    }
     _toggleLoading("loadingBtnSubmit", true);
     stkService
       .verifyOTPApi(usernameRef.current, otp)
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
+        const errorCode = _get(res, "data.resultCode");
         if (_get(res, "data.data.userId")) {
-          toast.success("Confirm OTP success");
           setLoginStep(LOGIN_STEP.step4);
           return;
         }
-        toast.error(_get(res, "data.data.resultMessage", "Invalid OTP"));
+        setCountEnterWrongOTP((prev) => prev + 1);
+        toggleNotify(
+          "Thông báo",
+          _get(
+            ERROR_MESSAGE_VERIFY_USER,
+            errorCode,
+            "Mã xác thực OTP không chính xác. Quý khách vui lòng nhập lại"
+          )
+        );
       })
       .catch((err) => {
-        toast.error("Send OTP failed");
         _toggleLoading("loadingBtnSubmit", false);
         console.log(err);
       });
@@ -220,7 +268,10 @@ const SBHPage = () => {
         _toggleLoading("loadingBtnSubmit", false);
         if (!code) {
           const errorCode = _get(res, "data.response.responseCode");
-          toast.error(ERROR_MESSAGE_VERIFY_USER[errorCode] || "Login failed");
+          toggleNotify(
+            "Thông báo",
+            ERROR_MESSAGE_VERIFY_USER[errorCode] || "Login failed"
+          );
           return;
         }
         // Redirect to redirect uri
@@ -232,7 +283,10 @@ const SBHPage = () => {
         });
       })
       .catch((err) => {
-        toast.error("Verify failed");
+        toggleNotify(
+          "Thông báo",
+          "Kết nối gián đoạn. Qúy khách vui lòng thử lại sau"
+        );
         _toggleLoading("loadingBtnSubmit", false);
         console.log(err);
       });
@@ -245,24 +299,42 @@ const SBHPage = () => {
     });
   }
 
+  function toggleNotify(title?: string, desc?: string, onClose?: any) {
+    setPopupNotify((prev) => {
+      if (title && desc) {
+        return {
+          open: true,
+          title,
+          desc,
+          onClose: onClose ? onClose : () => null,
+        };
+      }
+      prev.onClose && prev?.onClose();
+      return {
+        open: false,
+        title: "",
+        desc: "",
+        onClose: () => null,
+      };
+    });
+  }
+
   const stkContextValue = {
     loadingBtnSubmit: loading.loadingBtnSubmit,
+    toggleNotify,
+    setLoginStep,
   };
 
   return (
     <Grid container direction="column">
-      <ToastContainer
-        theme="colored"
-        position="bottom-center"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+      {popupNotify.open && (
+        <PopupNotify
+          title={popupNotify.title}
+          desc={popupNotify.desc}
+          open={popupNotify.open}
+          toggleModal={toggleNotify}
+        />
+      )}
 
       <Grid item xs={12}>
         <SectionHeader />

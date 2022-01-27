@@ -19,7 +19,7 @@ createTheme();
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     padding: "12px 48px 12px 48px",
-    [theme.breakpoints?.down("sm")]: {
+    [theme.breakpoints.down("sm")]: {
       padding: "5px 10px",
     },
   },

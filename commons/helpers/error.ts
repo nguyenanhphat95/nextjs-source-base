@@ -10,8 +10,11 @@ export const ERROR_CODE = {
   FormatMessageInvalid: "05",
   PasswordExpired: "06",
   SystemError: "99",
-
-  VerifyClientFailed: '100'
+  VerifyClientFailed: "100",
+  AccountLocked: "12",
+  PhoneNumberLock: "22",
+  OTPExpired: "21",
+  OTPInValid: "08",
 };
 
 export function handleErrorWithResponse(

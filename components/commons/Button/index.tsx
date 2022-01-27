@@ -11,16 +11,13 @@ export interface Props extends ButtonProps {
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    borderRadius: "50px !important",
+    borderRadius: "30px !important",
     boxShadow: "none !important",
-    height: "58px !important",
+    height: "50px !important",
     textTransform: "inherit",
-    fontSize: theme?.typography?.button?.fontSize,
+    fontSize: theme.typography.button.fontSize,
     paddingLeft: "30px !important",
     paddingRight: "30px !important",
-  },
-  btnLoading: {
-    background: "red",
   },
 }));
 
