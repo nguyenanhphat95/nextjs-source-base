@@ -11,6 +11,7 @@ import resources from "pages/assets/translate.json";
 
 import xIcon from "public/asset/images/X.png";
 import _get from "lodash/get";
+import { getLanguage } from "commons/helpers";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -30,7 +31,7 @@ const Information = (props: Props) => {
   const classes = useStyles();
   const { onClose, type } = props;
   const router = useRouter();
-  const lang = _get(router, "query.language", LANGUAGE.VI);
+  const lang = getLanguage(router);
   const t = _get(resources, [lang, "informationModal"]);
 
   const info = {

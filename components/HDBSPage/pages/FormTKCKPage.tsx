@@ -98,7 +98,8 @@ const FormTKCKPage = (props: Props) => {
   const [openModalInfo, setOpenModalInfo] = useState(false);
 
   const router = useRouter();
-  const lang = _get(router, "query.language", LANGUAGE.VI);
+  const lang = LANGUAGE.VI;
+  // const lang = _get(router, "query.language", LANGUAGE.VI);
   const t = _get(resources, [lang, "formTKCKPage"]);
 
   const listAccountNew = useMemo(() => {

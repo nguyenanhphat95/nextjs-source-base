@@ -11,6 +11,7 @@ import { ButtonCustom } from "components/commons";
 import { LANGUAGE } from "commons/constants";
 import resources from "pages/assets/translate.json";
 import _get from "lodash/get";
+import { getLanguage } from "commons/helpers";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -44,7 +45,7 @@ const RegisterSuccessPage = (props: Props) => {
   const classes = useStyles();
 
   const router = useRouter();
-  const lang = _get(router, "query.language", LANGUAGE.VI);
+  const lang = getLanguage(router);
   const t = _get(resources, [lang, "registerSuccessPage"]);
 
   return (

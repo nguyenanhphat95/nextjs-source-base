@@ -2,7 +2,10 @@ import React from "react";
 import { Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useRouter } from "next/router";
+
 import { LANGUAGE } from "commons/constants";
+import { getLanguage } from "commons/helpers";
+
 import resources from "pages/assets/translate.json";
 import _get from "lodash/get";
 
@@ -34,7 +37,7 @@ const HomePage = (props: Props) => {
   const { onSelect } = props;
 
   const router = useRouter();
-  const lang = _get(router, "query.language", LANGUAGE.VI);
+  const lang = getLanguage(router);
   const t = _get(resources, [lang, "homePage"]);
   return (
     <div className={classes.root}>

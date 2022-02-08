@@ -14,6 +14,7 @@ import resources from "pages/assets/translate.json";
 
 import _get from "lodash/get";
 import { MOCK_DATA } from "../consts";
+import { getLanguage } from "commons/helpers";
 
 const useStyles = makeStyles((theme: Theme) => ({
   rootError: {
@@ -90,7 +91,7 @@ const ConfirmInfoPage = (props: Props) => {
     },
   });
   const router = useRouter();
-  const lang = _get(router, "query.language", LANGUAGE.VI);
+  const lang = getLanguage(router);
   const t = _get(resources, [lang, "confirmInfoPage"]);
 
   const _handleChange = (event: ChangeEvent<HTMLInputElement>) => {

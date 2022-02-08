@@ -18,6 +18,7 @@ import resources from "pages/assets/translate.json";
 import notifyError from "public/asset/images/notifyError.png";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
+import { getLanguage } from "commons/helpers";
 interface Props extends DialogProps {
   toggleModal: () => void;
   iconNotify?: React.ReactNode;
@@ -58,7 +59,7 @@ const PopupNotify = (props: Props) => {
   const classes = useStyles();
 
   const router = useRouter();
-  const lang = _get(router, "query.language", LANGUAGE.VI);
+  const lang = getLanguage(router);
   const t = _get(resources, [lang, "popupNotify"]);
 
   const _handleClose = () => {

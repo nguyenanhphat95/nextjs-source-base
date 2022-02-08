@@ -1,6 +1,8 @@
-import { PARTNER_ID } from "commons/constants";
+import { LANGUAGE, PARTNER_ID } from "commons/constants";
 import { v4 as uuidv4 } from "uuid";
+import { NextRouter } from "next/router";
 import _get from "lodash/get";
+
 export const generateRequestBody = () => {
   return {
     request: {
@@ -58,4 +60,14 @@ export function parseJwt(token: string) {
   );
 
   return JSON.parse(jsonPayload);
+}
+
+export function getLanguage(router: NextRouter): string {
+  const lang = _get(router, "query.language");
+  const listLanguage = Object.values(LANGUAGE);
+  if (!listLanguage.find((_lang) => _lang === lang)) {
+    return LANGUAGE.VI;
+  }
+
+  return lang;
 }

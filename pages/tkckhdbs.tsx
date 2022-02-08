@@ -25,7 +25,7 @@ import { MerchantNameItem, TerminalNameItem } from "interfaces/IGetMerchant";
 import { AccountItem } from "interfaces/IListAccount";
 
 import { ERROR_CODE, getStatusResponse } from "commons/helpers/error";
-import { parseJwt } from "commons/helpers/helper";
+import { getLanguage, parseJwt } from "commons/helpers/helper";
 
 import * as hdbsServices from "services/hdbsService";
 import _get from "lodash/get";
@@ -61,7 +61,7 @@ const HDBSPage = () => {
   const classes = useStyles();
   const router = useRouter();
   const query = router.query;
-  const lang = _get(router, "query.language", LANGUAGE.VI);
+  const lang = getLanguage(router);
 
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
   const [md5, setMd5] = useState(null);
