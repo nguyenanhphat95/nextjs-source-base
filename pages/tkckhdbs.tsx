@@ -29,7 +29,6 @@ import { getLanguage, parseJwt } from "commons/helpers/helper";
 
 import * as hdbsServices from "services/hdbsService";
 import _get from "lodash/get";
-import { LANGUAGE } from "commons/constants";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -76,7 +75,7 @@ const HDBSPage = () => {
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
 
   const [typeCustomer] = useState<TypeCustomer>(TypeCustomer.KHHH);
-  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.stepHome);
+  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step1);
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
     loadingBtnConfirmOTP: false,
@@ -298,9 +297,9 @@ const HDBSPage = () => {
       {md5 && (
         <div className={classes.root}>
           <TKCKContext.Provider value={TKCKContextValue}>
-            {stepCurrent === STEP_KHHH.stepHome && (
+            {/* {stepCurrent === STEP_KHHH.stepHome && (
               <HomePage onSelect={() => _onNextStep(STEP_KHHH.step1)} />
-            )}
+            )} */}
             {stepCurrent === STEP_KHHH.step1 && (
               <FormTKCKPage onSubmit={_handleSubmitStep1} />
             )}
