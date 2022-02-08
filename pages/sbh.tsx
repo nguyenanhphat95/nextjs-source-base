@@ -52,9 +52,9 @@ export const ERROR_MESSAGE_VERIFY_USER = {
     "Mã xác thực OTP không chính xác. Quý khách vui lòng nhập lại",
   [ERROR_CODE.OTPExpired]:
     "Mã xác thực đã hết thời gian hiệu lực. Quý khách vui lòng lấy lại mã xác thực mới.",
-  [ERROR_CODE.PhoneNumberLock]: `Qúy khách đã nhập sai OTP quá 5 lần. Vui lòng thử lại sau hh:mm:ss để sử dụng tiếp dịch vụ.(${addHourFromNow(
+  [ERROR_CODE.PhoneNumberLock]: `Qúy khách đã nhập sai OTP quá 5 lần. Vui lòng thử lại sau để sử dụng tiếp dịch vụ.(${addHourFromNow(
     24
-  )}) Nhấn Đóng quay trở về màn hình nhập thông tin ban đầu`,
+  )})`,
   [ERROR_CODE.Unauthorized]:
     "Tên đăng nhập hoặc Mật khẩu không đúng. Quý khách vui lòng kiểm tra lại",
   [ERROR_CODE.SessionExpired]: "Session Expired",
@@ -67,7 +67,7 @@ export const ERROR_MESSAGE_VERIFY_USER = {
     "Expired password requires accessing ebank.hdbank.com.vn to change password",
   [ERROR_CODE.VerifyClientFailed]: "Verify client failed",
   [ERROR_CODE.AccountLocked]:
-    "Tài khoản của quý khách đã bị khóa. Quý khách có thể sử dụng dịch vụ Internet Banking để mở khóa. Hoặc gọi đến số 19006060  để được hỗ trợ.",
+    "Tài khoản của Quý khách đang bị tạm khóa. Vui lòng thử lại sau 24 giờ để sử dụng tiếp dịch vụ",
 };
 
 export const LOGIN_STEP = {
@@ -221,9 +221,9 @@ const SBHPage = () => {
     if (countEnterWrongOTP === NUMBER_ALLOW_ENTER_WRONG_OTP) {
       toggleNotify(
         "Thông báo",
-        `Qúy khách đã nhập sai OTP quá 5 lần. Vui lòng thử lại sau hh:mm:ss để sử dụng tiếp dịch vụ.(${addHourFromNow(
+        `Qúy khách đã nhập sai OTP quá 5 lần. Vui lòng thử lại sau 24h để sử dụng tiếp dịch vụ.(${addHourFromNow(
           24
-        )}) Nhấn Đóng quay trở về màn hình nhập thông tin ban đầu`
+        )})`
       );
       return;
     }
