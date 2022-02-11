@@ -81,6 +81,7 @@ export const ERROR_CODE_WITH_MESSAGE = {
     "51": "Esb inquiry ekyc present thất bại",
     "50": "Phương thức không hợp lệ",
     "49": "Yêu cầu không hợp lệ",
+    "41": "Ngày phát hành không hợp lệ",
   },
   [LANGUAGE.EN]: {
     "00": "Success",
@@ -145,5 +146,6 @@ export const ERROR_CODE_WITH_MESSAGE = {
     "51": "Esb inquiry ekyc present failed",
     "50": "Invalid method",
     "49": "Invalid request",
+    "41": "Invalid date of issue",
   },
 };

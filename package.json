@@ -13,9 +13,9 @@
     "@emotion/react": "^11.7.0",
     "@emotion/server": "latest",
     "@emotion/styled": "^11.6.0",
-    "@mui/icons-material": "^5.3.1",
-    "@mui/material": "^5.2.2",
-    "@mui/styles": "^5.2.3",
+    "@mui/icons-material": "5.3.1",
+    "@mui/material": "5.2.2",
+    "@mui/styles": "5.2.3",
     "axios": "^0.24.0",
     "classnames": "^2.3.1",
     "date-fns": "^2.28.0",
@@ -31,6 +31,7 @@
     "react-hook-form": "^7.24.0",
     "react-query": "^3.34.2",
     "react-toastify": "^8.1.0",
+    "sass": "^1.49.7",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

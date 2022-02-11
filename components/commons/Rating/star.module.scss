@@ -1,0 +1,60 @@
+$star-prefix-cls: rc-star;
+$star-color: #f5a623;
+
+.#{$star-prefix-cls} {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  margin-right: 10px;
+  position: relative;
+  transition: all 0.3s;
+  color: #ccc;
+  cursor: pointer;
+  line-height: 1.5;
+  font-size: 30px;
+  .#{$star-prefix-cls}-rtl & {
+    margin-right: 0;
+    margin-left: 8px;
+    float: right;
+  }
+
+  &-first,
+  &-second {
+    transition: all 0.3s;
+  }
+
+  &-focused,
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  &-first {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    opacity: 0;
+
+    .#{$star-prefix-cls}-rtl & {
+      right: 0;
+      left: auto;
+    }
+  }
+
+  &-half &-first,
+  &-half &-second {
+    opacity: 1;
+  }
+
+  &-half &-first,
+  &-full &-second {
+    color: #{$star-color};
+  }
+
+  &-half:hover &-first,
+  &-full:hover &-second {
+    color: tint(#{$star-color}, 30%);
+  }
+}

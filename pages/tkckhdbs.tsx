@@ -10,7 +10,6 @@ import {
   EKYCVerifyPage,
   ConfirmInfoPage,
   RegisterSuccessPage,
-  HomePage,
   VerifyOTP,
 } from "components/HDBSPage";
 import TKCKContext from "components/HDBSPage/contexts/TKCKContextValue";
@@ -25,11 +24,7 @@ import { MerchantNameItem, TerminalNameItem } from "interfaces/IGetMerchant";
 import { AccountItem } from "interfaces/IListAccount";
 
 import { ERROR_CODE, getStatusResponse } from "commons/helpers/error";
-import {
-  getLanguage,
-  parseJwt,
-  writeLogToServer,
-} from "commons/helpers/helper";
+import { getLanguage, parseJwt } from "commons/helpers/helper";
 
 import * as hdbsServices from "services/hdbsService";
 import _get from "lodash/get";
@@ -306,7 +301,10 @@ const HDBSPage = () => {
               <HomePage onSelect={() => _onNextStep(STEP_KHHH.step1)} />
             )} */}
             {stepCurrent === STEP_KHHH.step1 && (
-              <FormTKCKPage onSubmit={_handleSubmitStep1} />
+              <FormTKCKPage
+                typeCustomer={typeCustomer}
+                onSubmit={_handleSubmitStep1}
+              />
             )}
             {stepCurrent === STEP_KHHH.step2 && (
               <EKYCVerifyPage onSubmit={_handleSubmitStep2} />

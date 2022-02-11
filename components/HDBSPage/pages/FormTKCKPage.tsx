@@ -8,7 +8,7 @@ import { makeStyles } from "@mui/styles";
 import { Card, Grid, Box, Modal } from "@mui/material";
 import { ButtonCustom, CheckboxCustom, SelectCustom } from "components/commons";
 
-import { FormDataStep1 } from "../interfaces";
+import { FormDataStep1, TypeCustomer } from "../interfaces";
 import { OptionSelectType } from "commons/constants/types";
 
 import TKCKContext from "components/HDBSPage/contexts/TKCKContextValue";
@@ -39,6 +39,7 @@ const useStyles = makeStyles(() => ({
 interface Props {
   onSubmit: (data: FormDataStep1) => void;
   md5?: any;
+  typeCustomer: TypeCustomer;
 }
 
 type FormValues = {
@@ -69,7 +70,7 @@ const ERROR_FORM = {
 };
 
 const FormTKCKPage = (props: Props) => {
-  const { onSubmit } = props;
+  const { onSubmit, typeCustomer } = props;
   const classes = useStyles();
   const {
     handleSubmit,
@@ -149,36 +150,40 @@ const FormTKCKPage = (props: Props) => {
     <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
       <Card className={classes.content}>
         <Grid container direction="column" spacing={2}>
-          <Grid item className={classes.title}>
-            {t?.titleSection1}
-          </Grid>
-          <Grid item>
-            <Controller
-              name="accountNo"
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { onChange: _onChange, ...rest } }) => (
-                <SelectCustom
-                  errorMsg={
-                    errors.accountNo && _get(ERROR_FORM, [lang, "required"])
-                  }
-                  placeholder={t?.placeholderAccount}
-                  options={listAccountNew}
-                  loading={listAccountNew.length ? false : true}
-                  fullWidth
-                  onChange={(e) => {
-                    const id = e.target.value;
-                    const itemSelected = listAccountNew.find(
-                      (item) => item.id === id
-                    );
-                    setValue("accountType", itemSelected?.label || "");
-                    _onChange(e);
-                  }}
-                  {...rest}
+          {typeCustomer === TypeCustomer.KHHH && (
+            <>
+              <Grid item className={classes.title}>
+                {t?.titleSection1}
+              </Grid>
+              <Grid item>
+                <Controller
+                  name="accountNo"
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { onChange: _onChange, ...rest } }) => (
+                    <SelectCustom
+                      errorMsg={
+                        errors.accountNo && _get(ERROR_FORM, [lang, "required"])
+                      }
+                      placeholder={t?.placeholderAccount}
+                      options={listAccountNew}
+                      loading={listAccountNew.length ? false : true}
+                      fullWidth
+                      onChange={(e) => {
+                        const id = e.target.value;
+                        const itemSelected = listAccountNew.find(
+                          (item) => item.id === id
+                        );
+                        setValue("accountType", itemSelected?.label || "");
+                        _onChange(e);
+                      }}
+                      {...rest}
+                    />
+                  )}
                 />
-              )}
-            />
-          </Grid>
+              </Grid>
+            </>
+          )}
           <Grid item className={classes.title}>
             {t?.titleSection2}
           </Grid>
@@ -285,27 +290,29 @@ const FormTKCKPage = (props: Props) => {
                 }}
               />
             </Grid>
-            <Grid item>
-              <Controller
-                name="isBond"
-                control={control}
-                render={({ field: { value, ...rest } }) => {
-                  return (
-                    <CheckboxCustom
-                      checked={value}
-                      endIcon={
-                        <Image width={20} height={20} src={warningIcon} />
-                      }
-                      label={t?.labelCheckbox3}
-                      onClickEndIcon={() =>
-                        _handleShowInfo(TYPE_MODAL_INFO.transferBonds)
-                      }
-                      {...rest}
-                    />
-                  );
-                }}
-              />
-            </Grid>
+            {typeCustomer === TypeCustomer.KHHH && (
+              <Grid item>
+                <Controller
+                  name="isBond"
+                  control={control}
+                  render={({ field: { value, ...rest } }) => {
+                    return (
+                      <CheckboxCustom
+                        checked={value}
+                        endIcon={
+                          <Image width={20} height={20} src={warningIcon} />
+                        }
+                        label={t?.labelCheckbox3}
+                        onClickEndIcon={() =>
+                          _handleShowInfo(TYPE_MODAL_INFO.transferBonds)
+                        }
+                        {...rest}
+                      />
+                    );
+                  }}
+                />
+              </Grid>
+            )}
           </Grid>
         </Box>
       </Card>

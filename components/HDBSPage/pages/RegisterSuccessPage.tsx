@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -12,6 +12,7 @@ import { LANGUAGE } from "commons/constants";
 import resources from "pages/assets/translate.json";
 import _get from "lodash/get";
 import { getLanguage } from "commons/helpers";
+import Rating from "components/commons/Rating";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -34,6 +35,9 @@ const useStyles = makeStyles((theme: Theme) => ({
       height: "100% !important",
     },
   },
+  bgRating: {
+    background: "#F2F2F4",
+  },
 }));
 
 interface Props {
@@ -42,6 +46,7 @@ interface Props {
 
 const RegisterSuccessPage = (props: Props) => {
   const { onClickOtherTransaction } = props;
+  const [rateValue, setRateValue] = useState(0);
   const classes = useStyles();
 
   const router = useRouter();
@@ -97,6 +102,9 @@ const RegisterSuccessPage = (props: Props) => {
               />
             </Grid>
           </Grid>
+        </Box>
+        <Box className={classes.bgRating} px={3} py={1}>
+          <Rating defaultValue={rateValue} onChange={setRateValue} />
         </Box>
       </Card>
 

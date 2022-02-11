@@ -212,6 +212,8 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
     partnerId: PARTNER_ID as string,
     language,
     faceMatching: "Y",
+    dateOfIssue: "",
+    dateOfIssueOcr: "",
     checksum: generateCheckSum({
       userId,
       clientNo,
