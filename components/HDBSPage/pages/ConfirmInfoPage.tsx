@@ -55,6 +55,7 @@ type FormValues = {
   dateOfIssue: string;
   placeOfIssue: string;
   expireOfIssue: string;
+  idNumber: number;
 };
 
 const ERROR_FORM = {
@@ -107,7 +108,7 @@ const ConfirmInfoPage = (props: Props) => {
 
   return (
     <>
-      {!resultEKYC.validEKYC && (
+      {/* {!resultEKYC.validEKYC && (
         <div className={classes.rootError}>
           <Box>{resultEKYC.messageEKYC}</Box>
           <Box>
@@ -121,8 +122,8 @@ const ConfirmInfoPage = (props: Props) => {
             </ButtonCustom>
           </Box>
         </div>
-      )}
-      {resultEKYC.validEKYC && (
+      )} */}
+      {!resultEKYC.validEKYC && (
         <div className={classes.root}>
           <div className={classes.tittle}>{t?.title}</div>
           <form className={classes.root} onSubmit={handleSubmit(_handleSubmit)}>
@@ -171,7 +172,24 @@ const ConfirmInfoPage = (props: Props) => {
                     <Grid item>
                       CMND/CCCD: <b>{info?.idNumber}</b>
                     </Grid>
-                    <Grid item></Grid>
+                    <Grid item>
+                      <Controller
+                        name="idNumber"
+                        control={control}
+                        rules={{ required: true }}
+                        render={({ field }) => (
+                          <InputCustom
+                            type="number"
+                            errorMsg={
+                              errors.idNumber &&
+                              _get(ERROR_FORM, [lang, "required"])
+                            }
+                            fullWidth
+                            {...field}
+                          />
+                        )}
+                      />
+                    </Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
