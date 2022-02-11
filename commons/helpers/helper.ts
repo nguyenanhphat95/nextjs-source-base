@@ -1,3 +1,4 @@
+import axios from "axios";
 import { LANGUAGE, PARTNER_ID } from "commons/constants";
 import { v4 as uuidv4 } from "uuid";
 import { NextRouter } from "next/router";
@@ -70,4 +71,8 @@ export function getLanguage(router: NextRouter): string {
   }
 
   return lang;
+}
+
+export async function writeLogToServer(body: any) {
+  await axios.post("/api/writeLog", body);
 }
