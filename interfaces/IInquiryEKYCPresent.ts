@@ -33,7 +33,7 @@ export interface InquiryEKYCPresentRequest {
   expireOfIssueOcr?: string;
   expireOfIssue?: string;
 
-  idNumber?: string;
+  idNumber?: string | number;
   idNumberType?: string;
   idNumberOld?: string;
 

@@ -2,7 +2,7 @@ import _get from "lodash/get";
 import { compareTwoDateDesc, addYearFromNow } from "./date";
 
 interface EKYCData {
-  idNumber: string;
+  idNumber: string | number;
   idNumberType: string;
   fullNameOcr: string;
   gender: string;

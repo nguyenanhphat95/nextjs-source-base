@@ -79,7 +79,7 @@ const HDBSPage = () => {
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
 
   const [typeCustomer] = useState<TypeCustomer>(TypeCustomer.KHHH);
-  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step3);
+  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step1);
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
     loadingBtnConfirmOTP: false,
@@ -97,7 +97,7 @@ const HDBSPage = () => {
   });
 
   useEffect(() => {
-    writeLogToServer(query);
+    // writeLogToServer(query);
     if (!md5 || !query?.jwt) return;
     const jwtInfo = parseJwt(query.jwt as string);
     hdbsServices.getAccessToken().then((res) => {

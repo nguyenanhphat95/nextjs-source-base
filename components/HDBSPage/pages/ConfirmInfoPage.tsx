@@ -55,7 +55,7 @@ type FormValues = {
   dateOfIssue: string;
   placeOfIssue: string;
   expireOfIssue: string;
-  idNumber: number;
+  idNumber: string | number;
 };
 
 const ERROR_FORM = {
@@ -89,6 +89,7 @@ const ConfirmInfoPage = (props: Props) => {
       dateOfIssue: info.dateOfIssueOcr,
       placeOfIssue: info.placeOfIssueOcr,
       expireOfIssue: info.expireOfIssueOcr,
+      idNumber: info.idNumber,
     },
   });
   const router = useRouter();
@@ -108,7 +109,7 @@ const ConfirmInfoPage = (props: Props) => {
 
   return (
     <>
-      {/* {!resultEKYC.validEKYC && (
+      {!resultEKYC.validEKYC && (
         <div className={classes.rootError}>
           <Box>{resultEKYC.messageEKYC}</Box>
           <Box>
@@ -122,8 +123,8 @@ const ConfirmInfoPage = (props: Props) => {
             </ButtonCustom>
           </Box>
         </div>
-      )} */}
-      {!resultEKYC.validEKYC && (
+      )}
+      {resultEKYC.validEKYC && (
         <div className={classes.root}>
           <div className={classes.tittle}>{t?.title}</div>
           <form className={classes.root} onSubmit={handleSubmit(_handleSubmit)}>

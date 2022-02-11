@@ -11,7 +11,7 @@ export interface FormDataStep1 {
 }
 
 export interface FormDataStep3 {
-  idNumber?: string;
+  idNumber?: string | number;
   idNumberType?: string;
   fullNameOcr?: string;
   gender?: string;
