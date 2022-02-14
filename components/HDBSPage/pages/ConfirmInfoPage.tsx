@@ -13,7 +13,6 @@ import { LANGUAGE } from "commons/constants";
 import resources from "pages/assets/translate.json";
 
 import _get from "lodash/get";
-import { MOCK_DATA } from "../consts";
 import { getLanguage } from "commons/helpers";
 
 const useStyles = makeStyles((theme: Theme) => ({

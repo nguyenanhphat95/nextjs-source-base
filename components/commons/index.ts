@@ -5,6 +5,7 @@ import InputOTP from "./InputOTP";
 import LoadingIcon from "./LoadingIcon";
 import CheckboxCustom from "./Checkbox";
 import PopupNotify from "./PopupNotify";
+import Rating from "./Rating";
 export {
   InputCustom,
   ButtonCustom,
@@ -13,4 +14,5 @@ export {
   LoadingIcon,
   CheckboxCustom,
   PopupNotify,
+  Rating,
 };

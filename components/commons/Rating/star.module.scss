@@ -1,5 +1,5 @@
 $star-prefix-cls: rc-star;
-$star-color: #f5a623;
+$star-color: rgb(69, 79, 91);
 
 .#{$star-prefix-cls} {
   margin: 0;
@@ -8,10 +8,10 @@ $star-color: #f5a623;
   margin-right: 10px;
   position: relative;
   transition: all 0.3s;
-  color: #ccc;
+  color: rgb(211, 216, 222);
   cursor: pointer;
   line-height: 1.5;
-  font-size: 30px;
+  font-size: 28px;
   .#{$star-prefix-cls}-rtl & {
     margin-right: 0;
     margin-left: 8px;

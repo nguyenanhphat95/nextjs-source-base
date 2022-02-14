@@ -46,6 +46,7 @@ import axiosWrapper from "commons/helpers/axios/axios-instance";
 
 import _omit from "lodash/omit";
 import _get from "lodash/get";
+import { RatingRequest, RatingResponse } from "interfaces/IRating";
 
 let userId: string;
 let clientNo: string;
@@ -320,6 +321,47 @@ export const verifyOTPApi = async (otp: string) => {
   };
   const resp: AxiosResponse<VerifyOTPResponse> = await axios.post(
     "/api/verifyOTP",
+    body
+  );
+  return resp;
+};
+
+export const createRatingApi = async (
+  ratingNumber: number,
+  merchantId: string,
+  terminalId: string
+) => {
+  const { requestId, language, transactionTime } = generateCommonBodyRequest();
+  const body: RatingRequest = {
+    requestId,
+    channel: CHANNEL_HDBS as string,
+    partnerId: PARTNER_ID as string,
+    language,
+    transactionTime,
+    userId,
+    clientNo,
+    ratingNumber,
+    ratingNote: "",
+    ratingInfo: "success",
+    ratingType: "RATING_TRANS_SUCCESS",
+    ratingTypeName: "đánh giá giao dịch",
+    ratingProductGroup: "TRANSFER",
+    ratingProductCode: "T06",
+    ratingProduct: "liên kết tkck",
+    customerName: "",
+    customerPhone: "",
+    customerEmail: "",
+    checksum: generateCheckSum({
+      userId,
+      clientNo,
+      transactionTime,
+      merchantId,
+      terminalId,
+      partnerId: PARTNER_ID as string,
+    }),
+  };
+  const resp: AxiosResponse<RatingResponse> = await axios.post(
+    "/api/createRating",
     body
   );
   return resp;

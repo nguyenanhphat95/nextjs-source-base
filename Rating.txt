@@ -1,0 +1,24 @@
+curl --location --request POST 'http://113.161.76.226:8087/api/hdbs/submitRatingTrans' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJoZGJzc2VydmljZSIsImlhdCI6MTY0NDU3MTAzMSwiZXhwIjoxNjQ0NTc0NjMxfQ.ITXBhPrOKNsV4513Ak6dv0WUiQBnc8oxp3G0q1QaEks' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "requestId": "5ccd9f48-054b-4c3f-8f25-654f2bb213bd",
+    "channel": "mbank",
+    "partnerId": "HDBS",
+    "language": "VI",
+    "transactionTime": "11/02/2022 18:55:00",
+    "checksum": "17e2872459abe8cf5f7c6dc12866add9",
+    "userId": "ngattb",
+    "clientNo": "00190484",
+    "ratingNumber": "5",
+    "ratingNote": "note",
+    "ratingInfo": "success",
+    "ratingType": "RATING_TRANS_SUCCESS",
+    "ratingTypeName": "đánh giá giao dịch",
+    "ratingProductGroup": "TRANSFER",
+    "ratingProductCode": "T06",
+    "ratingProduct": "liên kết tkck",
+    "customerName": "Nguyen Van A",
+    "customerPhone": "0123456789",
+    "customerEmail": "example@gmail.com"
+}'

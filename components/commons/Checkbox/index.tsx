@@ -1,14 +1,16 @@
 import React from "react";
 import { Checkbox, CheckboxProps, FormControlLabel, Grid } from "@mui/material";
+import Image from "next/image";
 
 import { Theme } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
+import checkboxCheckedIcon from "public/asset/images/checkbox-checked.png";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    "& svg": {
-      color: theme.palette.secondary.dark,
-    },
+    // "& svg": {
+    //   color: theme.palette.secondary.dark,
+    // },
   },
 }));
 interface Props extends CheckboxProps {
@@ -28,7 +30,16 @@ const CheckboxCustom = React.forwardRef(
           <FormControlLabel
             ref={ref}
             className={classes.root}
-            control={<Checkbox {...rest} />}
+            control={
+              <>
+                <Checkbox
+                  {...rest}
+                  checkedIcon={
+                    <Image width={22} height={20} src={checkboxCheckedIcon} />
+                  }
+                />
+              </>
+            }
             label={label || ""}
           />
         </Grid>

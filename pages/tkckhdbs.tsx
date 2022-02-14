@@ -73,8 +73,10 @@ const HDBSPage = () => {
   const [listTerminal, setListTerminal] = useState<TerminalNameItem[]>([]);
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
 
-  const [typeCustomer] = useState<TypeCustomer>(TypeCustomer.KHHH);
-  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step1);
+  const [typeCustomer, setTypeCustomer] = useState<TypeCustomer>(
+    TypeCustomer.KHHH
+  );
+  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step4);
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
     loadingBtnConfirmOTP: false,
@@ -95,6 +97,9 @@ const HDBSPage = () => {
     // writeLogToServer(query);
     if (!md5 || !query?.jwt) return;
     const jwtInfo = parseJwt(query.jwt as string);
+
+    setTypeCustomer(_get(jwtInfo, "typeCustomer", TypeCustomer.KHHH));
+
     hdbsServices.getAccessToken().then((res) => {
       hdbsServices.updateMasterData({
         userId: _get(jwtInfo, "userName"),
@@ -319,6 +324,7 @@ const HDBSPage = () => {
             )}
             {stepCurrent === STEP_KHHH.step4 && (
               <RegisterSuccessPage
+                data={dataForm}
                 onClickOtherTransaction={() => _onNextStep(STEP_KHHH.stepHome)}
               />
             )}
