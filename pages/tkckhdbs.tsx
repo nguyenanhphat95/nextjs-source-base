@@ -24,7 +24,11 @@ import { MerchantNameItem, TerminalNameItem } from "interfaces/IGetMerchant";
 import { AccountItem } from "interfaces/IListAccount";
 
 import { ERROR_CODE, getStatusResponse } from "commons/helpers/error";
-import { getLanguage, parseJwt } from "commons/helpers/helper";
+import {
+  getLanguage,
+  parseJwt,
+  writeLogToServer,
+} from "commons/helpers/helper";
 
 import * as hdbsServices from "services/hdbsService";
 import _get from "lodash/get";
@@ -94,7 +98,7 @@ const HDBSPage = () => {
   });
 
   useEffect(() => {
-    // writeLogToServer(query);
+    writeLogToServer(query);
     if (!md5 || !query?.jwt) return;
     const jwtInfo = parseJwt(query.jwt as string);
 
