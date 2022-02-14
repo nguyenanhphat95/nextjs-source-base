@@ -98,7 +98,7 @@ const HDBSPage = () => {
     if (!md5 || !query?.jwt) return;
     const jwtInfo = parseJwt(query.jwt as string);
 
-    setTypeCustomer(_get(jwtInfo, "typeCustomer", TypeCustomer.KHHH));
+    setTypeCustomer(_get(jwtInfo, "typeUser", TypeCustomer.KHHH));
 
     hdbsServices.getAccessToken().then((res) => {
       hdbsServices.updateMasterData({
