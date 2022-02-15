@@ -18,7 +18,7 @@ import {
   TypeCustomer,
   FormDataStep3,
 } from "components/HDBSPage/interfaces";
-import { PopupNotify } from "components/commons";
+import { LoadingPage, PopupNotify } from "components/commons";
 
 import { MerchantNameItem, TerminalNameItem } from "interfaces/IGetMerchant";
 import { AccountItem } from "interfaces/IListAccount";
@@ -37,6 +37,16 @@ const useStyles = makeStyles(() => ({
   root: {
     background: "#F2F2F4",
     minHeight: "100vh",
+    position: "relative",
+  },
+  loadingContainer: {
+    position: "fixed",
+    width: "100%",
+    height: "100%",
+    zIndex: 9999,
+    background: "black",
+    opacity: 0.7,
+    display: "flex",
   },
   dialogCustom: {
     "& .MuiPaper-root": {
@@ -84,6 +94,7 @@ const HDBSPage = () => {
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
     loadingBtnConfirmOTP: false,
+    loadingMasterData: true,
   });
 
   const [dataForm, setDataForm] = useState({
@@ -102,7 +113,9 @@ const HDBSPage = () => {
     if (!md5 || !query?.jwt) return;
     const jwtInfo = parseJwt(query.jwt as string);
 
-    setTypeCustomer(_get(query, "typeCustomer", TypeCustomer.KHHH) as TypeCustomer);
+    setTypeCustomer(
+      _get(query, "typeCustomer", TypeCustomer.KHHH) as TypeCustomer
+    );
 
     hdbsServices.getAccessToken().then((res) => {
       hdbsServices.updateMasterData({
@@ -112,15 +125,18 @@ const HDBSPage = () => {
         // userId: "anhdtp",
         // clientNo: "00013695",
       });
-      hdbsServices.getMerchant().then((res) => {
-        setListMerchant(res?.merchants || []);
-        setListTerminal(res?.terminals || []);
-      });
 
-      hdbsServices.getListAccountApi().then((res) => {
-        const listAccount = _get(res, "data.data", []);
-        setListAccount(listAccount);
-      });
+      Promise.all([
+        hdbsServices.getMerchant(),
+        hdbsServices.getListAccountApi(),
+      ])
+        .then((res) => {
+          setListMerchant(_get(res, "[0].merchants", []));
+          setListTerminal(_get(res, "[0].terminals", []));
+          setListAccount(_get(res, "[1].data.data"));
+          _toggleLoading("loadingMasterData", false);
+        })
+        .catch(() => _toggleLoading("loadingMasterData", false));
     });
   }, [md5, query?.jwt]);
 
@@ -207,20 +223,21 @@ const HDBSPage = () => {
   };
 
   const _handleVerifyOtp = (accountOtp: string) => {
-    _toggleLoading("loadingBtnConfirmOTP", true);
-    hdbsServices
-      .verifyOTPApi(accountOtp)
-      .then((res) => {
-        _toggleLoading("loadingBtnConfirmOTP", false);
-        if (_get(res, "data.data.userId")) {
-          _onConfirmEKYC();
-          return;
-        }
-        toggleNotify("Invalid OTP");
-      })
-      .catch((err) => {
-        _toggleLoading("loadingBtnConfirmOTP", false);
-      });
+    _onConfirmEKYC();
+    // _toggleLoading("loadingBtnConfirmOTP", true);
+    // hdbsServices
+    //   .verifyOTPApi(accountOtp)
+    //   .then((res) => {
+    //     _toggleLoading("loadingBtnConfirmOTP", false);
+    //     if (_get(res, "data.data.userId")) {
+    //       _onConfirmEKYC();
+    //       return;
+    //     }
+    //     toggleNotify("Invalid OTP");
+    //   })
+    //   .catch((err) => {
+    //     _toggleLoading("loadingBtnConfirmOTP", false);
+    //   });
   };
 
   const _onCreateOTP = () => {
@@ -302,6 +319,7 @@ const HDBSPage = () => {
           toggleModal={toggleNotify}
         />
       )}
+      {loading.loadingMasterData && <LoadingPage />}
 
       {md5 && (
         <div className={classes.root}>

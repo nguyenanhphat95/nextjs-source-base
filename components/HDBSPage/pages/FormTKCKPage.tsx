@@ -23,6 +23,7 @@ const useStyles = makeStyles(() => ({
   root: {},
   content: {
     padding: 10,
+    boxShadow: "none",
   },
   title: {
     fontSize: 18,

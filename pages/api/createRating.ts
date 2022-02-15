@@ -15,7 +15,6 @@ export default async function handler(
   try {
     const token = _get(req, "headers.authorization");
     const url = `${API_DOMAIN}/api/hdbs/submitRatingTrans`;
-
     const resp: AxiosResponse<RatingResponse> = await axiosWrapper.post(
       url,
       req.body,
