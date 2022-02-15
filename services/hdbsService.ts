@@ -206,7 +206,6 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
     ]),
     requestId,
     channel: CHANNEL_HDBS as string,
-    ekyType: "CURRENT_CUSTOMER",
     userId,
     clientNo,
     transactionTime,

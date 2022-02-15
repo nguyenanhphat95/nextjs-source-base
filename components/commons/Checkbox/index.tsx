@@ -8,9 +8,11 @@ import checkboxCheckedIcon from "public/asset/images/checkbox-checked.png";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    // "& svg": {
-    //   color: theme.palette.secondary.dark,
-    // },
+    "& .Mui-checked": {
+      "& span": {
+        width: "23px !important",
+      },
+    },
   },
 }));
 interface Props extends CheckboxProps {

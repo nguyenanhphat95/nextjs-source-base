@@ -10,6 +10,7 @@ import { ButtonCustom, CheckboxCustom, SelectCustom } from "components/commons";
 
 import { FormDataStep1, TypeCustomer } from "../interfaces";
 import { OptionSelectType } from "commons/constants/types";
+import { getLanguage } from "commons/helpers";
 
 import TKCKContext from "components/HDBSPage/contexts/TKCKContextValue";
 import { Information } from "..";
@@ -100,8 +101,7 @@ const FormTKCKPage = (props: Props) => {
   const [openModalInfo, setOpenModalInfo] = useState(false);
 
   const router = useRouter();
-  const lang = LANGUAGE.VI;
-  // const lang = _get(router, "query.language", LANGUAGE.VI);
+  const lang = getLanguage(router);
   const t = _get(resources, [lang, "formTKCKPage"]);
 
   const listAccountNew = useMemo(() => {

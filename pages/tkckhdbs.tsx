@@ -32,6 +32,7 @@ import {
 
 import * as hdbsServices from "services/hdbsService";
 import _get from "lodash/get";
+import { formatDate } from "commons/helpers/date";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -102,10 +103,24 @@ const HDBSPage = () => {
     accountType: "",
     merchantId: "",
     terminalId: "",
+    fullName: "",
     isTranInternet: true,
     isUttb: true,
     isBond: true,
     ekycData: null,
+
+    fullNameOcr: "",
+    idNumber: "",
+    gender: "",
+    birthDateOcr: "",
+    dateOfIssueOcr: "",
+    placeOfIssueOcr: "",
+    address: "",
+    nationalityName: "",
+    phoneNumber: "",
+    idNumberType: "",
+    ekyType:
+      typeCustomer === TypeCustomer.KHHH ? "CURRENT_CUSTOMER" : "NEW_CUSTOMER",
   });
 
   useEffect(() => {
@@ -175,7 +190,26 @@ const HDBSPage = () => {
             _onNextStep(STEP_KHHH.step4);
             return;
           }
-          _onCreateOTP();
+
+          setDataForm({
+            ...dataForm,
+            fullNameOcr: res.fullName,
+            idNumber: res.identityId as string,
+            gender: res.gender,
+            birthDateOcr: res.birthDate
+              ? formatDate(new Date(res.birthDate))
+              : "",
+            dateOfIssueOcr: res.idDate,
+            placeOfIssueOcr: res.idPlace,
+            address: res.address || res.address2,
+            nationalityName: res.national,
+            phoneNumber: res.phoneNumber,
+            idNumberType: res.identityIdType,
+            ekyType: "NEW_CUSTOMER",
+            merchantId: finalData.merchantId,
+            terminalId: finalData.terminalId,
+          });
+          _onNextStep(STEP_KHHH.step3);
           return;
         }
 

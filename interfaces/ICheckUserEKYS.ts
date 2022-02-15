@@ -15,4 +15,15 @@ export interface CheckUserEKYCResponse {
   resultCode: string;
   resultMessage: string;
   hasSendOtp: boolean;
+  fullName: string;
+  gender: string;
+  birthDate: string;
+  identityId: string;
+  idDate: string;
+  idPlace: string;
+  address: string;
+  address2: string;
+  national: string;
+  phoneNumber: string;
+  identityIdType: string;
 }

@@ -54,7 +54,7 @@ type FormValues = {
   dateOfIssue: string;
   placeOfIssue: string;
   expireOfIssue: string;
-  idNumber: string | number;
+  idNumber: string;
 };
 
 const ERROR_FORM = {
@@ -71,10 +71,13 @@ const ConfirmInfoPage = (props: Props) => {
   const { data, onSubmit, typeCustomer, redoEKYC } = props;
   const [isAceptCondition, setIsAceptCondition] = useState(true);
 
-  const info = parseInfoFromEKYC(_get(data, "ekycData"));
-  const resultEKYC = checkResultEkyc(_get(data, "ekycData"));
-  // const info = parseInfoFromEKYC(MOCK_DATA);
-  // const resultEKYC = checkResultEkyc(MOCK_DATA);
+  const info = _get(data, "ekycData")
+    ? parseInfoFromEKYC(_get(data, "ekycData"))
+    : data;
+  const resultEKYC = _get(data, "ekycData")
+    ? checkResultEkyc(_get(data, "ekycData"))
+    : { validEKYC: true, messageEKYC: "" };
+
   const { loadingBtnSubmit } = useContext(TKCKContext);
 
   const {
@@ -88,7 +91,7 @@ const ConfirmInfoPage = (props: Props) => {
       dateOfIssue: info.dateOfIssueOcr,
       placeOfIssue: info.placeOfIssueOcr,
       expireOfIssue: info.expireOfIssueOcr,
-      idNumber: info.idNumber,
+      idNumber: info.idNumber as string,
     },
   });
   const router = useRouter();
@@ -103,6 +106,7 @@ const ConfirmInfoPage = (props: Props) => {
     onSubmit({
       ...info,
       ...data,
+      fullNameOcr: info.fullNameOcr ? info.fullNameOcr : data.fullName,
     });
   };
 
@@ -170,7 +174,8 @@ const ConfirmInfoPage = (props: Props) => {
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      CMND/CCCD: <b>{info?.idNumber}</b>
+                      CMND/CCCD:
+                      {/* <b>{info?.idNumber}</b> */}
                     </Grid>
                     <Grid item>
                       <Controller

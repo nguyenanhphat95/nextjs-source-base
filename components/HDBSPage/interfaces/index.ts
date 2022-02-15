@@ -9,9 +9,8 @@ export interface FormDataStep1 {
   isUttb: boolean;
   isBond: boolean;
 }
-
 export interface FormDataStep3 {
-  idNumber?: string | number;
+  idNumber?: string;
   idNumberType?: string;
   fullNameOcr?: string;
   gender?: string;
@@ -27,6 +26,7 @@ export interface FormDataStep3 {
   dateOfIssue?: string;
   placeOfIssue?: string;
   expireOfIssue?: string;
+  phoneNumber?: string;
 }
 export interface FormDataFinal extends FormDataStep1, FormDataStep3 {
   ekycData: any;
