@@ -12,6 +12,7 @@ interface EKYCData {
   expireOfIssueOcr: string;
   address: string;
   nationalityName: string;
+  email: string;
 }
 
 export const parseInfoFromEKYC = (ekycData: any): EKYCData => {
@@ -58,6 +59,7 @@ export const parseInfoFromEKYC = (ekycData: any): EKYCData => {
       _get(ekycData, "ocr.object.nationality") === "-"
         ? ""
         : _get(ekycData, "ocr.object.nationality", ""),
+    email: "",
   };
 };
 

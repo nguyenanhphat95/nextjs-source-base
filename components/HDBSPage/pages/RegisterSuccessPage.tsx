@@ -61,12 +61,10 @@ const RegisterSuccessPage = (props: Props) => {
 
   const _handleChangeRating = (numberRating: number) => {
     setRateValue(numberRating);
-
     if (!data.merchantId || !data.terminalId) {
       return;
     }
 
-    setRateValue(numberRating);
     hdbsServices.createRatingApi(
       numberRating,
       data.merchantId,

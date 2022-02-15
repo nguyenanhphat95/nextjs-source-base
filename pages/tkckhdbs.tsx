@@ -109,6 +109,8 @@ const HDBSPage = () => {
     isBond: true,
     ekycData: null,
 
+    terminalName: "",
+    email: "",
     fullNameOcr: "",
     idNumber: "",
     gender: "",
@@ -134,11 +136,13 @@ const HDBSPage = () => {
 
     hdbsServices.getAccessToken().then((res) => {
       hdbsServices.updateMasterData({
-        userId: _get(jwtInfo, "userName"),
-        clientNo: _get(jwtInfo, "clientNo"),
+        // userId: _get(jwtInfo, "userName"),
+        // clientNo: _get(jwtInfo, "clientNo"),
         language: "vi",
         // userId: "anhdtp",
         // clientNo: "00013695",
+        userId: "0962220409",
+        clientNo: "88888800",
       });
 
       Promise.all([
@@ -197,7 +201,7 @@ const HDBSPage = () => {
             idNumber: res.identityId as string,
             gender: res.gender,
             birthDateOcr: res.birthDate
-              ? formatDate(new Date(res.birthDate))
+              ? formatDate(new Date(res.birthDate), "dd/MM/yyyy")
               : "",
             dateOfIssueOcr: res.idDate,
             placeOfIssueOcr: res.idPlace,
@@ -205,9 +209,11 @@ const HDBSPage = () => {
             nationalityName: res.national,
             phoneNumber: res.phoneNumber,
             idNumberType: res.identityIdType,
+            email: res.email,
             ekyType: "NEW_CUSTOMER",
             merchantId: finalData.merchantId,
             terminalId: finalData.terminalId,
+            terminalName: finalData.terminalName,
           });
           _onNextStep(STEP_KHHH.step3);
           return;

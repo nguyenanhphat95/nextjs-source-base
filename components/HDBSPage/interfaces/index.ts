@@ -20,6 +20,7 @@ export interface FormDataStep3 {
   expireOfIssueOcr?: string;
   nationalityName?: string;
   address?: string;
+  email?: string;
 
   fullName?: string;
   birthDate?: string;

@@ -70,6 +70,7 @@ const ConfirmInfoPage = (props: Props) => {
   const classes = useStyles();
   const { data, onSubmit, typeCustomer, redoEKYC } = props;
   const [isAceptCondition, setIsAceptCondition] = useState(true);
+  const isKHHH = typeCustomer === TypeCustomer.KHHH;
 
   const info = _get(data, "ekycData")
     ? parseInfoFromEKYC(_get(data, "ekycData"))
@@ -135,24 +136,28 @@ const ConfirmInfoPage = (props: Props) => {
               <Grid container direction="column" spacing={1}>
                 <Grid item>
                   <Grid container spacing={1} direction="column">
-                    <Grid item>{t?.username}:</Grid>
                     <Grid item>
-                      <Controller
-                        name="fullName"
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field }) => (
-                          <InputCustom
-                            errorMsg={
-                              errors.fullName &&
-                              _get(ERROR_FORM, [lang, "required"])
-                            }
-                            fullWidth
-                            {...field}
-                          />
-                        )}
-                      />
+                      {t?.username}: <b>{!isKHHH && info?.fullNameOcr}</b>
                     </Grid>
+                    {isKHHH && (
+                      <Grid item>
+                        <Controller
+                          name="fullName"
+                          control={control}
+                          rules={{ required: true }}
+                          render={({ field }) => (
+                            <InputCustom
+                              errorMsg={
+                                errors.fullName &&
+                                _get(ERROR_FORM, [lang, "required"])
+                              }
+                              fullWidth
+                              {...field}
+                            />
+                          )}
+                        />
+                      </Grid>
+                    )}
                   </Grid>
                 </Grid>
                 <Grid item>
@@ -174,27 +179,28 @@ const ConfirmInfoPage = (props: Props) => {
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      CMND/CCCD:
-                      {/* <b>{info?.idNumber}</b> */}
+                      CMND/CCCD: <b>{!isKHHH && info?.idNumber}</b>
                     </Grid>
-                    <Grid item>
-                      <Controller
-                        name="idNumber"
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field }) => (
-                          <InputCustom
-                            type="number"
-                            errorMsg={
-                              errors.idNumber &&
-                              _get(ERROR_FORM, [lang, "required"])
-                            }
-                            fullWidth
-                            {...field}
-                          />
-                        )}
-                      />
-                    </Grid>
+                    {isKHHH && (
+                      <Grid item>
+                        <Controller
+                          name="idNumber"
+                          control={control}
+                          rules={{ required: true }}
+                          render={({ field }) => (
+                            <InputCustom
+                              type="number"
+                              errorMsg={
+                                errors.idNumber &&
+                                _get(ERROR_FORM, [lang, "required"])
+                              }
+                              fullWidth
+                              {...field}
+                            />
+                          )}
+                        />
+                      </Grid>
+                    )}
                   </Grid>
                 </Grid>
                 <Grid item>
@@ -245,8 +251,9 @@ const ConfirmInfoPage = (props: Props) => {
                 </Grid>
                 <Grid item>
                   <Grid container spacing={1} direction="column">
-                    <Grid item>{t?.email}:</Grid>
-                    <Grid item></Grid>
+                    <Grid item>
+                      {t?.email}: <b>{info?.email}</b>
+                    </Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
@@ -257,14 +264,16 @@ const ConfirmInfoPage = (props: Props) => {
                     <Grid item></Grid>
                   </Grid>
                 </Grid>
-                <Grid item>
-                  <Grid container spacing={1} direction="column">
-                    <Grid item>
-                      {t?.accountNo}: <b>{data.accountNo}</b>
+                {isKHHH && (
+                  <Grid item>
+                    <Grid container spacing={1} direction="column">
+                      <Grid item>
+                        {t?.accountNo}: <b>{data.accountNo}</b>
+                      </Grid>
+                      <Grid item></Grid>
                     </Grid>
-                    <Grid item></Grid>
                   </Grid>
-                </Grid>
+                )}
               </Grid>
             </Box>
             <Box mt={1}>

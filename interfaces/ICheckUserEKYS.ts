@@ -26,4 +26,5 @@ export interface CheckUserEKYCResponse {
   national: string;
   phoneNumber: string;
   identityIdType: string;
+  email: string;
 }
