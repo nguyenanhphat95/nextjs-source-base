@@ -23,6 +23,8 @@ import _getTime from "date-fns/getTime";
 const publicKey =
   "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCDY1DzbqoavP8UVPYARHpy+zPlaFiBdf3imr5m4RdbHCwMueevk+NoWV2dqL/LBnk8oWMqWkgMDnTleXe/jvj6zQEuuCoBVDiZq4k0JXbHdTmXg0/fH7d9YD0BsSkpSJH8A9RBSnjvIzKLNHXKTUyxG1QIIKbU2lhVAB/jK2UtdwIDAQAB";
 const secret = "123456789";
+const privateKey =
+  "MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAINjUPNuqhq8/xRU9gBEenL7M+VoWIF1/eKavmbhF1scLAy556+T42hZXZ2ov8sGeTyhYypaSAwOdOV5d7+O+PrNAS64KgFUOJmriTQldsd1OZeDT98ft31gPQGxKSlIkfwD1EFKeO8jMos0dcpNTLEbVAggptTaWFUAH+MrZS13AgMBAAECgYA8QxI/BRP6PZNVVP6b8syi7jrITsrBXkf7ZnRMJZOb01kU4TO14UPdeZepl1uYmDiFKZSdOVlwRjUxhzv4XXAulv3BNS5/CJfpWOj6ad5dfClws10tkXFWwp6zLWic9eXJQF+UGHYMy1edzbRpbNq1L8lrvAUz+UPn3u67PgjIAQJBAM210DyfBhwUfYXEmodOxQgeoH07r2m8EW7DlIHxjHZ+h0Y4rntrAdLv7rnawvm1fXWBsI29cLcUk4bpxBFHkXcCQQCjghyqvowjANw9mDenIEpaT1N5EiA9TYubt4f6CG+iwpBxmUDCe5E8xVBjl4kkfid0z+KG1fB4VE+S9d7y1kQBAkAA0B4hjzNT+xS/6ZX+wOXwcUaLGChKT6719BnrJYw7j6ZzNZgi7rpUHhSgcWfh2sDDLR8IgF4oqxEmMFhRBSpjAkBSaVoZlUD8w4o+YWJrkhLnwePIuiIVw+gB7FdU5rudxYMYPq4tWCqz/p+uEsrE4fDxJ3Z9j4dMnvIcmGBu9SABAkAQchKExzfalMJlMXzLn86I8xbAwZLIve+X+XXiMPxswDJ6R/CvtLoxczRBdB2d2u5e+IDzLGXM6haGd9pZ2uvt";
 const generateBodyRequest = (object: Record<string, string>) => {
   return {
     request: {
@@ -30,9 +32,9 @@ const generateBodyRequest = (object: Record<string, string>) => {
       partnerId: PARTNER_ID_SBH_OTP,
       // requestTime: "31122018231628",
       requestTime: getTodayWithFormat("ddMMyyyyhhmmss"),
-      // signature:
-      //   "AB46DM+9eshvFRRSQqL421E1Z3dfUAar0W/79ZHYju3Ajvnmex74O52lTFdG4k7EuJsR7d2ey6OsKhGv5U5gT6mw7HAg/FxE1GokSD/z2jt0Fd39S5TgrK20sbfvfZOfNLJERuZo5kX6ohW4LyTHHZ5wdmYVKSLp754Jvm+3RpQ=",
-      signature: generateSignature(object),
+      signature:
+        "blx+oT3RsS0M1Xl8woupGj0il9etTQN5zOdQyVoo2UKSKwq3RI2nb0w88bJM3qjks4YY+k/16d8iRhTLqsgI/ApYnnIoIVeRL40VLc4zdsBtY7dT4JWK5iYum19ibbHRUsL6+vzm2MmMaQ6sw4mObxH9wUxn79sgIi7M2K/gBmw=",
+      // signature: generateSignature(object),
       // signature:
       //   "EfbULVfBr4u6q2BITpcm+dichVttkDotTgK7xCKUXsH47lGXSbIe5Kr5ZZ+IKrySTt+nhoQG0OT6BQgu21RgwjKfdEiI6gLOV1h2sAfPeggD0ZkORLOxBaseUV2t6l7vMPzPHHH+Rfj+c9lnnBF52mhAK7o4MFZua8Zpqj7ZNL4=",
     },
@@ -47,7 +49,14 @@ function generateSignature(object: Record<string, string>): string {
   });
   str += secret;
   const sh256 = crypto.createHash("sha256").update(str).digest("hex");
-  return sh256;
+
+  const JSEnscript = _get(window, "JSEncrypt");
+  const crypt = new JSEnscript();
+
+  crypt.setPublicKey(publicKey);
+  const credential = crypt.encrypt(sh256);
+
+  return credential;
 }
 
 export const checkSessionOTPApi = async (uuid: string) => {

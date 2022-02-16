@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useCallback, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Script from "next/script";
 
 import { makeStyles } from "@mui/styles";
 import { Grid } from "@mui/material";
@@ -69,9 +70,11 @@ const OTPPage = () => {
     if (!query.uuid || !query.token) return;
 
     async function callApi() {
-      const resCheckSession = await sbhOTPServices.checkSessionOTPApi(
-        query.uuid as string
-      );
+      setTimeout(async () => {
+        const resCheckSession = await sbhOTPServices.checkSessionOTPApi(
+          query.uuid as string
+        );
+      }, 1000);
 
       // if (resCheckSession?.data?.code === CheckSessionOTPCode.valid) {
       //   setValidPage(true);
@@ -102,14 +105,15 @@ const OTPPage = () => {
     callApi();
   }, [query.uuid, query.token]);
 
-  const _handleVerify = (otp: string) => {
-    sbhOTPServices.verifySbhOTPApi(otp, bTxnId.current).then((res) => {
-      console.log("verifySbhOTPApi---:", res);
-    });
-  };
+  // const _handleVerify = (otp: string) => {
+  //   sbhOTPServices.verifySbhOTPApi(otp, bTxnId.current).then((res) => {
+  //     console.log("verifySbhOTPApi---:", res);
+  //   });
+  // };
 
   return (
     <div className={classes.root}>
+      <Script id="jsencrypt-id" src="/js/jsencrypt.min.js" />
       {validPage && (
         <Grid container direction="column" spacing={2}>
           <Grid item className={classes.textCenter}>
