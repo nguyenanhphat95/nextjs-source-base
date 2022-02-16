@@ -22,7 +22,7 @@ import _getTime from "date-fns/getTime";
 
 const publicKey =
   "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCDY1DzbqoavP8UVPYARHpy+zPlaFiBdf3imr5m4RdbHCwMueevk+NoWV2dqL/LBnk8oWMqWkgMDnTleXe/jvj6zQEuuCoBVDiZq4k0JXbHdTmXg0/fH7d9YD0BsSkpSJH8A9RBSnjvIzKLNHXKTUyxG1QIIKbU2lhVAB/jK2UtdwIDAQAB";
-
+const secret = "123456789";
 const generateBodyRequest = (object: Record<string, string>) => {
   return {
     request: {
@@ -30,6 +30,8 @@ const generateBodyRequest = (object: Record<string, string>) => {
       partnerId: PARTNER_ID_SBH_OTP,
       // requestTime: "31122018231628",
       requestTime: getTodayWithFormat("ddMMyyyyhhmmss"),
+      // signature:
+      //   "AB46DM+9eshvFRRSQqL421E1Z3dfUAar0W/79ZHYju3Ajvnmex74O52lTFdG4k7EuJsR7d2ey6OsKhGv5U5gT6mw7HAg/FxE1GokSD/z2jt0Fd39S5TgrK20sbfvfZOfNLJERuZo5kX6ohW4LyTHHZ5wdmYVKSLp754Jvm+3RpQ=",
       signature: generateSignature(object),
       // signature:
       //   "EfbULVfBr4u6q2BITpcm+dichVttkDotTgK7xCKUXsH47lGXSbIe5Kr5ZZ+IKrySTt+nhoQG0OT6BQgu21RgwjKfdEiI6gLOV1h2sAfPeggD0ZkORLOxBaseUV2t6l7vMPzPHHH+Rfj+c9lnnBF52mhAK7o4MFZua8Zpqj7ZNL4=",
@@ -43,7 +45,7 @@ function generateSignature(object: Record<string, string>): string {
   keys.forEach((key) => {
     str += object[key];
   });
-  str += publicKey;
+  str += secret;
   const sh256 = crypto.createHash("sha256").update(str).digest("hex");
   return sh256;
 }
