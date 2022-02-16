@@ -28,6 +28,7 @@ export interface FormDataStep3 {
   placeOfIssue?: string;
   expireOfIssue?: string;
   phoneNumber?: string;
+  ekycType?: string;
 }
 export interface FormDataFinal extends FormDataStep1, FormDataStep3 {
   ekycData: any;

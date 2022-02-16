@@ -9,6 +9,7 @@ export interface CheckUserENCYRequest {
   transactionTime: string;
   language: string;
   checksum: string;
+  ekycType: string;
 }
 
 export interface CheckUserEKYCResponse {

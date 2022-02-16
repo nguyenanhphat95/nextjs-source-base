@@ -155,13 +155,18 @@ export const getMerchant = async () => {
   return resp.data;
 };
 
-export const checkUserEKYC = async (merchantId: string, terminalId: string) => {
+export const checkUserEKYC = async (
+  merchantId: string,
+  terminalId: string,
+  ekycType: string
+) => {
   await refreshAccessToken();
   const { requestId, language, transactionTime } = generateCommonBodyRequest();
   const body: CheckUserENCYRequest = {
     requestId,
     language,
     transactionTime,
+    ekycType,
     channel: CHANNEL_HDBS as string,
     clientNo,
     merchantId,

@@ -121,8 +121,7 @@ const HDBSPage = () => {
     nationalityName: "",
     phoneNumber: "",
     idNumberType: "",
-    ekyType:
-      typeCustomer === TypeCustomer.KHHH ? "CURRENT_CUSTOMER" : "NEW_CUSTOMER",
+    ekyType: "",
   });
 
   useEffect(() => {
@@ -130,19 +129,21 @@ const HDBSPage = () => {
     if (!md5 || !query?.jwt) return;
     const jwtInfo = parseJwt(query.jwt as string);
 
-    setTypeCustomer(
-      _get(query, "typeCustomer", TypeCustomer.KHHH) as TypeCustomer
-    );
-
+    const type = _get(query, "typeCustomer", TypeCustomer.KHHH) as TypeCustomer;
+    setTypeCustomer(type);
+    setDataForm({
+      ...dataForm,
+      ekyType: type === TypeCustomer.KHHH ? "CURRENT_CUSTOMER" : "NEW_CUSTOMER",
+    });
     hdbsServices.getAccessToken().then((res) => {
       hdbsServices.updateMasterData({
-        // userId: _get(jwtInfo, "userName"),
-        // clientNo: _get(jwtInfo, "clientNo"),
+        userId: _get(jwtInfo, "userName"),
+        clientNo: _get(jwtInfo, "clientNo"),
         language: "vi",
         // userId: "anhdtp",
         // clientNo: "00013695",
-        userId: "0962220409",
-        clientNo: "88888800",
+        // userId: "0962220409",
+        // clientNo: "88888800",
       });
 
       Promise.all([
@@ -183,7 +184,11 @@ const HDBSPage = () => {
     setDataForm(finalData);
 
     hdbsServices
-      .checkUserEKYC(finalData.merchantId, finalData.terminalId)
+      .checkUserEKYC(
+        finalData.merchantId,
+        finalData.terminalId,
+        finalData.ekyType
+      )
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
         const code = _get(res, "resultCode");
