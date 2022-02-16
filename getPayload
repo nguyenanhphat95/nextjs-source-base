@@ -1,0 +1,85 @@
+case URLUtilsType.TOKENIZE: {
+			if (objectClass == TokenizeAccountRequest.class) {
+				TokenizeAccountRequest request = (TokenizeAccountRequest) object;
+				payload += request.getRequest().getPartnerId();
+				payload += request.getData().getIdentityNumber();
+				payload += request.getData().getBankAccount();
+				payload += request.getData().getFullName();
+				payload += request.getData().getTxnId();
+				payload += request.getData().getPartnerAccount();
+				payload += request.getRequest().getRequestTime();
+
+			} else {
+				TokenizeAccountResponse response = (TokenizeAccountResponse) object;
+				payload += response.getResponse().getStatus();
+				payload += response.getResponse().getResponseCode();
+				payload += response.getResponse().getResponseMessage();
+				payload += response.getData().getBTxnId();
+				payload += response.getData().getTokenizeId();
+			}
+			break;
+		}
+		
+case URLUtilsType.PURCHASE_SBH:
+			if (objectClass == ExchangeRequest.class) {
+				ExchangeRequest request = (ExchangeRequest) object;
+				payload += request.getRequest().getPartnerId();
+				payload += request.getData().getTokenizeId();
+				payload += request.getData().getTxnId();
+				payload += request.getData().getAmount();
+				payload += request.getData().getDescription();
+
+			} else {
+				ExchangeResponse response = (ExchangeResponse) object;
+				payload += response.getResponse().getStatus();
+				payload += response.getResponse().getResponseCode();
+				payload += response.getResponse().getResponseMessage();
+				payload += response.getData().getTxnId();
+				payload += response.getData().getBTxnId();
+			}
+		    break;	
+			
+case URLUtilsType.VERIFY_OTP_SBH: {
+			if (objectClass == VerifyOtpReq.class) {
+				VerifyOtpReq request = (VerifyOtpReq) object;
+				payload += request.getRequest().getPartnerId();
+				payload += request.getData().getOtp();
+
+			} else {
+				VerifyOtpResponse response = (VerifyOtpResponse) object;
+				payload += response.getResponse().getStatus();
+				payload += response.getResponse().getResponseCode();
+				payload += response.getResponse().getResponseMessage();
+			}
+			break;
+		}
+		
+case URLUtilsType.GET_INFO_BY_BTXNID: {
+			if (objectClass == GetInfoBybTxnIdRequest.class) {
+				GetInfoBybTxnIdRequest request = (GetInfoBybTxnIdRequest) object;
+				payload += request.getRequest().getPartnerId();
+				payload += request.getData().getBTxnId();
+
+			} else {
+				GetInfoBybTxnIdResponse response = (GetInfoBybTxnIdResponse) object;
+				payload += response.getResponse().getStatus();
+				payload += response.getResponse().getResponseCode();
+				payload += response.getResponse().getResponseMessage();
+			}
+			break;
+		}
+
+case URLUtilsType.CHECK_SESSION_OTP: {
+			if (objectClass == CheckSessionRequest.class) {
+				CheckSessionRequest request = (CheckSessionRequest) object;
+				payload += request.getRequest().getPartnerId();
+				payload += request.getData().getUuid();
+
+			} else {
+				CheckSessionResponse response = (CheckSessionResponse) object;
+				payload += response.getResponse().getStatus();
+				payload += response.getResponse().getResponseCode();
+				payload += response.getResponse().getResponseMessage();
+			}
+			break;
+		}		

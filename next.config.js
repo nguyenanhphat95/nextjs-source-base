@@ -23,5 +23,8 @@ module.exports = {
     // CLIENT_ID_SBH_CLIENT: process.env.CLIENT_ID_SBH,
     // CLIENT_SECRET_SBH_CLIENT: process.env.CLIENT_SECRET_SBH,
     API_DOMAIN_SANDBOX_SBH_CLIENT: process.env.API_DOMAIN_SANDBOX_SBH,
+
+    // Config for SBH OTP
+    PARTNER_ID_SBH_OTP_CLIENT: process.env.PARTNER_ID_SBH_OTP,
   },
 };

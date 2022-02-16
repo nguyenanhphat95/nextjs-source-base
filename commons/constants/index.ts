@@ -23,3 +23,5 @@ export const LANGUAGE = {
   VI: "vi",
   EN: "en",
 };
+
+export const PARTNER_ID_SBH_OTP = process.env.PARTNER_ID_SBH_OTP_CLIENT;

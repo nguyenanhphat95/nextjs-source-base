@@ -6,3 +6,83 @@
 [2022-01-27T08:51:02.247] [INFO] default - 192.168.100.5 - Thu Jan 27 2022 08:51:02 GMT+0700 (Indochina Time)----content: Get public key api: getaddrinfo ENOTFOUND sso-app.hdbank.com.vn---withBodyData: 
 [2022-01-27T08:51:02.765] [INFO] default - 192.168.100.5 - Thu Jan 27 2022 08:51:02 GMT+0700 (Indochina Time)----content: Get public key api: getaddrinfo ENOTFOUND sso-app.hdbank.com.vn---withBodyData: 
 [2022-01-27T08:51:03.951] [INFO] default - 192.168.100.5 - Thu Jan 27 2022 08:51:03 GMT+0700 (Indochina Time)----content: Get public key api: getaddrinfo ENOTFOUND sso-app.hdbank.com.vn---withBodyData: 
+[2022-02-16T08:50:47.733] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:50:47 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 401---withBodyData: 
+[2022-02-16T08:50:47.772] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:50:47 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 401---withBodyData: 
+[2022-02-16T08:51:01.122] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:51:01 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 401---withBodyData: 
+[2022-02-16T08:51:04.367] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:51:04 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 401---withBodyData: 
+[2022-02-16T08:51:08.793] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:51:08 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 401---withBodyData: 
+[2022-02-16T08:51:12.592] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:51:12 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 401---withBodyData: 
+[2022-02-16T08:51:21.894] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:51:21 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 401---withBodyData: 
+[2022-02-16T08:51:33.318] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:51:33 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 401---withBodyData: 
+[2022-02-16T08:51:37.697] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:51:37 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 401---withBodyData: 
+[2022-02-16T08:51:38.456] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:51:38 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 401---withBodyData: 
+[2022-02-16T08:52:20.931] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:52:20 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 401---withBodyData: 
+[2022-02-16T08:52:41.762] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:52:41 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 401---withBodyData: 
+[2022-02-16T08:53:10.272] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:53:10 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 401---withBodyData: 
+[2022-02-16T08:54:25.705] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:54:25 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 401---withBodyData: 
+[2022-02-16T08:55:36.822] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:55:36 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 401---withBodyData: 
+[2022-02-16T08:55:43.330] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:55:43 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 401---withBodyData: 
+[2022-02-16T08:56:33.015] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:56:33 GMT+0700 (Indochina Time)----content: createOtp: Invalid value "undefined" for header "X-IBM-Client-Id"---withBodyData: 
+[2022-02-16T08:57:14.935] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:57:14 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 403---withBodyData: 
+[2022-02-16T08:58:22.142] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:58:22 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 403---withBodyData: 
+[2022-02-16T08:58:31.846] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 08:58:31 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 403---withBodyData: 
+[2022-02-16T09:29:56.075] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:29:56 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 500---withBodyData: 
+[2022-02-16T09:30:09.195] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:30:09 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 500---withBodyData: 
+[2022-02-16T09:30:12.914] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:30:12 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 500---withBodyData: 
+[2022-02-16T09:30:19.788] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:30:19 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 500---withBodyData: 
+[2022-02-16T09:30:23.314] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:30:23 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 500---withBodyData: 
+[2022-02-16T09:30:28.953] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:30:28 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 500---withBodyData: 
+[2022-02-16T09:50:06.648] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:50:06 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:50:21.377] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:50:21 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:50:25.487] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:50:25 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:50:37.199] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:50:37 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:50:41.854] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:50:41 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:50:55.676] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:50:55 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:51:02.554] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:51:02 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:51:09.875] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:51:09 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:51:26.019] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:51:26 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:52:10.954] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:52:10 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:52:22.661] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:52:22 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:53:52.974] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:53:52 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:54:01.967] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:54:01 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:54:38.684] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:54:38 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:55:57.842] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:55:57 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:56:01.735] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:56:01 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:57:11.187] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:57:11 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:57:26.303] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:57:26 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:57:53.657] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:57:53 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:58:11.946] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:58:11 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:58:14.138] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:58:14 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:58:27.582] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:58:27 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:58:31.249] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:58:31 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:58:58.536] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:58:58 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:59:15.843] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:59:15 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:59:19.171] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:59:19 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:59:24.174] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:59:24 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:59:25.046] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:59:25 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:59:42.769] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:59:42 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T09:59:50.546] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 09:59:50 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T10:00:20.774] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 10:00:20 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T10:00:28.343] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 10:00:28 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T10:00:44.454] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 10:00:44 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T10:00:46.753] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 10:00:46 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T10:00:51.437] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 10:00:51 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T10:01:01.595] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 10:01:01 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T10:01:06.116] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 10:01:06 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T10:01:15.718] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 10:01:15 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T10:02:54.893] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 10:02:54 GMT+0700 (Indochina Time)----content: createOtp: Request failed with status code 429---withBodyData: 
+[2022-02-16T10:04:30.354] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 10:04:30 GMT+0700 (Indochina Time)----content: check session otp: Request failed with status code 429---withBodyData: 
+[2022-02-16T14:17:56.263] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 14:17:56 GMT+0700 (Indochina Time)----content: get info by token: Request failed with status code 429---withBodyData: 
+[2022-02-16T14:18:18.467] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 14:18:18 GMT+0700 (Indochina Time)----content: check session otp: Request failed with status code 429---withBodyData: 
+[2022-02-16T14:18:37.618] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 14:18:37 GMT+0700 (Indochina Time)----content: check session otp: Request failed with status code 429---withBodyData: 
+[2022-02-16T14:19:55.461] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 14:19:55 GMT+0700 (Indochina Time)----content: check session otp: Request failed with status code 429---withBodyData: 
+[2022-02-16T14:24:16.586] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 14:24:16 GMT+0700 (Indochina Time)----content: check session otp: Request failed with status code 429---withBodyData: 
+[2022-02-16T14:24:41.583] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 14:24:41 GMT+0700 (Indochina Time)----content: check session otp: Request failed with status code 429---withBodyData: 
+[2022-02-16T14:26:57.028] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 14:26:57 GMT+0700 (Indochina Time)----content: check session otp: Request failed with status code 429---withBodyData: 
+[2022-02-16T14:29:38.823] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 14:29:38 GMT+0700 (Indochina Time)----content: check session otp: Request failed with status code 429---withBodyData: 
+[2022-02-16T14:33:18.878] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 14:33:18 GMT+0700 (Indochina Time)----content: check session otp: Request failed with status code 429---withBodyData: 
+[2022-02-16T14:33:19.574] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 14:33:19 GMT+0700 (Indochina Time)----content: check session otp: Request failed with status code 429---withBodyData: 
+[2022-02-16T14:33:24.985] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 14:33:24 GMT+0700 (Indochina Time)----content: check session otp: Request failed with status code 429---withBodyData: 
+[2022-02-16T14:35:48.604] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 14:35:48 GMT+0700 (Indochina Time)----content: check session otp: Request failed with status code 429---withBodyData: 
+[2022-02-16T14:35:56.846] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 14:35:56 GMT+0700 (Indochina Time)----content: check session otp: Request failed with status code 429---withBodyData: 
+[2022-02-16T14:36:22.823] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 14:36:22 GMT+0700 (Indochina Time)----content: check session otp: Request failed with status code 429---withBodyData: 

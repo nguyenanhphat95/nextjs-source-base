@@ -1,9 +1,11 @@
 export interface ResponseData {
   response: {
     responseId: string;
+    status?: string;
     responseCode: string;
     responseMessage: string;
     responseTime: string;
+    signature?: string;
   };
 }
 
