@@ -121,11 +121,11 @@ const HDBSPage = () => {
     nationalityName: "",
     phoneNumber: "",
     idNumberType: "",
-    ekyType: "",
+    ekycType: "",
   });
 
   useEffect(() => {
-    writeLogToServer(query);
+    // writeLogToServer(query);
     if (!md5 || !query?.jwt) return;
     const jwtInfo = parseJwt(query.jwt as string);
 
@@ -133,7 +133,8 @@ const HDBSPage = () => {
     setTypeCustomer(type);
     setDataForm({
       ...dataForm,
-      ekyType: type === TypeCustomer.KHHH ? "CURRENT_CUSTOMER" : "NEW_CUSTOMER",
+      ekycType:
+        type === TypeCustomer.KHHH ? "CURRENT_CUSTOMER" : "NEW_CUSTOMER",
     });
     hdbsServices.getAccessToken().then((res) => {
       hdbsServices.updateMasterData({
@@ -182,18 +183,20 @@ const HDBSPage = () => {
       ...data,
     };
     setDataForm(finalData);
-
     hdbsServices
       .checkUserEKYC(
         finalData.merchantId,
         finalData.terminalId,
-        finalData.ekyType
+        finalData.ekycType
       )
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
         const code = _get(res, "resultCode");
         const status = getStatusResponse(code, lang);
-
+        writeLogToServer({
+          ...res,
+          content: "Step 1: response checkUserEKYC",
+        });
         if (status.success) {
           if (!res.hasSendOtp) {
             _onNextStep(STEP_KHHH.step4);
@@ -215,7 +218,7 @@ const HDBSPage = () => {
             phoneNumber: res.phoneNumber,
             idNumberType: res.identityIdType,
             email: res.email,
-            ekyType: "NEW_CUSTOMER",
+            ekycType: "NEW_CUSTOMER",
             merchantId: finalData.merchantId,
             terminalId: finalData.terminalId,
             terminalName: finalData.terminalName,

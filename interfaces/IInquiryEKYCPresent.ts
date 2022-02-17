@@ -3,7 +3,7 @@ import { Gender, EkycType } from "./ICommon";
 export interface InquiryEKYCPresentRequest {
   requestId?: string;
   channel?: string;
-  ekyType?: EkycType;
+  ekycType?: EkycType;
   userId?: string;
   clientNo?: string;
   transactionTime?: string;
