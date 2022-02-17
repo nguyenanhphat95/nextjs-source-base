@@ -18,8 +18,6 @@ const useStyles = makeStyles(() => ({
     paddingRight: 10,
   },
   item: {
-    borderStyle: "dotted",
-    borderColor: "red",
     background: "white",
     textAlign: "center",
     paddingTop: 15,
