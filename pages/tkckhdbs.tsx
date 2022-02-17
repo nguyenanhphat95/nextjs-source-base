@@ -196,12 +196,10 @@ const HDBSPage = () => {
             _onNextStep(STEP_KHHH.step4);
             return;
           }
-
           writeLogToServer({
             ...res,
-            content: "Step 4: before parse birthDate",
+            content: "Check User EKYC data",
           });
-
           const newData: FormDataFinal = {
             ...dataForm,
             fullNameOcr: res?.fullName,
@@ -220,10 +218,6 @@ const HDBSPage = () => {
             terminalId: finalData?.terminalId,
             terminalName: finalData?.terminalName,
           };
-          writeLogToServer({
-            ...newData,
-            content: "Step 5: after parse birthDate",
-          });
 
           setDataForm(newData);
           _onNextStep(STEP_KHHH.step3);

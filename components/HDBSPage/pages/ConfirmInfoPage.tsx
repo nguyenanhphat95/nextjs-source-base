@@ -224,7 +224,6 @@ const ConfirmInfoPage = (props: Props) => {
                     <Grid item>
                       {t?.address}: <b>{info?.address}</b>
                     </Grid>
-                    <Grid item></Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
@@ -237,8 +236,9 @@ const ConfirmInfoPage = (props: Props) => {
                 </Grid>
                 <Grid item>
                   <Grid container spacing={1} direction="column">
-                    <Grid item>{t?.phoneNumber}:</Grid>
-                    <Grid item></Grid>
+                    <Grid item>
+                      {t?.phoneNumber}: <b>{info?.phoneNumber}</b>
+                    </Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
