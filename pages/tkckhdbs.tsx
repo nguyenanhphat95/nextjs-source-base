@@ -345,7 +345,7 @@ const HDBSPage = () => {
   }
 
   const _handleSelectOpenStock = () => {
-    if (!listAccount.length) {
+    if (!listAccount.length && typeCustomer === TypeCustomer.KHHH) {
       toggleNotify(
         "Quý khách vui lòng mở tài khoản thanh toán trực tuyến hoặc đến quầy giao dịch để đăng ký sử dụng dịch vụ"
       );

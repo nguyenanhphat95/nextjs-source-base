@@ -27,7 +27,7 @@ const CheckboxCustom = React.forwardRef(
     const { label, endIcon, onClickEndIcon, ...rest } = props;
 
     return (
-      <Grid wrap="nowrap" container alignItems="center">
+      <Grid wrap="nowrap" container>
         <Grid item xs={true}>
           <FormControlLabel
             ref={ref}
