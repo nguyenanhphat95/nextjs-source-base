@@ -220,7 +220,6 @@ const HDBSPage = () => {
             phoneNumber: res?.phoneNumber,
             idNumberType: res?.identityIdType,
             email: res?.email,
-            ekycType: "NEW_CUSTOMER",
             merchantId: finalData?.merchantId,
             terminalId: finalData?.terminalId,
             terminalName: finalData?.terminalName,
@@ -252,7 +251,7 @@ const HDBSPage = () => {
   };
 
   const _handleSubmitStep3 = async (data: FormDataStep3) => {
-    if (typeCustomer === TypeCustomer.KHM) {
+    if (typeCustomer === TypeCustomer.KHM || !allowInquiry) {
       _onCreateOTP();
       return;
     }
@@ -357,7 +356,6 @@ const HDBSPage = () => {
   }
 
   const _handleSelectOpenStock = () => {
-    console.log("_handleSelectOpenStock");
     if (!listAccount.length && typeCustomer === TypeCustomer.KHHH) {
       toggleNotify(
         "Quý khách vui lòng mở tài khoản thanh toán trực tuyến hoặc đến quầy giao dịch để đăng ký sử dụng dịch vụ"
