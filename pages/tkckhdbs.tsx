@@ -78,7 +78,9 @@ const HDBSPage = () => {
   const query = router.query;
   const lang = getLanguage(router);
 
-  const [typeCustomer, setTypeCustomer] = useState<TypeCustomer>();
+  const [typeCustomer, setTypeCustomer] = useState<TypeCustomer>(
+    TypeCustomer.KHHH
+  );
   const [allowInquiry, setAllowInquiry] = useState(false);
 
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
@@ -97,7 +99,7 @@ const HDBSPage = () => {
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
     loadingBtnConfirmOTP: false,
-    loadingMasterData: true,
+    loadingMasterData: false,
   });
 
   const [dataForm, setDataForm] = useState<FormDataFinal>({
@@ -355,6 +357,7 @@ const HDBSPage = () => {
   }
 
   const _handleSelectOpenStock = () => {
+    console.log("_handleSelectOpenStock");
     if (!listAccount.length && typeCustomer === TypeCustomer.KHHH) {
       toggleNotify(
         "Quý khách vui lòng mở tài khoản thanh toán trực tuyến hoặc đến quầy giao dịch để đăng ký sử dụng dịch vụ"

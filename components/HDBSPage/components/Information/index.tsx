@@ -61,7 +61,7 @@ const Information = (props: Props) => {
           <Grid item>{t[`${_get(info, `${type}.title`, "")}`]}</Grid>
           {onClose && (
             <Grid item onClick={onClose}>
-              <Image width={15} height={15} src={xIcon} />
+              <img width={15} height={15} src="/asset/images/X.png" />
             </Grid>
           )}
         </Grid>

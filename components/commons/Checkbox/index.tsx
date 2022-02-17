@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { Theme } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
-import checkboxCheckedIcon from "public/asset/images/checkbox-checked.png";
+// import checkboxCheckedIcon from "public/asset/images/checkbox-checked.png";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -37,7 +37,11 @@ const CheckboxCustom = React.forwardRef(
                 <Checkbox
                   {...rest}
                   checkedIcon={
-                    <Image width={22} height={20} src={checkboxCheckedIcon} />
+                    <img
+                      width={22}
+                      height={20}
+                      src="/asset/images/checkbox-checked.png"
+                    />
                   }
                 />
               </>

@@ -257,7 +257,11 @@ const FormTKCKPage = (props: Props) => {
                     <CheckboxCustom
                       checked={value}
                       endIcon={
-                        <Image width={20} height={20} src={warningIcon} />
+                        <img
+                          width={20}
+                          height={20}
+                          src="/asset/images/warning.png"
+                        />
                       }
                       label={t?.labelCheckbox1}
                       onClickEndIcon={() =>
@@ -279,7 +283,11 @@ const FormTKCKPage = (props: Props) => {
                     <CheckboxCustom
                       checked={value}
                       endIcon={
-                        <Image width={20} height={20} src={warningIcon} />
+                        <img
+                          width={20}
+                          height={20}
+                          src="/asset/images/warning.png"
+                        />
                       }
                       label={t?.labelCheckbox2}
                       onClickEndIcon={() =>
@@ -301,7 +309,11 @@ const FormTKCKPage = (props: Props) => {
                       <CheckboxCustom
                         checked={value}
                         endIcon={
-                          <Image width={20} height={20} src={warningIcon} />
+                          <img
+                            width={20}
+                            height={20}
+                            src="/asset/images/warning.png"
+                          />
                         }
                         label={t?.labelCheckbox3}
                         onClickEndIcon={() =>

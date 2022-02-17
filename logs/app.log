@@ -102,3 +102,5 @@
 [2022-02-17T14:48:49.583] [INFO] default - 10.0.112.80 - 17/02/2022 14:48:49----content: Get list account api: socket hang up---withBodyData: {"requestId":"6efbf69d-61c8-4324-9183-6cedebed9817","data":{"clientNo":"06036029"}}
 [2022-02-17T14:49:09.790] [INFO] default - 10.0.112.80 - 17/02/2022 14:49:09----content: Get list account api: socket hang up---withBodyData: {"requestId":"4619e4a4-037f-49ae-bd8c-b39cd8997d99","data":{"clientNo":"06036029"}}
 [2022-02-17T14:50:12.368] [INFO] default - 10.0.112.80 - 17/02/2022 14:50:12----content: Get list account api: socket hang up---withBodyData: {"requestId":"e43aa4ce-50c9-4da6-8e44-29c5340a383e","data":{"clientNo":"06036029"}}
+[2022-02-17T14:51:14.324] [INFO] default - 10.0.112.80 - 17/02/2022 14:51:14----content: Get list account api: socket hang up---withBodyData: {"requestId":"5553b29a-8f57-4eef-84de-39b2dcb793cb","data":{"clientNo":"06036029"}}
+[2022-02-17T14:51:59.241] [INFO] default - 10.0.112.80 - 17/02/2022 14:51:59----content: Get list account api: socket hang up---withBodyData: {"requestId":"89f052ca-d133-4328-ab73-6187182e26cb","data":{"clientNo":"06036029"}}

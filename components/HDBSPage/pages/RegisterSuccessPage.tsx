@@ -77,15 +77,20 @@ const RegisterSuccessPage = (props: Props) => {
       <Card>
         <Box p={2}>
           <Box>
-            <Image width={100} height={40} src={hdbsLogo} alt="hdbs-logo" />
+            <img
+              width={100}
+              height={40}
+              src="/asset/images/hdbs-logo2.png"
+              alt="hdbs-logo"
+            />
           </Box>
           <Grid container direction="column" spacing={1}>
             <Grid item>
               <Box textAlign="center">
-                <Image
+                <img
                   width={50}
                   height={50}
-                  src={checkIcon}
+                  src="/asset/images/checkIcon.svg"
                   alt="check-icon"
                 />
               </Box>
@@ -117,10 +122,10 @@ const RegisterSuccessPage = (props: Props) => {
               {t?.question}
             </Grid>
             <Grid item xs={4} className={classes.imageRatingWrapper}>
-              <Image
+              <img
                 width={50}
                 height={50}
-                src={ratingIcon}
+                src="/asset/images/Rating.svg"
                 alt="rating-icon"
               />
             </Grid>

@@ -15,7 +15,7 @@ import _get from "lodash/get";
 import { LANGUAGE } from "commons/constants";
 import resources from "pages/assets/translate.json";
 
-import notifyError from "public/asset/images/notifyError.png";
+// import notifyError from "public/asset/images/notifyError.png";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import { getLanguage } from "commons/helpers";
@@ -77,7 +77,7 @@ const PopupNotify = (props: Props) => {
           <Grid container direction="column" spacing={2}>
             <Grid item>
               <Box display="flex" justifyContent="center">
-                <Image src={notifyError} alt="notify" />
+                <img src="/asset/images/notifyError.png" alt="notify" />
               </Box>
             </Grid>
             <Grid item className={classes.title}>

@@ -2,7 +2,7 @@ import React from "react";
 import { Grid, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useRouter } from "next/router";
-import Image from "next/image";
+// import Image from "next/image";
 
 import { getLanguage } from "commons/helpers";
 
@@ -42,6 +42,7 @@ const HomePage = (props: Props) => {
   const router = useRouter();
   const lang = getLanguage(router);
   const t = _get(resources, [lang, "homePage"]);
+  console.log("Home page update");
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
@@ -49,7 +50,11 @@ const HomePage = (props: Props) => {
           <div className={classes.item} onClick={onSelect}>
             <Grid container direction="column">
               <Grid item>
-                <Image width={30} height={30} src={openStockIcon} />
+                <img
+                  width={30}
+                  height={30}
+                  src="/asset/images/openStockAccount.svg"
+                />
               </Grid>
 
               <Grid item>
