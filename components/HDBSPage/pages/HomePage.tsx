@@ -1,13 +1,14 @@
 import React from "react";
-import { Grid } from "@mui/material";
+import { Grid, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
-import { LANGUAGE } from "commons/constants";
 import { getLanguage } from "commons/helpers";
 
 import resources from "pages/assets/translate.json";
 import _get from "lodash/get";
+import openStockIcon from "public/asset/images/openStockAccount.svg";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -42,9 +43,17 @@ const HomePage = (props: Props) => {
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
-        <Grid item xs={5}>
+        <Grid item xs={6}>
           <div className={classes.item} onClick={onSelect}>
-            {t?.openStockAccount}
+            <Grid container direction="column">
+              <Grid item>
+                <Image width={50} height={50} src={openStockIcon} />
+              </Grid>
+
+              <Grid item>
+                <Box px={2}>{t?.openStockAccount}</Box>
+              </Grid>
+            </Grid>
           </div>
         </Grid>
       </Grid>

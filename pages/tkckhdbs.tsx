@@ -11,6 +11,7 @@ import {
   ConfirmInfoPage,
   RegisterSuccessPage,
   VerifyOTP,
+  HomePage,
 } from "components/HDBSPage";
 import TKCKContext from "components/HDBSPage/contexts/TKCKContextValue";
 import {
@@ -92,7 +93,7 @@ const HDBSPage = () => {
   const [typeCustomer, setTypeCustomer] = useState<TypeCustomer>(
     TypeCustomer.KHHH
   );
-  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step1);
+  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.stepHome);
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
     loadingBtnConfirmOTP: false,
@@ -125,7 +126,6 @@ const HDBSPage = () => {
   });
 
   useEffect(() => {
-    // writeLogToServer(query);
     if (!md5 || !query?.jwt) return;
     const jwtInfo = parseJwt(query.jwt as string);
 
@@ -196,10 +196,6 @@ const HDBSPage = () => {
             _onNextStep(STEP_KHHH.step4);
             return;
           }
-          writeLogToServer({
-            ...res,
-            content: "Check User EKYC data",
-          });
           const newData: FormDataFinal = {
             ...dataForm,
             fullNameOcr: res?.fullName,
@@ -348,6 +344,16 @@ const HDBSPage = () => {
     });
   }
 
+  const _handleSelectOpenStock = () => {
+    if (!listAccount.length) {
+      toggleNotify(
+        "Quý khách vui lòng mở tài khoản thanh toán trực tuyến hoặc đến quầy giao dịch để đăng ký sử dụng dịch vụ"
+      );
+      return;
+    }
+    _onNextStep(STEP_KHHH.step1);
+  };
+
   return (
     <>
       <Script id="lottie-id" src="/asset/js/lottie.min.js" />
@@ -374,9 +380,9 @@ const HDBSPage = () => {
       {md5 && (
         <div className={classes.root}>
           <TKCKContext.Provider value={TKCKContextValue}>
-            {/* {stepCurrent === STEP_KHHH.stepHome && (
-              <HomePage onSelect={() => _onNextStep(STEP_KHHH.step1)} />
-            )} */}
+            {stepCurrent === STEP_KHHH.stepHome && (
+              <HomePage onSelect={_handleSelectOpenStock} />
+            )}
             {stepCurrent === STEP_KHHH.step1 && (
               <FormTKCKPage
                 typeCustomer={typeCustomer}
