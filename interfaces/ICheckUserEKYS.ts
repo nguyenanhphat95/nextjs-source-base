@@ -1,3 +1,4 @@
+import { EkycType } from "./ICommon";
 export interface CheckUserENCYRequest {
   requestId: string;
   channel: string;
@@ -9,7 +10,7 @@ export interface CheckUserENCYRequest {
   transactionTime: string;
   language: string;
   checksum: string;
-  ekycType: string;
+  ekycType: EkycType;
 }
 
 export interface CheckUserEKYCResponse {

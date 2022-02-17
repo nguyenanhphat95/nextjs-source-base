@@ -1,3 +1,5 @@
+import { EkycType } from "interfaces/ICommon";
+
 export interface FormDataStep1 {
   accountNo: string;
   accountType: string;
@@ -28,7 +30,7 @@ export interface FormDataStep3 {
   placeOfIssue?: string;
   expireOfIssue?: string;
   phoneNumber?: string;
-  ekycType?: string;
+  ekycType?: EkycType;
 }
 export interface FormDataFinal extends FormDataStep1, FormDataStep3 {
   ekycData: any;

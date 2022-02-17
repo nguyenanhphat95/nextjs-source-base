@@ -47,6 +47,7 @@ import axiosWrapper from "commons/helpers/axios/axios-instance";
 import _omit from "lodash/omit";
 import _get from "lodash/get";
 import { RatingRequest, RatingResponse } from "interfaces/IRating";
+import { EkycType } from "interfaces/ICommon";
 
 let userId: string;
 let clientNo: string;
@@ -158,7 +159,7 @@ export const getMerchant = async () => {
 export const checkUserEKYC = async (
   merchantId: string,
   terminalId: string,
-  ekycType: string
+  ekycType: EkycType
 ) => {
   await refreshAccessToken();
   const { requestId, language, transactionTime } = generateCommonBodyRequest();
@@ -204,11 +205,11 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
       "ekycData",
       "merchantName",
       "terminalName",
-      "ekycData",
       "isBond",
       "isTranInternet",
       "isUttb",
     ]),
+    ekycType: data.ekycType ? data.ekycType : "CURRENT_CUSTOMER",
     requestId,
     channel: CHANNEL_HDBS as string,
     userId,

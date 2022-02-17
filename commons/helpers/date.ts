@@ -1,5 +1,6 @@
 import _add from "date-fns/add";
 import _format from "date-fns/format";
+import _isValid from "date-fns/isValid";
 
 export function addHourFromNow(hoursNumber: number, format?: string): string {
   const date = _add(new Date(), {
@@ -30,6 +31,10 @@ export function getTodayWithFormat(format?: string): string {
   return formatDate(date, format);
 }
 export function formatDate(date: Date, format?: string): string {
+  if (!_isValid(date)) {
+    return "";
+  }
+
   return _format(
     new Date(
       date.getFullYear(),

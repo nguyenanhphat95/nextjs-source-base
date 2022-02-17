@@ -17,6 +17,7 @@ import {
   FormDataStep1,
   TypeCustomer,
   FormDataStep3,
+  FormDataFinal,
 } from "components/HDBSPage/interfaces";
 import { LoadingPage, PopupNotify } from "components/commons";
 
@@ -98,7 +99,7 @@ const HDBSPage = () => {
     loadingMasterData: true,
   });
 
-  const [dataForm, setDataForm] = useState({
+  const [dataForm, setDataForm] = useState<FormDataFinal>({
     accountNo: "",
     accountType: "",
     merchantId: "",
@@ -121,7 +122,6 @@ const HDBSPage = () => {
     nationalityName: "",
     phoneNumber: "",
     idNumberType: "",
-    ekycType: "",
   });
 
   useEffect(() => {
@@ -143,8 +143,6 @@ const HDBSPage = () => {
         language: "vi",
         // userId: "anhdtp",
         // clientNo: "00013695",
-        // userId: "0962220409",
-        // clientNo: "88888800",
       });
 
       Promise.all([
@@ -187,42 +185,47 @@ const HDBSPage = () => {
       .checkUserEKYC(
         finalData.merchantId,
         finalData.terminalId,
-        finalData.ekycType
+        finalData.ekycType || "CURRENT_CUSTOMER"
       )
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
         const code = _get(res, "resultCode");
         const status = getStatusResponse(code, lang);
-        writeLogToServer({
-          ...res,
-          content: "Step 1: response checkUserEKYC",
-        });
         if (status.success) {
           if (!res.hasSendOtp) {
             _onNextStep(STEP_KHHH.step4);
             return;
           }
 
-          setDataForm({
-            ...dataForm,
-            fullNameOcr: res.fullName,
-            idNumber: res.identityId as string,
-            gender: res.gender,
-            birthDateOcr: res.birthDate
-              ? formatDate(new Date(res.birthDate), "dd/MM/yyyy")
-              : "",
-            dateOfIssueOcr: res.idDate,
-            placeOfIssueOcr: res.idPlace,
-            address: res.address || res.address2,
-            nationalityName: res.national,
-            phoneNumber: res.phoneNumber,
-            idNumberType: res.identityIdType,
-            email: res.email,
-            ekycType: "NEW_CUSTOMER",
-            merchantId: finalData.merchantId,
-            terminalId: finalData.terminalId,
-            terminalName: finalData.terminalName,
+          writeLogToServer({
+            ...res,
+            content: "Step 4: before parse birthDate",
           });
+
+          const newData: FormDataFinal = {
+            ...dataForm,
+            fullNameOcr: res?.fullName,
+            idNumber: res?.identityId,
+            gender: res?.gender,
+            birthDateOcr: res?.birthDate,
+            dateOfIssueOcr: res?.idDate,
+            placeOfIssueOcr: res?.idPlace,
+            address: res?.address || res?.address2,
+            nationalityName: res?.national,
+            phoneNumber: res?.phoneNumber,
+            idNumberType: res?.identityIdType,
+            email: res?.email,
+            ekycType: "NEW_CUSTOMER",
+            merchantId: finalData?.merchantId,
+            terminalId: finalData?.terminalId,
+            terminalName: finalData?.terminalName,
+          };
+          writeLogToServer({
+            ...newData,
+            content: "Step 5: after parse birthDate",
+          });
+
+          setDataForm(newData);
           _onNextStep(STEP_KHHH.step3);
           return;
         }
@@ -247,6 +250,11 @@ const HDBSPage = () => {
   };
 
   const _handleSubmitStep3 = async (data: FormDataStep3) => {
+    if (typeCustomer === TypeCustomer.KHM) {
+      _onCreateOTP();
+      return;
+    }
+
     _toggleLoading("loadingBtnSubmit", true);
     const finalData = {
       ...dataForm,
