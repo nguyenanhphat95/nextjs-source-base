@@ -78,6 +78,9 @@ const HDBSPage = () => {
   const query = router.query;
   const lang = getLanguage(router);
 
+  const [typeCustomer, setTypeCustomer] = useState<TypeCustomer>();
+  const [allowInquiry, setAllowInquiry] = useState(false);
+
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
   const [md5, setMd5] = useState(null);
 
@@ -90,9 +93,6 @@ const HDBSPage = () => {
   const [listTerminal, setListTerminal] = useState<TerminalNameItem[]>([]);
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
 
-  const [typeCustomer, setTypeCustomer] = useState<TypeCustomer>(
-    TypeCustomer.KHHH
-  );
   const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.stepHome);
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
@@ -128,14 +128,13 @@ const HDBSPage = () => {
   useEffect(() => {
     if (!md5 || !query?.jwt) return;
     const jwtInfo = parseJwt(query.jwt as string);
+    const typeUser = _get(
+      query,
+      "typeCustomer",
+      TypeCustomer.KHHH
+    ) as TypeCustomer;
+    _updateDataByTypeUser(typeUser);
 
-    const type = _get(query, "typeCustomer", TypeCustomer.KHHH) as TypeCustomer;
-    setTypeCustomer(type);
-    setDataForm({
-      ...dataForm,
-      ekycType:
-        type === TypeCustomer.KHHH ? "CURRENT_CUSTOMER" : "NEW_CUSTOMER",
-    });
     hdbsServices.getAccessToken().then((res) => {
       hdbsServices.updateMasterData({
         userId: _get(jwtInfo, "userName"),
@@ -158,6 +157,16 @@ const HDBSPage = () => {
         .catch(() => _toggleLoading("loadingMasterData", false));
     });
   }, [md5, query?.jwt]);
+
+  function _updateDataByTypeUser(type: TypeCustomer) {
+    type === TypeCustomer.KHM && setStepCurrent(STEP_KHHH.step1);
+    setTypeCustomer(type);
+    setDataForm({
+      ...dataForm,
+      ekycType:
+        type === TypeCustomer.KHHH ? "CURRENT_CUSTOMER" : "NEW_CUSTOMER",
+    });
+  }
 
   const _onNextStep = (step: string) => {
     setStepCurrent(step);
@@ -222,6 +231,7 @@ const HDBSPage = () => {
 
         if (status.code === ERROR_CODE.UserEKYCNotFound) {
           _onNextStep(STEP_KHHH.step2);
+          setAllowInquiry(true);
           return;
         }
         toggleNotify(status.msg);
@@ -377,7 +387,7 @@ const HDBSPage = () => {
       )}
       {loading.loadingMasterData && <LoadingPage />}
 
-      {md5 && (
+      {md5 && typeCustomer && (
         <div className={classes.root}>
           <TKCKContext.Provider value={TKCKContextValue}>
             {stepCurrent === STEP_KHHH.stepHome && (
