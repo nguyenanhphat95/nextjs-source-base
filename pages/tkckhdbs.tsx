@@ -95,11 +95,11 @@ const HDBSPage = () => {
   const [listTerminal, setListTerminal] = useState<TerminalNameItem[]>([]);
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
 
-  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.stepHome);
+  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step1);
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
     loadingBtnConfirmOTP: false,
-    loadingMasterData: false,
+    loadingMasterData: true,
   });
 
   const [dataForm, setDataForm] = useState<FormDataFinal>({
