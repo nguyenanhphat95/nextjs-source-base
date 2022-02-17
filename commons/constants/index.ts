@@ -82,6 +82,10 @@ export const ERROR_CODE_WITH_MESSAGE = {
     "50": "Phương thức không hợp lệ",
     "49": "Yêu cầu không hợp lệ",
     "41": "Ngày phát hành không hợp lệ",
+    "37": "Tạo tài khoản HDBS không thành công",
+    "38": "Invalid expired of issue ocr",
+    "39": "Invalid expired of issue",
+    "40": "Invalid date of issue ocr",
   },
   [LANGUAGE.EN]: {
     "00": "Success",
@@ -147,5 +151,9 @@ export const ERROR_CODE_WITH_MESSAGE = {
     "50": "Invalid method",
     "49": "Invalid request",
     "41": "Invalid date of issue",
+    "37": "Create HDBS account failed",
+    "38": "Invalid expired of issue ocr",
+    "39": "Invalid expired of issue",
+    "40": "Invalid date of issue ocr",
   },
 };
