@@ -22,10 +22,12 @@ const useStyles = makeStyles(() => ({
     borderColor: "red",
     background: "white",
     textAlign: "center",
-    paddingTop: 40,
-    paddingBottom: 40,
-    borderRadius: 15,
+    paddingTop: 15,
+    paddingBottom: 15,
+    borderRadius: 10,
     cursor: "pointer",
+    fontSize: 12,
+    fontWeight: 500,
   },
 }));
 
@@ -43,15 +45,15 @@ const HomePage = (props: Props) => {
   return (
     <div className={classes.root}>
       <Grid container spacing={1}>
-        <Grid item xs={6}>
+        <Grid item xs={4}>
           <div className={classes.item} onClick={onSelect}>
             <Grid container direction="column">
               <Grid item>
-                <Image width={50} height={50} src={openStockIcon} />
+                <Image width={30} height={30} src={openStockIcon} />
               </Grid>
 
               <Grid item>
-                <Box px={2}>{t?.openStockAccount}</Box>
+                <Box px={1}>{t?.openStockAccount}</Box>
               </Grid>
             </Grid>
           </div>
