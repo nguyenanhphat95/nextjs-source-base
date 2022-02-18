@@ -17,7 +17,6 @@ import {
   VerifySbhOTPResponse,
 } from "interfaces/IVerifySbhOTP";
 import { PurchaseSbhResponse } from "interfaces/IPurchaseSBH";
-import crypto from "crypto";
 import _getTime from "date-fns/getTime";
 
 const publicKey =
@@ -31,29 +30,21 @@ const generateBodyRequest = (object: Record<string, string>) => {
       requestId: uuidv4(),
       partnerId: PARTNER_ID_SBH_OTP,
       requestTime: getTodayWithFormat("ddMMyyyyhhmmss"),
-      signature: generateSignature(object),
+      signature: generateStrSignature(object),
       // signature:
       //   "EfbULVfBr4u6q2BITpcm+dichVttkDotTgK7xCKUXsH47lGXSbIe5Kr5ZZ+IKrySTt+nhoQG0OT6BQgu21RgwjKfdEiI6gLOV1h2sAfPeggD0ZkORLOxBaseUV2t6l7vMPzPHHH+Rfj+c9lnnBF52mhAK7o4MFZua8Zpqj7ZNL4=",
     },
   };
 };
 
-function generateSignature(object: Record<string, string>): string {
+function generateStrSignature(object: Record<string, string>): string {
   let str = "";
   const keys = Object.keys(object);
   keys.forEach((key) => {
     str += object[key];
   });
   str += secret;
-
-  const sh256 = crypto.createHash("sha256").update(str).digest("hex");
-  // const JSEnscript = _get(window, "JSEncrypt");
-  // const crypt = new JSEnscript();
-
-  // crypt.setPublicKey(publicKey);
-  // const credential = crypt.encrypt(sh256);
-
-  return sh256;
+  return str;
 }
 
 export const checkSessionOTPApi = async (uuid: string) => {
