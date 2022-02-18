@@ -61,15 +61,11 @@ const RegisterSuccessPage = (props: Props) => {
 
   const _handleChangeRating = (numberRating: number) => {
     setRateValue(numberRating);
-    if (!data.merchantId || !data.terminalId) {
+    if (!numberRating) {
       return;
     }
 
-    hdbsServices.createRatingApi(
-      numberRating,
-      data.merchantId,
-      data.terminalId
-    );
+    hdbsServices.createRatingApi(numberRating);
   };
 
   return (
@@ -109,8 +105,9 @@ const RegisterSuccessPage = (props: Props) => {
               </Box>
             </Grid>
             <Grid item>
-              <Box px={2} className={classes.textContent}>
-                {t?.content} <b>(84.28) 7307 6966</b>
+              <Box px={1} className={classes.textContent}>
+                {t?.content}{" "}
+                <b style={{ whiteSpace: "nowrap" }}>(84.28) 7307 6966</b>
               </Box>
             </Grid>
           </Grid>
@@ -123,8 +120,7 @@ const RegisterSuccessPage = (props: Props) => {
             </Grid>
             <Grid item xs={4} className={classes.imageRatingWrapper}>
               <img
-                width={50}
-                height={50}
+                style={{ width: "100%" }}
                 src="/asset/images/Rating.svg"
                 alt="rating-icon"
               />

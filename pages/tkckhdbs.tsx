@@ -95,7 +95,7 @@ const HDBSPage = () => {
   const [listTerminal, setListTerminal] = useState<TerminalNameItem[]>([]);
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
 
-  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.step1);
+  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.stepHome);
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
     loadingBtnConfirmOTP: false,
@@ -365,6 +365,14 @@ const HDBSPage = () => {
     _onNextStep(STEP_KHHH.step1);
   };
 
+  const _handleOtherTransaction = () => {
+    if (typeCustomer === TypeCustomer.KHHH) {
+      _onNextStep(STEP_KHHH.stepHome);
+      return;
+    }
+    _onNextStep(STEP_KHHH.step1);
+  };
+
   return (
     <>
       <Script id="lottie-id" src="/asset/js/lottie.min.js" />
@@ -414,7 +422,7 @@ const HDBSPage = () => {
             {stepCurrent === STEP_KHHH.step4 && (
               <RegisterSuccessPage
                 data={dataForm}
-                onClickOtherTransaction={() => _onNextStep(STEP_KHHH.stepHome)}
+                onClickOtherTransaction={_handleOtherTransaction}
               />
             )}
           </TKCKContext.Provider>

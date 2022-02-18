@@ -1,3 +1,4 @@
+import { ERROR_CODE } from "./../../commons/helpers/error";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { getTodayWithFormat } from "commons/helpers/date";
 import axiosWrapper from "commons/helpers/axios/axios-instance";
@@ -12,24 +13,30 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<RatingResponse>
 ) {
-  try {
-    const token = _get(req, "headers.authorization");
-    const url = `${API_DOMAIN}/api/hdbs/submitRatingTrans`;
-    const resp: AxiosResponse<RatingResponse> = await axiosWrapper.post(
-      url,
-      req.body,
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
-    res.status(200).json(resp.data);
-  } catch (e) {
-    writeLog(
-      ip.address(),
-      getTodayWithFormat(),
-      `inquiryEkycPresent: ${_get(e, "message")}`
-    );
-  }
+  // try {
+  const token = _get(req, "headers.authorization");
+  const url = `${API_DOMAIN}/api/hdbs/submitRatingTrans`;
+  console.log("url--:", url);
+  console.log("token--:", token);
+  const resp: AxiosResponse<RatingResponse> = await axiosWrapper.post(
+    url,
+    req.body,
+    {
+      headers: {
+        Authorization: token,
+      },
+    }
+  );
+  res.status(200).json(resp.data);
+  // } catch (e) {
+
+  //   res
+  //     .status(200)
+  //     .json({ resultCode: ERROR_CODE.SystemError, resultMessage: "", id: "" });
+  //   writeLog(
+  //     ip.address(),
+  //     getTodayWithFormat(),
+  //     `inquiryEkycPresent: ${_get(e, "message")}`
+  //   );
+  // }
 }

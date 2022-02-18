@@ -73,6 +73,7 @@ function generateCommonBodyRequest() {
   return {
     requestId: uuidv4() as string,
     language,
+    // transactionTime: "15/02/2022 17:25:34",
     transactionTime: getTodayWithFormat(),
   };
 }
@@ -331,11 +332,8 @@ export const verifyOTPApi = async (otp: string) => {
   return resp;
 };
 
-export const createRatingApi = async (
-  ratingNumber: number,
-  merchantId: string,
-  terminalId: string
-) => {
+export const createRatingApi = async (ratingNumber: number) => {
+  await refreshAccessToken();
   const { requestId, language, transactionTime } = generateCommonBodyRequest();
   const body: RatingRequest = {
     requestId,
@@ -360,14 +358,17 @@ export const createRatingApi = async (
       userId,
       clientNo,
       transactionTime,
-      merchantId,
-      terminalId,
       partnerId: PARTNER_ID as string,
     }),
   };
   const resp: AxiosResponse<RatingResponse> = await axios.post(
     "/api/createRating",
-    body
+    body,
+    {
+      headers: {
+        Authorization: Cookies.get(KEY_TOKEN) || "",
+      },
+    }
   );
   return resp;
 };
