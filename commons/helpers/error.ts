@@ -12,6 +12,7 @@ export const ERROR_CODE = {
   PasswordExpired: "06",
   SystemError: "99",
   VerifyClientFailed: "100",
+  StockAccountExists: "101",
 };
 
 export function handleErrorWithResponse(

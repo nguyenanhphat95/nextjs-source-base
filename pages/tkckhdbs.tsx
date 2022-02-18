@@ -128,6 +128,13 @@ const HDBSPage = () => {
   });
 
   useEffect(() => {
+    if (!query.step && typeof query.step !== "string") {
+      return;
+    }
+    setStepCurrent(query.step as string);
+  }, [query?.step]);
+
+  useEffect(() => {
     if (!md5 || !query?.jwt) return;
     const jwtInfo = parseJwt(query.jwt as string);
     const typeUser = _get(
@@ -171,7 +178,12 @@ const HDBSPage = () => {
   }
 
   const _onNextStep = (step: string) => {
-    setStepCurrent(step);
+    router.push({
+      query: {
+        ...query,
+        step,
+      },
+    });
   };
 
   const _toggleModalVerifyOTP = () => {
@@ -204,7 +216,11 @@ const HDBSPage = () => {
         const status = getStatusResponse(code, lang);
         if (status.success) {
           if (!res.hasSendOtp) {
-            _onNextStep(STEP_KHHH.step4);
+            const status = getStatusResponse(
+              ERROR_CODE.StockAccountExists,
+              lang
+            );
+            toggleNotify(status.msg);
             return;
           }
           const newData: FormDataFinal = {
@@ -356,7 +372,9 @@ const HDBSPage = () => {
   }
 
   const _handleSelectOpenStock = () => {
-    if (!listAccount.length && typeCustomer === TypeCustomer.KHHH) {
+    _onNextStep(STEP_KHHH.step1);
+
+    if (!listAccount?.length && typeCustomer === TypeCustomer.KHHH) {
       toggleNotify(
         "Quý khách vui lòng mở tài khoản thanh toán trực tuyến hoặc đến quầy giao dịch để đăng ký sử dụng dịch vụ"
       );
@@ -370,7 +388,9 @@ const HDBSPage = () => {
       _onNextStep(STEP_KHHH.stepHome);
       return;
     }
-    _onNextStep(STEP_KHHH.step1);
+    router.push({
+      pathname: "/registerTKTTSuccess",
+    });
   };
 
   return (
