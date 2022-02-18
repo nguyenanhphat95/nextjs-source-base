@@ -89,7 +89,6 @@ export const ERROR_CODE_WITH_MESSAGE = {
     "38": "Invalid expired of issue ocr",
     "39": "Invalid expired of issue",
     "40": "Invalid date of issue ocr",
-    "101": "Đã tồn tại tài khoản chứng khoán",
   },
   [LANGUAGE.EN]: {
     "00": "Success",
@@ -160,6 +159,5 @@ export const ERROR_CODE_WITH_MESSAGE = {
     "38": "Invalid expired of issue ocr",
     "39": "Invalid expired of issue",
     "40": "Invalid date of issue ocr",
-    "101": "A stock account already exists",
   },
 };

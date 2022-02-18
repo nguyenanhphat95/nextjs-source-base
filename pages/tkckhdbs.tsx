@@ -216,11 +216,7 @@ const HDBSPage = () => {
         const status = getStatusResponse(code, lang);
         if (status.success) {
           if (!res.hasSendOtp) {
-            const status = getStatusResponse(
-              ERROR_CODE.StockAccountExists,
-              lang
-            );
-            toggleNotify(status.msg);
+            _onNextStep(STEP_KHHH.step4);
             return;
           }
           const newData: FormDataFinal = {
@@ -389,7 +385,7 @@ const HDBSPage = () => {
       return;
     }
     router.push({
-      pathname: "/registerTKTTSuccess",
+      pathname: "/backToHome",
     });
   };
 
