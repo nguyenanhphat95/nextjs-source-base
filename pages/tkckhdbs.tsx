@@ -128,12 +128,6 @@ const HDBSPage = () => {
   });
 
   useEffect(() => {
-    if (query.jwt && query.step) {
-      _onNextStep(STEP_KHHH.step3);
-    }
-  }, [query.jwt]);
-
-  useEffect(() => {
     if (!query.step && typeof query.step !== "string") {
       return;
     }
