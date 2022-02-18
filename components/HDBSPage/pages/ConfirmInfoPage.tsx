@@ -4,6 +4,8 @@ import { Grid, Box, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm, Controller } from "react-hook-form";
 
+import ModalCondition from "../components/ModalCondition";
+
 import { ButtonCustom, CheckboxCustom, InputCustom } from "components/commons";
 import { parseInfoFromEKYC, checkResultEkyc } from "commons/helpers/ekyc";
 import { FormDataFinal, FormDataStep3, TypeCustomer } from "../interfaces";
@@ -70,6 +72,8 @@ const ConfirmInfoPage = (props: Props) => {
   const classes = useStyles();
   const { data, onSubmit, typeCustomer, redoEKYC } = props;
   const [isAceptCondition, setIsAceptCondition] = useState(true);
+  const [showModalCondition, setShowModalCondition] = useState(false);
+
   const isKHHH = typeCustomer === TypeCustomer.KHHH;
 
   const info = _get(data, "ekycData")
@@ -111,8 +115,17 @@ const ConfirmInfoPage = (props: Props) => {
     });
   };
 
+  const _toggleModalCondition = () => {
+    setShowModalCondition((prev) => !prev);
+  };
+
   return (
     <>
+      <ModalCondition
+        open={showModalCondition}
+        onClose={_toggleModalCondition}
+      />
+
       {!resultEKYC.validEKYC && (
         <div className={classes.rootError}>
           <Box>{resultEKYC.messageEKYC}</Box>
@@ -285,7 +298,13 @@ const ConfirmInfoPage = (props: Props) => {
                     {t?.termCondition1}
                     {data.terminalName}, {t?.termCondition2} {data.terminalName}
                     . {t?.termCondition3}
-                    <span className={classes.textTermAndCondition}>
+                    <span
+                      onClick={(e) => {
+                        e.preventDefault();
+                        _toggleModalCondition();
+                      }}
+                      className={classes.textTermAndCondition}
+                    >
                       {t?.termCondition4}
                     </span>{" "}
                     {t?.termCondition5}
