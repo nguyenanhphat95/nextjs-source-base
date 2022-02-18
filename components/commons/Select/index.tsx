@@ -7,6 +7,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   root: {
     borderRadius: "5px !important",
     height: 50,
+    "& .MuiSelect-select": {
+      width: "80vw",
+    },
+  },
+  menuItem: {
+    whiteSpace: "inherit",
   },
   errorMsg: {
     color: theme.palette?.error?.dark,
@@ -73,7 +79,7 @@ const SelectCustom = React.forwardRef(
             options.map((option: T) => {
               const { id } = option;
               return (
-                <MenuItem value={id} key={id}>
+                <MenuItem className={classes.menuItem} value={id} key={id}>
                   {getLabel<T>({ option, renderLabel })}
                 </MenuItem>
               );
