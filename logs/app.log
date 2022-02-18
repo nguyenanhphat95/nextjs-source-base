@@ -86,3 +86,5 @@
 [2022-02-16T14:35:48.604] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 14:35:48 GMT+0700 (Indochina Time)----content: check session otp: Request failed with status code 429---withBodyData: 
 [2022-02-16T14:35:56.846] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 14:35:56 GMT+0700 (Indochina Time)----content: check session otp: Request failed with status code 429---withBodyData: 
 [2022-02-16T14:36:22.823] [INFO] default - 192.168.100.10 - Wed Feb 16 2022 14:36:22 GMT+0700 (Indochina Time)----content: check session otp: Request failed with status code 429---withBodyData: 
+[2022-02-18T10:29:49.862] [INFO] default - 10.0.112.80 - Fri Feb 18 2022 10:29:49 GMT+0700 (Indochina Time)----content: check session otp: error:0909006C:PEM routines:get_name:no start line---withBodyData: 
+[2022-02-18T10:31:29.635] [INFO] default - 10.0.112.80 - Fri Feb 18 2022 10:31:29 GMT+0700 (Indochina Time)----content: check session otp: error:0909006C:PEM routines:get_name:no start line---withBodyData: 

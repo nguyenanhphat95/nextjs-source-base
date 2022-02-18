@@ -30,11 +30,8 @@ const generateBodyRequest = (object: Record<string, string>) => {
     request: {
       requestId: uuidv4(),
       partnerId: PARTNER_ID_SBH_OTP,
-      // requestTime: "31122018231628",
       requestTime: getTodayWithFormat("ddMMyyyyhhmmss"),
-      signature:
-        "blx+oT3RsS0M1Xl8woupGj0il9etTQN5zOdQyVoo2UKSKwq3RI2nb0w88bJM3qjks4YY+k/16d8iRhTLqsgI/ApYnnIoIVeRL40VLc4zdsBtY7dT4JWK5iYum19ibbHRUsL6+vzm2MmMaQ6sw4mObxH9wUxn79sgIi7M2K/gBmw=",
-      // signature: generateSignature(object),
+      signature: generateSignature(object),
       // signature:
       //   "EfbULVfBr4u6q2BITpcm+dichVttkDotTgK7xCKUXsH47lGXSbIe5Kr5ZZ+IKrySTt+nhoQG0OT6BQgu21RgwjKfdEiI6gLOV1h2sAfPeggD0ZkORLOxBaseUV2t6l7vMPzPHHH+Rfj+c9lnnBF52mhAK7o4MFZua8Zpqj7ZNL4=",
     },
@@ -48,15 +45,15 @@ function generateSignature(object: Record<string, string>): string {
     str += object[key];
   });
   str += secret;
+
   const sh256 = crypto.createHash("sha256").update(str).digest("hex");
+  // const JSEnscript = _get(window, "JSEncrypt");
+  // const crypt = new JSEnscript();
 
-  const JSEnscript = _get(window, "JSEncrypt");
-  const crypt = new JSEnscript();
+  // crypt.setPublicKey(publicKey);
+  // const credential = crypt.encrypt(sh256);
 
-  crypt.setPublicKey(publicKey);
-  const credential = crypt.encrypt(sh256);
-
-  return credential;
+  return sh256;
 }
 
 export const checkSessionOTPApi = async (uuid: string) => {

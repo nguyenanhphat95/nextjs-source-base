@@ -126,9 +126,7 @@ const OTPPage = () => {
             Nhập mã đã được gửi đến số điện thoại của bạn để thanh toán số tiền
             114.000₫
           </Grid>
-          <Grid item>
-            <InputOTP onFinish={_handleVerify} />
-          </Grid>
+          <Grid item>{/* <InputOTP onFinish={_handleVerify} /> */}</Grid>
           <Grid item className={classes.textContent}>
             Quý khách không nhận được tin nhắn?
           </Grid>
