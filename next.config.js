@@ -26,5 +26,7 @@ module.exports = {
 
     // Config for SBH OTP
     PARTNER_ID_SBH_OTP_CLIENT: process.env.PARTNER_ID_SBH_OTP,
+    LINK_VERIFY_CALLBACK_SBH_OTP_CLIENT:
+      process.env.LINK_VERIFY_CALLBACK_SBH_OTP,
   },
 };

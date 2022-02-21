@@ -25,3 +25,5 @@ export const LANGUAGE = {
 };
 
 export const PARTNER_ID_SBH_OTP = process.env.PARTNER_ID_SBH_OTP_CLIENT;
+export const LINK_VERIFY_CALLBACK_SBH_OTP =
+  process.env.LINK_VERIFY_CALLBACK_SBH_OTP_CLIENT;

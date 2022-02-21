@@ -13,6 +13,8 @@ import HDBankLogo from "public/images/HDBanklogo.png";
 import { CheckSessionOTPCode } from "commons/constants/sbhOTP";
 import { SbhPurchaseInfo } from "interfaces/ISbhOTP";
 import cn from "classnames";
+import _get from "lodash/get";
+import { LINK_VERIFY_CALLBACK_SBH_OTP } from "commons/constants";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -56,12 +58,14 @@ const useStyles = makeStyles(() => ({
 const OTPPage = () => {
   const classes = useStyles();
   const timerRef = useRef<any>();
+
   const router = useRouter();
   const query = router.query;
 
   const purchaseInfo = useRef<SbhPurchaseInfo>();
   const bTxnId = useRef<string>("");
 
+  const [otp, setOtp] = useState("");
   const [validPage, setValidPage] = useState(false);
   const [isResendValid, setIsResendValid] = useState(false);
 
@@ -95,15 +99,7 @@ const OTPPage = () => {
             ...resInfo.data,
           };
 
-          // purchaseInfo.current = resInfo.data;
-          // const resPurchase = await sbhOTPServices.purchaseSbhApi(
-          //   purchaseInfo.current
-          // );
-
-          // if (resPurchase?.response?.responseCode === ERROR_CODE.Success) {
-          //   setValidPage(true);
-          //   bTxnId.current = resPurchase?.data?.bTxnId;
-          // }
+          _callPurchaseSbh();
         }
       }
     }
@@ -111,10 +107,54 @@ const OTPPage = () => {
     callApi();
   }, [query.uuid, query.bTxnId]);
 
-  const _handleVerify = (otp: string) => {
-    sbhOTPServices.verifySbhOTPApi(otp, bTxnId.current).then((res) => {
-      console.log("verifySbhOTPApi---:", res);
+  useEffect(() => {
+    if (otp && otp.length === 6) {
+      _handleVerifyOTP();
+    }
+  }, [otp]);
+
+  const _callPurchaseSbh = useCallback(() => {
+    if (!purchaseInfo.current) {
+      return;
+    }
+    sbhOTPServices.purchaseSbhApi(purchaseInfo.current).then((resPurchase) => {
+      if (resPurchase?.response?.responseCode === ERROR_CODE.Success) {
+        setValidPage(true);
+        bTxnId.current = resPurchase?.data?.bTxnId;
+      }
     });
+  }, []);
+
+  const _handleVerifyOTP = () => {
+    sbhOTPServices.verifySbhOTPApi(otp, bTxnId.current).then((res) => {
+      const code = _get(res, "response.responseCode");
+      const message = _get(res, "response.responseMessage");
+      let urlRedirect = LINK_VERIFY_CALLBACK_SBH_OTP;
+
+      if (code === ERROR_CODE.Success) {
+        urlRedirect = urlRedirect
+          ?.replace("{error}", "success")
+          .replace("{txid}", res?.data?.txnId || "")
+          .replace("&error={error_message}&error_code={error_code}", "");
+
+        urlRedirect && router.push(urlRedirect);
+        return;
+      }
+
+      urlRedirect = urlRedirect
+        ?.replace("{error}", "error")
+        .replace("{txid}", res?.data?.txnId || "")
+        .replace("{error_message}", message)
+        .replace("{error_code}", code);
+      urlRedirect && router.push(urlRedirect);
+    });
+  };
+
+  const _resendOtp = () => {
+    if (!isResendValid || otp.length < 6) {
+      return;
+    }
+    _callPurchaseSbh();
   };
 
   return (
@@ -133,18 +173,19 @@ const OTPPage = () => {
             114.000₫
           </Grid>
           <Grid item>
-            <InputOTP onFinish={_handleVerify} />
+            <InputOTP onChange={setOtp} />
+          </Grid>
+          <Grid item className={classes.textContent}>
+            Quý khách không nhận được tin nhắn?
           </Grid>
           <Grid
             item
             className={cn(
-              classes.textContent,
+              classes.textResendOTP,
               !isResendValid && classes.disabledResentOTP
             )}
+            onClick={_resendOtp}
           >
-            Quý khách không nhận được tin nhắn?
-          </Grid>
-          <Grid item className={classes.textResendOTP}>
             Gửi lại OTP
           </Grid>
           <Grid item className={classes.textCenter}>
