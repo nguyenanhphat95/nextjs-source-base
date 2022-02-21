@@ -67,49 +67,47 @@ const OTPPage = () => {
   }, [timerRef]);
 
   useEffect(() => {
-    if (!query.uuid || !query.token) return;
+    if (!query.uuid || !query.bTxnId) return;
 
     async function callApi() {
-      setTimeout(async () => {
-        const resCheckSession = await sbhOTPServices.checkSessionOTPApi(
-          query.uuid as string
+      const resCheckSession = await sbhOTPServices.checkSessionOTPApi(
+        query.uuid as string
+      );
+
+      if (resCheckSession?.data?.code === CheckSessionOTPCode.valid) {
+        setValidPage(true);
+      }
+
+      if (resCheckSession?.data?.code === CheckSessionOTPCode.expired) {
+        const resInfo = await sbhOTPServices.getInfoByTokenApi(
+          query.bTxnId as string
         );
-      }, 1000);
+        if (resInfo?.response?.responseCode === ERROR_CODE.Success) {
+          purchaseInfo.current = {
+            ...resInfo.data,
+          };
 
-      // if (resCheckSession?.data?.code === CheckSessionOTPCode.valid) {
-      //   setValidPage(true);
-      // }
+          purchaseInfo.current = resInfo.data;
+          const resPurchase = await sbhOTPServices.purchaseSbhApi(
+            purchaseInfo.current
+          );
 
-      // if (resCheckSession?.data?.code === CheckSessionOTPCode.expired) {
-      //   const resInfo = await sbhOTPServices.getInfoByTokenApi(
-      //     query.token as string
-      //   );
-      //   if (resInfo?.response?.responseCode === ERROR_CODE.Success) {
-      //     purchaseInfo.current = {
-      //       ...resInfo.data,
-      //       tokenizeId: "c9094a63-fcef-4f51-8668-67e3ce22ebaf",
-      //     };
-      //     purchaseInfo.current = resInfo.data;
-      //     const resPurchase = await sbhOTPServices.purchaseSbhApi(
-      //       purchaseInfo.current
-      //     );
-
-      //     if (resPurchase?.response?.responseCode === ERROR_CODE.Success) {
-      //       setValidPage(true);
-      //       bTxnId.current = resPurchase?.data?.bTxnId;
-      //     }
-      //   }
-      // }
+          if (resPurchase?.response?.responseCode === ERROR_CODE.Success) {
+            setValidPage(true);
+            bTxnId.current = resPurchase?.data?.bTxnId;
+          }
+        }
+      }
     }
 
     callApi();
   }, [query.uuid, query.token]);
 
-  // const _handleVerify = (otp: string) => {
-  //   sbhOTPServices.verifySbhOTPApi(otp, bTxnId.current).then((res) => {
-  //     console.log("verifySbhOTPApi---:", res);
-  //   });
-  // };
+  const _handleVerify = (otp: string) => {
+    sbhOTPServices.verifySbhOTPApi(otp, bTxnId.current).then((res) => {
+      console.log("verifySbhOTPApi---:", res);
+    });
+  };
 
   return (
     <div className={classes.root}>
@@ -126,7 +124,9 @@ const OTPPage = () => {
             Nhập mã đã được gửi đến số điện thoại của bạn để thanh toán số tiền
             114.000₫
           </Grid>
-          <Grid item>{/* <InputOTP onFinish={_handleVerify} /> */}</Grid>
+          <Grid item>
+            <InputOTP onFinish={_handleVerify} />
+          </Grid>
           <Grid item className={classes.textContent}>
             Quý khách không nhận được tin nhắn?
           </Grid>
