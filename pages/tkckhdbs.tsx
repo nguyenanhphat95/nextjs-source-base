@@ -81,7 +81,9 @@ const HDBSPage = () => {
   const [typeCustomer, setTypeCustomer] = useState<TypeCustomer>(
     TypeCustomer.KHHH
   );
+
   const [allowInquiry, setAllowInquiry] = useState(false);
+  const [userRegisteredHDBS, setUserRegisteredHDBS] = useState(false);
 
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
   const [md5, setMd5] = useState(null);
@@ -158,10 +160,14 @@ const HDBSPage = () => {
         hdbsServices.getListAccountApi(),
       ])
         .then((res) => {
+          _toggleLoading("loadingMasterData", false);
+          if (_get(res, "[0].resultCode") === ERROR_CODE.UserRegisteredHDBS) {
+            setUserRegisteredHDBS(true);
+            return;
+          }
           setListMerchant(_get(res, "[0].merchants", []));
           setListTerminal(_get(res, "[0].terminals", []));
           setListAccount(_get(res, "[1].data.data"));
-          _toggleLoading("loadingMasterData", false);
         })
         .catch(() => _toggleLoading("loadingMasterData", false));
     });
@@ -195,6 +201,7 @@ const HDBSPage = () => {
     listMerchant,
     listTerminal,
     listAccount,
+    userRegisteredHDBS,
   };
 
   const _handleSubmitStep1 = (data: FormDataStep1) => {

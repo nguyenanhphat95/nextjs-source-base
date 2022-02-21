@@ -13,7 +13,6 @@ export interface CreateOTPRequest {
     mediaType: string;
   };
 }
-
 export interface CreateOTPResponse {
   data: {
     returnOTP: string;

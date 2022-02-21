@@ -4,6 +4,8 @@ export interface GetMerchantRequest {
   partnerId: string;
   language: string;
   transactionTime: string;
+  clientNo?: string;
+  userId?: string;
   checksum: string;
 }
 

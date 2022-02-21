@@ -94,8 +94,13 @@ const FormTKCKPage = (props: Props) => {
     },
   });
   const merchantIdValue = watch("merchantId");
-  const { loadingBtnSubmit, listMerchant, listTerminal, listAccount } =
-    useContext(TKCKContext);
+  const {
+    loadingBtnSubmit,
+    listMerchant,
+    listTerminal,
+    listAccount,
+    userRegisteredHDBS,
+  } = useContext(TKCKContext);
 
   const typeModal = useRef<string>("");
   const [openModalInfo, setOpenModalInfo] = useState(false);
@@ -136,6 +141,9 @@ const FormTKCKPage = (props: Props) => {
   }, [listTerminal, merchantIdValue]);
 
   const _handleShowInfo = (key: string) => {
+    if (userRegisteredHDBS) {
+      return;
+    }
     typeModal.current = key;
     _toggleModalInfo();
   };
@@ -255,6 +263,7 @@ const FormTKCKPage = (props: Props) => {
                 render={({ field: { value, ...rest } }) => {
                   return (
                     <CheckboxCustom
+                      disabled={userRegisteredHDBS}
                       checked={value}
                       endIcon={
                         <img
@@ -281,6 +290,7 @@ const FormTKCKPage = (props: Props) => {
                 render={({ field: { value, ...rest } }) => {
                   return (
                     <CheckboxCustom
+                      disabled={userRegisteredHDBS}
                       checked={value}
                       endIcon={
                         <img
@@ -307,6 +317,7 @@ const FormTKCKPage = (props: Props) => {
                   render={({ field: { value, ...rest } }) => {
                     return (
                       <CheckboxCustom
+                        disabled={userRegisteredHDBS}
                         checked={value}
                         endIcon={
                           <img
@@ -337,6 +348,7 @@ const FormTKCKPage = (props: Props) => {
           color="secondary"
           type="submit"
           loading={loadingBtnSubmit}
+          disabled={userRegisteredHDBS}
         >
           {t?.btnContinue}
         </ButtonCustom>

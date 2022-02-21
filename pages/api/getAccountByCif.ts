@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import axiosWrapper from "commons/helpers/axios/axios-instance";
 import { getTodayWithFormat } from "commons/helpers/date";
 import { AxiosResponse } from "axios";
-import { ListAccountResponse } from "interfaces/IListAccount";
+import { AccountItem, ListAccountResponse } from "interfaces/IListAccount";
 import { API_DOMAIN_SBH_SANDBOX } from "commons/constants";
 import { writeLog } from "commons/helpers/logger";
 import ip from "ip";
@@ -23,7 +23,23 @@ export default async function handler(
         },
       }
     );
-    res.status(200).json(resp.data);
+
+    let listAccount: AccountItem[] = _get(resp, "data.data", []);
+    listAccount = listAccount.filter((item) => {
+      if (
+        (item.AcctType === "712" ||
+          item.AcctType === "700" ||
+          item.AcctType === "7OL" ||
+          item.AcctType === "70M" ||
+          item.AcctType === "70G") &&
+        item.acctStatus === "A" &&
+        item.clientInd === "A"
+      ) {
+      }
+      return item;
+    });
+
+    res.status(200).json({ data: listAccount });
   } catch (err) {
     writeLog(
       ip.address(),

@@ -13,6 +13,7 @@ export const ERROR_CODE = {
   SystemError: "99",
   VerifyClientFailed: "100",
   StockAccountExists: "101",
+  UserRegisteredHDBS: "11",
 };
 
 export function handleErrorWithResponse(

@@ -135,14 +135,18 @@ export const getMerchant = async () => {
   await refreshAccessToken();
   const { requestId, language, transactionTime } = generateCommonBodyRequest();
   const body: GetMerchantRequest = {
+    userId,
+    clientNo,
     requestId,
     language,
     channel: CHANNEL_HDBS as string,
     transactionTime,
     partnerId: PARTNER_ID as string,
     checksum: generateCheckSum({
-      partnerId: PARTNER_ID as string,
+      userId,
+      clientNo,
       transactionTime,
+      partnerId: PARTNER_ID as string,
     }),
   };
   const resp: AxiosResponse<GetMerchantResponse> = await axiosWrapper.post(

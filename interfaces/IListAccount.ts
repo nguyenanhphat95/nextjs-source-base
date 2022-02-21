@@ -17,5 +17,8 @@ export interface ListAccountRequest {
   requestId: string;
   data: {
     clientNo: string;
+    AcctType?: string;
+    acctStatus?: string;
+    clientInd?: string;
   };
 }

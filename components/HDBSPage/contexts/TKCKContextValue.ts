@@ -7,13 +7,15 @@ interface TKCKContextValue {
   listMerchant: MerchantNameItem[];
   listTerminal: TerminalNameItem[];
   listAccount: AccountItem[];
+  userRegisteredHDBS: boolean;
 }
 
 const TKCKContext = React.createContext<TKCKContextValue>({
   loadingBtnSubmit: false,
   loadingBtnConfirmOTP: false,
+  userRegisteredHDBS: false,
+  listAccount: [],
   listMerchant: [],
   listTerminal: [],
-  listAccount: [],
 });
 export default TKCKContext;
