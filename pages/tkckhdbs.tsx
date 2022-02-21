@@ -160,11 +160,10 @@ const HDBSPage = () => {
         hdbsServices.getListAccountApi(),
       ])
         .then((res) => {
-          _toggleLoading("loadingMasterData", false);
-          if (_get(res, "[0].resultCode") === ERROR_CODE.UserRegisteredHDBS) {
+          if (!_get(res, "[0].merchants")) {
             setUserRegisteredHDBS(true);
-            return;
           }
+          _toggleLoading("loadingMasterData", false);
           setListMerchant(_get(res, "[0].merchants", []));
           setListTerminal(_get(res, "[0].terminals", []));
           setListAccount(_get(res, "[1].data.data"));
@@ -174,7 +173,10 @@ const HDBSPage = () => {
   }, [md5, query?.jwt]);
 
   function _updateDataByTypeUser(type: TypeCustomer) {
-    type === TypeCustomer.KHM && setStepCurrent(STEP_KHHH.step1);
+    type === TypeCustomer.KHM
+      ? setStepCurrent(STEP_KHHH.step1)
+      : setStepCurrent(STEP_KHHH.stepHome);
+
     setTypeCustomer(type);
     setDataForm({
       ...dataForm,
@@ -375,7 +377,10 @@ const HDBSPage = () => {
   }
 
   const _handleSelectOpenStock = () => {
-    _onNextStep(STEP_KHHH.step1);
+    if (userRegisteredHDBS) {
+      toggleNotify("Quý khách đã có tài khoản chứng khoán");
+      return;
+    }
 
     if (!listAccount?.length && typeCustomer === TypeCustomer.KHHH) {
       toggleNotify(

@@ -171,6 +171,7 @@ const FormTKCKPage = (props: Props) => {
                   rules={{ required: true }}
                   render={({ field: { onChange: _onChange, ...rest } }) => (
                     <SelectCustom
+                      disabled={userRegisteredHDBS}
                       errorMsg={
                         errors.accountNo && _get(ERROR_FORM, [lang, "required"])
                       }
