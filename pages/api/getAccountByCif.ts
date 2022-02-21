@@ -31,9 +31,9 @@ export default async function handler(
           item.AcctType === "700" ||
           item.AcctType === "7OL" ||
           item.AcctType === "70M" ||
-          item.AcctType === "70G") &&
-        item.acctStatus === "A" &&
-        item.clientInd === "A"
+          item.AcctType === "70G" ||
+          item.AcctType === "7PR") &&
+        item.acctStatus === "A"
       ) {
       }
       return item;

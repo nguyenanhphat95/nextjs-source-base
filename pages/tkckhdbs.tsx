@@ -225,7 +225,8 @@ const HDBSPage = () => {
         const status = getStatusResponse(code, lang);
         if (status.success) {
           if (!res.hasSendOtp) {
-            _onNextStep(STEP_KHHH.step4);
+            const { msg } = getStatusResponse("08", lang);
+            toggleNotify(msg);
             return;
           }
           const newData: FormDataFinal = {
@@ -378,7 +379,8 @@ const HDBSPage = () => {
 
   const _handleSelectOpenStock = () => {
     if (userRegisteredHDBS) {
-      toggleNotify("Quý khách đã có tài khoản chứng khoán");
+      const { msg } = getStatusResponse("08", lang);
+      toggleNotify(msg);
       return;
     }
 
