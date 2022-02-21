@@ -18,27 +18,28 @@ import {
 } from "interfaces/IVerifySbhOTP";
 import { PurchaseSbhResponse } from "interfaces/IPurchaseSBH";
 import _getTime from "date-fns/getTime";
+import crypto from "crypto";
 
-const generateBodyRequest = (object?: Record<string, string>) => {
+const generateBodyRequest = (object: Record<string, string>) => {
   return {
     request: {
       requestId: uuidv4(),
       partnerId: PARTNER_ID_SBH_OTP,
       requestTime: getTodayWithFormat("ddMMyyyyhhmmss"),
-      signature: "signature",
-      // signature: generateStrSignature(object),
+      signature: generateStrSignature(object),
     },
   };
 };
-// function generateStrSignature(object: Record<string, string>): string {
-//   let str = "";
-//   const keys = Object.keys(object);
-//   keys.forEach((key) => {
-//     str += object[key];
-//   });
-//   str += "123456789";
-//   return str;
-// }
+function generateStrSignature(object: Record<string, string>): string {
+  let str = "";
+  const keys = Object.keys(object);
+  keys.forEach((key) => {
+    str += object[key];
+  });
+  str += "123456789";
+  const sh256 = crypto.createHash("sha256").update(str).digest("hex");
+  return sh256;
+}
 
 export const checkSessionOTPApi = async (uuid: string) => {
   const body: CheckSessionOTPRequest = {
@@ -61,7 +62,7 @@ export const getInfoByTokenApi = async (bTxnId: string) => {
   const resp: AxiosResponse<GetInfoByTokenResponse> = await axios.post(
     "/api/getInfoByToken",
     {
-      ...generateBodyRequest(),
+      ...generateBodyRequest({ partnerId: PARTNER_ID_SBH_OTP || "", bTxnId }),
       data: body,
     }
   );
@@ -72,7 +73,13 @@ export const purchaseSbhApi = async (body: SbhPurchaseInfo) => {
   const resp: AxiosResponse<PurchaseSbhResponse> = await axios.post(
     "/api/purchaseSbh",
     {
-      ...generateBodyRequest(),
+      ...generateBodyRequest({
+        partnerId: PARTNER_ID_SBH_OTP || "",
+        tokenizeId: body.tokenizeId,
+        txnId: body.txnId,
+        amount: body.amount,
+        description: body.description,
+      }),
       data: {
         ...body,
         txnId: uuidv4(),
@@ -91,7 +98,7 @@ export const verifySbhOTPApi = async (otp: string, bTxnId: string) => {
   const resp: AxiosResponse<VerifySbhOTPResponse> = await axios.post(
     "/api/verifySbhOTP",
     {
-      ...generateBodyRequest(),
+      ...generateBodyRequest({ partnerId: PARTNER_ID_SBH_OTP || "", otp }),
       data: body,
     }
   );

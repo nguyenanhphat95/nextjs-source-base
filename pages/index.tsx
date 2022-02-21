@@ -12,6 +12,7 @@ import * as sbhOTPServices from "services/sbhOTPService";
 import HDBankLogo from "public/images/HDBanklogo.png";
 import { CheckSessionOTPCode } from "commons/constants/sbhOTP";
 import { SbhPurchaseInfo } from "interfaces/ISbhOTP";
+import cn from "classnames";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -43,6 +44,13 @@ const useStyles = makeStyles(() => ({
   textCenter: {
     textAlign: "center",
   },
+  textTimer: {
+    color: "#BE1128",
+  },
+  disabledResentOTP: {
+    color: "#ccc",
+    cursor: "not-allowed",
+  },
 }));
 
 const OTPPage = () => {
@@ -64,7 +72,7 @@ const OTPPage = () => {
 
   useEffect(() => {
     timerRef.current && onCallTimer();
-  }, [timerRef]);
+  }, [timerRef.current, validPage]);
 
   useEffect(() => {
     if (!query.uuid || !query.bTxnId) return;
@@ -87,21 +95,21 @@ const OTPPage = () => {
             ...resInfo.data,
           };
 
-          purchaseInfo.current = resInfo.data;
-          const resPurchase = await sbhOTPServices.purchaseSbhApi(
-            purchaseInfo.current
-          );
+          // purchaseInfo.current = resInfo.data;
+          // const resPurchase = await sbhOTPServices.purchaseSbhApi(
+          //   purchaseInfo.current
+          // );
 
-          if (resPurchase?.response?.responseCode === ERROR_CODE.Success) {
-            setValidPage(true);
-            bTxnId.current = resPurchase?.data?.bTxnId;
-          }
+          // if (resPurchase?.response?.responseCode === ERROR_CODE.Success) {
+          //   setValidPage(true);
+          //   bTxnId.current = resPurchase?.data?.bTxnId;
+          // }
         }
       }
     }
 
     callApi();
-  }, [query.uuid, query.token]);
+  }, [query.uuid, query.bTxnId]);
 
   const _handleVerify = (otp: string) => {
     sbhOTPServices.verifySbhOTPApi(otp, bTxnId.current).then((res) => {
@@ -127,7 +135,13 @@ const OTPPage = () => {
           <Grid item>
             <InputOTP onFinish={_handleVerify} />
           </Grid>
-          <Grid item className={classes.textContent}>
+          <Grid
+            item
+            className={cn(
+              classes.textContent,
+              !isResendValid && classes.disabledResentOTP
+            )}
+          >
             Quý khách không nhận được tin nhắn?
           </Grid>
           <Grid item className={classes.textResendOTP}>
