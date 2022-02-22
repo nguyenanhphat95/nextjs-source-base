@@ -14,16 +14,25 @@ export default async function handler(
 ) {
   try {
     const url = `${API_DOMAIN_SBH_SANDBOX}/sbhService/v1/account/purchaseSbh`;
-    const resp: AxiosResponse<any> = await axiosWrapper.post(url, req.body, {
-      headers: {
-        "X-IBM-Client-Id": process.env.CLIENT_ID_SBH_OTP,
-        "X-IBM-CLIENT-SECRET": process.env.CLIENT_SECRET_SBH_OTP,
-      },
-    });
+    const resp: AxiosResponse<PurchaseSbhResponse> = await axiosWrapper.post(
+      url,
+      req.body,
+      {
+        headers: {
+          "X-IBM-Client-Id": process.env.CLIENT_ID_SBH_OTP,
+          "X-IBM-CLIENT-SECRET": process.env.CLIENT_SECRET_SBH_OTP,
+        },
+      }
+    );
     res.status(200).json(resp.data);
   } catch (e) {
     writeLog(ip.address(), new Date(), `purseChase sbh: ${_get(e, "message")}`);
     res.status(200).json({
+      data: {
+        url: "",
+        txnId: "",
+        bTxnId: "",
+      },
       response: {
         responseId: "",
         status: "",
