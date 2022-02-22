@@ -94,14 +94,8 @@ const FormTKCKPage = (props: Props) => {
     },
   });
   const merchantIdValue = watch("merchantId");
-  const {
-    loadingBtnSubmit,
-    listMerchant,
-    listTerminal,
-    listAccount,
-    userRegisteredHDBS,
-  } = useContext(TKCKContext);
-
+  const { loadingBtnSubmit, listMerchant, listTerminal, listAccount } =
+    useContext(TKCKContext);
   const typeModal = useRef<string>("");
   const [openModalInfo, setOpenModalInfo] = useState(false);
 
@@ -118,6 +112,13 @@ const FormTKCKPage = (props: Props) => {
   }, [listAccount]);
 
   const listMerchantNew = useMemo(() => {
+    // Set default for merchant select
+    const defaultMerchant = listMerchant.find((item) => item.merchantDefault);
+    if (defaultMerchant) {
+      setValue("merchantName", defaultMerchant.merchantName);
+      setValue("merchantId", defaultMerchant.merchantId);
+    }
+
     return (listMerchant || []).map((item) => ({
       id: item.merchantId,
       value: item.merchantName,
@@ -128,6 +129,14 @@ const FormTKCKPage = (props: Props) => {
     if (!listTerminal.length || !merchantIdValue) {
       return [];
     }
+
+    // Set default for terminal select
+    const defaultTerminal = listTerminal.find((item) => item.terminalDefault);
+    if (defaultTerminal) {
+      setValue("terminalId", defaultTerminal.terminalId);
+      setValue("terminalName", defaultTerminal.terminalName);
+    }
+
     const listData: OptionSelectType[] = [];
     listTerminal.forEach((item) => {
       if (item.merchantId === merchantIdValue) {
@@ -141,9 +150,6 @@ const FormTKCKPage = (props: Props) => {
   }, [listTerminal, merchantIdValue]);
 
   const _handleShowInfo = (key: string) => {
-    if (userRegisteredHDBS) {
-      return;
-    }
     typeModal.current = key;
     _toggleModalInfo();
   };
@@ -172,7 +178,6 @@ const FormTKCKPage = (props: Props) => {
                     rules={{ required: true }}
                     render={({ field: { onChange: _onChange, ...rest } }) => (
                       <SelectCustom
-                        disabled={userRegisteredHDBS}
                         errorMsg={
                           errors.accountNo &&
                           _get(ERROR_FORM, [lang, "required"])
@@ -206,7 +211,6 @@ const FormTKCKPage = (props: Props) => {
                 rules={{ required: true }}
                 render={({ field: { onChange: _onChange, ...rest } }) => (
                   <SelectCustom
-                    disabled={userRegisteredHDBS}
                     errorMsg={
                       errors.merchantId && _get(ERROR_FORM, [lang, "required"])
                     }
@@ -236,7 +240,6 @@ const FormTKCKPage = (props: Props) => {
                 rules={{ required: true }}
                 render={({ field: { onChange: _onChange, ...rest } }) => (
                   <SelectCustom
-                    disabled={userRegisteredHDBS}
                     errorMsg={
                       errors.terminalId && _get(ERROR_FORM, [lang, "required"])
                     }
@@ -268,7 +271,6 @@ const FormTKCKPage = (props: Props) => {
                   render={({ field: { value, ...rest } }) => {
                     return (
                       <CheckboxCustom
-                        disabled={userRegisteredHDBS}
                         checked={value}
                         endIcon={
                           <img
@@ -295,7 +297,6 @@ const FormTKCKPage = (props: Props) => {
                   render={({ field: { value, ...rest } }) => {
                     return (
                       <CheckboxCustom
-                        disabled={userRegisteredHDBS}
                         checked={value}
                         endIcon={
                           <img
@@ -322,7 +323,6 @@ const FormTKCKPage = (props: Props) => {
                     render={({ field: { value, ...rest } }) => {
                       return (
                         <CheckboxCustom
-                          disabled={userRegisteredHDBS}
                           checked={value}
                           endIcon={
                             <img
@@ -353,7 +353,6 @@ const FormTKCKPage = (props: Props) => {
             color="secondary"
             type="submit"
             loading={loadingBtnSubmit}
-            disabled={userRegisteredHDBS}
           >
             {t?.btnContinue}
           </ButtonCustom>

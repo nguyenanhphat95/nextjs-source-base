@@ -17,10 +17,12 @@ export interface GetMerchantResponse {
 export interface MerchantNameItem {
   merchantId: string;
   merchantName: string;
+  merchantDefault: boolean;
 }
 
 export interface TerminalNameItem {
   terminalId: string;
   terminalName: string;
   merchantId: string;
+  terminalDefault: boolean;
 }

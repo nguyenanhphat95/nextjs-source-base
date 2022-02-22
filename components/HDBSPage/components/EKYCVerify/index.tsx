@@ -194,13 +194,16 @@ const EKYCComponent = (props: Props) => {
         };
 
         const ekycsdk = _get(window, "ekycsdk");
-        ekycsdk.init(
-          initObj,
-          (res: any) => {
-            console.log("init ekycSDK success");
-          },
-          call_after_end_flow
-        );
+
+        try {
+          ekycsdk.init(
+            initObj,
+            (res: any) => {
+              console.log("init ekycSDK success");
+            },
+            call_after_end_flow
+          );
+        } catch (e) {}
 
         function call_after_end_flow(data: any) {
           if (isValidEkycCard(data)) {

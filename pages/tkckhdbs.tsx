@@ -66,11 +66,11 @@ const useStyles = makeStyles(() => ({
 }));
 
 export const STEP_KHHH = {
-  stepHome: "Step home page",
-  step1: "Step enter TKCK",
-  step2: "Step eKYC verify",
-  step3: "Step confirm info register TKCK",
-  step4: "Step register success",
+  stepHome: "stepHome",
+  step1: "step1",
+  step2: "step2",
+  step3: "step3",
+  step4: "step4",
 };
 
 const PAGE_TITLE = {
@@ -92,7 +92,6 @@ const HDBSPage = () => {
   );
 
   const [allowInquiry, setAllowInquiry] = useState(false);
-  const [userRegisteredHDBS, setUserRegisteredHDBS] = useState(false);
 
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
   const [md5, setMd5] = useState(null);
@@ -153,15 +152,13 @@ const HDBSPage = () => {
       "typeCustomer",
       TypeCustomer.KHHH
     ) as TypeCustomer;
-    _updateDataByTypeUser(typeUser);
+    _updateDataByTypeUser(typeUser, query.step as string);
 
     hdbsServices.getAccessToken().then((res) => {
       hdbsServices.updateMasterData({
         userId: _get(jwtInfo, "userName"),
         clientNo: _get(jwtInfo, "clientNo"),
         language: "vi",
-        // userId: "anhdtp",
-        // clientNo: "00013695",
       });
 
       Promise.all([
@@ -169,13 +166,6 @@ const HDBSPage = () => {
         hdbsServices.getListAccountApi(),
       ])
         .then((res) => {
-          if (!_get(res, "[0].merchants")) {
-            if (typeUser === TypeCustomer.KHM) {
-              const { msg } = getStatusResponse("08", lang);
-              toggleNotify(msg);
-            }
-            setUserRegisteredHDBS(true);
-          }
           _toggleLoading("loadingMasterData", false);
           setListMerchant(_get(res, "[0].merchants", []));
           setListTerminal(_get(res, "[0].terminals", []));
@@ -185,10 +175,12 @@ const HDBSPage = () => {
     });
   }, [md5, query?.jwt]);
 
-  function _updateDataByTypeUser(type: TypeCustomer) {
-    type === TypeCustomer.KHM
-      ? setStepCurrent(STEP_KHHH.step1)
-      : setStepCurrent(STEP_KHHH.stepHome);
+  function _updateDataByTypeUser(type: TypeCustomer, stepCurrentUrl: string) {
+    if (!stepCurrentUrl) {
+      type === TypeCustomer.KHM
+        ? _onNextStep(STEP_KHHH.step1)
+        : _onNextStep(STEP_KHHH.stepHome);
+    }
 
     setTypeCustomer(type);
     setDataForm({
@@ -216,7 +208,6 @@ const HDBSPage = () => {
     listMerchant,
     listTerminal,
     listAccount,
-    userRegisteredHDBS,
   };
 
   const _handleSubmitStep1 = (data: FormDataStep1) => {
@@ -395,12 +386,6 @@ const HDBSPage = () => {
   }
 
   const _handleSelectOpenStock = () => {
-    if (userRegisteredHDBS) {
-      const { msg } = getStatusResponse("08", lang);
-      toggleNotify(msg);
-      return;
-    }
-
     if (!listAccount?.length && typeCustomer === TypeCustomer.KHHH) {
       toggleNotify(
         "Quý khách vui lòng mở tài khoản thanh toán trực tuyến hoặc đến quầy giao dịch để đăng ký sử dụng dịch vụ"
