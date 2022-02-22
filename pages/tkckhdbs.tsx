@@ -161,6 +161,10 @@ const HDBSPage = () => {
       ])
         .then((res) => {
           if (!_get(res, "[0].merchants")) {
+            if (typeUser === TypeCustomer.KHM) {
+              const { msg } = getStatusResponse("08", lang);
+              toggleNotify(msg);
+            }
             setUserRegisteredHDBS(true);
           }
           _toggleLoading("loadingMasterData", false);

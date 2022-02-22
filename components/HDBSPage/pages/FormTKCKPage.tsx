@@ -211,13 +211,13 @@ const FormTKCKPage = (props: Props) => {
                 rules={{ required: true }}
                 render={({ field: { onChange: _onChange, ...rest } }) => (
                   <SelectCustom
+                    disabled={userRegisteredHDBS}
                     errorMsg={
                       errors.merchantId && _get(ERROR_FORM, [lang, "required"])
                     }
                     placeholder={t?.placeholderMerchant}
                     options={listMerchantNew}
                     fullWidth
-                    loading={listMerchant.length ? false : true}
                     onChange={(e) => {
                       const id = e.target.value;
                       const itemSelected = listMerchantNew.find(
@@ -241,10 +241,12 @@ const FormTKCKPage = (props: Props) => {
                 rules={{ required: true }}
                 render={({ field: { onChange: _onChange, ...rest } }) => (
                   <SelectCustom
-                    errorMsg={errors.terminalId && "This field is required"}
+                    disabled={userRegisteredHDBS}
+                    errorMsg={
+                      errors.terminalId && _get(ERROR_FORM, [lang, "required"])
+                    }
                     placeholder={t?.placeholderTerminal}
                     options={listTerminalNew}
-                    loading={listMerchant.length ? false : true}
                     onChange={(e) => {
                       const id = e.target.value;
                       const itemSelected = listTerminalNew.find(
