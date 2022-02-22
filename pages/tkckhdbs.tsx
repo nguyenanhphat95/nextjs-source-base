@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Script from "next/script";
+import Head from "next/head";
 import { useRouter } from "next/router";
 
 import { makeStyles } from "@mui/styles";
@@ -413,6 +414,11 @@ const HDBSPage = () => {
 
   return (
     <>
+      <Head>
+        <title>HD Bank test</title>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Head>
+
       <Script id="lottie-id" src="/asset/js/lottie.min.js" />
       <Script id="jsqr-id" src="/asset/js/jsQR.js" />
       <Script id="vnptbrowser-id" src="/asset/js/VNPTBrowserSDKAppV2.3.3.js" />
