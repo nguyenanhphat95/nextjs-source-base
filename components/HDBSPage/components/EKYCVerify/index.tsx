@@ -54,7 +54,7 @@ const EKYCComponent = (props: Props) => {
     try {
       let vnpt_ekyc_sdk = document.createElement("script");
       vnpt_ekyc_sdk.id = "vnpt_ekyc_sdk";
-      vnpt_ekyc_sdk.src = "./asset/js/ekyc-web-sdk-2.3.5.1.js";
+      vnpt_ekyc_sdk.src = "./asset/js/ekyc-web-sdk-2.3.5.2.js";
       vnpt_ekyc_sdk.async = true;
       vnpt_ekyc_sdk.defer = true;
       document.head.appendChild(vnpt_ekyc_sdk);
