@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import Head from "next/head";
 
 import { Grid, Box, Card, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
@@ -71,10 +70,6 @@ const RegisterSuccessPage = (props: Props) => {
 
   return (
     <>
-      <Head>
-        <title>Kết quả đăng ký</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
       <div className={classes.root}>
         <Card>
           <Box p={2}>

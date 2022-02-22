@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useState, useContext } from "react";
 import { useRouter } from "next/router";
-import Head from "next/head";
 import { Grid, Box, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useForm, Controller } from "react-hook-form";
@@ -122,10 +121,6 @@ const ConfirmInfoPage = (props: Props) => {
 
   return (
     <>
-      <Head>
-        <title>Xác nhận thông tin</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
       <ModalCondition
         open={showModalCondition}
         onClose={_toggleModalCondition}

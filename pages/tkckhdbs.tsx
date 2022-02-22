@@ -73,6 +73,14 @@ export const STEP_KHHH = {
   step4: "Step register success",
 };
 
+const PAGE_TITLE = {
+  [STEP_KHHH.stepHome]: "Chứng khoán",
+  [STEP_KHHH.step1]: "Chứng khoán",
+  [STEP_KHHH.step2]: "Định danh",
+  [STEP_KHHH.step3]: "Xác nhận thông tin",
+  [STEP_KHHH.step4]: "Kết quả đăng ký",
+};
+
 const HDBSPage = () => {
   const classes = useStyles();
   const router = useRouter();
@@ -415,7 +423,7 @@ const HDBSPage = () => {
   return (
     <>
       <Head>
-        <title>HD Bank test</title>
+        <title>{PAGE_TITLE[stepCurrent]}</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
 

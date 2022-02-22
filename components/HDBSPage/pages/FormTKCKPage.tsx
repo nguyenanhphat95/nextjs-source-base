@@ -1,7 +1,6 @@
 import React, { useState, useMemo, useRef, useContext } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import Head from "next/head";
 
 import { useForm, Controller } from "react-hook-form";
 
@@ -158,10 +157,6 @@ const FormTKCKPage = (props: Props) => {
 
   return (
     <>
-      <Head>
-        <title>Chứng khoán</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
       <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
         <Card className={classes.content}>
           <Grid container direction="column" spacing={2}>
