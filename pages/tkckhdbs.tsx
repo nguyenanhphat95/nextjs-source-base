@@ -302,6 +302,10 @@ const HDBSPage = () => {
   };
 
   const _handleVerifyOtp = (accountOtp: string) => {
+    if (accountOtp !== "123456") {
+      toggleNotify("OTP không hợp lệ");
+      return;
+    }
     _onConfirmEKYC();
     // _toggleLoading("loadingBtnConfirmOTP", true);
     // hdbsServices

@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useRef, useContext } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import Head from "next/head";
 
 import { useForm, Controller } from "react-hook-form";
 
@@ -156,164 +157,116 @@ const FormTKCKPage = (props: Props) => {
   };
 
   return (
-    <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
-      <Card className={classes.content}>
-        <Grid container direction="column" spacing={2}>
-          {typeCustomer === TypeCustomer.KHHH && (
-            <>
-              <Grid item className={classes.title}>
-                {t?.titleSection1}
-              </Grid>
-              <Grid item>
-                <Controller
-                  name="accountNo"
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field: { onChange: _onChange, ...rest } }) => (
-                    <SelectCustom
-                      disabled={userRegisteredHDBS}
-                      errorMsg={
-                        errors.accountNo && _get(ERROR_FORM, [lang, "required"])
-                      }
-                      placeholder={t?.placeholderAccount}
-                      options={listAccountNew}
-                      loading={listAccountNew.length ? false : true}
-                      fullWidth
-                      onChange={(e) => {
-                        const id = e.target.value;
-                        const itemSelected = listAccountNew.find(
-                          (item) => item.id === id
-                        );
-                        setValue("accountType", itemSelected?.label || "");
-                        _onChange(e);
-                      }}
-                      {...rest}
-                    />
-                  )}
-                />
-              </Grid>
-            </>
-          )}
-          <Grid item className={classes.title}>
-            {t?.titleSection2}
-          </Grid>
-          <Grid item>
-            <Controller
-              name="merchantId"
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { onChange: _onChange, ...rest } }) => (
-                <SelectCustom
-                  errorMsg={
-                    errors.merchantId && _get(ERROR_FORM, [lang, "required"])
-                  }
-                  placeholder={t?.placeholderMerchant}
-                  options={listMerchantNew}
-                  fullWidth
-                  loading={listMerchant.length ? false : true}
-                  onChange={(e) => {
-                    const id = e.target.value;
-                    const itemSelected = listMerchantNew.find(
-                      (item) => item.id === id
-                    );
-                    setValue("terminalId", "");
-                    setValue("terminalName", "");
-                    itemSelected &&
-                      setValue("merchantName", itemSelected.value);
-                    _onChange(e);
-                  }}
-                  {...rest}
-                />
-              )}
-            />
-          </Grid>
-          <Grid item>
-            <Controller
-              name="terminalId"
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { onChange: _onChange, ...rest } }) => (
-                <SelectCustom
-                  errorMsg={errors.terminalId && "This field is required"}
-                  placeholder={t?.placeholderTerminal}
-                  options={listTerminalNew}
-                  loading={listMerchant.length ? false : true}
-                  onChange={(e) => {
-                    const id = e.target.value;
-                    const itemSelected = listTerminalNew.find(
-                      (item) => item.id === id
-                    );
-                    itemSelected &&
-                      setValue("terminalName", itemSelected.value);
-                    _onChange(e);
-                  }}
-                  fullWidth
-                  {...rest}
-                />
-              )}
-            />
-          </Grid>
-        </Grid>
-
-        <Box mt={3}>
-          <Grid container direction="column" spacing={1}>
-            <Grid item>
-              <Controller
-                name="isTranInternet"
-                control={control}
-                render={({ field: { value, ...rest } }) => {
-                  return (
-                    <CheckboxCustom
-                      disabled={userRegisteredHDBS}
-                      checked={value}
-                      endIcon={
-                        <img
-                          width={20}
-                          height={20}
-                          src="/asset/images/warning.png"
-                        />
-                      }
-                      label={t?.labelCheckbox1}
-                      onClickEndIcon={() =>
-                        _handleShowInfo(TYPE_MODAL_INFO.transferInternet)
-                      }
-                      {...rest}
-                    />
-                  );
-                }}
-              />
-            </Grid>
-
-            <Grid item>
-              <Controller
-                name="isUttb"
-                control={control}
-                render={({ field: { value, ...rest } }) => {
-                  return (
-                    <CheckboxCustom
-                      disabled={userRegisteredHDBS}
-                      checked={value}
-                      endIcon={
-                        <img
-                          width={20}
-                          height={20}
-                          src="/asset/images/warning.png"
-                        />
-                      }
-                      label={t?.labelCheckbox2}
-                      onClickEndIcon={() =>
-                        _handleShowInfo(TYPE_MODAL_INFO.transferAuto)
-                      }
-                      {...rest}
-                    />
-                  );
-                }}
-              />
-            </Grid>
+    <>
+      <Head>
+        <title>Chứng khoán</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
+        <Card className={classes.content}>
+          <Grid container direction="column" spacing={2}>
             {typeCustomer === TypeCustomer.KHHH && (
+              <>
+                <Grid item className={classes.title}>
+                  {t?.titleSection1}
+                </Grid>
+                <Grid item>
+                  <Controller
+                    name="accountNo"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field: { onChange: _onChange, ...rest } }) => (
+                      <SelectCustom
+                        disabled={userRegisteredHDBS}
+                        errorMsg={
+                          errors.accountNo &&
+                          _get(ERROR_FORM, [lang, "required"])
+                        }
+                        placeholder={t?.placeholderAccount}
+                        options={listAccountNew}
+                        loading={listAccountNew.length ? false : true}
+                        fullWidth
+                        onChange={(e) => {
+                          const id = e.target.value;
+                          const itemSelected = listAccountNew.find(
+                            (item) => item.id === id
+                          );
+                          setValue("accountType", itemSelected?.label || "");
+                          _onChange(e);
+                        }}
+                        {...rest}
+                      />
+                    )}
+                  />
+                </Grid>
+              </>
+            )}
+            <Grid item className={classes.title}>
+              {t?.titleSection2}
+            </Grid>
+            <Grid item>
+              <Controller
+                name="merchantId"
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange: _onChange, ...rest } }) => (
+                  <SelectCustom
+                    errorMsg={
+                      errors.merchantId && _get(ERROR_FORM, [lang, "required"])
+                    }
+                    placeholder={t?.placeholderMerchant}
+                    options={listMerchantNew}
+                    fullWidth
+                    loading={listMerchant.length ? false : true}
+                    onChange={(e) => {
+                      const id = e.target.value;
+                      const itemSelected = listMerchantNew.find(
+                        (item) => item.id === id
+                      );
+                      setValue("terminalId", "");
+                      setValue("terminalName", "");
+                      itemSelected &&
+                        setValue("merchantName", itemSelected.value);
+                      _onChange(e);
+                    }}
+                    {...rest}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item>
+              <Controller
+                name="terminalId"
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange: _onChange, ...rest } }) => (
+                  <SelectCustom
+                    errorMsg={errors.terminalId && "This field is required"}
+                    placeholder={t?.placeholderTerminal}
+                    options={listTerminalNew}
+                    loading={listMerchant.length ? false : true}
+                    onChange={(e) => {
+                      const id = e.target.value;
+                      const itemSelected = listTerminalNew.find(
+                        (item) => item.id === id
+                      );
+                      itemSelected &&
+                        setValue("terminalName", itemSelected.value);
+                      _onChange(e);
+                    }}
+                    fullWidth
+                    {...rest}
+                  />
+                )}
+              />
+            </Grid>
+          </Grid>
+
+          <Box mt={3}>
+            <Grid container direction="column" spacing={1}>
               <Grid item>
                 <Controller
-                  name="isBond"
+                  name="isTranInternet"
                   control={control}
                   render={({ field: { value, ...rest } }) => {
                     return (
@@ -327,9 +280,9 @@ const FormTKCKPage = (props: Props) => {
                             src="/asset/images/warning.png"
                           />
                         }
-                        label={t?.labelCheckbox3}
+                        label={t?.labelCheckbox1}
                         onClickEndIcon={() =>
-                          _handleShowInfo(TYPE_MODAL_INFO.transferBonds)
+                          _handleShowInfo(TYPE_MODAL_INFO.transferInternet)
                         }
                         {...rest}
                       />
@@ -337,34 +290,89 @@ const FormTKCKPage = (props: Props) => {
                   }}
                 />
               </Grid>
-            )}
-          </Grid>
+
+              <Grid item>
+                <Controller
+                  name="isUttb"
+                  control={control}
+                  render={({ field: { value, ...rest } }) => {
+                    return (
+                      <CheckboxCustom
+                        disabled={userRegisteredHDBS}
+                        checked={value}
+                        endIcon={
+                          <img
+                            width={20}
+                            height={20}
+                            src="/asset/images/warning.png"
+                          />
+                        }
+                        label={t?.labelCheckbox2}
+                        onClickEndIcon={() =>
+                          _handleShowInfo(TYPE_MODAL_INFO.transferAuto)
+                        }
+                        {...rest}
+                      />
+                    );
+                  }}
+                />
+              </Grid>
+              {typeCustomer === TypeCustomer.KHHH && (
+                <Grid item>
+                  <Controller
+                    name="isBond"
+                    control={control}
+                    render={({ field: { value, ...rest } }) => {
+                      return (
+                        <CheckboxCustom
+                          disabled={userRegisteredHDBS}
+                          checked={value}
+                          endIcon={
+                            <img
+                              width={20}
+                              height={20}
+                              src="/asset/images/warning.png"
+                            />
+                          }
+                          label={t?.labelCheckbox3}
+                          onClickEndIcon={() =>
+                            _handleShowInfo(TYPE_MODAL_INFO.transferBonds)
+                          }
+                          {...rest}
+                        />
+                      );
+                    }}
+                  />
+                </Grid>
+              )}
+            </Grid>
+          </Box>
+        </Card>
+
+        <Box px={3} py={1}>
+          <ButtonCustom
+            fullWidth
+            variant="contained"
+            color="secondary"
+            type="submit"
+            loading={loadingBtnSubmit}
+            disabled={userRegisteredHDBS}
+          >
+            {t?.btnContinue}
+          </ButtonCustom>
         </Box>
-      </Card>
 
-      <Box px={3} py={1}>
-        <ButtonCustom
-          fullWidth
-          variant="contained"
-          color="secondary"
-          type="submit"
-          loading={loadingBtnSubmit}
-          disabled={userRegisteredHDBS}
+        <Modal
+          className={classes.modalInfo}
+          open={openModalInfo}
+          onClose={_toggleModalInfo}
         >
-          {t?.btnContinue}
-        </ButtonCustom>
-      </Box>
-
-      <Modal
-        className={classes.modalInfo}
-        open={openModalInfo}
-        onClose={_toggleModalInfo}
-      >
-        <div>
-          <Information type={typeModal.current} onClose={_toggleModalInfo} />
-        </div>
-      </Modal>
-    </form>
+          <div>
+            <Information type={typeModal.current} onClose={_toggleModalInfo} />
+          </div>
+        </Modal>
+      </form>
+    </>
   );
 };
 

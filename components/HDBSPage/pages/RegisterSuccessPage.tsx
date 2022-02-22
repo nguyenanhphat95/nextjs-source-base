@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 import { Grid, Box, Card, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
@@ -69,81 +70,87 @@ const RegisterSuccessPage = (props: Props) => {
   };
 
   return (
-    <div className={classes.root}>
-      <Card>
-        <Box p={2}>
-          <Box>
-            <img
-              width={100}
-              height={40}
-              src="/asset/images/hdbs-logo2.png"
-              alt="hdbs-logo"
-            />
-          </Box>
-          <Grid container direction="column" spacing={1}>
-            <Grid item>
-              <Box textAlign="center">
-                <img
-                  width={50}
-                  height={50}
-                  src="/asset/images/checkIcon.svg"
-                  alt="check-icon"
-                />
-              </Box>
-            </Grid>
-            <Grid item>
-              <Box textAlign="center" className={classes.textTitle}>
-                {t?.title}
-              </Box>
-            </Grid>
-            {/* <Grid item>
+    <>
+      <Head>
+        <title>Kết quả đăng ký</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <div className={classes.root}>
+        <Card>
+          <Box p={2}>
+            <Box>
+              <img
+                width={100}
+                height={40}
+                src="/asset/images/hdbs-logo2.png"
+                alt="hdbs-logo"
+              />
+            </Box>
+            <Grid container direction="column" spacing={1}>
+              <Grid item>
+                <Box textAlign="center">
+                  <img
+                    width={50}
+                    height={50}
+                    src="/asset/images/checkIcon.svg"
+                    alt="check-icon"
+                  />
+                </Box>
+              </Grid>
+              <Grid item>
+                <Box textAlign="center" className={classes.textTitle}>
+                  {t?.title}
+                </Box>
+              </Grid>
+              {/* <Grid item>
               <Box textAlign="center">Chia sẻ</Box>
             </Grid> */}
-            <Grid item>
-              <Box textAlign="center" className={classes.textSubTitle}>
-                {t?.subtitle}
-              </Box>
+              <Grid item>
+                <Box textAlign="center" className={classes.textSubTitle}>
+                  {t?.subtitle}
+                </Box>
+              </Grid>
+              <Grid item>
+                <Box px={1} className={classes.textContent}>
+                  {t?.content}{" "}
+                  <b style={{ whiteSpace: "nowrap" }}>(84.28) 7307 6966</b>
+                </Box>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Box px={1} className={classes.textContent}>
-                {t?.content}{" "}
-                <b style={{ whiteSpace: "nowrap" }}>(84.28) 7307 6966</b>
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
+          </Box>
 
-        <Box className={classes.ratingWrapper} p={2} mt={4}>
-          <Grid container spacing={1}>
-            <Grid item xs={8} className={classes.textContent}>
-              {t?.question}
+          <Box className={classes.ratingWrapper} p={2} mt={4}>
+            <Grid container spacing={1}>
+              <Grid item xs={8} className={classes.textContent}>
+                {t?.question}
+              </Grid>
+              <Grid item xs={4} className={classes.imageRatingWrapper}>
+                <img
+                  style={{ width: "100%" }}
+                  src="/asset/images/Rating.svg"
+                  alt="rating-icon"
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={4} className={classes.imageRatingWrapper}>
-              <img
-                style={{ width: "100%" }}
-                src="/asset/images/Rating.svg"
-                alt="rating-icon"
-              />
-            </Grid>
-          </Grid>
-        </Box>
-        <Box className={classes.bgRating} px={3} py={1}>
-          <Rating defaultValue={rateValue} onChange={_handleChangeRating} />
-        </Box>
-      </Card>
+          </Box>
+          <Box className={classes.bgRating} px={3} py={1}>
+            <Rating defaultValue={rateValue} onChange={_handleChangeRating} />
+          </Box>
+        </Card>
 
-      <Box mt={2}>
-        <ButtonCustom
-          onClick={onClickOtherTransaction}
-          fullWidth
-          variant="contained"
-          color="secondary"
-        >
-          {t?.otherTransaction}
-          {/* Giao dịch khác */}
-        </ButtonCustom>
-      </Box>
-    </div>
+        <Box mt={2}>
+          <ButtonCustom
+            onClick={onClickOtherTransaction}
+            fullWidth
+            variant="contained"
+            color="secondary"
+          >
+            {t?.otherTransaction}
+            {/* Giao dịch khác */}
+          </ButtonCustom>
+        </Box>
+      </div>
+    </>
   );
 };
 

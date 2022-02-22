@@ -1,4 +1,5 @@
 import React from "react";
+import Head from "next/head";
 import { Grid, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { useRouter } from "next/router";
@@ -42,27 +43,33 @@ const HomePage = (props: Props) => {
   const t = _get(resources, [lang, "homePage"]);
   console.log("Home page update");
   return (
-    <div className={classes.root}>
-      <Grid container spacing={1}>
-        <Grid item xs={4}>
-          <div className={classes.item} onClick={onSelect}>
-            <Grid container direction="column">
-              <Grid item>
-                <img
-                  width={30}
-                  height={30}
-                  src="/asset/images/openStockAccount.svg"
-                />
-              </Grid>
+    <>
+      <Head>
+        <title>Chứng khoán</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <div className={classes.root}>
+        <Grid container spacing={1}>
+          <Grid item xs={4}>
+            <div className={classes.item} onClick={onSelect}>
+              <Grid container direction="column">
+                <Grid item>
+                  <img
+                    width={30}
+                    height={30}
+                    src="/asset/images/openStockAccount.svg"
+                  />
+                </Grid>
 
-              <Grid item>
-                <Box px={1}>{t?.openStockAccount}</Box>
+                <Grid item>
+                  <Box px={1}>{t?.openStockAccount}</Box>
+                </Grid>
               </Grid>
-            </Grid>
-          </div>
+            </div>
+          </Grid>
         </Grid>
-      </Grid>
-    </div>
+      </div>
+    </>
   );
 };
 
