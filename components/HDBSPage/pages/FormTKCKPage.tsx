@@ -98,6 +98,7 @@ const FormTKCKPage = (props: Props) => {
     useContext(TKCKContext);
   const typeModal = useRef<string>("");
   const [openModalInfo, setOpenModalInfo] = useState(false);
+  const [disabledWhenSetDefault, setDisabledWhenSetDefault] = useState(false);
 
   const router = useRouter();
   const lang = getLanguage(router);
@@ -115,6 +116,7 @@ const FormTKCKPage = (props: Props) => {
     // Set default for merchant select
     const defaultMerchant = listMerchant.find((item) => item.merchantDefault);
     if (defaultMerchant) {
+      setDisabledWhenSetDefault(true);
       _delay(() => {
         setValue("merchantName", defaultMerchant.merchantName);
         setValue("merchantId", defaultMerchant.merchantId);
@@ -146,6 +148,7 @@ const FormTKCKPage = (props: Props) => {
     const defaultTerminal = listData.find((item) => item.defaultValue);
     if (defaultTerminal) {
       _delay(() => {
+        setDisabledWhenSetDefault(false);
         setValue("terminalId", defaultTerminal.id as string);
         setValue("terminalName", defaultTerminal.value);
       }, 500);
@@ -356,6 +359,7 @@ const FormTKCKPage = (props: Props) => {
             variant="contained"
             color="secondary"
             type="submit"
+            disabled={disabledWhenSetDefault}
             loading={loadingBtnSubmit}
           >
             {t?.btnContinue}
