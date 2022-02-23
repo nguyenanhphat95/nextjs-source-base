@@ -19,7 +19,7 @@ import { LANGUAGE } from "commons/constants";
 import resources from "pages/assets/translate.json";
 import warningIcon from "public/asset/images/warning.png";
 import _get from "lodash/get";
-
+import _delay from "lodash/delay";
 const useStyles = makeStyles(() => ({
   root: {},
   content: {
@@ -115,8 +115,10 @@ const FormTKCKPage = (props: Props) => {
     // Set default for merchant select
     const defaultMerchant = listMerchant.find((item) => item.merchantDefault);
     if (defaultMerchant) {
-      setValue("merchantName", defaultMerchant.merchantName);
-      setValue("merchantId", defaultMerchant.merchantId);
+      _delay(() => {
+        setValue("merchantName", defaultMerchant.merchantName);
+        setValue("merchantId", defaultMerchant.merchantId);
+      }, 1000);
     }
 
     return (listMerchant || []).map((item) => ({
@@ -131,21 +133,23 @@ const FormTKCKPage = (props: Props) => {
     }
 
     // Set default for terminal select
-    const defaultTerminal = listTerminal.find((item) => item.terminalDefault);
-    if (defaultTerminal) {
-      setValue("terminalId", defaultTerminal.terminalId);
-      setValue("terminalName", defaultTerminal.terminalName);
-    }
-
     const listData: OptionSelectType[] = [];
     listTerminal.forEach((item) => {
       if (item.merchantId === merchantIdValue) {
         listData.push({
           id: item.terminalId,
           value: item.terminalName,
+          defaultValue: item.terminalDefault,
         });
       }
     });
+    const defaultTerminal = listData.find((item) => item.defaultValue);
+    if (defaultTerminal) {
+      _delay(() => {
+        setValue("terminalId", defaultTerminal.id as string);
+        setValue("terminalName", defaultTerminal.value);
+      }, 500);
+    }
     return listData;
   }, [listTerminal, merchantIdValue]);
 
