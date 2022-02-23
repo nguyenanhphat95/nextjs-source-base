@@ -110,7 +110,9 @@ const SBHPage = () => {
       !query.client_id ||
       !query.redirect_uri ||
       !query.response_type ||
-      !query.scope
+      !query.scope ||
+      !query.phoneNumber ||
+      !query.nationaId
     ) {
       return false;
     }
@@ -143,10 +145,34 @@ const SBHPage = () => {
     return <div>Invalid params</div>;
   }
 
+  const _checkUser = async (
+    userId: string,
+    globalId: string
+  ): Promise<boolean> => {
+    if (!userId || !globalId) {
+      return false;
+    }
+    const res = await stkService.checkUserApi(userId, globalId);
+    if (_get(res, "data.status") === ERROR_CODE.Success) {
+      return true;
+    }
+    return false;
+  };
+
   const _handleSubmitForm = async (
     _: any,
     data: { username: string; password: string }
   ) => {
+    const validUser = await _checkUser(
+      data.username,
+      query.nationaId as string
+    );
+
+    if (!validUser) {
+      toggleNotify("Thông báo", "User không đúng");
+      return;
+    }
+
     const resp = await getPublicKey();
     const publicKey = _get(resp, "data.data.key");
 

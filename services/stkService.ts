@@ -1,3 +1,4 @@
+import { CheckUserResponse } from "./../interfaces/ICheckUser";
 import axios, { AxiosResponse } from "axios";
 import {
   CHANNEL_SBH,
@@ -18,6 +19,7 @@ import {
   VerifyWithTokenSBHRequest,
   VerifyWithTokenSBHResponse,
 } from "interfaces/IVerifyWithTokenSBH";
+import { CheckUserRequest } from "interfaces/ICheckUser";
 
 export const getListAccountApi = async (clientNo: string) => {
   const body: ListAccountRequest = {
@@ -135,4 +137,19 @@ export const verifyWithTokenSBH = async (
     body
   );
   return resp;
+};
+
+export const checkUserApi = async (userId: string, globalId: string) => {
+  const body: CheckUserRequest = {
+    requestId: uuidv4() as string,
+    data: {
+      userId,
+      globalId,
+    },
+  };
+  const resp: AxiosResponse<CheckUserResponse> = await axios.post(
+    "/api/checkUser",
+    body
+  );
+  return resp.data;
 };
