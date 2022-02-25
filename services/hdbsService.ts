@@ -164,7 +164,8 @@ export const getMerchant = async () => {
 export const checkUserEKYC = async (
   merchantId: string,
   terminalId: string,
-  ekycType: EkycType
+  ekycType: EkycType,
+  accountNo: string
 ) => {
   await refreshAccessToken();
   const { requestId, language, transactionTime } = generateCommonBodyRequest();
@@ -179,6 +180,7 @@ export const checkUserEKYC = async (
     terminalId,
     userId,
     partnerId: PARTNER_ID as string,
+    accountNo,
     checksum: generateCheckSum({
       userId,
       clientNo,

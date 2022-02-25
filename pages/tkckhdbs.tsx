@@ -221,7 +221,8 @@ const HDBSPage = () => {
       .checkUserEKYC(
         finalData.merchantId,
         finalData.terminalId,
-        finalData.ekycType || "CURRENT_CUSTOMER"
+        finalData.ekycType || "CURRENT_CUSTOMER",
+        finalData.accountNo
       )
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);

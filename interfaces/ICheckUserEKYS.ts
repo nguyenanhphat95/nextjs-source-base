@@ -11,6 +11,7 @@ export interface CheckUserENCYRequest {
   language: string;
   checksum: string;
   ekycType: EkycType;
+  accountNo?: string;
 }
 
 export interface CheckUserEKYCResponse {
