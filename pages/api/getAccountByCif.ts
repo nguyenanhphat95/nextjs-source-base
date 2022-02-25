@@ -39,10 +39,9 @@ export default async function handler(
         item.acctStatus === "A" &&
         item.clientInd !== "S"
       ) {
+        return item;
       }
-      return item;
     });
-
     res.status(200).json({ data: listAccount });
   } catch (err) {
     writeLog(
