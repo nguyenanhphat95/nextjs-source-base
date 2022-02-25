@@ -21,7 +21,7 @@ const CameraPage = () => {
 
   const _handleCapture = () => {
     const context = canvasRef.current.getContext("2d");
-    context.drawImage(videoRef.current, 0, 0, 500, 600);
+    context.drawImage(videoRef.current, 0, 0, 200, 300);
     const base64 = canvasRef.current.toDataURL();
     setSrc(base64);
   };
