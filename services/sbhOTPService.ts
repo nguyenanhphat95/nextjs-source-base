@@ -83,7 +83,7 @@ export const purchaseSbhApi = async (body: SbhPurchaseInfo) => {
       data: {
         ...body,
         txnId: uuidv4(),
-        tokenizeId: "08c18d1e-3901-4b0e-a49c-7970efa179bd",
+        // tokenizeId: "08c18d1e-3901-4b0e-a49c-7970efa179bd",
       },
     }
   );

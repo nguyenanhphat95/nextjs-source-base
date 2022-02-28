@@ -15,6 +15,7 @@ import { SbhPurchaseInfo } from "interfaces/ISbhOTP";
 import cn from "classnames";
 import _get from "lodash/get";
 import { LINK_VERIFY_CALLBACK_SBH_OTP } from "commons/constants";
+import { PopupNotify } from "components/commons";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -65,6 +66,12 @@ const OTPPage = () => {
   const purchaseInfo = useRef<SbhPurchaseInfo>();
   const bTxnId = useRef<string>("");
 
+  const [popupNotify, setPopupNotify] = useState({
+    open: false,
+    title: "",
+    desc: "",
+    onClose: () => null,
+  });
   const [otp, setOtp] = useState("");
   const [validPage, setValidPage] = useState(false);
   const [isResendValid, setIsResendValid] = useState(false);
@@ -121,6 +128,8 @@ const OTPPage = () => {
       if (resPurchase?.response?.responseCode === ERROR_CODE.Success) {
         setValidPage(true);
         bTxnId.current = resPurchase?.data?.bTxnId;
+      } else {
+        toggleNotify("Thông báo", "Gửi otp không thành công");
       }
     });
   }, []);
@@ -157,9 +166,37 @@ const OTPPage = () => {
     _callPurchaseSbh();
   };
 
+  function toggleNotify(title?: string, desc?: string, onClose?: any) {
+    setPopupNotify((prev) => {
+      if (title && desc) {
+        return {
+          open: true,
+          title,
+          desc,
+          onClose: onClose ? onClose : () => null,
+        };
+      }
+      prev.onClose && prev?.onClose();
+      return {
+        open: false,
+        title: "",
+        desc: "",
+        onClose: () => null,
+      };
+    });
+  }
+
   return (
     <div className={classes.root}>
       <Script id="jsencrypt-id" src="/js/jsencrypt.min.js" />
+      {popupNotify.open && (
+        <PopupNotify
+          title={popupNotify.title}
+          desc={popupNotify.desc}
+          open={popupNotify.open}
+          toggleModal={toggleNotify}
+        />
+      )}
       {validPage && (
         <Grid container direction="column" spacing={2}>
           <Grid item className={classes.textCenter}>
