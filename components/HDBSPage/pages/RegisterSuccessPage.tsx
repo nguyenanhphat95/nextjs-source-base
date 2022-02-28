@@ -22,14 +22,15 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   textTitle: {
     color: theme.palette.error.dark,
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: 500,
   },
   textSubTitle: {
-    fontSize: 16,
+    fontSize: 15,
   },
   textContent: {
     fontSize: 15,
+    textAlign: "justify",
   },
   ratingWrapper: {
     background: "#FAFAFA",
