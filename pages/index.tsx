@@ -62,16 +62,16 @@ const OTPPage = () => {
 
   const router = useRouter();
   const query = router.query;
-
-  const purchaseInfo = useRef<SbhPurchaseInfo>();
   const bTxnId = useRef<string>("");
 
+  const [purchaseInfo, setPurchaseInfo] = useState<SbhPurchaseInfo>();
   const [popupNotify, setPopupNotify] = useState({
     open: false,
     title: "",
     desc: "",
     onClose: () => null,
   });
+
   const [otp, setOtp] = useState("");
   const [validPage, setValidPage] = useState(false);
   const [isResendValid, setIsResendValid] = useState(false);
@@ -94,6 +94,10 @@ const OTPPage = () => {
       );
 
       if (resCheckSession?.data?.code === CheckSessionOTPCode.valid) {
+        const resInfo = await sbhOTPServices.getInfoByTokenApi(
+          query.bTxnId as string
+        );
+        setPurchaseInfo(resInfo.data);
         setValidPage(true);
       }
 
@@ -102,11 +106,7 @@ const OTPPage = () => {
           query.bTxnId as string
         );
         if (resInfo?.response?.responseCode === ERROR_CODE.Success) {
-          purchaseInfo.current = {
-            ...resInfo.data,
-          };
-
-          _callPurchaseSbh();
+          _callPurchaseSbh(resInfo.data);
         }
       }
     }
@@ -120,19 +120,24 @@ const OTPPage = () => {
     }
   }, [otp]);
 
-  const _callPurchaseSbh = useCallback(() => {
-    if (!purchaseInfo.current) {
-      return;
-    }
-    sbhOTPServices.purchaseSbhApi(purchaseInfo.current).then((resPurchase) => {
-      if (resPurchase?.response?.responseCode === ERROR_CODE.Success) {
-        setValidPage(true);
-        bTxnId.current = resPurchase?.data?.bTxnId;
-      } else {
-        toggleNotify("Thông báo", "Gửi otp không thành công");
+  const _callPurchaseSbh = useCallback(
+    (purchaseInfoParam?: SbhPurchaseInfo) => {
+      const formData = purchaseInfoParam || purchaseInfo;
+
+      if (!formData) {
+        return;
       }
-    });
-  }, []);
+      sbhOTPServices.purchaseSbhApi(formData).then((resPurchase) => {
+        if (resPurchase?.response?.responseCode === ERROR_CODE.Success) {
+          setValidPage(true);
+          bTxnId.current = resPurchase?.data?.bTxnId;
+        } else {
+          toggleNotify("Thông báo", "Gửi otp không thành công");
+        }
+      });
+    },
+    []
+  );
 
   const _handleVerifyOTP = () => {
     sbhOTPServices.verifySbhOTPApi(otp, bTxnId.current).then((res) => {
@@ -206,8 +211,8 @@ const OTPPage = () => {
             Xác thực OTP thanh toán
           </Grid>
           <Grid item className={classes.textContent}>
-            Nhập mã đã được gửi đến số điện thoại của bạn để thanh toán số tiền
-            114.000₫
+            Nhập mã đã được gửi đến số điện thoại của bạn để thanh toán số tiền{" "}
+            {purchaseInfo?.amount}₫
           </Grid>
           <Grid item>
             <InputOTP onChange={setOtp} />
