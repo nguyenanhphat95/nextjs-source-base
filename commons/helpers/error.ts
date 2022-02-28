@@ -2,6 +2,7 @@ import { ResponseData } from "interfaces/ICommon";
 import { NextRouter } from "next/router";
 import _get from "lodash/get";
 import { ERROR_CODE_WITH_MESSAGE } from "commons/constants";
+
 export const ERROR_CODE = {
   Success: "00",
   Unauthorized: "01",
@@ -54,7 +55,7 @@ export function getStatusResponse(
     msg: _get(
       ERROR_CODE_WITH_MESSAGE,
       [language, code],
-      "Có lỗi xảy ra vui lòng thử lại"
+      "Dịch vụ đang nâng cấp và đề nghị quý khách quay lại khai báo sau"
     ),
   };
 }

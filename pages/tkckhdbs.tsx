@@ -22,6 +22,11 @@ import {
   FormDataFinal,
 } from "components/HDBSPage/interfaces";
 import { LoadingPage, PopupNotify } from "components/commons";
+import {
+  INITIAL_VALUE,
+  STEP_HDBS,
+  PAGE_TITLE,
+} from "components/HDBSPage/consts";
 
 import { MerchantNameItem, TerminalNameItem } from "interfaces/IGetMerchant";
 import { AccountItem } from "interfaces/IListAccount";
@@ -35,7 +40,6 @@ import {
 
 import * as hdbsServices from "services/hdbsService";
 import _get from "lodash/get";
-import { formatDate } from "commons/helpers/date";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -65,22 +69,6 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const STEP_KHHH = {
-  stepHome: "stepHome",
-  step1: "step1",
-  step2: "step2",
-  step3: "step3",
-  step4: "step4",
-};
-
-const PAGE_TITLE = {
-  [STEP_KHHH.stepHome]: "Chứng khoán",
-  [STEP_KHHH.step1]: "Chứng khoán",
-  [STEP_KHHH.step2]: "Định danh",
-  [STEP_KHHH.step3]: "Xác nhận thông tin",
-  [STEP_KHHH.step4]: "Kết quả đăng ký",
-};
-
 const HDBSPage = () => {
   const classes = useStyles();
   const router = useRouter();
@@ -105,37 +93,13 @@ const HDBSPage = () => {
   const [listTerminal, setListTerminal] = useState<TerminalNameItem[]>([]);
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
 
-  const [stepCurrent, setStepCurrent] = useState(STEP_KHHH.stepHome);
+  const [stepCurrent, setStepCurrent] = useState(STEP_HDBS.stepHome);
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
     loadingBtnConfirmOTP: false,
     loadingMasterData: true,
   });
-
-  const [dataForm, setDataForm] = useState<FormDataFinal>({
-    accountNo: "",
-    accountType: "",
-    merchantId: "",
-    terminalId: "",
-    fullName: "",
-    isTranInternet: true,
-    isUttb: true,
-    isBond: true,
-    ekycData: null,
-
-    terminalName: "",
-    email: "",
-    fullNameOcr: "",
-    idNumber: "",
-    gender: "",
-    birthDateOcr: "",
-    dateOfIssueOcr: "",
-    placeOfIssueOcr: "",
-    address: "",
-    nationalityName: "",
-    phoneNumber: "",
-    idNumberType: "",
-  });
+  const [dataForm, setDataForm] = useState<FormDataFinal>(INITIAL_VALUE);
 
   useEffect(() => {
     if (!query.step && typeof query.step !== "string") {
@@ -178,8 +142,8 @@ const HDBSPage = () => {
   function _updateDataByTypeUser(type: TypeCustomer, stepCurrentUrl: string) {
     if (!stepCurrentUrl) {
       type === TypeCustomer.KHM
-        ? _onNextStep(STEP_KHHH.step1)
-        : _onNextStep(STEP_KHHH.stepHome);
+        ? _onNextStep(STEP_HDBS.step1)
+        : _onNextStep(STEP_HDBS.stepHome);
     }
 
     setTypeCustomer(type);
@@ -253,12 +217,12 @@ const HDBSPage = () => {
           };
 
           setDataForm(newData);
-          _onNextStep(STEP_KHHH.step3);
+          _onNextStep(STEP_HDBS.step3);
           return;
         }
 
         if (status.code === ERROR_CODE.UserEKYCNotFound) {
-          _onNextStep(STEP_KHHH.step2);
+          _onNextStep(STEP_HDBS.step2);
           setAllowInquiry(true);
           return;
         }
@@ -274,7 +238,7 @@ const HDBSPage = () => {
       ...dataForm,
       ekycData: data,
     });
-    _onNextStep(STEP_KHHH.step3);
+    _onNextStep(STEP_HDBS.step3);
   };
 
   const _handleSubmitStep3 = async (data: FormDataStep3) => {
@@ -299,7 +263,7 @@ const HDBSPage = () => {
         _onCreateOTP();
         return;
       }
-      _onNextStep(STEP_KHHH.step4);
+      _onNextStep(STEP_HDBS.step4);
       return;
     }
     _toggleLoading("loadingBtnSubmit", false);
@@ -354,7 +318,7 @@ const HDBSPage = () => {
 
         if (status.success) {
           _toggleModalVerifyOTP();
-          _onNextStep(STEP_KHHH.step4);
+          _onNextStep(STEP_HDBS.step4);
           return;
         }
         toggleNotify(status.msg);
@@ -393,12 +357,12 @@ const HDBSPage = () => {
       );
       return;
     }
-    _onNextStep(STEP_KHHH.step1);
+    _onNextStep(STEP_HDBS.step1);
   };
 
   const _handleOtherTransaction = () => {
     if (typeCustomer === TypeCustomer.KHHH) {
-      _onNextStep(STEP_KHHH.stepHome);
+      _onNextStep(STEP_HDBS.stepHome);
       return;
     }
     router.push({
@@ -437,29 +401,28 @@ const HDBSPage = () => {
       {md5 && typeCustomer && (
         <div className={classes.root}>
           <TKCKContext.Provider value={TKCKContextValue}>
-            {stepCurrent === STEP_KHHH.stepHome && (
+            {stepCurrent === STEP_HDBS.stepHome && (
               <HomePage onSelect={_handleSelectOpenStock} />
             )}
-            {stepCurrent === STEP_KHHH.step1 && (
+            {stepCurrent === STEP_HDBS.step1 && (
               <FormTKCKPage
                 typeCustomer={typeCustomer}
                 onSubmit={_handleSubmitStep1}
               />
             )}
-            {stepCurrent === STEP_KHHH.step2 && (
+            {stepCurrent === STEP_HDBS.step2 && (
               <EKYCVerifyPage onSubmit={_handleSubmitStep2} />
             )}
-            {stepCurrent === STEP_KHHH.step3 && (
+            {stepCurrent === STEP_HDBS.step3 && (
               <ConfirmInfoPage
                 typeCustomer={typeCustomer}
                 data={dataForm}
                 onSubmit={_handleSubmitStep3}
-                redoEKYC={() => _onNextStep(STEP_KHHH.step2)}
+                redoEKYC={() => _onNextStep(STEP_HDBS.step2)}
               />
             )}
-            {stepCurrent === STEP_KHHH.step4 && (
+            {stepCurrent === STEP_HDBS.step4 && (
               <RegisterSuccessPage
-                data={dataForm}
                 onClickOtherTransaction={_handleOtherTransaction}
               />
             )}

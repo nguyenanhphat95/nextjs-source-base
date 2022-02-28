@@ -266,3 +266,44 @@ export const MOCK_DATA = {
     challengeCode: "11111",
   },
 };
+
+export const INITIAL_VALUE = {
+  accountNo: "",
+  accountType: "",
+  merchantId: "",
+  terminalId: "",
+  fullName: "",
+  isTranInternet: true,
+  isUttb: true,
+  isBond: true,
+  ekycData: null,
+
+  terminalName: "",
+  email: "",
+  fullNameOcr: "",
+  idNumber: "",
+  gender: "",
+  birthDateOcr: "",
+  dateOfIssueOcr: "",
+  placeOfIssueOcr: "",
+  address: "",
+  nationalityName: "",
+  phoneNumber: "",
+  idNumberType: "",
+};
+
+export const STEP_HDBS = {
+  stepHome: "stepHome",
+  step1: "step1",
+  step2: "step2",
+  step3: "step3",
+  step4: "step4",
+};
+
+export const PAGE_TITLE = {
+  [STEP_HDBS.stepHome]: "Chứng khoán",
+  [STEP_HDBS.step1]: "Chứng khoán",
+  [STEP_HDBS.step2]: "Định danh",
+  [STEP_HDBS.step3]: "Xác nhận thông tin",
+  [STEP_HDBS.step4]: "Kết quả đăng ký",
+};

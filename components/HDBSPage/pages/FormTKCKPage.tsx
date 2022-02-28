@@ -21,10 +21,15 @@ import warningIcon from "public/asset/images/warning.png";
 import _get from "lodash/get";
 import _delay from "lodash/delay";
 const useStyles = makeStyles(() => ({
-  root: {},
+  root: {
+    minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column",
+  },
   content: {
     padding: 10,
     boxShadow: "none",
+    flexGrow: 1,
   },
   title: {
     fontSize: 18,

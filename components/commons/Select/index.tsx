@@ -18,6 +18,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     color: theme.palette?.error?.dark,
     fontSize: 14,
   },
+  textPlaceholder: {
+    color: "#B6BEC8",
+  },
 }));
 interface Props<T> extends SelectProps {
   options: T[];
@@ -72,7 +75,7 @@ const SelectCustom = React.forwardRef(
         >
           {placeholder && (
             <MenuItem disabled value="">
-              <em>{loading ? "Loading data" : placeholder}</em>
+              <span className={classes.textPlaceholder}>{placeholder}</span>
             </MenuItem>
           )}
           {options &&

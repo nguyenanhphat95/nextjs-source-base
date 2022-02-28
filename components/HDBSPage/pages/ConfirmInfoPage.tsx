@@ -178,7 +178,6 @@ const ConfirmInfoPage = (props: Props) => {
                     <Grid item>
                       {t?.gender}: <b>{info?.gender === "M" ? "Nam" : "Nữ"}</b>
                     </Grid>
-                    <Grid item></Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
@@ -186,7 +185,6 @@ const ConfirmInfoPage = (props: Props) => {
                     <Grid item>
                       {t?.birthday}: <b>{info?.birthDateOcr}</b>
                     </Grid>
-                    <Grid item></Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
@@ -221,7 +219,6 @@ const ConfirmInfoPage = (props: Props) => {
                     <Grid item>
                       {t?.dateIssue}: <b>{info?.dateOfIssueOcr}</b>
                     </Grid>
-                    <Grid item></Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
@@ -229,7 +226,6 @@ const ConfirmInfoPage = (props: Props) => {
                     <Grid item>
                       {t?.placeIssue}: <b>{info?.placeOfIssueOcr}</b>
                     </Grid>
-                    <Grid item></Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
@@ -244,7 +240,6 @@ const ConfirmInfoPage = (props: Props) => {
                     <Grid item>
                       {t?.nationality}: <b>{info?.nationalityName}</b>
                     </Grid>
-                    <Grid item></Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
@@ -259,7 +254,6 @@ const ConfirmInfoPage = (props: Props) => {
                     <Grid item>
                       {t?.contactAddress}: <b>{info?.address}</b>
                     </Grid>
-                    <Grid item></Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
@@ -274,7 +268,6 @@ const ConfirmInfoPage = (props: Props) => {
                     <Grid item>
                       {t?.terminalName}: <b>{data.terminalName}</b>
                     </Grid>
-                    <Grid item></Grid>
                   </Grid>
                 </Grid>
                 {isKHHH && (
@@ -283,7 +276,6 @@ const ConfirmInfoPage = (props: Props) => {
                       <Grid item>
                         {t?.accountNo}: <b>{data.accountNo}</b>
                       </Grid>
-                      <Grid item></Grid>
                     </Grid>
                   </Grid>
                 )}

@@ -47,11 +47,10 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface Props {
   onClickOtherTransaction: () => void;
-  data: FormDataFinal;
 }
 
 const RegisterSuccessPage = (props: Props) => {
-  const { onClickOtherTransaction, data } = props;
+  const { onClickOtherTransaction } = props;
   const [rateValue, setRateValue] = useState(0);
   const classes = useStyles();
 
