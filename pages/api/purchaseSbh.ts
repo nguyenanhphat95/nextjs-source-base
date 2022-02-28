@@ -13,7 +13,7 @@ export default async function handler(
   res: NextApiResponse<PurchaseSbhResponse>
 ) {
   try {
-    const url = `${API_DOMAIN_SBH_SANDBOX}/sbhService/v1/account/purchaseSbh`;
+    const url = `${process.env.API_DOMAIN_SBH_OTP}/sbhService/v1/account/purchaseSbh`;
     const resp: AxiosResponse<PurchaseSbhResponse> = await axiosWrapper.post(
       url,
       req.body,

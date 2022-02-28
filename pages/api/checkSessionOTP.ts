@@ -13,7 +13,8 @@ export default async function handler(
   res: NextApiResponse<CheckSessionOTPResponse>
 ) {
   try {
-    const url = `${API_DOMAIN_SBH_SANDBOX}/sbhService/v1/account/checkSessionOtp`;
+    const url = `${process.env.API_DOMAIN_SBH_OTP}/sbhService/v1/account/checkSessionOtp`;
+
     const resp: AxiosResponse<any> = await axiosWrapper.post(url, req.body, {
       headers: {
         "X-IBM-Client-Id": process.env.CLIENT_ID_SBH_OTP,
