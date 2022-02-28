@@ -264,12 +264,7 @@ const HDBSPage = () => {
         return;
       }
       // Redirect success page
-      router.push({
-        pathname: "/result",
-        query: {
-          ...query,
-        },
-      });
+      _redirectSuccessPage();
       return;
     }
     _toggleLoading("loadingBtnSubmit", false);
@@ -324,7 +319,7 @@ const HDBSPage = () => {
 
         if (status.success) {
           _toggleModalVerifyOTP();
-          _onNextStep(STEP_HDBS.step4);
+          _redirectSuccessPage();
           return;
         }
         toggleNotify(status.msg);
@@ -364,6 +359,15 @@ const HDBSPage = () => {
       return;
     }
     _onNextStep(STEP_HDBS.step1);
+  };
+
+  const _redirectSuccessPage = () => {
+    router.push({
+      pathname: "/result",
+      query: {
+        ...query,
+      },
+    });
   };
 
   // const _handleOtherTransaction = () => {
