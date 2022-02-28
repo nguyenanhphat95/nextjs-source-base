@@ -3,7 +3,7 @@ import { PublicKeyResponse } from "interfaces/IPublicKey";
 
 export const getPublicKey = async () => {
   const resp: AxiosResponse<PublicKeyResponse> = await axios.get(
-    "/sso/api/getPublicKey"
+    "/api/getPublicKey"
   );
   return resp;
 };

@@ -12,7 +12,7 @@ export interface GetAccessTokenBody {
 
 export const getAccessTokenApi = async (body: GetAccessTokenBody) => {
   const resp: AxiosResponse<GetAccessTokenResponse> = await axios.post(
-    "/sso/api/getAccessToken",
+    "/api/getAccessToken",
     body
   );
   return resp;

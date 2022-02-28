@@ -46,7 +46,7 @@ export const checkSessionOTPApi = async (uuid: string) => {
     uuid,
   };
   const resp: AxiosResponse<CheckSessionOTPResponse> = await axios.post(
-    "/sso/api/checkSessionOTP",
+    "/api/checkSessionOTP",
     {
       ...generateBodyRequest({ partnerId: PARTNER_ID_SBH_OTP || "", uuid }),
       data: body,
@@ -60,7 +60,7 @@ export const getInfoByTokenApi = async (bTxnId: string) => {
     bTxnId,
   };
   const resp: AxiosResponse<GetInfoByTokenResponse> = await axios.post(
-    "/sso/api/getInfoByToken",
+    "/api/getInfoByToken",
     {
       ...generateBodyRequest({ partnerId: PARTNER_ID_SBH_OTP || "", bTxnId }),
       data: body,
@@ -71,7 +71,7 @@ export const getInfoByTokenApi = async (bTxnId: string) => {
 
 export const purchaseSbhApi = async (body: SbhPurchaseInfo) => {
   const resp: AxiosResponse<PurchaseSbhResponse> = await axios.post(
-    "/sso/api/purchaseSbh",
+    "/api/purchaseSbh",
     {
       ...generateBodyRequest({
         partnerId: PARTNER_ID_SBH_OTP || "",
@@ -96,7 +96,7 @@ export const verifySbhOTPApi = async (otp: string, bTxnId: string) => {
     bTxnId,
   };
   const resp: AxiosResponse<VerifySbhOTPResponse> = await axios.post(
-    "/sso/api/verifySbhOTP",
+    "/api/verifySbhOTP",
     {
       ...generateBodyRequest({ partnerId: PARTNER_ID_SBH_OTP || "", otp }),
       data: body,
