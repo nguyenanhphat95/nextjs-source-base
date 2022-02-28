@@ -8,6 +8,10 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
+    alignItems: "flex-start",
+    "& .MuiCheckbox-root": {
+      marginTop: "-5px",
+    },
     "& .Mui-checked": {
       "& span": {
         width: "23px !important",

@@ -39,6 +39,7 @@ const useStyles = makeStyles(() => ({
     top: "unset !important",
     "& .MuiPaper-root": {
       borderRadius: "5px 5px 0px 0px",
+      outline: "none",
     },
   },
 }));

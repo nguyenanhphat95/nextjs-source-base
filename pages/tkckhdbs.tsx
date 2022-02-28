@@ -263,7 +263,13 @@ const HDBSPage = () => {
         _onCreateOTP();
         return;
       }
-      _onNextStep(STEP_HDBS.step4);
+      // Redirect success page
+      router.push({
+        pathname: "/result",
+        query: {
+          ...query,
+        },
+      });
       return;
     }
     _toggleLoading("loadingBtnSubmit", false);
@@ -360,16 +366,15 @@ const HDBSPage = () => {
     _onNextStep(STEP_HDBS.step1);
   };
 
-  const _handleOtherTransaction = () => {
-    if (typeCustomer === TypeCustomer.KHHH) {
-      _onNextStep(STEP_HDBS.stepHome);
-      return;
-    }
-    router.push({
-      pathname: "/backToHome",
-    });
-  };
-
+  // const _handleOtherTransaction = () => {
+  //   if (typeCustomer === TypeCustomer.KHHH) {
+  //     _onNextStep(STEP_HDBS.stepHome);
+  //     return;
+  //   }
+  //   router.push({
+  //     pathname: "/backToHome",
+  //   });
+  // };
   return (
     <>
       <Head>
@@ -421,11 +426,11 @@ const HDBSPage = () => {
                 redoEKYC={() => _onNextStep(STEP_HDBS.step2)}
               />
             )}
-            {stepCurrent === STEP_HDBS.step4 && (
+            {/* {stepCurrent === STEP_HDBS.step4 && (
               <RegisterSuccessPage
                 onClickOtherTransaction={_handleOtherTransaction}
               />
-            )}
+            )} */}
           </TKCKContext.Provider>
         </div>
       )}

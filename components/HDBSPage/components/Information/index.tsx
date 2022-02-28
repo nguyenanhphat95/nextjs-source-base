@@ -14,11 +14,14 @@ import _get from "lodash/get";
 import { getLanguage } from "commons/helpers";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: {},
+  root: {
+    outline: "none",
+  },
   header: {
     padding: "10px",
     background: "#C7262E",
     color: "white",
+    outline: "none",
   },
 }));
 

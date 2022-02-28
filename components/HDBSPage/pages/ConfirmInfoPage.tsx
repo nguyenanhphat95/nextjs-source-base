@@ -287,9 +287,8 @@ const ConfirmInfoPage = (props: Props) => {
                 onChange={_handleChange}
                 label={
                   <div>
-                    {t?.termCondition1}
-                    {data.terminalName}, {t?.termCondition2} {data.terminalName}
-                    . {t?.termCondition3}
+                    {t?.termCondition1} {data?.merchantName},{t?.termCondition2}{" "}
+                    {data?.terminalName || ""}. {t?.termCondition3}
                     <span
                       onClick={(e) => {
                         e.preventDefault();
