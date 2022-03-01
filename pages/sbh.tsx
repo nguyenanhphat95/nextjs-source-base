@@ -111,7 +111,6 @@ const SBHPage = () => {
       !query.redirect_uri ||
       !query.response_type ||
       !query.scope ||
-      !query.phoneNumber ||
       !query.nationaId
     ) {
       return false;
@@ -180,6 +179,7 @@ const SBHPage = () => {
       toggleNotify("Thông báo", "Get public key error");
       return;
     }
+    debugger;
     _toggleLoading("loadingBtnSubmit", true);
     stkService
       .verifySBH(data, publicKey)

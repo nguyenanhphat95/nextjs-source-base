@@ -29,7 +29,7 @@ export const getListAccountApi = async (clientNo: string) => {
     },
   };
   const resp: AxiosResponse<ListAccountResponse> = await axios.post(
-    "/api/getAccountByCif",
+    "/sso/api/getAccountByCif",
     body
   );
   return resp;
@@ -52,7 +52,7 @@ export const createOTPApi = async (userId: string) => {
     },
   };
   const resp: AxiosResponse<CreateOTPResponse> = await axios.post(
-    "/api/createOTP",
+    "/sso/api/createOTP",
     body
   );
   return resp;
@@ -73,7 +73,7 @@ export const verifyOTPApi = async (userId: string, otp: string) => {
     },
   };
   const resp: AxiosResponse<VerifyOTPResponse> = await axios.post(
-    "/api/verifyOTP",
+    "/sso/api/verifyOTP",
     body
   );
   return resp;
@@ -101,7 +101,7 @@ export const verifySBH = async (
     },
   };
 
-  const resp: AxiosResponse<any> = await axios.post("/api/verifySBH", body);
+  const resp: AxiosResponse<any> = await axios.post("/sso/api/verifySBH", body);
   return resp;
 };
 
@@ -133,7 +133,7 @@ export const verifyWithTokenSBH = async (
   };
 
   const resp: AxiosResponse<VerifyWithTokenSBHResponse> = await axios.post(
-    "/api/verifyWithTokenSBH",
+    "/sso/api/verifyWithTokenSBH",
     body
   );
   return resp;
@@ -148,7 +148,7 @@ export const checkUserApi = async (userId: string, globalId: string) => {
     },
   };
   const resp: AxiosResponse<CheckUserResponse> = await axios.post(
-    "/api/checkUser",
+    "/sso/api/checkUser",
     body
   );
   return resp.data;

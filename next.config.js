@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
+  basePath: "/sso",
+  assetPrefix: "/sso",
   i18n: {
     locales: ["vi", "en"],
     defaultLocale: "vi",
