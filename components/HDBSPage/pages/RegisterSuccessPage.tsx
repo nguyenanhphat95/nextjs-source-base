@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import Image from "next/image";
+import React, { useRef, useState } from "react";
 import { useRouter } from "next/router";
 
 import { Grid, Box, Card, Theme } from "@mui/material";
@@ -9,24 +8,29 @@ import { getLanguage } from "commons/helpers";
 import { ButtonCustom, Rating } from "components/commons";
 import resources from "pages/assets/translate.json";
 import * as hdbsServices from "services/hdbsService";
-
-import hdbsLogo from "public/asset/images/hdbs-logo2.png";
-import checkIcon from "public/asset/images/checkIcon.svg";
-import ratingIcon from "public/asset/images/Rating.svg";
 import _get from "lodash/get";
-import { FormDataFinal } from "../interfaces";
+import {
+  useScreenshot,
+  createFileName,
+} from "commons/hooks/sceenshot/useScreenShot";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     padding: "16px 6px",
   },
+  textShare: {
+    color: "#a4a4a4",
+    fontWeight: 500,
+    textDecoration: "underline",
+    cursor: "pointer",
+  },
   textTitle: {
-    color: theme.palette.error.dark,
+    color: "#b80000",
     fontSize: 17,
     fontWeight: 500,
   },
   textSubTitle: {
-    fontSize: 15,
+    fontSize: 16,
   },
   textContent: {
     fontSize: 15,
@@ -52,6 +56,13 @@ interface Props {
 
 const RegisterSuccessPage = (props: Props) => {
   const { onClickOtherTransaction } = props;
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  const [image, takeScreenshot] = useScreenshot({
+    type: "image/jpeg",
+    quality: 1.0,
+  });
+
   const [rateValue, setRateValue] = useState(0);
   const classes = useStyles();
 
@@ -68,15 +79,28 @@ const RegisterSuccessPage = (props: Props) => {
     hdbsServices.createRatingApi(numberRating);
   };
 
+  const download = (
+    image: string,
+    { name = "HDBS", extension = "png" } = {}
+  ) => {
+    const a = document.createElement("a");
+    a.href = image;
+    a.download = createFileName(extension, name);
+    a.click();
+  };
+
+  const downloadScreenshot = () =>
+    takeScreenshot(rootRef.current).then(download);
+
   return (
     <>
-      <div className={classes.root}>
+      <div ref={rootRef} className={classes.root}>
         <Card>
           <Box p={2}>
             <Box>
               <img
-                width={100}
-                height={40}
+                width={95}
+                height={26}
                 src="/asset/images/hdbs-logo2.png"
                 alt="hdbs-logo"
               />
@@ -97,9 +121,16 @@ const RegisterSuccessPage = (props: Props) => {
                   {t?.title}
                 </Box>
               </Grid>
-              {/* <Grid item>
-              <Box textAlign="center">Chia sẻ</Box>
-            </Grid> */}
+              <Grid item>
+                <Box textAlign="center">
+                  <span
+                    onClick={downloadScreenshot}
+                    className={classes.textShare}
+                  >
+                    Chia sẻ
+                  </span>
+                </Box>
+              </Grid>
               <Grid item>
                 <Box textAlign="center" className={classes.textSubTitle}>
                   {t?.subtitle}
