@@ -39,7 +39,6 @@ const useStyles = makeStyles(() => ({
     top: "unset !important",
     "& .MuiPaper-root": {
       borderRadius: "5px 5px 0px 0px",
-      outline: "none",
     },
   },
 }));
@@ -377,9 +376,7 @@ const FormTKCKPage = (props: Props) => {
           open={openModalInfo}
           onClose={_toggleModalInfo}
         >
-          <div>
-            <Information type={typeModal.current} onClose={_toggleModalInfo} />
-          </div>
+          <Information type={typeModal.current} onClose={_toggleModalInfo} />
         </Modal>
       </form>
     </>

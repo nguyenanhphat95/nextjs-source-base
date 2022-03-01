@@ -21,7 +21,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     padding: "10px",
     background: "#C7262E",
     color: "white",
-    outline: "none",
   },
 }));
 
