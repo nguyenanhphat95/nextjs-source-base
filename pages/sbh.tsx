@@ -179,7 +179,6 @@ const SBHPage = () => {
       toggleNotify("Thông báo", "Get public key error");
       return;
     }
-    debugger;
     _toggleLoading("loadingBtnSubmit", true);
     stkService
       .verifySBH(data, publicKey)
