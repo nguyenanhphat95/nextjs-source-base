@@ -31,7 +31,7 @@ export function getTodayWithFormat(format?: string): string {
   return formatDate(date, format);
 }
 export function formatDate(date: Date, format?: string): string {
-  if (!_isValid(date)) {
+  if (!date || !_isValid(date)) {
     return "";
   }
 

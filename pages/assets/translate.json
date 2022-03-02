@@ -35,8 +35,8 @@
       "accountNo": "Số TKTT tại HDBank",
       "doEKYCAgain": "Thực hiện lại",
       "btnContinue": "Tiếp tục",
-      "termCondition1": "Tôi đồng ý và ủy quyền cho HDBank để cung cấp các thông tin cá nhân, thông tài khoản của tôi cho Công ty chứng khoán",
-      "termCondition2": "để thực hiện các thủ tục mở tài khoản chứng khoán tại Công ty chứng khoán",
+      "termCondition1": "Tôi đồng ý và ủy quyền cho HDBank để cung cấp các thông tin cá nhân, thông tài khoản của tôi cho",
+      "termCondition2": "để thực hiện các thủ tục mở tài khoản chứng khoán tại",
       "termCondition3": "Tôi đã đọc, hiểu rõ và đồng ý với ",
       "termCondition4": "Điều khoản và Điều kiện",
       "termCondition5": "đính kèm"
@@ -94,8 +94,8 @@
       "accountNo": "Account number at HDBank",
       "doEKYCAgain": "Do it again",
       "btnContinue": "Continue",
-      "termCondition1": "I agree and authorize HDBank to provide personal information, through my account to Securities Company",
-      "termCondition2": "to carry out the procedures for opening a securities account at a securities company",
+      "termCondition1": "I agree and authorize HDBank to provide personal information, through my account to",
+      "termCondition2": "to carry out the procedures for opening a securities account at",
       "termCondition3": "I have read, understand and agree to ",
       "termCondition4": "Terms and condition",
       "termCondition5": "attach"

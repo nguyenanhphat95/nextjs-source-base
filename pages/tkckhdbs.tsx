@@ -40,6 +40,7 @@ import {
 
 import * as hdbsServices from "services/hdbsService";
 import _get from "lodash/get";
+import { formatDate } from "commons/helpers/date";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -198,13 +199,14 @@ const HDBSPage = () => {
             toggleNotify(msg);
             return;
           }
+
           const newData: FormDataFinal = {
             ...dataForm,
             fullNameOcr: res?.fullName,
             idNumber: res?.identityId,
             gender: res?.gender,
-            birthDateOcr: res?.birthDate,
-            dateOfIssueOcr: res?.idDate,
+            birthDateOcr: formatDate(new Date(res?.birthDate), "dd/MM/yyyy"),
+            dateOfIssueOcr: formatDate(new Date(res?.idDate), "dd/MM/yyyy"),
             placeOfIssueOcr: res?.idPlace,
             address: res?.address || res?.address2,
             nationalityName: res?.national,
@@ -212,6 +214,7 @@ const HDBSPage = () => {
             idNumberType: res?.identityIdType,
             email: res?.email,
             merchantId: finalData?.merchantId,
+            merchantName: finalData?.merchantName,
             terminalId: finalData?.terminalId,
             terminalName: finalData?.terminalName,
           };
