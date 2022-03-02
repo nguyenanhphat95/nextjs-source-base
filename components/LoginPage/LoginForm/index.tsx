@@ -90,7 +90,7 @@ const LoginForm = (props: Props) => {
   };
   return (
     <Box py={3} px={2} className={classes.root}>
-      <Script id="jsencrypt-id" src="/js/jsencrypt.min.js" />
+      <Script id="jsencrypt-id" src="/sso/js/jsencrypt.min.js" />
       <Grid container direction="column" spacing={3}>
         <Grid item xs={12}>
           <Box
