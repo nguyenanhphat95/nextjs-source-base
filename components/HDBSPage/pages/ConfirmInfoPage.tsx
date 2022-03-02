@@ -151,9 +151,9 @@ const ConfirmInfoPage = (props: Props) => {
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      {t?.username}: <b>{!isKHHH && info?.fullNameOcr}</b>
+                      {t?.username}: <b>{info?.fullNameOcr}</b>
                     </Grid>
-                    {isKHHH && (
+                    {/* {isKHHH && (
                       <Grid item>
                         <Controller
                           name="fullName"
@@ -171,7 +171,7 @@ const ConfirmInfoPage = (props: Props) => {
                           )}
                         />
                       </Grid>
-                    )}
+                    )} */}
                   </Grid>
                 </Grid>
                 <Grid item>
@@ -191,9 +191,9 @@ const ConfirmInfoPage = (props: Props) => {
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      CMND/CCCD: <b>{!isKHHH && info?.idNumber}</b>
+                      CMND/CCCD: <b>{info?.idNumber}</b>
                     </Grid>
-                    {isKHHH && (
+                    {/* {isKHHH && (
                       <Grid item>
                         <Controller
                           name="idNumber"
@@ -212,7 +212,7 @@ const ConfirmInfoPage = (props: Props) => {
                           )}
                         />
                       </Grid>
-                    )}
+                    )} */}
                   </Grid>
                 </Grid>
                 <Grid item>
