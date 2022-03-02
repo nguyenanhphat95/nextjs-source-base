@@ -40,7 +40,6 @@ const HomePage = (props: Props) => {
   const router = useRouter();
   const lang = getLanguage(router);
   const t = _get(resources, [lang, "homePage"]);
-  console.log("Home page update");
   return (
     <>
       <div className={classes.root}>

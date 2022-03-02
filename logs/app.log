@@ -112,3 +112,5 @@
 [2022-02-18T08:49:18.222] [INFO] default - 10.0.112.80 - 18/02/2022 8:49:18----content: Get list account api: socket hang up---withBodyData: {"requestId":"a325b85c-a561-41e6-a4e9-03d19f6e74ba","data":{"clientNo":"06036029"}}
 [2022-02-22T14:07:47.488] [INFO] default - 10.0.112.97 - 22/02/2022 14:07:47----content: checkUserEKYC: Request failed with status code 504---withBodyData: 
 [2022-02-22T14:13:43.255] [INFO] default - 10.0.112.97 - 22/02/2022 14:13:43----content: checkUserEKYC: Request failed with status code 504---withBodyData: 
+[2022-03-02T10:09:43.809] [INFO] default - 10.0.112.51 - 02/03/2022 10:09:43----content: checkUserEKYC: Request failed with status code 504---withBodyData: 
+[2022-03-02T10:16:09.940] [INFO] default - 10.0.112.51 - 02/03/2022 10:16:09----content: checkUserEKYC: Request failed with status code 504---withBodyData: 

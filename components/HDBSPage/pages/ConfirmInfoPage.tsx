@@ -71,7 +71,7 @@ const ERROR_FORM = {
 const ConfirmInfoPage = (props: Props) => {
   const classes = useStyles();
   const { data, onSubmit, typeCustomer, redoEKYC } = props;
-  console.log("data---:", data);
+
   const [isAceptCondition, setIsAceptCondition] = useState(true);
   const [showModalCondition, setShowModalCondition] = useState(false);
 
@@ -289,7 +289,7 @@ const ConfirmInfoPage = (props: Props) => {
                 label={
                   <div>
                     {t?.termCondition1} {data?.merchantName},{" "}
-                    {t?.termCondition2} {data?.terminalName || ""}.{" "}
+                    {t?.termCondition2} {data?.merchantName}.{" "}
                     {t?.termCondition3}
                     <span
                       onClick={(e) => {

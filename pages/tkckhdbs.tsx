@@ -98,7 +98,7 @@ const HDBSPage = () => {
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
     loadingBtnConfirmOTP: false,
-    loadingMasterData: true,
+    loadingMasterData: false,
   });
   const [dataForm, setDataForm] = useState<FormDataFinal>(INITIAL_VALUE);
 
@@ -118,7 +118,6 @@ const HDBSPage = () => {
       TypeCustomer.KHHH
     ) as TypeCustomer;
     _updateDataByTypeUser(typeUser, query.step as string);
-
     hdbsServices.getAccessToken().then((res) => {
       hdbsServices.updateMasterData({
         userId: _get(jwtInfo, "userName"),
@@ -199,14 +198,13 @@ const HDBSPage = () => {
             toggleNotify(msg);
             return;
           }
-
           const newData: FormDataFinal = {
             ...dataForm,
             fullNameOcr: res?.fullName,
             idNumber: res?.identityId,
             gender: res?.gender,
-            birthDateOcr: formatDate(new Date(res?.birthDate), "dd/MM/yyyy"),
-            dateOfIssueOcr: formatDate(new Date(res?.idDate), "dd/MM/yyyy"),
+            birthDateOcr: res?.birthDate,
+            dateOfIssueOcr: res?.idDate,
             placeOfIssueOcr: res?.idPlace,
             address: res?.address || res?.address2,
             nationalityName: res?.national,
@@ -234,6 +232,7 @@ const HDBSPage = () => {
   };
 
   const _handleSubmitStep2 = (data: any) => {
+    debugger;
     if (!data) {
       return;
     }
