@@ -46,7 +46,7 @@ export const checkSessionOTPApi = async (uuid: string) => {
     uuid,
   };
   const resp: AxiosResponse<CheckSessionOTPResponse> = await axios.post(
-    "/api/checkSessionOTP",
+    "/sso/api/checkSessionOTP",
     {
       ...generateBodyRequest({ partnerId: PARTNER_ID_SBH_OTP || "", uuid }),
       data: body,
@@ -60,7 +60,7 @@ export const getInfoByTokenApi = async (bTxnId: string) => {
     bTxnId,
   };
   const resp: AxiosResponse<GetInfoByTokenResponse> = await axios.post(
-    "/api/getInfoByToken",
+    "/sso/api/getInfoByToken",
     {
       ...generateBodyRequest({ partnerId: PARTNER_ID_SBH_OTP || "", bTxnId }),
       data: body,
@@ -71,7 +71,7 @@ export const getInfoByTokenApi = async (bTxnId: string) => {
 
 export const purchaseSbhApi = async (body: SbhPurchaseInfo) => {
   const resp: AxiosResponse<PurchaseSbhResponse> = await axios.post(
-    "/api/purchaseSbh",
+    "/sso/api/purchaseSbh",
     {
       ...generateBodyRequest({
         partnerId: PARTNER_ID_SBH_OTP || "",
@@ -83,7 +83,7 @@ export const purchaseSbhApi = async (body: SbhPurchaseInfo) => {
       data: {
         ...body,
         txnId: uuidv4(),
-        // tokenizeId: "08c18d1e-3901-4b0e-a49c-7970efa179bd",
+        tokenizeId: "515247de-9132-4f29-bc05-60542231aa60",
       },
     }
   );
@@ -96,7 +96,7 @@ export const verifySbhOTPApi = async (otp: string, bTxnId: string) => {
     bTxnId,
   };
   const resp: AxiosResponse<VerifySbhOTPResponse> = await axios.post(
-    "/api/verifySbhOTP",
+    "/sso/api/verifySbhOTP",
     {
       ...generateBodyRequest({ partnerId: PARTNER_ID_SBH_OTP || "", otp }),
       data: body,
