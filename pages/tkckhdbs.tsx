@@ -80,7 +80,7 @@ const HDBSPage = () => {
     TypeCustomer.KHHH
   );
   const [allowInquiry, setAllowInquiry] = useState(false);
-  const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
+  const [openVerifyOTP, setOpenVerifyOTP] = useState(true);
   const [md5, setMd5] = useState(null);
   const [popupNotify, setPopupNotify] = useState({
     open: false,
@@ -446,6 +446,7 @@ const HDBSPage = () => {
           <VerifyOTP
             loading={loading.loadingBtnConfirmOTP}
             onSubmit={_handleVerifyOtp}
+            onResendOTP={_onCreateOTP}
           />
         </Box>
       </Dialog>
