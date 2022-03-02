@@ -171,7 +171,7 @@ const palette: PaletteOptions = {
     contrastText: common.white,
   },
   secondary: {
-    main: orange[300],
+    main: "#FCC30C",
     light: "#F06191",
     dark: orange[500],
     contrastText: common.black,

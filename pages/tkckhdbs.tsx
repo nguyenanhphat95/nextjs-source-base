@@ -79,26 +79,21 @@ const HDBSPage = () => {
   const [typeCustomer, setTypeCustomer] = useState<TypeCustomer>(
     TypeCustomer.KHHH
   );
-
   const [allowInquiry, setAllowInquiry] = useState(false);
-
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
   const [md5, setMd5] = useState(null);
-
   const [popupNotify, setPopupNotify] = useState({
     open: false,
     desc: "",
   });
-
   const [listMerchant, setListMerchant] = useState<MerchantNameItem[]>([]);
   const [listTerminal, setListTerminal] = useState<TerminalNameItem[]>([]);
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
-
   const [stepCurrent, setStepCurrent] = useState(STEP_HDBS.stepHome);
   const [loading, setLoading] = useState({
     loadingBtnSubmit: false,
     loadingBtnConfirmOTP: false,
-    loadingMasterData: false,
+    loadingMasterData: true,
   });
   const [dataForm, setDataForm] = useState<FormDataFinal>(INITIAL_VALUE);
 
@@ -215,8 +210,9 @@ const HDBSPage = () => {
             merchantName: finalData?.merchantName,
             terminalId: finalData?.terminalId,
             terminalName: finalData?.terminalName,
+            accountNo: finalData?.accountNo,
+            accountType: finalData?.accountType,
           };
-
           setDataForm(newData);
           _onNextStep(STEP_HDBS.step3);
           return;
