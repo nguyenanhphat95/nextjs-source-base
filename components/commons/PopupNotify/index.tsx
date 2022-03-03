@@ -65,7 +65,7 @@ const PopupNotify = (props: Props) => {
   } = props;
   const classes = useStyles();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.up("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const router = useRouter();
   const lang = getLanguage(router);

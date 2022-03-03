@@ -1,7 +1,10 @@
 import { ResponseData } from "interfaces/ICommon";
 import { NextRouter } from "next/router";
 import _get from "lodash/get";
-import { ERROR_CODE_WITH_MESSAGE } from "commons/constants";
+import {
+  ERROR_CODE_OTP_MESSAGE,
+  ERROR_CODE_WITH_MESSAGE,
+} from "commons/constants";
 
 export const ERROR_CODE = {
   Success: "00",
@@ -54,6 +57,33 @@ export function getStatusResponse(
     success: false,
     msg: _get(
       ERROR_CODE_WITH_MESSAGE,
+      [language, code],
+      "Dịch vụ đang nâng cấp và đề nghị quý khách quay lại khai báo sau"
+    ),
+  };
+}
+
+export function getStatusOTPResponse(
+  code: string,
+  language: string
+): {
+  code: string;
+  success: boolean;
+  msg: string;
+} {
+  if (code === ERROR_CODE.Success) {
+    return {
+      code: ERROR_CODE.Success,
+      success: true,
+      msg: "Success",
+    };
+  }
+
+  return {
+    code,
+    success: false,
+    msg: _get(
+      ERROR_CODE_OTP_MESSAGE,
       [language, code],
       "Dịch vụ đang nâng cấp và đề nghị quý khách quay lại khai báo sau"
     ),

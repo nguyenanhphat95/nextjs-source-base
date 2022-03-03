@@ -19,6 +19,21 @@ export const LANGUAGE = {
 
 export const KEY_TOKEN = "HDBS_TOKEN";
 
+export const ERROR_CODE_OTP_MESSAGE = {
+  [LANGUAGE.VI]: {
+    "20": "OTP SMS Maximum Request Limit",
+    "23": "Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ",
+    "08": "Mã xác thực không đúng",
+    "19": "Phương thức xác thực của Quý khách đã bị khóa do nhập sai mật khẩu quá số lần quy định. Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ",
+  },
+  [LANGUAGE.EN]: {
+    "20": "OTP SMS Maximum Request Limit",
+    "23": "Please contact hotline 19006060 for support",
+    "08": "The verification code is not correct",
+    "19": "Your authentication method has been blocked due to entering the wrong password more than the specified number of times. Please contact hotline 19006060 for support",
+  },
+};
+
 export const ERROR_CODE_WITH_MESSAGE = {
   [LANGUAGE.VI]: {
     "00": "Thành công",
@@ -89,6 +104,7 @@ export const ERROR_CODE_WITH_MESSAGE = {
     "38": "Invalid expired of issue ocr",
     "39": "Invalid expired of issue",
     "40": "Invalid date of issue ocr",
+    "23": "Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ",
   },
   [LANGUAGE.EN]: {
     "00": "Success",
@@ -159,5 +175,6 @@ export const ERROR_CODE_WITH_MESSAGE = {
     "38": "Invalid expired of issue ocr",
     "39": "Invalid expired of issue",
     "40": "Invalid date of issue ocr",
+    "23": "Please contact hotline 19006060 for support",
   },
 };

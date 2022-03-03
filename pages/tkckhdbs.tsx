@@ -31,7 +31,11 @@ import {
 import { MerchantNameItem, TerminalNameItem } from "interfaces/IGetMerchant";
 import { AccountItem } from "interfaces/IListAccount";
 
-import { ERROR_CODE, getStatusResponse } from "commons/helpers/error";
+import {
+  ERROR_CODE,
+  getStatusOTPResponse,
+  getStatusResponse,
+} from "commons/helpers/error";
 import {
   getLanguage,
   parseJwt,
@@ -271,7 +275,8 @@ const HDBSPage = () => {
 
   const _handleVerifyOtp = (accountOtp: string) => {
     if (accountOtp !== "123456") {
-      toggleNotify("OTP không hợp lệ");
+      const status = getStatusOTPResponse("20", lang);
+      toggleNotify(status.msg);
       return;
     }
     _onConfirmEKYC();
@@ -280,11 +285,13 @@ const HDBSPage = () => {
     //   .verifyOTPApi(accountOtp)
     //   .then((res) => {
     //     _toggleLoading("loadingBtnConfirmOTP", false);
+    //     const code = _get(res, "data.resultCode");
     //     if (_get(res, "data.data.userId")) {
     //       _onConfirmEKYC();
     //       return;
     //     }
-    //     toggleNotify("Invalid OTP");
+    //     const status = getStatusOTPResponse(code, lang);
+    //     toggleNotify(status.msg);
     //   })
     //   .catch((err) => {
     //     _toggleLoading("loadingBtnConfirmOTP", false);
@@ -297,9 +304,13 @@ const HDBSPage = () => {
       .createOTPApi()
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
+        const code = _get(res, "data.resultCode");
         if (_get(res, "data.data.userId")) {
           isToggleModal && _toggleModalVerifyOTP();
+          return;
         }
+        const status = getStatusOTPResponse(code, lang);
+        toggleNotify(status.msg);
       })
       .catch((err) => {
         _toggleLoading("loadingBtnSubmit", false);

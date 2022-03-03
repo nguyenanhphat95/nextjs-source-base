@@ -10,7 +10,10 @@ import { Theme } from "@mui/material/styles";
 
 import { Grid } from "@mui/material";
 import { isNumber } from "commons/helpers";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import _get from "lodash/get";
+import cn from "classnames";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {},
@@ -21,10 +24,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     textAlign: "center",
     borderRadius: "4px",
     border: "1px solid rgba(0, 0, 0, 0.3)",
-    [theme?.breakpoints?.down("sm")]: {
-      width: "2rem",
-      height: "2rem",
-    },
+    // [theme?.breakpoints?.down("sm")]: {
+    //   width: "2rem",
+    //   height: "2rem",
+    // },
+  },
+  otpInputMobile: {
+    width: "2rem",
+    height: "2rem",
   },
 }));
 
@@ -36,6 +43,8 @@ interface Props {
 
 const InputOTP = (props: Props) => {
   const { onFinish, onChange, label } = props;
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const classes = useStyles();
   const otpEl1 = useRef<HTMLInputElement>(null);
@@ -106,7 +115,7 @@ const InputOTP = (props: Props) => {
             type="tel"
             name="otp-code"
             auto-complete="one-time-code"
-            className={classes.otpInput}
+            className={cn(classes.otpInput, isMobile && classes.otpInputMobile)}
             value={otpValue.otp1}
             onChange={(e) => _handleChange("otp1", e)}
             tabIndex={1}
@@ -121,7 +130,7 @@ const InputOTP = (props: Props) => {
             name="otp-code"
             auto-complete="one-time-code"
             type="tel"
-            className={classes.otpInput}
+            className={cn(classes.otpInput, isMobile && classes.otpInputMobile)}
             value={otpValue.otp2}
             onChange={(e) => _handleChange("otp2", e)}
             tabIndex={2}
@@ -137,7 +146,7 @@ const InputOTP = (props: Props) => {
             name="otp-code"
             auto-complete="one-time-code"
             type="tel"
-            className={classes.otpInput}
+            className={cn(classes.otpInput, isMobile && classes.otpInputMobile)}
             value={otpValue.otp3}
             onChange={(e) => _handleChange("otp3", e)}
             tabIndex={3}
@@ -153,7 +162,7 @@ const InputOTP = (props: Props) => {
             name="otp-code"
             auto-complete="one-time-code"
             type="tel"
-            className={classes.otpInput}
+            className={cn(classes.otpInput, isMobile && classes.otpInputMobile)}
             value={otpValue.otp4}
             onChange={(e) => _handleChange("otp4", e)}
             tabIndex={4}
@@ -169,7 +178,7 @@ const InputOTP = (props: Props) => {
             name="otp-code"
             auto-complete="one-time-code"
             type="tel"
-            className={classes.otpInput}
+            className={cn(classes.otpInput, isMobile && classes.otpInputMobile)}
             value={otpValue.otp5}
             onChange={(e) => _handleChange("otp5", e)}
             tabIndex={5}
@@ -184,7 +193,7 @@ const InputOTP = (props: Props) => {
             name="otp-code"
             auto-complete="one-time-code"
             type="tel"
-            className={classes.otpInput}
+            className={cn(classes.otpInput, isMobile && classes.otpInputMobile)}
             value={otpValue.otp6}
             onChange={(e) => _handleChange("otp6", e)}
             tabIndex={6}

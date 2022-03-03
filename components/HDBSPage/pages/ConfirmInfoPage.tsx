@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     paddingRight: "18px",
   },
   textTermAndCondition: {
-    color: theme?.palette?.error?.main,
+    color: "#F44336",
   },
   tittle: {
     fontWeight: 600,
@@ -59,14 +59,14 @@ type FormValues = {
   idNumber: string;
 };
 
-const ERROR_FORM = {
-  [LANGUAGE.EN]: {
-    required: "This field is required",
-  },
-  [LANGUAGE.VI]: {
-    required: "Trường này là bắt buộc",
-  },
-};
+// const ERROR_FORM = {
+//   [LANGUAGE.EN]: {
+//     required: "This field is required",
+//   },
+//   [LANGUAGE.VI]: {
+//     required: "Trường này là bắt buộc",
+//   },
+// };
 
 const ConfirmInfoPage = (props: Props) => {
   const classes = useStyles();
