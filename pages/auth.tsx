@@ -26,7 +26,6 @@ import {
   getPublicKey,
 } from "services";
 import { generateRequestBody, handleErrorWithResponse } from "commons/helpers";
-// import { CLIENT_SECRET } from "commons/constants";
 import { ERROR_MESSAGE_VERIFY_USER } from "./sbh";
 import desktopPic from "public/images/desktop.png";
 import STKContext from "components/STKPage/contexts/STKContextValue";
@@ -34,8 +33,9 @@ import STKContext from "components/STKPage/contexts/STKContextValue";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { DOMAIN_DOP } from "commons/constants";
 import _get from "lodash/get";
-
+import cn from "classnames";
 createTheme();
 const useStyles = makeStyles(() => ({
   banner: {
@@ -45,6 +45,9 @@ const useStyles = makeStyles(() => ({
   },
   rootMobileUtility: {
     margin: "50px 40px",
+  },
+  pointer: {
+    cursor: "pointer",
   },
 }));
 
@@ -156,6 +159,13 @@ const AuthPage = () => {
     loadingBtnSubmit: loading.loadingBtnSubmit,
   };
 
+  const _redirectDOP = () => {
+    if (!DOMAIN_DOP) {
+      return;
+    }
+    router.push(DOMAIN_DOP);
+  };
+
   return (
     <Grid container direction="column">
       <ToastContainer
@@ -192,7 +202,10 @@ const AuthPage = () => {
       {!isMobile && (
         <>
           <Grid item xs={12}>
-            <Box className={classes.banner}>
+            <Box
+              onClick={_redirectDOP}
+              className={cn(classes.banner, classes.pointer)}
+            >
               <Image src={desktopPic} alt="desktop" />
             </Box>
           </Grid>

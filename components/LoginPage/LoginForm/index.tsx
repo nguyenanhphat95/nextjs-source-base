@@ -131,6 +131,7 @@ const LoginForm = (props: Props) => {
           desc={popupNotify.desc}
           open={popupNotify.open}
           toggleModal={toggleNotify}
+          timeClose={10}
         />
       )}
       <Script id="jsencrypt-id" src="/sso/js/jsencrypt.min.js" />

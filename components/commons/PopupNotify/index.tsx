@@ -18,6 +18,7 @@ interface Props extends DialogProps {
   iconNotify?: React.ReactNode;
   title?: string;
   desc?: string;
+  timeClose?: number;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -48,6 +49,7 @@ const PopupNotify = (props: Props) => {
     desc = "Điều khoản, điều kiện",
     toggleModal,
     open,
+    timeClose,
     ...rest
   } = props;
   const classes = useStyles();
@@ -83,7 +85,7 @@ const PopupNotify = (props: Props) => {
               </ButtonCustom>
             </Grid>
             <Grid item>
-              <TimerElement toggleModal={toggleModal} />
+              <TimerElement timeClose={timeClose} toggleModal={toggleModal} />
             </Grid>
           </Grid>
         </Box>

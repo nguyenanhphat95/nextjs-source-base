@@ -16,15 +16,19 @@ interface Props {
   iconNotify?: React.ReactNode;
   title?: string;
   description?: string;
+  timeClose?: number;
 }
 
 export const TimerElement = (props: Props) => {
   const timerRef = useRef<any>();
   const classes = useStyles();
-  const { toggleModal } = props;
+  const { toggleModal, timeClose } = props;
 
   const onCallTimer = useCallback(async () => {
-    const isDone = await startTimer(TIME_CLOSE_POPUP, timerRef.current);
+    const isDone = await startTimer(
+      timeClose ? timeClose : TIME_CLOSE_POPUP,
+      timerRef.current
+    );
     if (isDone) {
       toggleModal();
     }

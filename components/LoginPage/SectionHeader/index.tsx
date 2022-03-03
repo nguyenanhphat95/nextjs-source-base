@@ -11,7 +11,7 @@ import hdBankLogoPic from "public/images/HDBanklogo.png";
 import languageViPic from "public/images/language-vi.png";
 import languageEnPic from "public/images/en.png";
 import downPic from "public/images/down.png";
-import { LANGUAGE } from "commons/constants";
+import { DOMAIN_DOP, LANGUAGE } from "commons/constants";
 
 createTheme();
 const useStyles = makeStyles((theme: any) => ({
@@ -40,6 +40,7 @@ const SectionHeader = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const { locale, asPath } = useRouter();
+  const router = useRouter();
 
   const _openLanguage = (event: any) => {
     setAnchorEl(event.currentTarget);
@@ -52,12 +53,21 @@ const SectionHeader = () => {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
+  const _redirectHome = () => {
+    router.push("https://hdbank.com.vn/");
+  };
+
   return (
     <div className={classes.root}>
       <Grid container alignItems="center" justifyContent="space-between">
         <Grid item xs="auto">
           <Grid alignItems="center" container spacing={2}>
-            <Grid item xs="auto">
+            <Grid
+              className={classes.pointer}
+              onClick={_redirectHome}
+              item
+              xs="auto"
+            >
               <Image src={hdBankLogoPic} alt="hdBank-logo" height={72} />
             </Grid>
           </Grid>

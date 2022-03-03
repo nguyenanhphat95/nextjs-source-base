@@ -179,7 +179,7 @@ const COLUMNS = [
 const LIST_OTHER_INFO = [
   { name: "copyright", url: "" },
   { name: "termOfUse", url: "https://www.hdbank.com.vn/vi/term" },
-  { name: "siteMap", url: "https://www.hdbank.com.vn/vi/sitemap" },
+  // { name: "siteMap", url: "https://www.hdbank.com.vn/vi/sitemap" },
 ];
 
 const LIST_ICON_APP = [
