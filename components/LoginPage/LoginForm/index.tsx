@@ -11,7 +11,7 @@ import userIcon from "public/images/user.png";
 import passIcon from "public/images/pwd.png";
 import rightIcon from "public/images/rightloging.png";
 import resources from "pages/assets/translate.json";
-import { LANGUAGE } from "commons/constants";
+import { DOMAIN_DOP, LANGUAGE } from "commons/constants";
 import { toast } from "react-toastify";
 import _get from "lodash/get";
 import STKContext from "components/STKPage/contexts/STKContextValue";
@@ -64,6 +64,7 @@ const LoginForm = (props: Props) => {
   const { onSubmit } = props;
   const classes = useStyles();
   const { locale } = useRouter();
+  const router = useRouter();
   const t = _get(resources, [locale || LANGUAGE.VI, "loginForm"]);
 
   const [formData, setFormData] = useState({
@@ -87,6 +88,13 @@ const LoginForm = (props: Props) => {
       return;
     }
     onSubmit(formData);
+  };
+
+  const _redirectDOP = () => {
+    if (!DOMAIN_DOP) {
+      return;
+    }
+    router.push(DOMAIN_DOP);
   };
   return (
     <Box py={3} px={2} className={classes.root}>
@@ -153,9 +161,9 @@ const LoginForm = (props: Props) => {
               </ButtonCustom>
             </Grid>
 
-            <Grid item className={classes.textCenter}>
+            {/* <Grid item className={classes.textCenter}>
               <span className={classes.textForgot}>{t?.cantLogin}</span>
-            </Grid>
+            </Grid> */}
 
             <Grid item>
               <ButtonCustom
@@ -163,6 +171,7 @@ const LoginForm = (props: Props) => {
                 variant="outlined"
                 fullWidth
                 className={classes.btnCustomRegister}
+                onClick={_redirectDOP}
               >
                 {t?.registerAccount}
               </ButtonCustom>

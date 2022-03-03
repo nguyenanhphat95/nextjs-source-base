@@ -203,9 +203,9 @@ const AuthPage = () => {
             </STKContext.Provider>
           </Grid>
 
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <SectionNotification />
-          </Grid>
+          </Grid> */}
         </>
       )}
 

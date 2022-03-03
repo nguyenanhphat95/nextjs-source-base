@@ -4,7 +4,7 @@ export const PARTNER_ID = process.env.PARTNER_ID_CLIENT;
 // export const CLIENT_SECRET = process.env.CLIENT_SECRET_CLIENT;
 export const API_DOMAIN = process.env.API_DOMAIN_CLIENT;
 export const GRANT_TYPE = process.env.GRANT_TYPE_CLIENT;
-
+export const DOMAIN_DOP = process.env.DOMAIN_DOP_CLIENT;
 // export const SIGNATURE =
 //   "QZOdawigBsrzaDYbl1SffM95uTINoOOxrLUWKYW78PDDizNYW4B8o8IqHXDpEDqZCR1UBW6aPrvYURu2R9LMI9tovI9TTvhA3b8puNrN2CMtg2pDSMd9NCOItXzWQv7mfuXNtFRmJHtTdWADDBsoak6PKbomAlmD8W3wj78AfTI=";
 // export const PARTNER_ID = "GJOY";
