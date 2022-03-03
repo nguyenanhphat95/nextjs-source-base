@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     paddingRight: "18px",
   },
   textTermAndCondition: {
-    color: theme.palette.error.main,
+    color: theme?.palette?.error?.main,
   },
   tittle: {
     fontWeight: 600,
@@ -253,7 +253,7 @@ const ConfirmInfoPage = (props: Props) => {
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      {t?.contactAddress}: <b>{info?.address}</b>
+                      {t?.contactAddress}: <b>{info?.address2}</b>
                     </Grid>
                   </Grid>
                 </Grid>

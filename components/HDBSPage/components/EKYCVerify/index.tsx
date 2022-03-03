@@ -99,7 +99,7 @@ const EKYCComponent = (props: Props) => {
             start_button_color: "#111127",
           },
           CAPTURE_IMAGE_STYLE: {
-            header_title_style: { color: "black" },
+            header_title_style: { color: "white" },
             webcam_streaming_style: {
               margin: "20px 0 20px 0",
               padding: "10px",
@@ -107,7 +107,7 @@ const EKYCComponent = (props: Props) => {
             },
             video_block_style: { "border-radius": "16px" },
             description1_color_style: {
-              color: "black",
+              color: "white",
               margin: "10px",
               display: "block",
             },
@@ -117,7 +117,7 @@ const EKYCComponent = (props: Props) => {
             },
             capture_btn_text_style: {
               "font-size": "18px",
-              color: "black",
+              color: "white",
               margin: "0",
             },
             capture_btn_icon: "",
@@ -141,7 +141,7 @@ const EKYCComponent = (props: Props) => {
             },
             recapture_btn_text_style: {
               "font-size": "18px",
-              color: "black",
+              color: "white",
               margin: "0",
             },
             recapture_btn_icon: "",
@@ -152,7 +152,7 @@ const EKYCComponent = (props: Props) => {
             },
             nextstep_btn_text_style: {
               "font-size": "18px",
-              color: "black",
+              color: "white",
               margin: "0",
             },
             nextstep_btn_icon: "",
@@ -177,16 +177,16 @@ const EKYCComponent = (props: Props) => {
           },
           OTHER_CONFIG: {
             loading_icon: "./asset/images/Spinner.gif",
-            loading_styles: { "background-color": "black", opacity: "0.7" },
+            loading_styles: { "background-color": "white", opacity: "0.7" },
             oval_web: VNPT_CDN + "/kbsv/web_border.json",
             oval_mobile: VNPT_CDN + "/kbsv/mobile_border.json",
             notice_ani: VNPT_CDN + "/animation/cautionHDB.json",
-            oval_title_color: "black",
+            oval_title_color: "white",
             description_oval_content:
               "Vui lòng tháo kính để xác thực chính xác hơn!",
             description_oval_style: {
               "text-align": "center",
-              color: "black",
+              color: "white",
               "font-weight": "bold",
               "font-size": "14px",
             },

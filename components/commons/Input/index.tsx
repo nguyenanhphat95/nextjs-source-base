@@ -20,7 +20,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontWeight: 400,
   },
   errorMsg: {
-    color: theme.palette?.error?.dark,
+    color: "#BE134D",
+    // color: theme.palette?.error?.dark,
     fontSize: 14,
   },
 }));

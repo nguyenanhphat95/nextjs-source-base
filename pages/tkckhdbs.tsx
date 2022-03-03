@@ -201,7 +201,8 @@ const HDBSPage = () => {
             birthDateOcr: res?.birthDate,
             dateOfIssueOcr: res?.idDate,
             placeOfIssueOcr: res?.idPlace,
-            address: res?.address || res?.address2,
+            address: res?.address,
+            address2: res?.address2,
             nationalityName: res?.national,
             phoneNumber: res?.phoneNumber,
             idNumberType: res?.identityIdType,
@@ -228,7 +229,6 @@ const HDBSPage = () => {
   };
 
   const _handleSubmitStep2 = (data: any) => {
-    debugger;
     if (!data) {
       return;
     }
@@ -291,14 +291,14 @@ const HDBSPage = () => {
     //   });
   };
 
-  const _onCreateOTP = () => {
+  const _onCreateOTP = (isToggleModal = true) => {
     _toggleLoading("loadingBtnSubmit", true);
     hdbsServices
       .createOTPApi()
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
         if (_get(res, "data.data.userId")) {
-          _toggleModalVerifyOTP();
+          isToggleModal && _toggleModalVerifyOTP();
         }
       })
       .catch((err) => {
@@ -446,7 +446,7 @@ const HDBSPage = () => {
           <VerifyOTP
             loading={loading.loadingBtnConfirmOTP}
             onSubmit={_handleVerifyOtp}
-            onResendOTP={_onCreateOTP}
+            onResendOTP={() => _onCreateOTP(false)}
           />
         </Box>
       </Dialog>

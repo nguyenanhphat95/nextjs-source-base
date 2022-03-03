@@ -11,6 +11,7 @@ interface EKYCData {
   placeOfIssueOcr: string;
   expireOfIssueOcr: string;
   address: string;
+  address2?: string;
   nationalityName: string;
   email?: string;
   phoneNumber?: string;

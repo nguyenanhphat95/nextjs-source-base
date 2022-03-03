@@ -15,7 +15,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     whiteSpace: "inherit",
   },
   errorMsg: {
-    color: theme.palette?.error?.dark,
+    // color: theme.palette?.error?.dark,
+    color: "#BE134D",
     fontSize: 14,
   },
   textPlaceholder: {

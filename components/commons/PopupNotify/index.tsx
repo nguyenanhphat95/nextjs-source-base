@@ -14,11 +14,13 @@ import TimerElement from "./timerElement";
 import _get from "lodash/get";
 import { LANGUAGE } from "commons/constants";
 import resources from "pages/assets/translate.json";
-
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 // import notifyError from "public/asset/images/notifyError.png";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import { getLanguage } from "commons/helpers";
+import cn from "classnames";
 interface Props extends DialogProps {
   toggleModal: () => void;
   iconNotify?: React.ReactNode;
@@ -31,9 +33,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& .MuiPaper-root": {
       width: "20vw",
       borderRadius: "15px",
-      [theme.breakpoints?.down("sm")]: {
-        width: "90vw",
-      },
+      // [theme.breakpoints?.down("sm")]: {
+      //   width: "90vw",
+      // },
+    },
+  },
+  rootDialogMobile: {
+    "& .MuiPaper-root": {
+      width: "90vw",
     },
   },
   title: {
@@ -57,6 +64,8 @@ const PopupNotify = (props: Props) => {
     ...rest
   } = props;
   const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.up("sm"));
 
   const router = useRouter();
   const lang = getLanguage(router);
@@ -66,7 +75,11 @@ const PopupNotify = (props: Props) => {
     toggleModal && toggleModal();
   };
   return (
-    <Dialog open={open} className={classes.rootDialog} {...rest}>
+    <Dialog
+      open={open}
+      className={cn(classes.rootDialog, isMobile && classes.rootDialogMobile)}
+      {...rest}
+    >
       <Box pt={1} pb={2} px={2}>
         <Box display="flex" justifyContent="end">
           <IconButton onClick={_handleClose} edge="end">
