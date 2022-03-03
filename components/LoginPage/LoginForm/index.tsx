@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { Grid, Box } from "@mui/material";
 import { InputCustom, ButtonCustom } from "components/commons";
 import { makeStyles } from "@mui/styles";
-
+import { PopupNotify } from "components/commons";
 import userIcon from "public/images/user.png";
 import passIcon from "public/images/pwd.png";
 import rightIcon from "public/images/rightloging.png";
@@ -73,6 +73,12 @@ const LoginForm = (props: Props) => {
   });
 
   const { loadingBtnSubmit } = useContext(STKContext);
+  const [popupNotify, setPopupNotify] = useState({
+    open: false,
+    title: "",
+    desc: "",
+    onClose: () => null,
+  });
 
   const _handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
@@ -96,8 +102,37 @@ const LoginForm = (props: Props) => {
     }
     router.push(DOMAIN_DOP);
   };
+
+  function toggleNotify(title?: string, desc?: string, onClose?: any) {
+    setPopupNotify((prev) => {
+      if (title && desc) {
+        return {
+          open: true,
+          title,
+          desc,
+          onClose: onClose ? onClose : () => null,
+        };
+      }
+      prev.onClose && prev?.onClose();
+      return {
+        open: false,
+        title: "",
+        desc: "",
+        onClose: () => null,
+      };
+    });
+  }
+
   return (
     <Box py={3} px={2} className={classes.root}>
+      {popupNotify.open && (
+        <PopupNotify
+          title={popupNotify.title}
+          desc={popupNotify.desc}
+          open={popupNotify.open}
+          toggleModal={toggleNotify}
+        />
+      )}
       <Script id="jsencrypt-id" src="/sso/js/jsencrypt.min.js" />
       <Grid container direction="column" spacing={3}>
         <Grid item xs={12}>
@@ -117,7 +152,15 @@ const LoginForm = (props: Props) => {
                 <Grid item xs={6} md={5} className={classes.personalLeft}>
                   {t?.personal}
                 </Grid>
-                <Grid item xs={6} md={5} className={classes.enterpriseRight}>
+                <Grid
+                  onClick={() =>
+                    toggleNotify("Thông báo", "Chưa hỗ trợ tính năng này")
+                  }
+                  item
+                  xs={6}
+                  md={5}
+                  className={classes.enterpriseRight}
+                >
                   {t?.enterprise}
                 </Grid>
               </Grid>
