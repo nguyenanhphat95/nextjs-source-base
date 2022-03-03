@@ -168,7 +168,10 @@ const SBHPage = () => {
     );
 
     if (!validUser) {
-      toggleNotify("Thông báo", "User không đúng");
+      toggleNotify(
+        "Thông báo",
+        "Quý khách vui lòng sử dụng username đã đăng ký ban đầu"
+      );
       return;
     }
 

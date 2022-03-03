@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -78,6 +78,7 @@ const SectionMobile1 = (props: Props) => {
     onConfirmOTP,
     ...rest
   } = props;
+  const rootRef = useRef<HTMLDivElement>(null);
   const classes = useStyles();
 
   const { locale } = useRouter();
@@ -88,8 +89,15 @@ const SectionMobile1 = (props: Props) => {
     onSubmit(JSEnscript, data);
   };
 
+  useEffect(() => {
+    if (!rootRef.current) {
+      return;
+    }
+    rootRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [rootRef.current]);
+
   return (
-    <div className={classes.root}>
+    <div ref={rootRef} className={classes.root}>
       <div className={classes.box}>
         <Grid container direction="column">
           <Grid item>

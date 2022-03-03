@@ -1,7 +1,7 @@
 {
   "vi": {
     "confirmOTP": {
-      "title": "Xác thực ký hợp đồng điện tử",
+      "title": "Xác thực chọn tài khoản thanh toán",
       "content": "Vui lòng nhập mã xác thực đã được gửi đến số điện thoại của bạn",
       "label": "Nhập mã xác nhận",
       "question": "Quý khách không nhận được tin nhắn?",
