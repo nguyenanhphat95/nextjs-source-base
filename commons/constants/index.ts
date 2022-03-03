@@ -21,13 +21,13 @@ export const KEY_TOKEN = "HDBS_TOKEN";
 
 export const ERROR_CODE_OTP_MESSAGE = {
   [LANGUAGE.VI]: {
-    "20": "OTP SMS Maximum Request Limit",
+    "20": "Phương thức xác thực của Quý khách đã bị khóa do không xác nhận quá số lần quy định. Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ",
     "23": "Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ",
     "08": "Mã xác thực không đúng",
     "19": "Phương thức xác thực của Quý khách đã bị khóa do nhập sai mật khẩu quá số lần quy định. Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ",
   },
   [LANGUAGE.EN]: {
-    "20": "OTP SMS Maximum Request Limit",
+    "20": "Your authentication method has been blocked due to not confirming more than the specified number of times. Please contact hotline 19006060 for support",
     "23": "Please contact hotline 19006060 for support",
     "08": "The verification code is not correct",
     "19": "Your authentication method has been blocked due to entering the wrong password more than the specified number of times. Please contact hotline 19006060 for support",
