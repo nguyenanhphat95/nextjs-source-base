@@ -56,22 +56,27 @@ const INFO = [
     icon: addressIcon,
     name: `25Bis Nguyễn Thị Minh Khai, P. Bến Nghé,
     Quận 1, TP. Hồ Chí Minh`,
+    url: "",
   },
   {
     icon: phoneIcon,
     name: "19006060",
+    url: "tel:19006060",
   },
   {
     icon: mailIcon,
     name: "info@hdbank.com.vn",
+    url: 'mailto:info@hdbank.com.vn"',
   },
   {
     icon: null,
     name: "Fax: (028) 62 915 900",
+    url: "",
   },
   {
     icon: null,
     name: "SWIFT code: HDBCVNVX",
+    url: "",
   },
 ];
 
@@ -225,7 +230,11 @@ const SectionFooter = () => {
                       </Grid>
                     )}
                     <Grid item xs={true}>
-                      {info.name}
+                      {info.url ? (
+                        <a href={info.url}>{info.name}</a>
+                      ) : (
+                        info.name
+                      )}
                     </Grid>
                   </Grid>
                 </Box>
