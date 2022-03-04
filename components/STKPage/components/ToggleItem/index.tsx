@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 import { Grid, Typography } from "@mui/material";
 import downPic from "public/images/down.png";
@@ -8,13 +9,14 @@ interface Props {
   resources: Record<string, string>;
   col: {
     title: string;
-    options: string[];
+    options: { name: string; url: string }[];
   };
   isMobile: boolean;
 }
 const ToggleItem = (props: Props) => {
   const { resources, col, isMobile } = props;
   const [show, setShow] = useState(false);
+  const router = useRouter();
 
   const _toggleMenu = () => {
     if (!isMobile) {
@@ -23,10 +25,19 @@ const ToggleItem = (props: Props) => {
     setShow((prev) => !prev);
   };
 
-  const renderOption = (options: string[]) => {
+  const _redirect = (url: string) => {
+    router.push(url);
+  };
+
+  const renderOption = (options: { name: string; url: string }[]) => {
     return (options || []).map((option, i) => (
-      <Grid key={i} item>
-        {resources[option]}
+      <Grid
+        style={{ cursor: "pointer" }}
+        onClick={() => _redirect(option.url)}
+        key={i}
+        item
+      >
+        {resources[option.name]}
       </Grid>
     ));
   };

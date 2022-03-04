@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 
 import { makeStyles } from "@mui/styles";
@@ -8,17 +8,16 @@ import Box from "@mui/system/Box";
 import { Theme } from "@mui/system/createTheme";
 
 import ButtonCustom from "../Button";
-import TimerElement from "./timerElement";
-
 import notifyError from "public/images/notifyError.png";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
+import CountDownTimer, { TimerInput } from "../CountDownTimer";
 interface Props extends DialogProps {
   toggleModal: () => void;
   iconNotify?: React.ReactNode;
   title?: string;
   desc?: string;
-  timeClose?: number;
+  hoursMinSecs?: TimerInput;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -49,7 +48,7 @@ const PopupNotify = (props: Props) => {
     desc = "Điều khoản, điều kiện",
     toggleModal,
     open,
-    timeClose,
+    hoursMinSecs,
     ...rest
   } = props;
   const classes = useStyles();
@@ -85,7 +84,10 @@ const PopupNotify = (props: Props) => {
               </ButtonCustom>
             </Grid>
             <Grid item>
-              <TimerElement timeClose={timeClose} toggleModal={toggleModal} />
+              <CountDownTimer
+                hoursMinSecs={hoursMinSecs}
+                onFinish={toggleModal}
+              />
             </Grid>
           </Grid>
         </Box>

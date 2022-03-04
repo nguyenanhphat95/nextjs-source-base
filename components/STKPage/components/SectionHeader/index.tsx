@@ -13,6 +13,7 @@ import hdBankLogoMobilePic from "public/images/HDBanklogoMobile.png";
 import languageViPic from "public/images/language-vi.png";
 import languageEnPic from "public/images/en.png";
 import downPic from "public/images/down.png";
+import logoSBH from "public/images/sbh/logoSBH.png";
 import { LANGUAGE } from "commons/constants";
 
 createTheme();
@@ -42,6 +43,7 @@ const SectionHeader = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const { locale, asPath } = useRouter();
+  const router = useRouter();
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -57,12 +59,16 @@ const SectionHeader = () => {
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
+  const _redirectHome = () => {
+    router.push("https://hdbank.com.vn/");
+  };
+
   return (
     <div className={classes.root}>
       <Grid container alignItems="center" justifyContent="space-between">
         <Grid item xs="auto">
           <Grid alignItems="center" container spacing={2}>
-            <Grid item xs="auto">
+            <Grid onClick={_redirectHome} item xs="auto">
               {isMobile ? (
                 <Image src={hdBankLogoMobilePic} alt="hdBank-mobile-logo" />
               ) : (
@@ -71,7 +77,7 @@ const SectionHeader = () => {
             </Grid>
           </Grid>
         </Grid>
-        {!isMobile && (
+        {!isMobile ? (
           <Grid item xs="auto">
             <Grid
               onClick={_openLanguage}
@@ -153,6 +159,10 @@ const SectionHeader = () => {
                 </Box>
               </div>
             </Popover>
+          </Grid>
+        ) : (
+          <Grid item xs="auto">
+            <Image src={logoSBH} alt="hdBank-logo" height={25} />
           </Grid>
         )}
       </Grid>

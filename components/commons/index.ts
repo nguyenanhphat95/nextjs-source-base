@@ -4,6 +4,7 @@ import SelectCustom from "./Select";
 import InputOTP from "./InputOTP";
 import LoadingIcon from "./LoadingIcon";
 import PopupNotify from "./PopupNotify";
+import CountDownTimer from "./CountDownTimer";
 export {
   InputCustom,
   ButtonCustom,
@@ -11,4 +12,5 @@ export {
   InputOTP,
   LoadingIcon,
   PopupNotify,
+  CountDownTimer,
 };

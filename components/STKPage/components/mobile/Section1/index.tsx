@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => ({
     position: "relative",
   },
   box: {
-    marginTop: "-80px",
+    // marginTop: "-80px",
     borderRadius: 20,
     background: "#FFFFFF",
     boxShadow: "0px 14px 40px rgba(33, 43, 54, 0.1)",
@@ -94,7 +94,7 @@ const SectionMobile1 = (props: Props) => {
       return;
     }
     rootRef.current.scrollIntoView({ behavior: "smooth" });
-  }, [rootRef.current]);
+  }, []);
 
   return (
     <div ref={rootRef} className={classes.root}>

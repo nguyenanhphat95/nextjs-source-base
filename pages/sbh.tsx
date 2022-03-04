@@ -31,7 +31,7 @@ import {
 import { addHourFromNow } from "commons/helpers/date";
 
 import desktopPic from "public/images/desktop.png";
-import bannerMobile from "public/images/bannerMobile.png";
+import bannerMobile from "public/images/sbh/banner.png";
 import STKContext from "components/STKPage/contexts/STKContextValue";
 import _get from "lodash/get";
 
@@ -141,7 +141,7 @@ const SBHPage = () => {
   }, [query, _checkHaveParam, router]);
 
   if (!_checkHaveParam(query)) {
-    return <div>Invalid params</div>;
+    return <div></div>;
   }
 
   const _checkUser = async (
