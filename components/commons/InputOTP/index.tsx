@@ -65,6 +65,10 @@ const InputOTP = (props: Props) => {
   const _handleChange = (key: string, e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     if (isNumber(+value)) {
+      if (+value > 9) {
+        return;
+      }
+
       let finalValue = {
         ...otpValue,
         [key]: e.target.value,

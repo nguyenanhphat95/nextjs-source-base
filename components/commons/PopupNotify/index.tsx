@@ -1,31 +1,23 @@
-import React, { useCallback, useRef, useEffect } from "react";
+import React from "react";
 import Image from "next/image";
 
 import { makeStyles } from "@mui/styles";
-import { useRouter } from "next/router";
 import Dialog, { DialogProps } from "@mui/material/Dialog";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/system/Box";
 import { Theme } from "@mui/system/createTheme";
 
 import ButtonCustom from "../Button";
-import TimerElement from "./timerElement";
-
-import _get from "lodash/get";
-import { LANGUAGE } from "commons/constants";
-import resources from "pages/assets/translate.json";
-import { useTheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
-// import notifyError from "public/asset/images/notifyError.png";
+import notifyError from "public/images/notifyError.png";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
-import { getLanguage } from "commons/helpers";
-import cn from "classnames";
+import CountDownTimer, { TimerInput } from "../CountDownTimer";
 interface Props extends DialogProps {
   toggleModal: () => void;
   iconNotify?: React.ReactNode;
   title?: string;
   desc?: string;
+  hoursMinSecs?: TimerInput;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -33,14 +25,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& .MuiPaper-root": {
       width: "20vw",
       borderRadius: "15px",
-      // [theme.breakpoints?.down("sm")]: {
-      //   width: "90vw",
-      // },
-    },
-  },
-  rootDialogMobile: {
-    "& .MuiPaper-root": {
-      width: "90vw",
+      [theme.breakpoints?.down("sm")]: {
+        width: "90vw",
+      },
     },
   },
   title: {
@@ -57,32 +44,20 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const PopupNotify = (props: Props) => {
   const {
-    title = "notify",
+    title = "Thông báo",
     desc = "Điều khoản, điều kiện",
     toggleModal,
     open,
+    hoursMinSecs,
     ...rest
   } = props;
   const classes = useStyles();
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const router = useRouter();
-  const lang = getLanguage(router);
-  const t = _get(resources, [lang, "popupNotify"]);
-
-  const _handleClose = () => {
-    toggleModal && toggleModal();
-  };
   return (
-    <Dialog
-      open={open}
-      className={cn(classes.rootDialog, isMobile && classes.rootDialogMobile)}
-      {...rest}
-    >
+    <Dialog open={open} className={classes.rootDialog} {...rest}>
       <Box pt={1} pb={2} px={2}>
         <Box display="flex" justifyContent="end">
-          <IconButton onClick={_handleClose} edge="end">
+          <IconButton onClick={toggleModal} edge="end">
             <CloseIcon />
           </IconButton>
         </Box>
@@ -90,28 +65,28 @@ const PopupNotify = (props: Props) => {
           <Grid container direction="column" spacing={2}>
             <Grid item>
               <Box display="flex" justifyContent="center">
-                <img src="/asset/images/notifyError.png" alt="notify" />
+                <Image src={notifyError} alt="notify" />
               </Box>
             </Grid>
             <Grid item className={classes.title}>
-              {t[title]}
+              {title}
             </Grid>
             <Grid item className={classes.desc}>
               {desc}
             </Grid>
             <Grid item justifyContent="center" display="flex">
               <ButtonCustom
-                onClick={_handleClose}
+                onClick={toggleModal}
                 variant="contained"
                 color="secondary"
               >
-                {t?.close}
+                Đóng
               </ButtonCustom>
             </Grid>
             <Grid item>
-              <TimerElement
-                textAutoClose={t?.autoClose}
-                toggleModal={_handleClose}
+              <CountDownTimer
+                hoursMinSecs={hoursMinSecs}
+                onFinish={toggleModal}
               />
             </Grid>
           </Grid>
