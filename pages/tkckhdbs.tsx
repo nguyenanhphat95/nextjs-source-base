@@ -286,7 +286,12 @@ const HDBSPage = () => {
           return;
         }
         const status = getStatusOTPResponse(code, lang);
-        toggleNotify(status.msg, () => _toggleModalVerifyOTP());
+        toggleNotify(
+          status.msg,
+          status.code === ERROR_CODE.InvalidOTP
+            ? () => null
+            : () => _toggleModalVerifyOTP()
+        );
       })
       .catch((err) => {
         _toggleLoading("loadingBtnConfirmOTP", false);

@@ -18,6 +18,7 @@ export const ERROR_CODE = {
   VerifyClientFailed: "100",
   StockAccountExists: "101",
   UserRegisteredHDBS: "11",
+  InvalidOTP: "08",
 };
 
 export function handleErrorWithResponse(
