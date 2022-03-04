@@ -274,28 +274,22 @@ const HDBSPage = () => {
   };
 
   const _handleVerifyOtp = (accountOtp: string) => {
-    if (accountOtp !== "123456") {
-      const status = getStatusOTPResponse("20", lang);
-      toggleNotify(status.msg);
-      return;
-    }
-    _onConfirmEKYC();
-    // _toggleLoading("loadingBtnConfirmOTP", true);
-    // hdbsServices
-    //   .verifyOTPApi(accountOtp)
-    //   .then((res) => {
-    //     _toggleLoading("loadingBtnConfirmOTP", false);
-    //     const code = _get(res, "data.resultCode");
-    //     if (_get(res, "data.data.userId")) {
-    //       _onConfirmEKYC();
-    //       return;
-    //     }
-    //     const status = getStatusOTPResponse(code, lang);
-    //     toggleNotify(status.msg);
-    //   })
-    //   .catch((err) => {
-    //     _toggleLoading("loadingBtnConfirmOTP", false);
-    //   });
+    _toggleLoading("loadingBtnConfirmOTP", true);
+    hdbsServices
+      .verifyOTPApi(accountOtp)
+      .then((res) => {
+        _toggleLoading("loadingBtnConfirmOTP", false);
+        const code = _get(res, "data.resultCode");
+        if (_get(res, "data.data.userId")) {
+          _onConfirmEKYC();
+          return;
+        }
+        const status = getStatusOTPResponse(code, lang);
+        toggleNotify(status.msg);
+      })
+      .catch((err) => {
+        _toggleLoading("loadingBtnConfirmOTP", false);
+      });
   };
 
   const _onCreateOTP = (isToggleModal = true) => {
@@ -379,15 +373,6 @@ const HDBSPage = () => {
     });
   };
 
-  // const _handleOtherTransaction = () => {
-  //   if (typeCustomer === TypeCustomer.KHHH) {
-  //     _onNextStep(STEP_HDBS.stepHome);
-  //     return;
-  //   }
-  //   router.push({
-  //     pathname: "/backToHome",
-  //   });
-  // };
   return (
     <>
       <Head>
