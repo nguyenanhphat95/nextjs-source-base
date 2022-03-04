@@ -85,7 +85,7 @@ export function getStatusOTPResponse(
     msg: _get(
       ERROR_CODE_OTP_MESSAGE,
       [language, code],
-      "Dịch vụ đang nâng cấp và đề nghị quý khách quay lại khai báo sau"
+      "Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ"
     ),
   };
 }
