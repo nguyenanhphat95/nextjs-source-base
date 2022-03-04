@@ -106,7 +106,6 @@ export const ERROR_CODE_WITH_MESSAGE = {
     "38": "Invalid expired of issue ocr",
     "39": "Invalid expired of issue",
     "40": "Invalid date of issue ocr",
-    "23": "Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ",
   },
   [LANGUAGE.EN]: {
     "00": "Success",
@@ -177,6 +176,5 @@ export const ERROR_CODE_WITH_MESSAGE = {
     "38": "Invalid expired of issue ocr",
     "39": "Invalid expired of issue",
     "40": "Invalid date of issue ocr",
-    "23": "Please contact hotline 19006060 for support",
   },
 };
