@@ -84,10 +84,10 @@ const PopupNotify = (props: Props) => {
               </ButtonCustom>
             </Grid>
             <Grid item>
-              <CountDownTimer
+              {/* <CountDownTimer
                 hoursMinSecs={hoursMinSecs}
                 onFinish={toggleModal}
-              />
+              /> */}
             </Grid>
           </Grid>
         </Box>

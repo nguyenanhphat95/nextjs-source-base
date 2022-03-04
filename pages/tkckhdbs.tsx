@@ -89,6 +89,7 @@ const HDBSPage = () => {
   const [popupNotify, setPopupNotify] = useState({
     open: false,
     desc: "",
+    onClose: () => null,
   });
   const [listMerchant, setListMerchant] = useState<MerchantNameItem[]>([]);
   const [listTerminal, setListTerminal] = useState<TerminalNameItem[]>([]);
@@ -285,7 +286,7 @@ const HDBSPage = () => {
           return;
         }
         const status = getStatusOTPResponse(code, lang);
-        toggleNotify(status.msg);
+        toggleNotify(status.msg, () => _toggleModalVerifyOTP());
       })
       .catch((err) => {
         _toggleLoading("loadingBtnConfirmOTP", false);
@@ -339,21 +340,23 @@ const HDBSPage = () => {
     });
   }
 
-  function toggleNotify(desc?: string) {
-    setPopupNotify(() => {
-      if (desc) {
+  function toggleNotify(desc?: string, onClose?: any) {
+    setPopupNotify((prev) => {
+      if (desc && typeof desc === "string") {
         return {
           open: true,
           desc,
+          onClose: onClose ? onClose : () => null,
         };
       }
+      prev.onClose && prev?.onClose();
       return {
         open: false,
         desc: "",
+        onClose: () => null,
       };
     });
   }
-
   const _handleSelectOpenStock = () => {
     if (!listAccount?.length && typeCustomer === TypeCustomer.KHHH) {
       toggleNotify(
@@ -394,6 +397,7 @@ const HDBSPage = () => {
 
       {popupNotify.open && (
         <PopupNotify
+          title="Thông báo"
           desc={popupNotify.desc}
           open={popupNotify.open}
           toggleModal={toggleNotify}
