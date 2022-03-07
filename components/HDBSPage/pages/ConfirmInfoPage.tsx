@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState, useContext } from "react";
+import React, { ChangeEvent, useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Grid, Box, Theme } from "@mui/material";
 import { makeStyles } from "@mui/styles";
@@ -59,15 +59,6 @@ type FormValues = {
   idNumber: string;
 };
 
-// const ERROR_FORM = {
-//   [LANGUAGE.EN]: {
-//     required: "This field is required",
-//   },
-//   [LANGUAGE.VI]: {
-//     required: "Trường này là bắt buộc",
-//   },
-// };
-
 const ConfirmInfoPage = (props: Props) => {
   const classes = useStyles();
   const { data, onSubmit, typeCustomer, redoEKYC } = props;
@@ -80,11 +71,12 @@ const ConfirmInfoPage = (props: Props) => {
   const info = _get(data, "ekycData")
     ? parseInfoFromEKYC(_get(data, "ekycData"))
     : data;
+
   const resultEKYC = _get(data, "ekycData")
     ? checkResultEkyc(_get(data, "ekycData"))
     : { validEKYC: true, messageEKYC: "" };
 
-  const { loadingBtnSubmit } = useContext(TKCKContext);
+  const { loadingBtnSubmit, toggleNotify } = useContext(TKCKContext);
 
   const {
     handleSubmit,
@@ -103,6 +95,13 @@ const ConfirmInfoPage = (props: Props) => {
   const router = useRouter();
   const lang = getLanguage(router);
   const t = _get(resources, [lang, "confirmInfoPage"]);
+
+  useEffect(() => {
+    if (resultEKYC.validEKYC) {
+      return;
+    }
+    toggleNotify(resultEKYC.messageEKYC, redoEKYC);
+  }, [resultEKYC.validEKYC]);
 
   const _handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setIsAceptCondition(event.target.checked);
@@ -126,8 +125,7 @@ const ConfirmInfoPage = (props: Props) => {
         open={showModalCondition}
         onClose={_toggleModalCondition}
       />
-
-      {!resultEKYC.validEKYC && (
+      {/* {!resultEKYC.validEKYC && (
         <div className={classes.rootError}>
           <Box>{resultEKYC.messageEKYC}</Box>
           <Box>
@@ -141,7 +139,7 @@ const ConfirmInfoPage = (props: Props) => {
             </ButtonCustom>
           </Box>
         </div>
-      )}
+      )} */}
       {resultEKYC.validEKYC && (
         <div className={classes.root}>
           <div className={classes.tittle}>{t?.title}</div>

@@ -172,6 +172,7 @@ const HDBSPage = () => {
     listMerchant,
     listTerminal,
     listAccount,
+    toggleNotify,
   };
 
   const _handleSubmitStep1 = (data: FormDataStep1) => {
