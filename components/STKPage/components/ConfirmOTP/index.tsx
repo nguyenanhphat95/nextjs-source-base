@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 
 import { Grid, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { InputOTP, ButtonCustom } from "components/commons";
+import { InputOTP, ButtonCustom, ScrollToParent } from "components/commons";
 import { startTimer } from "commons/helpers";
 
 import { LANGUAGE } from "commons/constants";
@@ -108,64 +108,69 @@ const ConfirmOTP = (props: Props) => {
   }
 
   return (
-    <Box py={3} px={2} className={classes.root}>
-      <Grid direction="column" container spacing={3}>
-        <Grid item className={classes.header}>
-          {t.title}
-        </Grid>
-        <Grid item className={classes.caption}>
-          {t.content}
-        </Grid>
-        <Grid item>
-          <Grid direction="column" container spacing={1}>
-            <Grid item className={cn(classes.textCenter, classes.label)}>
-              {t.label}
-            </Grid>
-            <Grid item className={cn(classes.textCenter)}>
-              <InputOTP typeInputOTP={TypeInputOTP.Single} onChange={setOtp} />
-            </Grid>
-            <Grid item>
-              <Grid container justifyContent="center">
-                <Grid
-                  item
-                  xs={8}
-                  className={cn(classes.textCenter, classes.caption)}
-                >
-                  {t.question}{" "}
-                  <span
-                    onClick={_handleResendOTP}
-                    className={cn(
-                      classes.textCenter,
-                      classes.textLink,
-                      !isResendValid && classes.disabledResentOTP
-                    )}
+    <ScrollToParent>
+      <Box py={3} px={2} className={classes.root}>
+        <Grid direction="column" container spacing={3}>
+          <Grid item className={classes.header}>
+            {t.title}
+          </Grid>
+          <Grid item className={classes.caption}>
+            {t.content}
+          </Grid>
+          <Grid item>
+            <Grid direction="column" container spacing={1}>
+              <Grid item className={cn(classes.textCenter, classes.label)}>
+                {t.label}
+              </Grid>
+              <Grid item className={cn(classes.textCenter)}>
+                <InputOTP
+                  typeInputOTP={TypeInputOTP.Single}
+                  onChange={setOtp}
+                />
+              </Grid>
+              <Grid item>
+                <Grid container justifyContent="center">
+                  <Grid
+                    item
+                    xs={8}
+                    className={cn(classes.textCenter, classes.caption)}
                   >
-                    {t.resendOTP}
-                  </span>
+                    {t.question}{" "}
+                    <span
+                      onClick={_handleResendOTP}
+                      className={cn(
+                        classes.textCenter,
+                        classes.textLink,
+                        !isResendValid && classes.disabledResentOTP
+                      )}
+                    >
+                      {t.resendOTP}
+                    </span>
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-            <Grid item className={cn(classes.textCenter)}>
-              <span className={classes.textTimer} ref={timerRef} />
+              <Grid item className={cn(classes.textCenter)}>
+                <span className={classes.textTimer} ref={timerRef} />
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
 
-        <Grid item>
-          <Box display="flex" justifyContent="center">
-            <ButtonCustom
-              variant="contained"
-              color="secondary"
-              disabled={otp.length < 6}
-              onClick={() => onSubmit(otp)}
-              loading={loadingBtnSubmit}
-            >
-              {t.btnSubmit}
-            </ButtonCustom>
-          </Box>
+          <Grid item>
+            <Box display="flex" justifyContent="center">
+              <ButtonCustom
+                variant="contained"
+                color="secondary"
+                disabled={otp.length < 6}
+                onClick={() => onSubmit(otp)}
+                loading={loadingBtnSubmit}
+              >
+                {t.btnSubmit}
+              </ButtonCustom>
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </ScrollToParent>
   );
 };
 

@@ -1,7 +1,7 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import { makeStyles } from "@mui/styles";
 import { createTheme } from "@mui/material/styles";
-import { Grid, Box } from "@mui/material";
+import { Grid } from "@mui/material";
 
 import {
   ChooseAccountForm,
@@ -72,7 +72,6 @@ const SectionMobile1 = (props: Props) => {
     onConfirmOTP,
     ...rest
   } = props;
-  const rootRef = useRef<HTMLDivElement>(null);
   const classes = useStyles();
 
   const _handleSubmit = (data: { username: string; password: string }) => {
@@ -80,15 +79,8 @@ const SectionMobile1 = (props: Props) => {
     onSubmit(JSEnscript, data);
   };
 
-  useEffect(() => {
-    if (!rootRef.current) {
-      return;
-    }
-    rootRef.current.scrollIntoView({ behavior: "smooth" });
-  }, []);
-
   return (
-    <div ref={rootRef} className={classes.root}>
+    <div className={classes.root}>
       <div className={classes.box}>
         <Grid container direction="column">
           <Grid item>

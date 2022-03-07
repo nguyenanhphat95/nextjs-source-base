@@ -5,6 +5,7 @@ import InputOTP from "./InputOTP";
 import LoadingIcon from "./LoadingIcon";
 import PopupNotify from "./PopupNotify";
 import CountDownTimer from "./CountDownTimer";
+import ScrollToParent from "./ScrollToParent";
 export {
   InputCustom,
   ButtonCustom,
@@ -13,4 +14,5 @@ export {
   LoadingIcon,
   PopupNotify,
   CountDownTimer,
+  ScrollToParent,
 };

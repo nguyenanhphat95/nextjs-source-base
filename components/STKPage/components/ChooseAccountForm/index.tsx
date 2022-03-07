@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { Grid, Box } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 
-import { ButtonCustom, SelectCustom } from "components/commons";
+import { ButtonCustom, ScrollToParent, SelectCustom } from "components/commons";
 
 import { LANGUAGE } from "commons/constants";
 import resources from "pages/assets/translate.json";
@@ -157,45 +157,51 @@ const ChooseAccountForm = (props: Props) => {
   }, [listAccount]);
 
   return (
-    <Box py={3} px={2} className={classes.root}>
-      <Grid container direction="column" spacing={3}>
-        <Grid item>
-          <Box className={classes.title} display="flex" justifyContent="center">
-            {t.title}
-          </Box>
-        </Grid>
-        <Grid item>
-          <Box className={classes.textCenter}>{t.content}</Box>
-        </Grid>
-        <Grid item>
-          <Box className={classes.labelAccount}>{t.labelAccount}</Box>
+    <ScrollToParent>
+      <Box py={3} px={2} className={classes.root}>
+        <Grid container direction="column" spacing={3}>
+          <Grid item>
+            <Box
+              className={classes.title}
+              display="flex"
+              justifyContent="center"
+            >
+              {t.title}
+            </Box>
+          </Grid>
+          <Grid item>
+            <Box className={classes.textCenter}>{t.content}</Box>
+          </Grid>
+          <Grid item>
+            <Box className={classes.labelAccount}>{t.labelAccount}</Box>
+          </Grid>
+
+          <Grid item>
+            <SelectCustom
+              value={account}
+              fullWidth
+              options={listAccountNew}
+              placeholder={t.placeholderAccount}
+              onChange={(event) => {
+                setAccount(_get(event, "target.value"));
+              }}
+            />
+          </Grid>
         </Grid>
 
-        <Grid item>
-          <SelectCustom
-            value={account}
-            fullWidth
-            options={listAccountNew}
-            placeholder={t.placeholderAccount}
-            onChange={(event) => {
-              setAccount(_get(event, "target.value"));
-            }}
-          />
-        </Grid>
-      </Grid>
-
-      <Box mt={4} className={classes.textCenter}>
-        <ButtonCustom
-          variant="contained"
-          color="secondary"
-          onClick={() => onSubmit(account)}
-          disabled={account ? false : true}
-          loading={loadingBtnSubmit}
-        >
-          {t.btnSubmit}
-        </ButtonCustom>
+        <Box mt={4} className={classes.textCenter}>
+          <ButtonCustom
+            variant="contained"
+            color="secondary"
+            onClick={() => onSubmit(account)}
+            disabled={account ? false : true}
+            loading={loadingBtnSubmit}
+          >
+            {t.btnSubmit}
+          </ButtonCustom>
+        </Box>
       </Box>
-    </Box>
+    </ScrollToParent>
   );
 };
 
