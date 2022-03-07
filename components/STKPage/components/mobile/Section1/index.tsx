@@ -1,7 +1,4 @@
 import React, { useRef, useEffect } from "react";
-import Image from "next/image";
-import { useRouter } from "next/router";
-
 import { makeStyles } from "@mui/styles";
 import { createTheme } from "@mui/material/styles";
 import { Grid, Box } from "@mui/material";
@@ -13,9 +10,6 @@ import {
   LoginForm,
 } from "components/STKPage";
 import { LOGIN_STEP } from "pages/sbh";
-
-import resources from "pages/assets/translate.json";
-import { LANGUAGE } from "commons/constants";
 
 import _get from "lodash/get";
 import _slice from "lodash/slice";
@@ -80,9 +74,6 @@ const SectionMobile1 = (props: Props) => {
   } = props;
   const rootRef = useRef<HTMLDivElement>(null);
   const classes = useStyles();
-
-  const { locale } = useRouter();
-  const t = _get(resources, [locale || LANGUAGE.VI, "notification"]);
 
   const _handleSubmit = (data: { username: string; password: string }) => {
     const JSEnscript = _get(window, "JSEncrypt");

@@ -68,18 +68,36 @@ const LoginSuccessForm = (props: Props) => {
 
   return (
     <Box py={3} px={2} className={classes.root}>
-      <Grid container direction="column" spacing={3}>
+      <Grid container direction="column" spacing={2}>
         <Grid item>
           <Box display="flex" justifyContent="center">
             <Image src={tickSquareIcon} alt="tick square" />
           </Box>
         </Grid>
         <Grid item>
-          <Box className={classes.title}>{t.title}</Box>
+          <Box className={classes.title}>
+            <Grid container justifyContent="center">
+              <Grid item xs={10}>
+                {t.title}
+              </Grid>
+            </Grid>
+          </Box>
         </Grid>
         <Grid item>
-          <Box className={classes.textCenter}>{t.subtitle1}</Box>
-          <Box className={classes.textCenter}>{t.subtitle2}</Box>
+          <Box className={classes.textCenter}>
+            <Grid container justifyContent="center">
+              <Grid item xs={10}>
+                {t.subtitle1}
+              </Grid>
+            </Grid>
+          </Box>
+          {/* <Box className={classes.textCenter}>
+            <Grid container justifyContent="center">
+              <Grid item xs={10}>
+                {t.subtitle2}
+              </Grid>
+            </Grid>
+          </Box> */}
         </Grid>
       </Grid>
 
@@ -112,12 +130,16 @@ const LoginSuccessForm = (props: Props) => {
         </Grid>
 
         <Box mt={2} className={classes.textInstruction}>
-          <a
-            target="_blank"
-            href="https://hdbank.com.vn/api/download?fileName=/news/editor/K092c4jYI9X3HRyoGGfr20200807110715%2F%40%40%40N7840PTI7872NVOTIKHO7842NIMONEYT7914APPHDBANK_1596773981740.pdf"
-          >
-            {t.textInstruction}
-          </a>
+          <Grid container justifyContent="center">
+            <Grid item xs={9}>
+              <a
+                target="_blank"
+                href="https://hdbank.com.vn/api/download?fileName=/news/editor/K092c4jYI9X3HRyoGGfr20200807110715%2F%40%40%40N7840PTI7872NVOTIKHO7842NIMONEYT7914APPHDBANK_1596773981740.pdf"
+              >
+                {t.textInstruction}
+              </a>
+            </Grid>
+          </Grid>
         </Box>
       </Box>
     </Box>

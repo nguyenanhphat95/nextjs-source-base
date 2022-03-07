@@ -97,11 +97,11 @@ const LoginForm = (props: Props) => {
             {t?.title}
           </Box>
         </Grid>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <Box className={cn(classes.textCenter, classes.subTitle)}>
             {t?.subtitle1}
           </Box>
-        </Grid>
+        </Grid> */}
         <Grid item xs={12}>
           <Box className={cn(classes.textCenter, classes.subTitle)}>
             {t?.subtitle2}

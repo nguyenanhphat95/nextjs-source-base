@@ -4,6 +4,7 @@ import { makeStyles } from "@mui/styles";
 import { Grid, IconButton, InputAdornment, Box, Theme } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import cn from "classnames";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -36,8 +37,16 @@ export type BaseInputProps = TextFieldProps & {
 
 const InputCustom = React.forwardRef(
   (props: BaseInputProps, ref: React.Ref<HTMLInputElement>) => {
-    const { label, regex, maxLength, errorMsg, onChange, type, ...rest } =
-      props;
+    const {
+      label,
+      regex,
+      maxLength,
+      errorMsg,
+      onChange,
+      type,
+      className,
+      ...rest
+    } = props;
     const classes = useStyles();
     const [showPassword, setShowPassword] = useState(false);
     const isPassword = type === "password";
@@ -85,7 +94,7 @@ const InputCustom = React.forwardRef(
           <TextField
             ref={ref}
             type={typeNew}
-            className={classes.root}
+            className={cn(classes.root, className)}
             onChange={_handleChange}
             InputProps={{
               endAdornment: isPassword && (

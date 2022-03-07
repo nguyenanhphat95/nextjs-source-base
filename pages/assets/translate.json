@@ -10,17 +10,17 @@
     },
     "chooseAccountForm": {
       "title": "Chọn tài khoản thanh toán",
-      "content": "Vui lòng chọn Tài khoản thanh toán mà bạn muốn liên kết với Sổ Bán Hàng",
+      "content": "Vui lòng chọn tài khoản thanh toán mà bạn muốn liên kết với Sổ Bán Hàng",
       "labelAccount": "Lựa chọn Số tài khoản thanh toán:",
       "placeholderAccount": "Chọn",
       "btnSubmit": "Tiếp tục"
     },
     "loginSuccessForm": {
       "title": "Kết nối tài khoản thanh toán thành công",
-      "subtitle1": "Chúc mừng bạn đã kết nối thành công tài khoản thanh toán HDBank.",
+      "subtitle1": "Chúc mừng Quý khách đã kết nối thành công tài khoản thanh toán HDBank.",
       "subtitle2": "Vui lòng tiếp tục với Sổ Bán Hàng để hoàn tất thanh toán.",
       "btnContinue": "Tiếp tục với SBH",
-      "btnDownApp": "Tải App HDBank",
+      "btnDownApp": "Tải app HDBank",
       "textInstruction": "Hướng dẫn nạp tiền tài khoản thanh toán trực tuyến"
     },
     "loginForm": {
@@ -94,7 +94,7 @@
       "termOfUse": "Điều khoản sử dụng",
       "safeAndSecure": "An toàn và bảo mật",
       "siteMap": "Sơ đồ trang",
-      "downloadHDBankApp": "Tải App HDBank",
+      "downloadHDBankApp": "Tải app HDBank",
       "connectHDBank": "Kết nối với HDBank"
     }
   },

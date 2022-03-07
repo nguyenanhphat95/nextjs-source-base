@@ -19,6 +19,7 @@ import cn from "classnames";
 import _get from "lodash/get";
 import STKContext from "components/STKPage/contexts/STKContextValue";
 import { LOGIN_STEP } from "pages/sbh";
+import { TypeInputOTP } from "components/commons/InputOTP";
 const useStyles = makeStyles(() => ({
   root: {
     background: "white",
@@ -41,12 +42,12 @@ const useStyles = makeStyles(() => ({
     textAlign: "center",
   },
   textLink: {
-    color: "#1890FF",
+    color: "#f22b42",
     fontWeight: 500,
     cursor: "pointer",
   },
   textTimer: {
-    color: "#BE1128",
+    color: "#6F7279",
   },
   disabledResentOTP: {
     color: "#ccc",
@@ -121,7 +122,7 @@ const ConfirmOTP = (props: Props) => {
               {t.label}
             </Grid>
             <Grid item className={cn(classes.textCenter)}>
-              <InputOTP onChange={setOtp} />
+              <InputOTP typeInputOTP={TypeInputOTP.Single} onChange={setOtp} />
             </Grid>
             <Grid item>
               <Grid container justifyContent="center">

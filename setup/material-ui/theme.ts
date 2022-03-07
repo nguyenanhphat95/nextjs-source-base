@@ -44,7 +44,7 @@ const orange: ColorSchemeKEC = {
   50: "#FFF3E0",
   100: "#FFE0B2",
   200: "#FFCC80",
-  300: "#FFB74D",
+  300: "#FFD643",
   400: "#FFA726",
   500: "#FF9800",
   600: "#FB8C00",
