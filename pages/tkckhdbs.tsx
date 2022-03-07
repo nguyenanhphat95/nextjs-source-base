@@ -263,6 +263,9 @@ const HDBSPage = () => {
     const status = getStatusResponse(code, lang);
 
     if (status.success) {
+      // Disable inquiry when call inquiry success
+      setAllowInquiry(false);
+
       if (inquiryResponse.hasSendOtp) {
         _onCreateOTP();
         return;
