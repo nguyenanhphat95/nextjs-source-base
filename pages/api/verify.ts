@@ -1,7 +1,6 @@
 import axiosWrapper from "commons/helpers/axios/axios-instance";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { AxiosResponse } from "axios";
-import { API_DOMAIN } from "commons/constants";
 import { writeLog } from "commons/helpers/logger";
 import ip from "ip";
 import _get from "lodash/get";
@@ -15,7 +14,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<VerifyResponse>
 ) {
-  const url = `${API_DOMAIN}/oauth2/api/verify`;
+  const url = `${process.env.API_DOMAIN}/oauth2/api/verify`;
   try {
     const resp: AxiosResponse<VerifyResponse> = await axiosWrapper.post(
       url,

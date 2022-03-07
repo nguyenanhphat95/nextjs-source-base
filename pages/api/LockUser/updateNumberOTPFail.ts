@@ -1,7 +1,6 @@
 import axiosWrapper from "commons/helpers/axios/axios-instance";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { AxiosResponse } from "axios";
-import { API_DOMAIN } from "commons/constants";
 import { writeLog } from "commons/helpers/logger";
 import ip from "ip";
 import _get from "lodash/get";

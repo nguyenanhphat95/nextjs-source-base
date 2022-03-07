@@ -2,7 +2,6 @@ export const ENABLE_WRITE_LOG = process.env.ENABLE_WRITE_LOG_CLIENT;
 export const SIGNATURE = process.env.SIGNATURE_CLIENT;
 export const PARTNER_ID = process.env.PARTNER_ID_CLIENT;
 // export const CLIENT_SECRET = process.env.CLIENT_SECRET_CLIENT;
-export const API_DOMAIN = process.env.API_DOMAIN_CLIENT;
 export const GRANT_TYPE = process.env.GRANT_TYPE_CLIENT;
 export const DOMAIN_DOP = process.env.DOMAIN_DOP_CLIENT;
 // export const SIGNATURE =

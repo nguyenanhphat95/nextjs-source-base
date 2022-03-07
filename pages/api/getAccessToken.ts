@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import axiosWrapper from "commons/helpers/axios/axios-instance";
 import { AxiosResponse } from "axios";
-import { API_DOMAIN } from "commons/constants";
 import * as qs from "query-string";
 
 export interface GetAccessTokenResponse {
@@ -19,7 +18,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<GetAccessTokenResponse>
 ) {
-  const url = `${API_DOMAIN}/oauth2/api/token`;
+  const url = `${process.env.API_DOMAIN}/oauth2/api/token`;
   const resp: AxiosResponse<GetAccessTokenResponse> = await axiosWrapper.post(
     url,
     qs.stringify(req.body),

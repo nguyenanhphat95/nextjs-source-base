@@ -11,7 +11,7 @@ module.exports = {
     PORT: process.env.PORT,
 
     ENABLE_WRITE_LOG_CLIENT: process.env.ENABLE_WRITE_LOG,
-    API_DOMAIN_CLIENT: process.env.API_DOMAIN,
+    // API_DOMAIN_CLIENT: process.env.API_DOMAIN,
     SIGNATURE_CLIENT: process.env.SIGNATURE,
     PARTNER_ID_CLIENT: process.env.PARTNER_ID,
     GRANT_TYPE_CLIENT: process.env.GRANT_TYPE,
