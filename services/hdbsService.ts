@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import {
   ListAccountResponse,
   ListAccountRequest,
+  AccountItem,
 } from "interfaces/IListAccount";
 import {
   GetMerchantRequest,
@@ -63,6 +64,29 @@ export function updateMasterData(data: MasterData) {
   userId = data.userId;
   clientNo = data.clientNo;
   language = "VI";
+}
+
+export function filterListAccount(data: AccountItem[]): AccountItem[] {
+  if (data && data.length) {
+    return data.filter((item) => {
+      if (
+        (item.AcctType === "712" ||
+          item.AcctType === "700" ||
+          item.AcctType === "7OL" ||
+          item.AcctType === "70M" ||
+          item.AcctType === "70G" ||
+          item.AcctType === "797" ||
+          item.AcctType === "7PL" ||
+          item.AcctType === "7ZR" ||
+          item.AcctType === "7PR") &&
+        (item.acctStatus === "A" || item.acctStatus === "N") &&
+        item.clientInd !== "S"
+      ) {
+        return item;
+      }
+    });
+  }
+  return [];
 }
 
 function updateTokenExpired(expireIn: number) {

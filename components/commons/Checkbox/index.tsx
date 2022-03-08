@@ -17,6 +17,14 @@ const useStyles = makeStyles((theme: Theme) => ({
         width: "23px !important",
       },
     },
+    "& .MuiSvgIcon-root": {
+      marginTop: "-4px",
+    },
+  },
+  checkboxChecked: {
+    marginLeft: "1px",
+    width: "23px",
+    height: "20px",
   },
 }));
 interface Props extends CheckboxProps {
@@ -42,8 +50,7 @@ const CheckboxCustom = React.forwardRef(
                   {...rest}
                   checkedIcon={
                     <img
-                      width={22}
-                      height={20}
+                      className={classes.checkboxChecked}
                       src="/asset/images/checkbox-checked.png"
                     />
                   }

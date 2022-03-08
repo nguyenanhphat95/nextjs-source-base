@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Script from "next/script";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -10,7 +10,6 @@ import {
   FormTKCKPage,
   EKYCVerifyPage,
   ConfirmInfoPage,
-  RegisterSuccessPage,
   VerifyOTP,
   HomePage,
 } from "components/HDBSPage";
@@ -36,15 +35,10 @@ import {
   getStatusOTPResponse,
   getStatusResponse,
 } from "commons/helpers/error";
-import {
-  getLanguage,
-  parseJwt,
-  writeLogToServer,
-} from "commons/helpers/helper";
+import { getLanguage, parseJwt } from "commons/helpers/helper";
 
 import * as hdbsServices from "services/hdbsService";
 import _get from "lodash/get";
-import { formatDate } from "commons/helpers/date";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -80,6 +74,7 @@ const HDBSPage = () => {
   const query = router.query;
   const lang = getLanguage(router);
 
+  const isUserImoney = useRef<boolean>(false);
   const [typeCustomer, setTypeCustomer] = useState<TypeCustomer>(
     TypeCustomer.KHHH
   );
@@ -93,6 +88,7 @@ const HDBSPage = () => {
   });
   const [listMerchant, setListMerchant] = useState<MerchantNameItem[]>([]);
   const [listTerminal, setListTerminal] = useState<TerminalNameItem[]>([]);
+
   const [listAccount, setListAccount] = useState<AccountItem[]>([]);
   const [stepCurrent, setStepCurrent] = useState(STEP_HDBS.stepHome);
   const [loading, setLoading] = useState({
@@ -130,10 +126,17 @@ const HDBSPage = () => {
         hdbsServices.getListAccountApi(),
       ])
         .then((res) => {
+          const accounts = _get(res, "[1].data.data", []);
+
+          // If list account is empty, that is imoney user
+          if (!accounts || !accounts.length) {
+            isUserImoney.current = true;
+          }
+
           _toggleLoading("loadingMasterData", false);
           setListMerchant(_get(res, "[0].merchants", []));
           setListTerminal(_get(res, "[0].terminals", []));
-          setListAccount(_get(res, "[1].data.data"));
+          setListAccount(hdbsServices.filterListAccount(accounts));
         })
         .catch(() => _toggleLoading("loadingMasterData", false));
     });
@@ -368,9 +371,11 @@ const HDBSPage = () => {
   }
   const _handleSelectOpenStock = () => {
     if (!listAccount?.length && typeCustomer === TypeCustomer.KHHH) {
-      toggleNotify(
-        "Quý khách vui lòng mở tài khoản thanh toán trực tuyến hoặc đến quầy giao dịch để đăng ký sử dụng dịch vụ"
+      const status = getStatusResponse(
+        isUserImoney.current ? "isUserImoney" : "userDontEnoughAccount",
+        lang
       );
+      toggleNotify(status.msg);
       return;
     }
     _onNextStep(STEP_HDBS.step1);

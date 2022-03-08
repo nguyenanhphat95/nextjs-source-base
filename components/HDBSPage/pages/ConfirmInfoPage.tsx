@@ -63,7 +63,7 @@ const ConfirmInfoPage = (props: Props) => {
   const classes = useStyles();
   const { data, onSubmit, typeCustomer, redoEKYC } = props;
 
-  const [isAceptCondition, setIsAceptCondition] = useState(true);
+  const [isAceptCondition, setIsAceptCondition] = useState(false);
   const [showModalCondition, setShowModalCondition] = useState(false);
 
   const isKHHH = typeCustomer === TypeCustomer.KHHH;

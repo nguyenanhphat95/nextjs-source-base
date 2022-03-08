@@ -22,7 +22,7 @@ export const KEY_TOKEN = "HDBS_TOKEN";
 export const ERROR_CODE_OTP_MESSAGE = {
   [LANGUAGE.VI]: {
     "20": "Phương thức xác thực của Quý khách đã bị khóa do không xác nhận quá số lần quy định. Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ",
-    "23": "Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ",
+    "23": "Quý khách chưa đăng ký phương thức xác thực hoặc đã bị khóa. Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ",
     "08": "Mã xác thực không đúng",
     "19": "Phương thức xác thực của Quý khách đã bị khóa do nhập sai mật khẩu quá số lần quy định. Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ",
     "22": "Phương thức xác thực của Quý khách đã bị khóa do nhập sai mật khẩu quá số lần quy định. Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ",
@@ -46,7 +46,7 @@ export const ERROR_CODE_WITH_MESSAGE = {
     "05": "Private key không tìm thấy",
     "06": "Ekyc user đã tồn tại",
     "07": "Register eKyc user thất bại",
-    "08": "Quý khách đã mở TKCK tại Công ty chứng khoán HDB. Quý khách vui lòng chọn Công ty Chứng khoán khác!”",
+    "08": "Quý khách đã mở TKCK tại Công ty chứng khoán HDB. Quý khách vui lòng chọn Công ty Chứng khoán khác!",
     "09": "Account otp không khớp",
     "10": "Ekyc account không tìm thấy",
     "99": "System error",
@@ -103,9 +103,13 @@ export const ERROR_CODE_WITH_MESSAGE = {
     "41": "Ngày phát hành không hợp lệ",
     "36": "Kiểm tra tài khoản HDBS không thành công",
     "37": "Tạo tài khoản HDBS không thành công",
-    "38": "Invalid expired of issue ocr",
-    "39": "Invalid expired of issue",
-    "40": "Invalid date of issue ocr",
+    "38": "Ngày hết hạn của cmnd/cccd ocr không hợp lệ",
+    "39": "Ngày hết hạn của cmnd/cccd không hợp lệ",
+    "40": "Ngày phát hành cmnd/cccd ocr không hợp lệ",
+    isUserImoney:
+      "Tài khoản của quý khách chưa sử dụng được chức năng. Quý khách vui lòng đến quầy giao dịch để nâng cấp tài khoản",
+    userDontEnoughAccount:
+      "Quý khách vui lòng mở tài khoản thanh toán trực tuyến hoặc đến quầy giao dịch để đăng ký sử dụng dịch vụ",
   },
   [LANGUAGE.EN]: {
     "00": "Success",
@@ -176,5 +180,9 @@ export const ERROR_CODE_WITH_MESSAGE = {
     "38": "Invalid expired of issue ocr",
     "39": "Invalid expired of issue",
     "40": "Invalid date of issue ocr",
+    isUserImoney:
+      "Your account cannot use the function. Please go to the counter to upgrade your account",
+    userDontEnoughAccount:
+      "Please open an online payment account or go to the counter to register for the service",
   },
 };

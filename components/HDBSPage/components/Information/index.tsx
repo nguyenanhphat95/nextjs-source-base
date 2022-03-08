@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     background: "#C7262E",
     color: "white",
   },
+  textDesc: {
+    textAlign: "justify",
+  },
 }));
 
 interface Props {
@@ -68,7 +71,9 @@ const Information = (props: Props) => {
           )}
         </Grid>
       </Box>
-      <Box p={2}>{t[`${_get(info, `${type}.content`, "")}`]}</Box>
+      <Box p={2} className={classes.textDesc}>
+        {t[`${_get(info, `${type}.content`, "")}`]}
+      </Box>
     </Card>
   );
 };

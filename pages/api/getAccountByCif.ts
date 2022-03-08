@@ -23,26 +23,7 @@ export default async function handler(
         },
       }
     );
-
-    let listAccount: AccountItem[] = _get(resp, "data.data", []);
-    listAccount = listAccount.filter((item) => {
-      if (
-        (item.AcctType === "712" ||
-          item.AcctType === "700" ||
-          item.AcctType === "7OL" ||
-          item.AcctType === "70M" ||
-          item.AcctType === "70G" ||
-          item.AcctType === "797" ||
-          item.AcctType === "7PL" ||
-          item.AcctType === "7ZR" ||
-          item.AcctType === "7PR") &&
-        (item.acctStatus === "A" || item.acctStatus === "N") &&
-        item.clientInd !== "S"
-      ) {
-        return item;
-      }
-    });
-    res.status(200).json({ data: listAccount });
+    res.status(200).json(resp.data);
   } catch (err) {
     writeLog(
       ip.address(),
