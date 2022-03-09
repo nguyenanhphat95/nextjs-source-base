@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import axiosWrapper from "commons/helpers/axios/axios-instance";
 import { AxiosResponse } from "axios";
-import { API_DOMAIN_SBH_SANDBOX } from "commons/constants";
 import { writeLog } from "commons/helpers/logger";
 import ip from "ip";
 import _get from "lodash/get";
@@ -13,8 +12,7 @@ export default async function handler(
   res: NextApiResponse<CheckSessionOTPResponse>
 ) {
   try {
-    const url = `${process.env.API_DOMAIN_SBH_OTP}/sbhService/v1/account/checkSessionOtp`;
-
+    const url = `${process.env.API_DOMAIN_SBH_OTP}/checkSessionOtp`;
     const resp: AxiosResponse<any> = await axiosWrapper.post(url, req.body, {
       headers: {
         "X-IBM-Client-Id": process.env.CLIENT_ID_SBH_OTP,

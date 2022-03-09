@@ -13,7 +13,7 @@ export default async function handler(
   res: NextApiResponse<GetInfoByTokenResponse>
 ) {
   try {
-    const url = `${process.env.API_DOMAIN_SBH_OTP}/sbhService/v1/account/getInfobybTxnId`;
+    const url = `${process.env.API_DOMAIN_SBH_OTP}/getInfobybTxnId`;
     const resp: AxiosResponse<any> = await axiosWrapper.post(url, req.body, {
       headers: {
         "X-IBM-Client-Id": process.env.CLIENT_ID_SBH_OTP,

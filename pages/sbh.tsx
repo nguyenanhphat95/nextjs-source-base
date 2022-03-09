@@ -19,6 +19,7 @@ import {
 
 import { verifyClientApi, VerifyClientBody, getPublicKey } from "services";
 import * as stkService from "services/stkService";
+import * as lockUserService from "services/lockUserService";
 import { ParsedUrlQuery } from "querystring";
 
 import { AccountItem } from "interfaces/IListAccount";
@@ -117,6 +118,17 @@ const SBHPage = () => {
     }
     return true;
   }, []);
+
+  // useEffect(() => {
+  //   if (!query.nationaId) {
+  //     return;
+  //   }
+  //   lockUserService
+  //     .getNumberLoginFailApi(query.nationaId as string)
+  //     .then((res) => {
+  //       console.log("res-:", res);
+  //     });
+  // }, [query.nationaId]);
 
   useEffect(() => {
     if (!_checkHaveParam(query)) {

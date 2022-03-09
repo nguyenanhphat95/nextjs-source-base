@@ -15,14 +15,15 @@ import languageEnPic from "public/images/en.png";
 import downPic from "public/images/down.png";
 import logoSBH from "public/images/sbh/logoSBH.png";
 import { LANGUAGE } from "commons/constants";
+import cn from "classnames";
 
 createTheme();
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
     padding: "12px 48px 12px 48px",
-    [theme.breakpoints.down("sm")]: {
-      padding: "5px 10px",
-    },
+  },
+  rootMobile: {
+    padding: "5px 10px",
   },
   languageIcon: {
     marginRight: "10px",
@@ -64,7 +65,7 @@ const SectionHeader = () => {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={cn(classes.root, isMobile && classes.rootMobile)}>
       <Grid container alignItems="center" justifyContent="space-between">
         <Grid item xs="auto">
           <Grid alignItems="center" container spacing={2}>
