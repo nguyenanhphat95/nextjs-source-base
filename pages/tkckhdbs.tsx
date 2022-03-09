@@ -38,6 +38,8 @@ import {
 import { getLanguage, parseJwt } from "commons/helpers/helper";
 
 import * as hdbsServices from "services/hdbsService";
+import { parseInfoFromEKYC } from "commons/helpers/ekyc";
+import { InquiryEKYCPresentResponse } from "interfaces/IInquiryEKYCPresent";
 import _get from "lodash/get";
 
 const useStyles = makeStyles(() => ({
@@ -78,7 +80,7 @@ const HDBSPage = () => {
   const [typeCustomer, setTypeCustomer] = useState<TypeCustomer>(
     TypeCustomer.KHHH
   );
-  const [allowInquiry, setAllowInquiry] = useState(false);
+  const [allowSendOTP, setAllowSendOTP] = useState(true);
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
   const [md5, setMd5] = useState(null);
   const [popupNotify, setPopupNotify] = useState({
@@ -204,18 +206,7 @@ const HDBSPage = () => {
           }
           const newData: FormDataFinal = {
             ...dataForm,
-            fullNameOcr: res?.fullName,
-            idNumber: res?.identityId,
-            gender: res?.gender,
-            birthDateOcr: res?.birthDate,
-            dateOfIssueOcr: res?.idDate,
-            placeOfIssueOcr: res?.idPlace,
-            address: res?.address,
-            address2: res?.address2,
-            nationalityName: res?.national,
-            phoneNumber: res?.phoneNumber,
-            idNumberType: res?.identityIdType,
-            email: res?.email,
+            ...hdbsServices.convertInfoUserFromCore(res),
             merchantId: finalData?.merchantId,
             merchantName: finalData?.merchantName,
             terminalId: finalData?.terminalId,
@@ -230,7 +221,6 @@ const HDBSPage = () => {
 
         if (status.code === ERROR_CODE.UserEKYCNotFound) {
           _onNextStep(STEP_HDBS.step2);
-          setAllowInquiry(true);
           return;
         }
         toggleNotify(status.msg);
@@ -241,52 +231,69 @@ const HDBSPage = () => {
     if (!data) {
       return;
     }
-    setDataForm({
+    const info = parseInfoFromEKYC(data);
+    const finalData = {
       ...dataForm,
+      ...info,
+      fullName: info?.fullNameOcr,
+      birthDate: info?.birthDateOcr,
+      dateOfIssue: info?.dateOfIssueOcr,
+      placeOfIssue: info?.placeOfIssueOcr,
+      expireOfIssue: info?.expireOfIssueOcr,
+      idNumber: info?.idNumber as string,
       ekycData: data,
-    });
-    _onNextStep(STEP_HDBS.step3);
+    };
+    setDataForm(finalData);
+    _inquiryEKYC(finalData);
   };
 
-  const _handleSubmitStep3 = async (data: FormDataStep3) => {
-    if (typeCustomer === TypeCustomer.KHM || !allowInquiry) {
+  const _handleSubmitStep3 = (data: FormDataStep3) => {
+    if (allowSendOTP || typeCustomer === TypeCustomer.KHM) {
       _onCreateOTP();
       return;
     }
-
-    _toggleLoading("loadingBtnSubmit", true);
-    const finalData = {
-      ...dataForm,
-      ...data,
-    };
-    setDataForm(finalData);
-    const inquiryResponse = await hdbsServices.inquiryENCYPresent(finalData);
-    _toggleLoading("loadingBtnSubmit", false);
-    const code = _get(inquiryResponse, "resultCode");
-    const status = getStatusResponse(code, lang);
-
-    if (status.success) {
-      // Disable inquiry when call inquiry success
-      setAllowInquiry(false);
-
-      if (inquiryResponse.hasSendOtp) {
-        _onCreateOTP();
-        return;
-      }
-      // Redirect success page
-      _redirectSuccessPage();
-      return;
-    }
-    _toggleLoading("loadingBtnSubmit", false);
-    toggleNotify(status.msg);
+    const { msg } = getStatusResponse("08", lang);
+    toggleNotify(msg);
   };
+
+  // const _handleSubmitStep3 = async (data: FormDataStep3) => {
+  //   if (typeCustomer === TypeCustomer.KHM || !allowInquiry) {
+  //     _onCreateOTP();
+  //     return;
+  //   }
+
+  //   _toggleLoading("loadingBtnSubmit", true);
+  //   const finalData = {
+  //     ...dataForm,
+  //     ...data,
+  //   };
+  //   setDataForm(finalData);
+  //   const inquiryResponse = await hdbsServices.inquiryENCYPresent(finalData);
+  //   _toggleLoading("loadingBtnSubmit", false);
+  //   const code = _get(inquiryResponse, "resultCode");
+  //   const status = getStatusResponse(code, lang);
+
+  //   if (status.success) {
+  //     // Disable inquiry when call inquiry success
+  //     setAllowInquiry(false);
+
+  //     if (inquiryResponse.hasSendOtp) {
+  //       _onCreateOTP();
+  //       return;
+  //     }
+  //     // Redirect success page
+  //     _redirectSuccessPage();
+  //     return;
+  //   }
+  //   _toggleLoading("loadingBtnSubmit", false);
+  //   toggleNotify(status.msg);
+  // };
 
   const _handleVerifyOtp = (accountOtp: string) => {
     _toggleLoading("loadingBtnConfirmOTP", true);
     hdbsServices
       .verifyOTPApi(accountOtp)
       .then((res) => {
-        _toggleLoading("loadingBtnConfirmOTP", false);
         const code = _get(res, "data.resultCode");
         if (_get(res, "data.data.userId")) {
           _onConfirmEKYC();
@@ -304,6 +311,41 @@ const HDBSPage = () => {
         _toggleLoading("loadingBtnConfirmOTP", false);
       });
   };
+
+  function _inquiryEKYC(data: FormDataFinal) {
+    const updateDataAfterInquiry = (res: InquiryEKYCPresentResponse) => {
+      setDataForm({
+        ...dataForm,
+        ...hdbsServices.convertInfoUserFromCore(res),
+      });
+    };
+
+    _toggleLoading("loadingMasterData", true);
+    hdbsServices
+      .inquiryENCYPresent(data)
+      .then((res) => {
+        _toggleLoading("loadingMasterData", false);
+        const code = _get(res, "resultCode");
+        const status = getStatusResponse(code, lang);
+        if (!status.success) {
+          toggleNotify(status.msg, () => {
+            _onNextStep(STEP_HDBS.step1);
+          });
+          return;
+        }
+
+        if (res.hasSendOtp) {
+          updateDataAfterInquiry(res);
+          _onNextStep(STEP_HDBS.step3);
+          return;
+        }
+
+        setAllowSendOTP(false);
+        updateDataAfterInquiry(res);
+        _onNextStep(STEP_HDBS.step3);
+      })
+      .catch(() => _toggleLoading("loadingMasterData", false));
+  }
 
   const _onCreateOTP = (isToggleModal = true) => {
     _toggleLoading("loadingBtnSubmit", true);

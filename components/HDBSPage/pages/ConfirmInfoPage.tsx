@@ -68,10 +68,9 @@ const ConfirmInfoPage = (props: Props) => {
 
   const isKHHH = typeCustomer === TypeCustomer.KHHH;
 
-  const info = _get(data, "ekycData")
-    ? parseInfoFromEKYC(_get(data, "ekycData"))
-    : data;
-
+  // const info = _get(data, "ekycData")
+  //   ? parseInfoFromEKYC(_get(data, "ekycData"))
+  //   : data;
   const resultEKYC = _get(data, "ekycData")
     ? checkResultEkyc(_get(data, "ekycData"))
     : { validEKYC: true, messageEKYC: "" };
@@ -84,12 +83,12 @@ const ConfirmInfoPage = (props: Props) => {
     control,
   } = useForm<FormValues>({
     defaultValues: {
-      fullName: info.fullNameOcr,
-      birthDate: info.birthDateOcr,
-      dateOfIssue: info.dateOfIssueOcr,
-      placeOfIssue: info.placeOfIssueOcr,
-      expireOfIssue: info.expireOfIssueOcr,
-      idNumber: info.idNumber as string,
+      fullName: data.fullNameOcr,
+      birthDate: data.birthDateOcr,
+      dateOfIssue: data.dateOfIssueOcr,
+      placeOfIssue: data.placeOfIssueOcr,
+      expireOfIssue: data.expireOfIssueOcr,
+      idNumber: data.idNumber as string,
     },
   });
   const router = useRouter();
@@ -107,11 +106,11 @@ const ConfirmInfoPage = (props: Props) => {
     setIsAceptCondition(event.target.checked);
   };
 
-  const _handleSubmit = (data: FormValues) => {
+  const _handleSubmit = (formValues: FormValues) => {
     onSubmit({
-      ...info,
       ...data,
-      fullNameOcr: info.fullNameOcr ? info.fullNameOcr : data.fullName,
+      ...formValues,
+      fullNameOcr: data?.fullNameOcr ? data.fullNameOcr : formValues.fullName,
     });
   };
 
@@ -149,7 +148,7 @@ const ConfirmInfoPage = (props: Props) => {
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      {t?.username}: <b>{info?.fullNameOcr}</b>
+                      {t?.username}: <b>{data?.fullNameOcr}</b>
                     </Grid>
                     {/* {isKHHH && (
                       <Grid item>
@@ -175,21 +174,21 @@ const ConfirmInfoPage = (props: Props) => {
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      {t?.gender}: <b>{info?.gender === "M" ? "Nam" : "Nữ"}</b>
+                      {t?.gender}: <b>{data?.gender === "M" ? "Nam" : "Nữ"}</b>
                     </Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      {t?.birthday}: <b>{info?.birthDateOcr}</b>
+                      {t?.birthday}: <b>{data?.birthDateOcr}</b>
                     </Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      CMND/CCCD: <b>{info?.idNumber}</b>
+                      CMND/CCCD: <b>{data?.idNumber}</b>
                     </Grid>
                     {/* {isKHHH && (
                       <Grid item>
@@ -216,49 +215,49 @@ const ConfirmInfoPage = (props: Props) => {
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      {t?.dateIssue}: <b>{info?.dateOfIssueOcr}</b>
+                      {t?.dateIssue}: <b>{data?.dateOfIssueOcr}</b>
                     </Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      {t?.placeIssue}: <b>{info?.placeOfIssueOcr}</b>
+                      {t?.placeIssue}: <b>{data?.placeOfIssueOcr}</b>
                     </Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      {t?.address}: <b>{info?.address}</b>
+                      {t?.address}: <b>{data?.address}</b>
                     </Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      {t?.nationality}: <b>{info?.nationalityName}</b>
+                      {t?.nationality}: <b>{data?.nationalityName}</b>
                     </Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      {t?.phoneNumber}: <b>{info?.phoneNumber}</b>
+                      {t?.phoneNumber}: <b>{data?.phoneNumber}</b>
                     </Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      {t?.contactAddress}: <b>{info?.address2}</b>
+                      {t?.contactAddress}: <b>{data?.address2}</b>
                     </Grid>
                   </Grid>
                 </Grid>
                 <Grid item>
                   <Grid container spacing={1} direction="column">
                     <Grid item>
-                      {t?.email}: <b>{info?.email}</b>
+                      {t?.email}: <b>{data?.email}</b>
                     </Grid>
                   </Grid>
                 </Grid>

@@ -60,3 +60,10 @@ export function compareTwoDateDesc(date1: Date, date2: Date): number {
   }
   return 0;
 }
+
+export function getValidStringDate(dateStr: string): string {
+  if (!dateStr || !_isValid(new Date(dateStr))) {
+    return "";
+  }
+  return dateStr;
+}

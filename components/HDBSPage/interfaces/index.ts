@@ -34,7 +34,7 @@ export interface FormDataStep3 {
   ekycType?: EkycType;
 }
 export interface FormDataFinal extends FormDataStep1, FormDataStep3 {
-  ekycData: any;
+  ekycData?: any;
   accountOtp?: string;
 }
 

@@ -27,7 +27,11 @@ import {
 
 import { v4 as uuidv4 } from "uuid";
 import { FormDataFinal, MasterData } from "components/HDBSPage/interfaces";
-import { addMinuteFromNow, getTodayWithFormat } from "commons/helpers/date";
+import {
+  addMinuteFromNow,
+  getTodayWithFormat,
+  getValidStringDate,
+} from "commons/helpers/date";
 import {
   CHANNEL_HDBS,
   IS_REQ_CHAL_CODE_HDBS,
@@ -87,6 +91,23 @@ export function filterListAccount(data: AccountItem[]): AccountItem[] {
     });
   }
   return [];
+}
+
+export function convertInfoUserFromCore(data: InquiryEKYCPresentResponse) {
+  return {
+    fullNameOcr: data?.fullName,
+    idNumber: data?.identityId,
+    gender: data?.gender,
+    birthDateOcr: getValidStringDate(data?.birthDate),
+    dateOfIssueOcr: getValidStringDate(data?.idDate as string),
+    placeOfIssueOcr: data?.idPlace,
+    address: data?.address,
+    address2: data?.address2,
+    nationalityName: data?.national,
+    phoneNumber: data?.phoneNumber,
+    idNumberType: data?.identityIdType,
+    email: data?.email,
+  };
 }
 
 function updateTokenExpired(expireIn: number) {

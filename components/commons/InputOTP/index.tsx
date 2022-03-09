@@ -13,6 +13,7 @@ import { isNumber } from "commons/helpers";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import _get from "lodash/get";
+import _range from "lodash/range";
 import cn from "classnames";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -77,8 +78,9 @@ const InputOTP = (props: Props) => {
 
       let finish = true;
       let otpStr = "";
-      const keys = Object.keys(otpValue);
-      keys.forEach((key) => {
+
+      _range(6).forEach((index) => {
+        const key = `otp${index + 1}`;
         if (!_get(finalValue, [key])) {
           finish = false;
         }
