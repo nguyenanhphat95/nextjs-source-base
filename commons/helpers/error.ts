@@ -16,10 +16,14 @@ export const ERROR_CODE = {
   OTPExpired: "21",
   OTPInValid: "08",
   VerifyMaximum: "19",
+  MaximumRequestSendOTP: "20",
   LockSendOTP: "22",
   Timeout: "Timeout",
   SendOTPFailed: "SendOTPFailed",
   UsernameNotMatch: "UsernameNotMatch",
+  LockUserLoginFail5: "LockUserLoginFail5",
+  LockUserSendOTP5: "LockUserSendOTP5",
+  LockUserVerifyOTP5: "LockUserVerifyOTP5",
 };
 
 export function handleErrorWithResponse(

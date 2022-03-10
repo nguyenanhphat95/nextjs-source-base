@@ -1,5 +1,6 @@
 import React, { useEffect, useCallback, useState, useRef } from "react";
 import Image from "next/image";
+import Script from "next/script";
 import { useRouter } from "next/router";
 import { makeStyles } from "@mui/styles";
 import { createTheme } from "@mui/material/styles";
@@ -63,6 +64,7 @@ const SBHPage = () => {
   const router = useRouter();
   const query = router.query;
 
+  const bannerEl = useRef<HTMLDivElement>();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -106,6 +108,13 @@ const SBHPage = () => {
     }
     return true;
   }, []);
+
+  useEffect(() => {
+    if (!bannerEl.current) {
+      return;
+    }
+    bannerEl.current.scrollIntoView({ behavior: "smooth" });
+  }, [bannerEl.current]);
 
   useEffect(() => {
     if (!query.nationaId || !query.nationaId) {
@@ -213,7 +222,7 @@ const SBHPage = () => {
 
     const dataFailUpdate = {
       ...dataFail,
-      value: numberLock === null ? numberLock : dataFail.value + 1,
+      value: numberLock === null ? numberLock : +dataFail.value + 1,
       expireTime: getExpireTime(dataFail.value + 1),
     };
 
@@ -225,77 +234,99 @@ const SBHPage = () => {
 
       if (+dataFailUpdate.value === NUMBER_FAILED) {
         // Call api update load status
-        if (query.leadId || query.campaignId) {
-          toggleNotify("Thông báo", "Thiếu leadId hoặc campaignId");
-          return;
-        }
-
-        lockUserService
-          .updateLeadStatus(
-            query.leadId as string,
-            query.campaignId as string,
-            _getStatusIdByKey(typeLock)
-          )
-          .then((res) => {});
+        _updateLeadStatus(typeLock);
       }
     });
+  };
+
+  const _updateLeadStatus = (typeLock: string) => {
+    if (!query.leadId || !query.campaignId) {
+      toggleNotify("Thông báo", "Thiếu leadId hoặc campaignId");
+      return;
+    }
+
+    lockUserService
+      .updateLeadStatus(
+        query.leadId as string,
+        query.campaignId as string,
+        _getStatusIdByKey(typeLock)
+      )
+      .then((res) => {
+        console.log(res);
+      });
   };
 
   const _handleSubmitForm = async (
     _: any,
     data: { username: string; password: string }
   ) => {
-    _updateNumberFail(KEY_LOGIN_FAIL);
-    // const validUser = await _checkUser(
-    //   data.username,
-    //   query.nationaId as string
-    // );
-    // if (!validUser) {
-    //   toggleNotify(
-    //     "Thông báo",
-    //     ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.UsernameNotMatch]
-    //   );
-    //   return;
-    // }
-    // const resp = await getPublicKey();
-    // const publicKey = _get(resp, "data.data.key");
-    // if (!publicKey) {
-    //   toggleNotify("Thông báo", "Get public key error");
-    //   return;
-    // }
-    // _toggleLoading("loadingBtnSubmit", true);
-    // stkService
-    //   .verifySBH(data, publicKey)
-    //   .then((res) => {
-    //     const responseCode = _get(res, "data.response.responseCode");
-    //     _toggleLoading("loadingBtnSubmit");
-    //     if (responseCode === ERROR_CODE.Success) {
-    //       const cif = _get(res, "data.data.cif");
-    //       stkService.getListAccountApi(cif).then((res) => {
-    //         setListAccount(_get(res, "data.data", []));
-    //       });
-    //       usernameRef.current = data.username;
-    //       passwordRef.current = data.password;
-    //       setLoginStep(LOGIN_STEP.step2);
-    //       return;
-    //     }
-    //     _updateNumberFail(KEY_LOGIN_FAIL);
-    //     toggleNotify(
-    //       "Thông báo",
-    //       _get(ERROR_MESSAGE_VERIFY_USER, responseCode) ||
-    //         ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.Unauthorized]
-    //     );
-    //   })
-    //   .catch((err) => {
-    //     toggleNotify(
-    //       "Thông báo",
-    //       ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.Timeout]
-    //     );
-    //     _toggleLoading("loadingBtnSubmit");
-    //   });
+    if (+_get(manageLock, `${KEY_LOGIN_FAIL}.value`, 0) === NUMBER_FAILED) {
+      toggleNotify(
+        "Thông báo",
+        ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.LockUserLoginFail5]
+      );
+      return;
+    }
+
+    const validUser = await _checkUser(
+      data.username,
+      query.nationaId as string
+    );
+    if (!validUser) {
+      toggleNotify(
+        "Thông báo",
+        ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.UsernameNotMatch]
+      );
+      return;
+    }
+    const resp = await getPublicKey();
+    const publicKey = _get(resp, "data.data.key");
+    if (!publicKey) {
+      toggleNotify("Thông báo", "Get public key error");
+      return;
+    }
+    _toggleLoading("loadingBtnSubmit", true);
+    stkService
+      .verifySBH(data, publicKey)
+      .then((res) => {
+        const responseCode = _get(res, "data.response.responseCode");
+        _toggleLoading("loadingBtnSubmit");
+        if (responseCode === ERROR_CODE.Success) {
+          _updateNumberFail(KEY_LOGIN_FAIL, null);
+          const cif = _get(res, "data.data.cif");
+          stkService.getListAccountApi(cif).then((res) => {
+            setListAccount(_get(res, "data.data", []));
+          });
+          usernameRef.current = data.username;
+          passwordRef.current = data.password;
+          setLoginStep(LOGIN_STEP.step2);
+          return;
+        }
+        _updateNumberFail(KEY_LOGIN_FAIL);
+        toggleNotify(
+          "Thông báo",
+          _get(ERROR_MESSAGE_VERIFY_USER, responseCode) ||
+            ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.Unauthorized]
+        );
+      })
+      .catch((err) => {
+        toggleNotify(
+          "Thông báo",
+          ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.Timeout]
+        );
+        _toggleLoading("loadingBtnSubmit");
+      });
   };
 
   const _sendOTP = () => {
+    if (+_get(manageLock, `${KEY_SEND_OTP_FAIL}.value`, 0) === NUMBER_FAILED) {
+      toggleNotify(
+        "Thông báo",
+        ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.LockUserSendOTP5]
+      );
+      return;
+    }
+
     _toggleLoading("loadingBtnSubmit", true);
     stkService
       .createOTPApi(usernameRef.current)
@@ -303,13 +334,19 @@ const SBHPage = () => {
         _toggleLoading("loadingBtnSubmit", false);
         const errorCode = _get(res, "data.resultCode");
         if (_get(res, "data.data.userId")) {
+          _updateNumberFail(KEY_SEND_OTP_FAIL);
           setLoginStep(LOGIN_STEP.step3);
           return;
         }
+
+        if (errorCode === ERROR_CODE.MaximumRequestSendOTP) {
+          _updateNumberFail(KEY_SEND_OTP_FAIL, 5);
+        }
+
         toggleNotify(
           "Thông báo",
-          _get(ERROR_MESSAGE_VERIFY_USER, errorCode),
-          ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.SendOTPFailed]
+          _get(ERROR_MESSAGE_VERIFY_USER, errorCode) ||
+            ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.SendOTPFailed]
         );
       })
       .catch((err) => {
@@ -335,24 +372,19 @@ const SBHPage = () => {
         _toggleLoading("loadingBtnSubmit", false);
         const errorCode = _get(res, "data.resultCode");
         if (_get(res, "data.data.userId")) {
-          _updateNumberFail(KEY_VERIFY_OTP_FAIL, 0);
+          _updateNumberFail(KEY_SEND_OTP_FAIL, null);
           setLoginStep(LOGIN_STEP.step4);
           return;
         }
 
-        // If enter opt code failed, update number fail verify otp
-        if (errorCode === ERROR_CODE.OTPInValid) {
-          _updateNumberFail(KEY_VERIFY_OTP_FAIL);
-          return;
+        if (errorCode !== ERROR_CODE.OTPInValid) {
+          _updateLeadStatus(KEY_VERIFY_OTP_FAIL);
         }
 
         toggleNotify(
           "Thông báo",
-          _get(
-            ERROR_MESSAGE_VERIFY_USER,
-            errorCode,
+          _get(ERROR_MESSAGE_VERIFY_USER, errorCode) ||
             ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.OTPInValid]
-          )
         );
       })
       .catch((err) => {
@@ -434,71 +466,74 @@ const SBHPage = () => {
   };
 
   return (
-    <Grid container direction="column">
-      {popupNotify.open && (
-        <PopupNotify
-          title={popupNotify.title}
-          desc={popupNotify.desc}
-          open={popupNotify.open}
-          toggleModal={toggleNotify}
-        />
-      )}
+    <>
+      <Script id="md5-id" src="/sso/js/md5.min.js" />
+      <Grid container direction="column">
+        {popupNotify.open && (
+          <PopupNotify
+            title={popupNotify.title}
+            desc={popupNotify.desc}
+            open={popupNotify.open}
+            toggleModal={toggleNotify}
+          />
+        )}
 
-      <Grid item xs={12}>
-        <SectionHeader />
+        <Grid item xs={12}>
+          <SectionHeader />
+        </Grid>
+
+        {isMobile && (
+          <>
+            <Grid item xs={12}>
+              <Box ref={bannerEl} className={classes.banner}>
+                <Image src={bannerMobile} alt="banner-mobile" />
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <STKContext.Provider value={stkContextValue}>
+                <SectionMobile1
+                  listAccount={listAccount}
+                  step={loginStep}
+                  onSubmit={_handleSubmitForm}
+                  onChooseAccount={_handleChooseAccount}
+                  onConfirmOTP={_handleConfirmOTP}
+                  onVerifyWithToken={_handleVerifyWithToken}
+                  onSendOTP={_sendOTP}
+                />
+              </STKContext.Provider>
+            </Grid>
+          </>
+        )}
+        {!isMobile && (
+          <>
+            <Grid item xs={12}>
+              <Box className={classes.banner}>
+                <Image src={desktopPic} alt="desktop" />
+              </Box>
+            </Grid>
+
+            <Grid item xs={12}>
+              <STKContext.Provider value={stkContextValue}>
+                <SectionLogin
+                  listAccount={listAccount}
+                  step={loginStep}
+                  onSubmit={_handleSubmitForm}
+                  onChooseAccount={_handleChooseAccount}
+                  onConfirmOTP={_handleConfirmOTP}
+                  onVerifyWithToken={_handleVerifyWithToken}
+                  onSendOTP={_sendOTP}
+                />
+              </STKContext.Provider>
+            </Grid>
+
+            <Grid item xs={12}>
+              <SectionNotification />
+            </Grid>
+          </>
+        )}
+        <SectionFooter />
       </Grid>
-
-      {isMobile && (
-        <>
-          <Grid item xs={12}>
-            <Box className={classes.banner}>
-              <Image src={bannerMobile} alt="banner-mobile" />
-            </Box>
-          </Grid>
-          <Grid item xs={12}>
-            <STKContext.Provider value={stkContextValue}>
-              <SectionMobile1
-                listAccount={listAccount}
-                step={loginStep}
-                onSubmit={_handleSubmitForm}
-                onChooseAccount={_handleChooseAccount}
-                onConfirmOTP={_handleConfirmOTP}
-                onVerifyWithToken={_handleVerifyWithToken}
-                onSendOTP={_sendOTP}
-              />
-            </STKContext.Provider>
-          </Grid>
-        </>
-      )}
-      {!isMobile && (
-        <>
-          <Grid item xs={12}>
-            <Box className={classes.banner}>
-              <Image src={desktopPic} alt="desktop" />
-            </Box>
-          </Grid>
-
-          <Grid item xs={12}>
-            <STKContext.Provider value={stkContextValue}>
-              <SectionLogin
-                listAccount={listAccount}
-                step={loginStep}
-                onSubmit={_handleSubmitForm}
-                onChooseAccount={_handleChooseAccount}
-                onConfirmOTP={_handleConfirmOTP}
-                onVerifyWithToken={_handleVerifyWithToken}
-                onSendOTP={_sendOTP}
-              />
-            </STKContext.Provider>
-          </Grid>
-
-          <Grid item xs={12}>
-            <SectionNotification />
-          </Grid>
-        </>
-      )}
-      <SectionFooter />
-    </Grid>
+    </>
   );
 };
 

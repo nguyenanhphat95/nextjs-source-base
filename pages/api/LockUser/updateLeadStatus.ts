@@ -11,7 +11,7 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
   try {
-    const url = "http://10.0.65.29:8087/v4/api/hdb-ts-card/status/update";
+    const url = `${process.env.API_DOMAIN_LEAD_STATUS}/v4/api/hdb-ts-card/status/update`;
     const resp: AxiosResponse<any> = await axiosWrapper.post(url, req.body);
     res.status(200).json(resp.data);
   } catch (err) {

@@ -11,6 +11,14 @@ export const TIME_LOCK_LOGIN_FAIL = "86400"; // 24h -> seconds = 86400
 export const NUMBER_ALLOW_ENTER_WRONG_OTP = 5;
 
 export const ERROR_MESSAGE_VERIFY_USER = {
+  [ERROR_CODE.MaximumRequestSendOTP]:
+    "Quý khách đã nhận OTP quá số lần quy định. Vui lòng liên hệ 1900 6060 hoặc đến điểm giao dịch HDBank gần nhất để được hỗ trợ",
+  [ERROR_CODE.LockUserVerifyOTP5]:
+    "Quý khách đã nhận OTP quá 5 lần. Vui lòng liên hệ 1900 6060 hoặc đến điểm giao dịch HDBank gần nhất để được hỗ trợ",
+  [ERROR_CODE.LockUserSendOTP5]:
+    "Quý khách đã nhập sai OTP quá 5 lần. Vui lòng liên hệ 1900 6060 hoặc đến điểm giao dịch HDBank gần nhất để được hỗ trợ",
+  [ERROR_CODE.LockUserLoginFail5]:
+    "Tài khoản của Quý khách đang bị tạm khóa do đăng nhập sai nhiều lần. Vui lòng gọi 1900 6060 hoặc liên hệ PGD gần nhất để được hỗ trợ",
   [ERROR_CODE.UsernameNotMatch]:
     "Quý khách vui lòng sử dụng username đã đăng ký ban đầu",
   [ERROR_CODE.SendOTPFailed]: "Gửi OTP không thành công",

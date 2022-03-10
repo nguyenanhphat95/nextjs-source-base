@@ -9,6 +9,5 @@ interface STKContextValue {
 const STKContext = React.createContext<STKContextValue>({
   loadingBtnSubmit: false,
   toggleNotify: () => null,
-  setLoginStep: () => null,
 });
 export default STKContext;

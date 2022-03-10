@@ -7,6 +7,16 @@ import {
 } from "interfaces/LockUser/IUpdateLeadStatus";
 import { UpdateNumberFailRequest } from "interfaces/LockUser/IUpdateNumberFail";
 import { v4 as uuidv4 } from "uuid";
+import _get from "lodash/get";
+
+export const generateRequestBody = () => {
+  return {
+    request: {
+      requestId: uuidv4(),
+      requestTime: getTodayWithFormat("ddMMyyyyhhmmss"),
+    },
+  };
+};
 
 export const getNumberFailApi = async (key: string) => {
   const resp: AxiosResponse<GetNumberFailResponse> = await axios.post(
@@ -21,19 +31,22 @@ export const getNumberFailApi = async (key: string) => {
 export const updateNumberFailApi = async (data: UpdateNumberFailRequest) => {
   const resp: AxiosResponse<any> = await axios.post(
     "/sso/api/LockUser/updateNumberFail",
-    data
+    {
+      ...generateRequestBody(),
+      data,
+    }
   );
   return resp;
 };
 
 function generateStrSignature(object: Record<string, string>): string {
-  let str = "";
+  const md5 = _get(window, "md5");
+  let str = "13572469";
   const keys = Object.keys(object);
   keys.forEach((key) => {
     str += object[key];
   });
-  str += "13572469";
-  return str;
+  return md5(str);
 }
 
 export const updateLeadStatus = async (
@@ -43,7 +56,7 @@ export const updateLeadStatus = async (
 ) => {
   let body: UpdateLeadStatusRequest = {
     requestId: uuidv4(),
-    requestTime: getTodayWithFormat("ddMMyyyyhhmmss"),
+    requestTime: getTodayWithFormat("dd/MM/yyyy hh:mm:ss"),
     signature: "",
     leadId,
     campaignId,

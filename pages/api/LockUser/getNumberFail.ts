@@ -18,8 +18,6 @@ export default async function handler(
     const resp: AxiosResponse<GetNumberFailResponse> = await axiosWrapper.get(
       url
     );
-    console.log("api-get-number-login-----:", url);
-    console.log("api-get-number-login-resp----:", resp.data);
     res.status(200).json(resp.data);
   } catch (err) {
     writeLog(
