@@ -182,3 +182,6 @@
 [2022-03-09T16:26:58.054] [INFO] default - 10.0.112.51 - Wed Mar 09 2022 16:26:58 GMT+0700 (Indochina Time)----content: Update number fail api: Request failed with status code 500---withBodyData: 
 [2022-03-09T17:04:00.086] [INFO] default - 10.0.112.51 - Wed Mar 09 2022 17:04:00 GMT+0700 (Indochina Time)----content: Update Lead Status fail api: timeout of 15000ms exceeded---withBodyData: 
 [2022-03-09T17:08:48.474] [INFO] default - 10.0.112.51 - Wed Mar 09 2022 17:08:48 GMT+0700 (Indochina Time)----content: check session otp: connect EHOSTUNREACH 0.0.86.61:80 - Local (10.0.112.51:56084)---withBodyData: 
+[2022-03-10T09:26:18.542] [INFO] default - 192.168.100.13 - Thu Mar 10 2022 09:26:18 GMT+0700 (Indochina Time)----content: check session otp: timeout of 15000ms exceeded---withBodyData: 
+[2022-03-10T09:31:27.590] [INFO] default - 192.168.100.13 - Thu Mar 10 2022 09:31:27 GMT+0700 (Indochina Time)----content: check session otp: timeout of 15000ms exceeded---withBodyData: 
+[2022-03-10T09:38:15.473] [INFO] default - 192.168.100.13 - Thu Mar 10 2022 09:38:15 GMT+0700 (Indochina Time)----content: check session otp: timeout of 15000ms exceeded---withBodyData: 

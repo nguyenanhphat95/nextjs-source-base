@@ -70,19 +70,21 @@ export const getInfoByTokenApi = async (bTxnId: string) => {
 };
 
 export const purchaseSbhApi = async (body: SbhPurchaseInfo) => {
+  const txnId = uuidv4();
   const resp: AxiosResponse<PurchaseSbhResponse> = await axios.post(
     "/sso/api/purchaseSbh",
     {
       ...generateBodyRequest({
         partnerId: PARTNER_ID_SBH_OTP || "",
-        tokenizeId: body.tokenizeId,
-        txnId: body.txnId,
+        tokenizeId: "77b495d9-188e-4349-bb32-c093c0c989be",
+        // tokenizeId: body.tokenizeId,
+        txnId,
         amount: body.amount,
         description: body.description,
       }),
       data: {
         ...body,
-        txnId: uuidv4(),
+        txnId,
         tokenizeId: "77b495d9-188e-4349-bb32-c093c0c989be",
         addInfo2: "INTERNAL",
       },

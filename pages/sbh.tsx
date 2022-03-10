@@ -245,54 +245,54 @@ const SBHPage = () => {
     _: any,
     data: { username: string; password: string }
   ) => {
-    // _updateNumberFail(KEY_LOGIN_FAIL);
-    const validUser = await _checkUser(
-      data.username,
-      query.nationaId as string
-    );
-    if (!validUser) {
-      toggleNotify(
-        "Thông báo",
-        ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.UsernameNotMatch]
-      );
-      return;
-    }
-    const resp = await getPublicKey();
-    const publicKey = _get(resp, "data.data.key");
-    if (!publicKey) {
-      toggleNotify("Thông báo", "Get public key error");
-      return;
-    }
-    _toggleLoading("loadingBtnSubmit", true);
-    stkService
-      .verifySBH(data, publicKey)
-      .then((res) => {
-        const responseCode = _get(res, "data.response.responseCode");
-        _toggleLoading("loadingBtnSubmit");
-        if (responseCode === ERROR_CODE.Success) {
-          const cif = _get(res, "data.data.cif");
-          stkService.getListAccountApi(cif).then((res) => {
-            setListAccount(_get(res, "data.data", []));
-          });
-          usernameRef.current = data.username;
-          passwordRef.current = data.password;
-          setLoginStep(LOGIN_STEP.step2);
-          return;
-        }
-        _updateNumberFail(KEY_LOGIN_FAIL);
-        toggleNotify(
-          "Thông báo",
-          _get(ERROR_MESSAGE_VERIFY_USER, responseCode) ||
-            ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.Unauthorized]
-        );
-      })
-      .catch((err) => {
-        toggleNotify(
-          "Thông báo",
-          ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.Timeout]
-        );
-        _toggleLoading("loadingBtnSubmit");
-      });
+    _updateNumberFail(KEY_LOGIN_FAIL);
+    // const validUser = await _checkUser(
+    //   data.username,
+    //   query.nationaId as string
+    // );
+    // if (!validUser) {
+    //   toggleNotify(
+    //     "Thông báo",
+    //     ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.UsernameNotMatch]
+    //   );
+    //   return;
+    // }
+    // const resp = await getPublicKey();
+    // const publicKey = _get(resp, "data.data.key");
+    // if (!publicKey) {
+    //   toggleNotify("Thông báo", "Get public key error");
+    //   return;
+    // }
+    // _toggleLoading("loadingBtnSubmit", true);
+    // stkService
+    //   .verifySBH(data, publicKey)
+    //   .then((res) => {
+    //     const responseCode = _get(res, "data.response.responseCode");
+    //     _toggleLoading("loadingBtnSubmit");
+    //     if (responseCode === ERROR_CODE.Success) {
+    //       const cif = _get(res, "data.data.cif");
+    //       stkService.getListAccountApi(cif).then((res) => {
+    //         setListAccount(_get(res, "data.data", []));
+    //       });
+    //       usernameRef.current = data.username;
+    //       passwordRef.current = data.password;
+    //       setLoginStep(LOGIN_STEP.step2);
+    //       return;
+    //     }
+    //     _updateNumberFail(KEY_LOGIN_FAIL);
+    //     toggleNotify(
+    //       "Thông báo",
+    //       _get(ERROR_MESSAGE_VERIFY_USER, responseCode) ||
+    //         ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.Unauthorized]
+    //     );
+    //   })
+    //   .catch((err) => {
+    //     toggleNotify(
+    //       "Thông báo",
+    //       ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.Timeout]
+    //     );
+    //     _toggleLoading("loadingBtnSubmit");
+    //   });
   };
 
   const _sendOTP = () => {
@@ -303,12 +303,12 @@ const SBHPage = () => {
         _toggleLoading("loadingBtnSubmit", false);
         const errorCode = _get(res, "data.resultCode");
         if (_get(res, "data.data.userId")) {
-          _updateNumberFail(KEY_SEND_OTP_FAIL);
           setLoginStep(LOGIN_STEP.step3);
           return;
         }
         toggleNotify(
           "Thông báo",
+          _get(ERROR_MESSAGE_VERIFY_USER, errorCode),
           ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.SendOTPFailed]
         );
       })
@@ -335,9 +335,17 @@ const SBHPage = () => {
         _toggleLoading("loadingBtnSubmit", false);
         const errorCode = _get(res, "data.resultCode");
         if (_get(res, "data.data.userId")) {
+          _updateNumberFail(KEY_VERIFY_OTP_FAIL, 0);
           setLoginStep(LOGIN_STEP.step4);
           return;
         }
+
+        // If enter opt code failed, update number fail verify otp
+        if (errorCode === ERROR_CODE.OTPInValid) {
+          _updateNumberFail(KEY_VERIFY_OTP_FAIL);
+          return;
+        }
+
         toggleNotify(
           "Thông báo",
           _get(
