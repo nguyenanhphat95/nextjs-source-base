@@ -9,7 +9,7 @@ import {
   ConfirmOTP,
   LoginForm,
 } from "components/STKPage";
-import { LOGIN_STEP } from "pages/sbh";
+import { LOGIN_STEP } from "components/STKPage/const";
 
 import _get from "lodash/get";
 import _slice from "lodash/slice";

@@ -9,7 +9,7 @@ import {
   LoginSuccessForm,
   ConfirmOTP,
 } from "components/STKPage";
-import { LOGIN_STEP } from "pages/sbh";
+import { LOGIN_STEP } from "components/STKPage/const";
 createTheme();
 const useStyles = makeStyles(() => ({
   root: {

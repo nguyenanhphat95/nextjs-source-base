@@ -29,12 +29,22 @@ import {
   generateRequestBody,
   handleErrorWithResponse,
 } from "commons/helpers";
-import { addHourFromNow } from "commons/helpers/date";
 
 import desktopPic from "public/images/desktop.png";
 import bannerMobile from "public/images/sbh/banner.png";
 import STKContext from "components/STKPage/contexts/STKContextValue";
 import _get from "lodash/get";
+import { UpdateNumberFailRequest } from "interfaces/LockUser/IUpdateNumberFail";
+import { STATUS_ID } from "interfaces/LockUser/IUpdateLeadStatus";
+import {
+  KEY_LOGIN_FAIL,
+  KEY_VERIFY_OTP_FAIL,
+  KEY_SEND_OTP_FAIL,
+  NUMBER_FAILED,
+  ERROR_MESSAGE_VERIFY_USER,
+  LOGIN_STEP,
+  TIME_LOCK_LOGIN_FAIL,
+} from "components/STKPage/const";
 
 createTheme();
 const useStyles = makeStyles(() => ({
@@ -47,38 +57,6 @@ const useStyles = makeStyles(() => ({
     margin: "50px 40px",
   },
 }));
-
-export const ERROR_MESSAGE_VERIFY_USER = {
-  [ERROR_CODE.OTPInValid]:
-    "Mã xác thực OTP không chính xác. Quý khách vui lòng nhập lại",
-  [ERROR_CODE.OTPExpired]:
-    "Mã xác thực đã hết thời gian hiệu lực. Quý khách vui lòng lấy lại mã xác thực mới.",
-  [ERROR_CODE.PhoneNumberLock]: `Qúy khách đã nhập sai OTP quá 5 lần. Vui lòng thử lại sau để sử dụng tiếp dịch vụ.(${addHourFromNow(
-    24
-  )})`,
-  [ERROR_CODE.Unauthorized]:
-    "Tên đăng nhập hoặc Mật khẩu không đúng. Quý khách vui lòng kiểm tra lại",
-  [ERROR_CODE.SessionExpired]: "Session Expired",
-  [ERROR_CODE.UserNotExist]: "User Not Exist",
-  [ERROR_CODE.SessionIdNotFound]: "Session Id Not Found",
-  [ERROR_CODE.FormatMessageInvalid]:
-    "Tên đăng nhập hoặc Mật khẩu không hợp lệ. Qúy khách vui lòng kiểm tra lại",
-  [ERROR_CODE.SystemError]: "System Error",
-  [ERROR_CODE.PasswordExpired]:
-    "Expired password requires accessing ebank.hdbank.com.vn to change password",
-  [ERROR_CODE.VerifyClientFailed]: "Verify client failed",
-  [ERROR_CODE.AccountLocked]:
-    "Tài khoản của Quý khách đang bị tạm khóa. Vui lòng thử lại sau 24 giờ để sử dụng tiếp dịch vụ",
-};
-
-export const LOGIN_STEP = {
-  step1: "stepLogin",
-  step2: "stepChooseAccount",
-  step3: "stepConfirmOtp",
-  step4: "stepLoginSuccess",
-};
-
-const NUMBER_ALLOW_ENTER_WRONG_OTP = 5;
 
 const SBHPage = () => {
   const classes = useStyles();
@@ -93,6 +71,16 @@ const SBHPage = () => {
     title: "",
     desc: "",
     onClose: () => null,
+  });
+
+  const [manageLock, setManageLock] = useState<{
+    [KEY_LOGIN_FAIL]: UpdateNumberFailRequest;
+    [KEY_VERIFY_OTP_FAIL]: UpdateNumberFailRequest;
+    [KEY_SEND_OTP_FAIL]: UpdateNumberFailRequest;
+  }>({
+    [KEY_LOGIN_FAIL]: {},
+    [KEY_VERIFY_OTP_FAIL]: {},
+    [KEY_SEND_OTP_FAIL]: {},
   });
 
   const [countEnterWrongOTP, setCountEnterWrongOTP] = useState(0);
@@ -119,16 +107,40 @@ const SBHPage = () => {
     return true;
   }, []);
 
-  // useEffect(() => {
-  //   if (!query.nationaId) {
-  //     return;
-  //   }
-  //   lockUserService
-  //     .getNumberLoginFailApi(query.nationaId as string)
-  //     .then((res) => {
-  //       console.log("res-:", res);
-  //     });
-  // }, [query.nationaId]);
+  useEffect(() => {
+    if (!query.nationaId || !query.nationaId) {
+      return;
+    }
+
+    Promise.all([
+      lockUserService.getNumberFailApi(`${KEY_LOGIN_FAIL}_${query.nationaId}`),
+      lockUserService.getNumberFailApi(
+        `${KEY_VERIFY_OTP_FAIL}_${query.nationaId}`
+      ),
+      lockUserService.getNumberFailApi(
+        `${KEY_SEND_OTP_FAIL}_${query.nationaId}`
+      ),
+    ]).then((res) => {
+      const [respLogin, respVerify, respSend] = res;
+      setManageLock({
+        [KEY_LOGIN_FAIL]: {
+          value: respLogin?.data?.value || 0,
+          key: _get(respLogin, "data.key"),
+          expireTime: _get(respLogin, "data.expireTime", ""),
+        },
+        [KEY_VERIFY_OTP_FAIL]: {
+          value: respVerify?.data?.value || 0,
+          key: _get(respVerify, "data.key"),
+          expireTime: _get(respVerify, "data.expireTime", ""),
+        },
+        [KEY_SEND_OTP_FAIL]: {
+          value: respSend?.data?.value || 0,
+          key: _get(respSend, "data.key"),
+          expireTime: _get(respSend, "data.expireTime", ""),
+        },
+      });
+    });
+  }, [query.nationaId]);
 
   useEffect(() => {
     if (!_checkHaveParam(query)) {
@@ -170,26 +182,83 @@ const SBHPage = () => {
     return false;
   };
 
+  const _getStatusIdByKey = (key: string): STATUS_ID => {
+    switch (key) {
+      case KEY_LOGIN_FAIL: {
+        return STATUS_ID.LOCK_LOGIN;
+      }
+      case KEY_VERIFY_OTP_FAIL: {
+        return STATUS_ID.LOCK_VERIFY_OTP;
+      }
+      case KEY_SEND_OTP_FAIL: {
+        return STATUS_ID.LOCK_SEND_OTP;
+      }
+      default: {
+        return STATUS_ID.LOCK_LOGIN;
+      }
+    }
+  };
+
+  const _updateNumberFail = (typeLock: string, numberLock?: any) => {
+    const getExpireTime = (numberLoginFail: number): string => {
+      if (typeLock === KEY_LOGIN_FAIL && numberLoginFail === NUMBER_FAILED) {
+        return TIME_LOCK_LOGIN_FAIL;
+      }
+      return "";
+    };
+    const dataFail = _get(manageLock, [typeLock]);
+    if (!dataFail || +dataFail.value === NUMBER_FAILED) {
+      return;
+    }
+
+    const dataFailUpdate = {
+      ...dataFail,
+      value: numberLock === null ? numberLock : dataFail.value + 1,
+      expireTime: getExpireTime(dataFail.value + 1),
+    };
+
+    lockUserService.updateNumberFailApi(dataFailUpdate).then((res) => {
+      setManageLock({
+        ...manageLock,
+        [typeLock]: dataFailUpdate,
+      });
+
+      if (+dataFailUpdate.value === NUMBER_FAILED) {
+        // Call api update load status
+        if (query.leadId || query.campaignId) {
+          toggleNotify("Thông báo", "Thiếu leadId hoặc campaignId");
+          return;
+        }
+
+        lockUserService
+          .updateLeadStatus(
+            query.leadId as string,
+            query.campaignId as string,
+            _getStatusIdByKey(typeLock)
+          )
+          .then((res) => {});
+      }
+    });
+  };
+
   const _handleSubmitForm = async (
     _: any,
     data: { username: string; password: string }
   ) => {
+    // _updateNumberFail(KEY_LOGIN_FAIL);
     const validUser = await _checkUser(
       data.username,
       query.nationaId as string
     );
-
     if (!validUser) {
       toggleNotify(
         "Thông báo",
-        "Quý khách vui lòng sử dụng username đã đăng ký ban đầu"
+        ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.UsernameNotMatch]
       );
       return;
     }
-
     const resp = await getPublicKey();
     const publicKey = _get(resp, "data.data.key");
-
     if (!publicKey) {
       toggleNotify("Thông báo", "Get public key error");
       return;
@@ -207,10 +276,10 @@ const SBHPage = () => {
           });
           usernameRef.current = data.username;
           passwordRef.current = data.password;
-
           setLoginStep(LOGIN_STEP.step2);
           return;
         }
+        _updateNumberFail(KEY_LOGIN_FAIL);
         toggleNotify(
           "Thông báo",
           _get(ERROR_MESSAGE_VERIFY_USER, responseCode) ||
@@ -220,7 +289,7 @@ const SBHPage = () => {
       .catch((err) => {
         toggleNotify(
           "Thông báo",
-          "Kết nối gián đoạn. Qúy khách vui lòng thử lại sau"
+          ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.Timeout]
         );
         _toggleLoading("loadingBtnSubmit");
       });
@@ -234,18 +303,19 @@ const SBHPage = () => {
         _toggleLoading("loadingBtnSubmit", false);
         const errorCode = _get(res, "data.resultCode");
         if (_get(res, "data.data.userId")) {
+          _updateNumberFail(KEY_SEND_OTP_FAIL);
           setLoginStep(LOGIN_STEP.step3);
           return;
         }
         toggleNotify(
           "Thông báo",
-          _get(ERROR_MESSAGE_VERIFY_USER, errorCode, "Gửi OTP không thành công")
+          ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.SendOTPFailed]
         );
       })
       .catch((err) => {
         toggleNotify(
           "Thông báo",
-          "Kết nối gián đoạn. Qúy khách vui lòng thử lại sau"
+          ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.Timeout]
         );
         _toggleLoading("loadingBtnSubmit", false);
         console.log(err);
@@ -258,15 +328,6 @@ const SBHPage = () => {
   };
 
   const _handleConfirmOTP = (otp: string) => {
-    if (countEnterWrongOTP === NUMBER_ALLOW_ENTER_WRONG_OTP) {
-      toggleNotify(
-        "Thông báo",
-        `Qúy khách đã nhập sai OTP quá 5 lần. Vui lòng thử lại sau 24h để sử dụng tiếp dịch vụ.(${addHourFromNow(
-          24
-        )})`
-      );
-      return;
-    }
     _toggleLoading("loadingBtnSubmit", true);
     stkService
       .verifyOTPApi(usernameRef.current, otp)
@@ -277,13 +338,12 @@ const SBHPage = () => {
           setLoginStep(LOGIN_STEP.step4);
           return;
         }
-        setCountEnterWrongOTP((prev) => prev + 1);
         toggleNotify(
           "Thông báo",
           _get(
             ERROR_MESSAGE_VERIFY_USER,
             errorCode,
-            "Mã xác thực OTP không chính xác. Quý khách vui lòng nhập lại"
+            ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.OTPInValid]
           )
         );
       })
@@ -325,7 +385,7 @@ const SBHPage = () => {
       .catch((err) => {
         toggleNotify(
           "Thông báo",
-          "Kết nối gián đoạn. Qúy khách vui lòng thử lại sau"
+          ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.Timeout]
         );
         _toggleLoading("loadingBtnSubmit", false);
         console.log(err);

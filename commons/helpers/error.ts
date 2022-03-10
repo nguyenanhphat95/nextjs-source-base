@@ -15,6 +15,11 @@ export const ERROR_CODE = {
   PhoneNumberLock: "22",
   OTPExpired: "21",
   OTPInValid: "08",
+  VerifyMaximum: "19",
+  LockSendOTP: "22",
+  Timeout: "Timeout",
+  SendOTPFailed: "SendOTPFailed",
+  UsernameNotMatch: "UsernameNotMatch",
 };
 
 export function handleErrorWithResponse(

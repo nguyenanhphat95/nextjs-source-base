@@ -79,11 +79,12 @@ export const purchaseSbhApi = async (body: SbhPurchaseInfo) => {
         txnId: body.txnId,
         amount: body.amount,
         description: body.description,
+        addInfo2: "INTERNAL",
       }),
       data: {
         ...body,
         txnId: uuidv4(),
-        tokenizeId: "515247de-9132-4f29-bc05-60542231aa60",
+        tokenizeId: "77b495d9-188e-4349-bb32-c093c0c989be",
       },
     }
   );
