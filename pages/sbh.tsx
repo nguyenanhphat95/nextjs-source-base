@@ -326,7 +326,6 @@ const SBHPage = () => {
       );
       return;
     }
-
     _toggleLoading("loadingBtnSubmit", true);
     stkService
       .createOTPApi(usernameRef.current)
@@ -338,11 +337,9 @@ const SBHPage = () => {
           setLoginStep(LOGIN_STEP.step3);
           return;
         }
-
-        if (errorCode === ERROR_CODE.MaximumRequestSendOTP) {
-          _updateNumberFail(KEY_SEND_OTP_FAIL, 5);
-        }
-
+        // if (errorCode === ERROR_CODE.MaximumRequestSendOTP) {
+        //   _updateNumberFail(KEY_SEND_OTP_FAIL, 5);
+        // }
         toggleNotify(
           "Thông báo",
           _get(ERROR_MESSAGE_VERIFY_USER, errorCode) ||
