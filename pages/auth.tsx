@@ -26,7 +26,6 @@ import {
   getPublicKey,
 } from "services";
 import { generateRequestBody, handleErrorWithResponse } from "commons/helpers";
-import { ERROR_MESSAGE_VERIFY_USER } from "./sbh";
 import desktopPic from "public/images/desktop.png";
 import STKContext from "components/STKPage/contexts/STKContextValue";
 
@@ -36,6 +35,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { DOMAIN_DOP } from "commons/constants";
 import _get from "lodash/get";
 import cn from "classnames";
+import { ERROR_MESSAGE_VERIFY_USER } from "components/STKPage/const";
 createTheme();
 const useStyles = makeStyles(() => ({
   banner: {

@@ -18,8 +18,8 @@ import resources from "pages/assets/translate.json";
 import cn from "classnames";
 import _get from "lodash/get";
 import STKContext from "components/STKPage/contexts/STKContextValue";
-import { LOGIN_STEP } from "pages/sbh";
 import { TypeInputOTP } from "components/commons/InputOTP";
+import { LOGIN_STEP } from "components/STKPage/const";
 const useStyles = makeStyles(() => ({
   root: {
     background: "white",
