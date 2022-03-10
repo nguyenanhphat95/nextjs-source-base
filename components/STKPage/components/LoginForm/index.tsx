@@ -89,11 +89,7 @@ const LoginForm = (props: Props) => {
       <Script id="jsencrypt-id" src="/sso/js/jsencrypt.min.js" />
       <Grid container direction="column" spacing={3}>
         <Grid item xs={12}>
-          <Box
-            className={classes.loginTitle}
-            display="flex"
-            justifyContent="center"
-          >
+          <Box className={classes.loginTitle} textAlign="center">
             {t?.title}
           </Box>
         </Grid>
@@ -102,11 +98,11 @@ const LoginForm = (props: Props) => {
             {t?.subtitle1}
           </Box>
         </Grid> */}
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <Box className={cn(classes.textCenter, classes.subTitle)}>
             {t?.subtitle2}
           </Box>
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12}>
           <Box className={classes.labelInfoLogin}>Thông tin đăng nhập</Box>

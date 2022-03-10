@@ -1,22 +1,22 @@
 {
   "vi": {
     "confirmOTP": {
-      "title": "Xác thực chọn tài khoản thanh toán",
-      "content": "Vui lòng nhập mã xác thực đã được gửi đến số điện thoại của bạn",
+      "title": "Xác thực OTP",
+      "content": "Mã xác thực (OTP) đã được gửi qua SMS hoặc đăng nhập Mobile App HDBank để lấy mã OTP",
       "label": "Nhập mã xác nhận",
       "question": "Quý khách không nhận được tin nhắn?",
       "resendOTP": "Gửi lại OTP",
       "btnSubmit": "Xác nhận"
     },
     "chooseAccountForm": {
-      "title": "Chọn tài khoản thanh toán",
+      "title": "Liên kết với Sổ Bán Hàng",
       "content": "Vui lòng chọn tài khoản thanh toán mà bạn muốn liên kết với Sổ Bán Hàng",
       "labelAccount": "Lựa chọn Số tài khoản thanh toán:",
       "placeholderAccount": "Chọn",
       "btnSubmit": "Tiếp tục"
     },
     "loginSuccessForm": {
-      "title": "Kết nối tài khoản thanh toán thành công",
+      "title": "Chúc mừng Quý khách đã kết nối thành công tài khoản thanh toán",
       "subtitle1": "Chúc mừng Quý khách đã kết nối thành công tài khoản thanh toán HDBank.",
       "subtitle2": "Vui lòng tiếp tục với Sổ Bán Hàng để hoàn tất thanh toán.",
       "btnContinue": "Tiếp tục với SBH",
@@ -24,7 +24,7 @@
       "textInstruction": "Hướng dẫn nạp tiền tài khoản thanh toán trực tuyến"
     },
     "loginForm": {
-      "title": "Đăng nhập eBanking",
+      "title": "Vui lòng đăng nhập bằng tài khoản eBanking",
       "subtitle1": "Bạn đã có tài khoản thanh toán HDBank",
       "subtitle2": "Vui lòng đăng nhập eBanking để chọn tài khoản thanh toán",
       "username": "Tên đăng nhập",

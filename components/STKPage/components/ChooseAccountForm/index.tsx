@@ -160,13 +160,13 @@ const ChooseAccountForm = (props: Props) => {
     <Box py={3} px={2} className={classes.root}>
       <Grid container direction="column" spacing={3}>
         <Grid item>
-          <Box className={classes.title} display="flex" justifyContent="center">
+          <Box className={classes.title} textAlign="center">
             {t.title}
           </Box>
         </Grid>
-        <Grid item>
+        {/* <Grid item>
           <Box className={classes.textCenter}>{t.content}</Box>
-        </Grid>
+        </Grid> */}
         <Grid item>
           <Box className={classes.labelAccount}>{t.labelAccount}</Box>
         </Grid>

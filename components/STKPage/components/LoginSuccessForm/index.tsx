@@ -77,13 +77,13 @@ const LoginSuccessForm = (props: Props) => {
         <Grid item>
           <Box className={classes.title}>
             <Grid container justifyContent="center">
-              <Grid item xs={10}>
+              <Grid item xs={11}>
                 {t.title}
               </Grid>
             </Grid>
           </Box>
         </Grid>
-        <Grid item>
+        {/* <Grid item>
           <Box className={classes.textCenter}>
             <Grid container justifyContent="center">
               <Grid item xs={10}>
@@ -91,14 +91,14 @@ const LoginSuccessForm = (props: Props) => {
               </Grid>
             </Grid>
           </Box>
-          {/* <Box className={classes.textCenter}>
+          <Box className={classes.textCenter}>
             <Grid container justifyContent="center">
               <Grid item xs={10}>
                 {t.subtitle2}
               </Grid>
             </Grid>
-          </Box> */}
-        </Grid>
+          </Box>
+        </Grid> */}
       </Grid>
 
       <Box mt={4}>

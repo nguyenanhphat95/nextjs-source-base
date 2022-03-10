@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     boxShadow: "none !important",
     height: "50px !important",
     textTransform: "inherit",
-    fontSize: theme?.typography?.button?.fontSize,
+    fontSize: "18px",
     paddingLeft: "30px !important",
     paddingRight: "30px !important",
   },
