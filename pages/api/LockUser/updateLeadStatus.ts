@@ -13,6 +13,7 @@ export default async function handler(
   try {
     const url = `${process.env.API_DOMAIN_LEAD_STATUS}/v4/api/hdb-ts-card/status/update`;
     const resp: AxiosResponse<any> = await axiosWrapper.post(url, req.body);
+    console.log("call-update-lead-status:", req.body);
     res.status(200).json(resp.data);
   } catch (err) {
     writeLog(

@@ -299,7 +299,7 @@ const SBHPage = () => {
           });
           usernameRef.current = data.username;
           passwordRef.current = data.password;
-          setLoginStep(LOGIN_STEP.step2);
+          _nextStep(LOGIN_STEP.step2);
           return;
         }
         _updateNumberFail(KEY_LOGIN_FAIL);
@@ -318,14 +318,23 @@ const SBHPage = () => {
       });
   };
 
-  const _sendOTP = () => {
-    if (+_get(manageLock, `${KEY_SEND_OTP_FAIL}.value`, 0) === NUMBER_FAILED) {
-      toggleNotify(
-        "Thông báo",
-        ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.LockUserSendOTP5]
-      );
+  function _nextStep(step: string) {
+    setLoginStep(step);
+
+    if (!bannerEl.current) {
       return;
     }
+    bannerEl.current.scrollIntoView({ behavior: "smooth" });
+  }
+
+  const _sendOTP = () => {
+    // if (+_get(manageLock, `${KEY_SEND_OTP_FAIL}.value`, 0) === NUMBER_FAILED) {
+    //   toggleNotify(
+    //     "Thông báo",
+    //     ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.LockUserSendOTP5]
+    //   );
+    //   return;
+    // }
     _toggleLoading("loadingBtnSubmit", true);
     stkService
       .createOTPApi(usernameRef.current)
@@ -333,13 +342,12 @@ const SBHPage = () => {
         _toggleLoading("loadingBtnSubmit", false);
         const errorCode = _get(res, "data.resultCode");
         if (_get(res, "data.data.userId")) {
-          _updateNumberFail(KEY_SEND_OTP_FAIL);
-          setLoginStep(LOGIN_STEP.step3);
+          _nextStep(LOGIN_STEP.step3);
           return;
         }
-        // if (errorCode === ERROR_CODE.MaximumRequestSendOTP) {
-        //   _updateNumberFail(KEY_SEND_OTP_FAIL, 5);
-        // }
+        if (errorCode === ERROR_CODE.MaximumRequestSendOTP) {
+          _updateLeadStatus(KEY_SEND_OTP_FAIL);
+        }
         toggleNotify(
           "Thông báo",
           _get(ERROR_MESSAGE_VERIFY_USER, errorCode) ||
@@ -369,8 +377,7 @@ const SBHPage = () => {
         _toggleLoading("loadingBtnSubmit", false);
         const errorCode = _get(res, "data.resultCode");
         if (_get(res, "data.data.userId")) {
-          _updateNumberFail(KEY_SEND_OTP_FAIL, null);
-          setLoginStep(LOGIN_STEP.step4);
+          _nextStep(LOGIN_STEP.step4);
           return;
         }
 
