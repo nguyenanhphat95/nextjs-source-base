@@ -30,9 +30,7 @@ export const ERROR_MESSAGE_VERIFY_USER = {
     "Mã xác thực OTP không chính xác. Quý khách vui lòng nhập lại",
   [ERROR_CODE.OTPExpired]:
     "Mã xác thực đã hết thời gian hiệu lực. Quý khách vui lòng lấy lại mã xác thực mới.",
-  [ERROR_CODE.PhoneNumberLock]: `Qúy khách đã nhập sai OTP quá 5 lần. Vui lòng thử lại sau để sử dụng tiếp dịch vụ.(${addHourFromNow(
-    24
-  )})`,
+  [ERROR_CODE.PhoneNumberLock]: `Quý khách đã nhập sai OTP quá 5 lần. Vui lòng liên hệ 1900 6060 hoặc đến điểm giao dịch HDBank gần nhất để được hỗ trợ`,
   [ERROR_CODE.Unauthorized]:
     "Tên đăng nhập hoặc Mật khẩu không đúng. Quý khách vui lòng kiểm tra lại",
   [ERROR_CODE.SessionExpired]: "Session Expired",

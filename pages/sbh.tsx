@@ -380,13 +380,13 @@ const SBHPage = () => {
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
         const errorCode = _get(res, "data.resultCode");
-        const isErrorInvalidOTP = errorCode !== ERROR_CODE.OTPInValid;
+        const isErrorLockOTP = errorCode !== ERROR_CODE.OTPInValid;
         if (_get(res, "data.data.userId")) {
           _nextStep(LOGIN_STEP.step4);
           return;
         }
 
-        if (isErrorInvalidOTP) {
+        if (isErrorLockOTP) {
           _updateLeadStatus(KEY_VERIFY_OTP_FAIL);
         }
 
@@ -394,7 +394,7 @@ const SBHPage = () => {
           "Thông báo",
           _get(ERROR_MESSAGE_VERIFY_USER, errorCode) ||
             ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.OTPInValid],
-          !isErrorInvalidOTP && _nextStep(LOGIN_STEP.step1)
+          isErrorLockOTP && _nextStep(LOGIN_STEP.step1)
         );
       })
       .catch((err) => {
@@ -488,14 +488,14 @@ const SBHPage = () => {
           />
         )}
 
-        <Grid item xs={12}>
+        <Grid ref={bannerEl} item xs={12}>
           <SectionHeader />
         </Grid>
 
         {isMobile && (
           <>
             <Grid item xs={12}>
-              <Box ref={bannerEl} className={classes.banner}>
+              <Box className={classes.banner}>
                 <Image src={bannerMobile} alt="banner-mobile" />
               </Box>
             </Grid>
