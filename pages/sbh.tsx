@@ -488,8 +488,10 @@ const SBHPage = () => {
           />
         )}
 
-        <Grid ref={bannerEl} item xs={12}>
-          <SectionHeader />
+        <Grid item xs={12}>
+          <Box ref={bannerEl}>
+            <SectionHeader />
+          </Box>
         </Grid>
 
         {isMobile && (
