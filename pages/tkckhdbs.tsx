@@ -38,7 +38,7 @@ import {
 import { getLanguage, parseJwt } from "commons/helpers/helper";
 
 import * as hdbsServices from "services/hdbsService";
-import { parseInfoFromEKYC } from "commons/helpers/ekyc";
+import { checkResultEkyc, parseInfoFromEKYC } from "commons/helpers/ekyc";
 import { InquiryEKYCPresentResponse } from "interfaces/IInquiryEKYCPresent";
 import _get from "lodash/get";
 
@@ -231,6 +231,13 @@ const HDBSPage = () => {
     if (!data) {
       return;
     }
+
+    const resultEKYC = checkResultEkyc(data);
+    if (!resultEKYC.validEKYC) {
+      toggleNotify(resultEKYC.messageEKYC, () => _onNextStep(STEP_HDBS.step2));
+      return;
+    }
+
     const info = parseInfoFromEKYC(data);
     const finalData = {
       ...dataForm,
