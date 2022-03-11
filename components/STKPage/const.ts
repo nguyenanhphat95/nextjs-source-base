@@ -12,9 +12,9 @@ export const NUMBER_ALLOW_ENTER_WRONG_OTP = 5;
 
 export const ERROR_MESSAGE_VERIFY_USER = {
   [ERROR_CODE.MaximumRequestSendOTP]:
-    "Quý khách đã nhận OTP quá số lần quy định. Vui lòng liên hệ 1900 6060 hoặc đến điểm giao dịch HDBank gần nhất để được hỗ trợ",
+    "Quý khách đã nhận OTP quá 10 lần quy định. Vui lòng liên hệ 1900 6060 hoặc đến điểm giao dịch HDBank gần nhất để được hỗ trợ",
   [ERROR_CODE.LockUserVerifyOTP5]:
-    "Quý khách đã nhận OTP quá 5 lần. Vui lòng liên hệ 1900 6060 hoặc đến điểm giao dịch HDBank gần nhất để được hỗ trợ",
+    "Quý khách đã nhận OTP quá 10 lần. Vui lòng liên hệ 1900 6060 hoặc đến điểm giao dịch HDBank gần nhất để được hỗ trợ",
   [ERROR_CODE.LockUserSendOTP5]:
     "Quý khách đã nhập sai OTP quá 5 lần. Vui lòng liên hệ 1900 6060 hoặc đến điểm giao dịch HDBank gần nhất để được hỗ trợ",
   [ERROR_CODE.LockUserLoginFail5]:
@@ -25,7 +25,7 @@ export const ERROR_MESSAGE_VERIFY_USER = {
   [ERROR_CODE.Timeout]: "Kết nối gián đoạn. Qúy khách vui lòng thử lại sau",
   [ERROR_CODE.LockSendOTP]:
     "Quý khách chưa đăng ký phương thức xác thực hoặc đã bị khóa. Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ",
-  [ERROR_CODE.VerifyMaximum]: `Quý khách đã nhận OTP quá 5 lần. Vui lòng liên hệ 1900 6060 hoặc đến điểm giao dịch HDBank gần nhất để được hỗ trợ`,
+  [ERROR_CODE.VerifyMaximum]: `Quý khách đã nhập sai OTP quá 5 lần. Vui lòng liên hệ 1900 6060 hoặc đến điểm giao dịch HDBank gần nhất để được hỗ trợ`,
   [ERROR_CODE.OTPInValid]:
     "Mã xác thực OTP không chính xác. Quý khách vui lòng nhập lại",
   [ERROR_CODE.OTPExpired]:

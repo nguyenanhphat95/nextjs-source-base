@@ -32,7 +32,7 @@ import {
 } from "commons/helpers";
 
 import desktopPic from "public/images/desktop.png";
-import bannerMobile from "public/images/sbh/banner.png";
+import bannerMobile from "public/images/sbh/banner2.png";
 import STKContext from "components/STKPage/contexts/STKContextValue";
 import _get from "lodash/get";
 import { UpdateNumberFailRequest } from "interfaces/LockUser/IUpdateNumberFail";
@@ -342,17 +342,20 @@ const SBHPage = () => {
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
         const errorCode = _get(res, "data.resultCode");
+        const isErrorMaximumRequest =
+          errorCode === ERROR_CODE.MaximumRequestSendOTP;
         if (_get(res, "data.data.userId")) {
           _nextStep(LOGIN_STEP.step3);
           return;
         }
-        if (errorCode === ERROR_CODE.MaximumRequestSendOTP) {
+        if (isErrorMaximumRequest) {
           _updateLeadStatus(KEY_SEND_OTP_FAIL);
         }
         toggleNotify(
           "Thông báo",
           _get(ERROR_MESSAGE_VERIFY_USER, errorCode) ||
-            ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.SendOTPFailed]
+            ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.SendOTPFailed],
+          isErrorMaximumRequest && _nextStep(LOGIN_STEP.step1)
         );
       })
       .catch((err) => {
@@ -377,19 +380,21 @@ const SBHPage = () => {
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
         const errorCode = _get(res, "data.resultCode");
+        const isErrorInvalidOTP = errorCode !== ERROR_CODE.OTPInValid;
         if (_get(res, "data.data.userId")) {
           _nextStep(LOGIN_STEP.step4);
           return;
         }
 
-        if (errorCode !== ERROR_CODE.OTPInValid) {
+        if (isErrorInvalidOTP) {
           _updateLeadStatus(KEY_VERIFY_OTP_FAIL);
         }
 
         toggleNotify(
           "Thông báo",
           _get(ERROR_MESSAGE_VERIFY_USER, errorCode) ||
-            ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.OTPInValid]
+            ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.OTPInValid],
+          !isErrorInvalidOTP && _nextStep(LOGIN_STEP.step1)
         );
       })
       .catch((err) => {
