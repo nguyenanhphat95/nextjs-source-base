@@ -249,7 +249,8 @@ const SBHPage = () => {
       .updateLeadStatus(
         query.leadId as string,
         query.campaignId as string,
-        _getStatusIdByKey(typeLock)
+        _getStatusIdByKey(typeLock),
+        usernameRef.current
       )
       .then((res) => {
         console.log(res);

@@ -12,8 +12,10 @@ export default async function handler(
 ) {
   try {
     const url = `${process.env.API_DOMAIN_LEAD_STATUS}/v4/api/hdb-ts-card/status/update`;
+    console.log("request-url-call-update-lead-status:", url);
+    console.log("request-call-update-lead-status:", req.body);
     const resp: AxiosResponse<any> = await axiosWrapper.post(url, req.body);
-    console.log("call-update-lead-status:", req.body);
+    console.log("resp-call-update-lead-status:", req.body);
     res.status(200).json(resp.data);
   } catch (err) {
     writeLog(

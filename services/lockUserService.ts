@@ -52,7 +52,8 @@ function generateStrSignature(object: Record<string, string>): string {
 export const updateLeadStatus = async (
   leadId: string,
   campaignId: string,
-  statusId: STATUS_ID
+  statusId: STATUS_ID,
+  eBanking: string
 ) => {
   let body: UpdateLeadStatusRequest = {
     requestId: uuidv4(),
@@ -61,6 +62,7 @@ export const updateLeadStatus = async (
     leadId,
     campaignId,
     statusId,
+    eBanking,
   };
   const resp: AxiosResponse<any> = await axios.post(
     "/sso/api/LockUser/updateLeadStatus",
