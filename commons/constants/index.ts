@@ -12,8 +12,8 @@ export const DOMAIN_DOP = process.env.DOMAIN_DOP_CLIENT;
 // export const GRANT_TYPE = "authorization_code";
 
 export const API_DOMAIN_SBH_SANDBOX = process.env.API_DOMAIN_SANDBOX_SBH_CLIENT;
-// export const CLIENT_ID_SBH = process.env.CLIENT_ID_SBH_CLIENT;
-// export const CLIENT_SECRET_SBH = process.env.CLIENT_SECRET_SBH_CLIENT;
+export const CLIENT_ID_SBH = process.env.CLIENT_ID_SBH_CLIENT;
+export const CLIENT_SECRET_SBH = process.env.CLIENT_SECRET_SBH_CLIENT;
 export const CHANNEL_SBH = process.env.CHANNEL_CLIENT;
 export const SERVICE_CODE_SBH = process.env.SERVICE_CODE_CLIENT;
 export const NARRATIVE_SBH = process.env.NARRATIVE_CLIENT;

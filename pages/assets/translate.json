@@ -1,5 +1,39 @@
 {
   "vi": {
+    "changePassword": {
+      "title": "Đổi mật khẩu",
+      "sub": "Vui lòng đặt mật khẩu đăng nhập tài khoản thanh toán HD Money",
+      "form": {
+        "title": "Thông tin tài khoản",
+        "label": {
+          "oldPassword": "Mật khẩu cũ",
+          "newPassword": "Mật khẩu mới",
+          "reNewPassword": "Nhập lại mật khẩu mới"
+        },
+        "button": {
+          "submit": "Xác nhận"
+        },
+        "errors": {
+          "password1_01": "Mật khẩu không được bỏ trống",
+          "password1_02": "Mật khẩu phải ít nhất 6 ký tự",
+          "password1_03": "Mật khẩu phải gồm ít nhất 1 ký tự viết thường",
+          "password1_04": "Mật khẩu phải gồm ít nhất 1 ký tự đặc biệt",
+          "password1_05": "Mật khẩu không được chứa từ password",
+          "password1_06": "Mật khẩu phải gồm ít nhất 1 ký tự số",
+          "password1_07": "Mật khẩu phải gồm ít nhất một ký tự thường và một ký tự hoa",
+          "password1_08": "Mật khẩu chỉ được nhập ký tụ alphabet + ít nhất một in hoa, 1 in thường, 1 số. ký tự đặc biệt !@#$%^&*_=+-",
+          "password1_09": "Các ký tự liên tiếp không được trùng nhau",
+          "password2_10": "Mật khẩu không được bỏ trống",
+          "password2_11": "Mật khẩu không khớp",
+          "99": "Hệ thống gián đoạn. Quí khách vui lòng thử lại sau ít phút"
+        },
+        "rules": "Quy định đặt mật khẩu",
+        "term1": "Tôi đã đọc, hiểu và đồng ý ",
+        "term2": "Đề nghị kiêm hợp đồng mở và sử dụng Tài khoản thanh toán, dịch vụ ngân hàng điện tử và ",
+        "term3": "và ",
+        "term4": "Điều khoản, điều kiện"
+      }
+    },
     "confirmOTP": {
       "title": "Xác thực OTP",
       "content": "Mã xác thực (OTP) đã được gửi qua SMS hoặc đăng nhập Mobile App HDBank để lấy mã OTP",
@@ -35,6 +69,20 @@
       "personal": "Cá nhân",
       "enterprise": "Doanh nghiệp",
       "textForgotAccount": "Quên tên đăng nhập/mật khẩu"
+    },
+    "otp": {
+      "title": "Xác thực số điện thoại",
+      "button": {
+        "submit": "Xác nhận",
+        "close": "Đóng"
+      },
+      "sub1": "Vui lòng nhập mã xác thực đã được gửi đến số điện thoại của bạn",
+      "sub2": "Nhận mã xác nhận",
+      "sub3": "Quý khách không nhận được tin nhắn? ",
+      "sub4": "Gửi lại OTP",
+      "errors": {
+        "99": "Hệ thống gián đoạn. Quí khách vui lòng thử lại sau ít phút"
+      }
     },
     "utilityBank": {
       "title": "Khám phá tiện ích eBanking",

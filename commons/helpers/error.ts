@@ -24,6 +24,7 @@ export const ERROR_CODE = {
   LockUserLoginFail5: "LockUserLoginFail5",
   LockUserSendOTP5: "LockUserSendOTP5",
   LockUserVerifyOTP5: "LockUserVerifyOTP5",
+  InvalidOldPassword: "30",
 };
 
 export function handleErrorWithResponse(

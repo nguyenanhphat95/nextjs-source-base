@@ -33,6 +33,8 @@ export const ERROR_MESSAGE_VERIFY_USER = {
   [ERROR_CODE.PhoneNumberLock]: `Qúy khách đã nhập sai OTP quá 5 lần. Vui lòng thử lại sau để sử dụng tiếp dịch vụ.(${addHourFromNow(
     24
   )})`,
+  [ERROR_CODE.InvalidOldPassword]:
+    "Mật khẩu cũ không đúng. Quý khách vui lòng kiểm tra lại",
   [ERROR_CODE.Unauthorized]:
     "Tên đăng nhập hoặc Mật khẩu không đúng. Quý khách vui lòng kiểm tra lại",
   [ERROR_CODE.SessionExpired]: "Session Expired",
