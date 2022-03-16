@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
-  basePath: "/sso",
-  assetPrefix: "/sso",
+  basePath: "/sso-changePassword",
+  assetPrefix: "/sso-changePassword",
   i18n: {
     locales: ["vi", "en"],
     defaultLocale: "vi",

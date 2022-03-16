@@ -24,10 +24,10 @@ function isHaveString(input: string) {
   return pattern.test(input);
 }
 
-function isHaveSpecialCharater(input: string) {
-  let pattern = /[!@#$%^&*_=+-/]/;
-  return pattern.test(input);
-}
+// function isHaveSpecialCharater(input: string) {
+//   let pattern = /[!@#$%^&*_=+-/]/;
+//   return pattern.test(input);
+// }
 
 function isHaveCharaterIgnored(input: string) {
   let pattern = /[^a-zA-Z0-9!@#$%^&*_=+-/]/;
@@ -72,16 +72,16 @@ function isHavePasswordChar(input: string) {
   return input.toLocaleLowerCase().includes(pattern);
 }
 
-function onlyAlphabetOnAddress(inputVal: string) {
-  let pattern = /[^a-zA-Z0-9.,/\s]/;
-  return !pattern.test(inputVal);
-}
+// function onlyAlphabetOnAddress(inputVal: string) {
+//   let pattern = /[^a-zA-Z0-9.,/\s]/;
+//   return !pattern.test(inputVal);
+// }
 
 export const isValidPassword1 = (password: string) => {
   if (password === "") return "01";
   else if (password.length < 6) return "02";
   else if (!isHaveNormalChar(password)) return "03";
-  else if (!isHaveSpecialCharater(password)) return "04";
+  // else if (!isHaveSpecialCharater(password)) return "04";
   else if (isHavePasswordChar(password)) return "05";
   else if (!isHaveNumber(password)) return "06";
   else if (!isHaveString(password)) return "07";

@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
     position: "relative",
   },
   box: {
-    // marginTop: "-80px",
+    marginTop: "-130px",
     borderRadius: 20,
     background: "#FFFFFF",
     boxShadow: "0px 14px 40px rgba(33, 43, 54, 0.1)",

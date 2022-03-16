@@ -1,3 +1,4 @@
+import React, { useState, ChangeEvent, useContext } from "react";
 import {
   getLanguage,
   isValidPassword1,
@@ -7,27 +8,16 @@ import { Box, Grid, Typography, Theme } from "@mui/material";
 import _get from "lodash/get";
 import { useRouter } from "next/router";
 import resources from "pages/assets/translate.json";
-import React, { useState, ChangeEvent, useContext } from "react";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { makeStyles } from "@mui/styles";
-import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
-import { InputCustom, ButtonCustom } from "components/commons";
+import InputCustom from "components/ChangePasswordPage/Commons/Input";
+import ButtonCustom from "components/ChangePasswordPage/Commons/Button";
 import jwt from "jsonwebtoken";
-import {
-  CLIENT_ID_SBH,
-  CLIENT_SECRET_SBH,
-  GRANT_TYPE,
-  SIGNATURE,
-} from "commons/constants";
+import { SIGNATURE } from "commons/constants";
 import { PopupNotify } from "components/commons";
-import { generateRequestBody, handleErrorWithResponse } from "commons/helpers";
-import {
-  verifyClientApi,
-  VerifyClientBody,
-  VerifyBody,
-  verifyApi,
-  getPublicKey,
-  getAccessTokenApi,
-} from "services";
+import { generateRequestBody } from "commons/helpers";
+import { VerifyBody, verifyApi, getPublicKey } from "services";
 import { ERROR_MESSAGE_VERIFY_USER } from "components/STKPage/const";
 import * as changePassword from "services/changePassword";
 import STKContext from "components/STKPage/contexts/STKContextValue";
@@ -81,6 +71,9 @@ const useStyles = makeStyles((theme: Theme) => ({
     fontSize: 21,
     position: "absolute",
     right: 50,
+    "&:hover": {
+      cursor: "pointer",
+    },
     marginTop: 14,
     [theme.breakpoints.down("sm")]: {
       right: 35,
@@ -90,6 +83,15 @@ const useStyles = makeStyles((theme: Theme) => ({
     textAlign: "center",
     color: "red",
   },
+  closeButton: {
+    // width: 170,
+    background: "#FFFFFF",
+    border: "1px solid #0000007a",
+    "&:hover": {
+      opacity: 0.7,
+      background: "#FFFFFF",
+    },
+  },
 }));
 
 function ChangePassword(props: any) {
@@ -98,9 +100,17 @@ function ChangePassword(props: any) {
   const classes = useStyles();
   const lang = getLanguage(router);
   const [loading, setLoading] = useState<boolean>(false);
+  const theme: Theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const t = _get(resources, [lang, "changePassword"]);
   const [password1ErrMessage, setPassword1ErrMessage] = useState<string>("");
   const [password2ErrMessage, setPassword2ErrMessage] = useState<string>("");
+  const [popupNotify, setPopupNotify] = useState({
+    open: false,
+    title: "",
+    desc: "",
+    onClose: () => null,
+  });
   const [oldPasswordErrMessage, setOldPasswordErrMessage] =
     useState<string>("");
 
@@ -112,15 +122,31 @@ function ChangePassword(props: any) {
       .then((res) => {
         console.log("send otp ", res);
         setLoading(false);
-        // const errorCode = _get(res, "data.resultCode");
-        // if (_get(res, "data.data.userId")) {
-        //   return;
-        // }
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  function toggleNotify(title?: string, desc?: string, onClose?: any) {
+    setPopupNotify((prev) => {
+      if (title && desc) {
+        return {
+          open: true,
+          title,
+          desc,
+          onClose: onClose ? onClose : () => null,
+        };
+      }
+      prev.onClose && prev?.onClose();
+      return {
+        open: false,
+        title: "",
+        desc: "",
+        onClose: () => null,
+      };
+    });
+  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -183,7 +209,7 @@ function ChangePassword(props: any) {
 
         if (isPassword1 === "00" && isPassword2 === "00") {
           _sendOTP();
-          onSubmit(reqData.oldPassword, reqData.password1, publicKey);
+          onSubmit(reqData.oldPassword, reqData.password1, publicKey, code);
         }
       })
       .catch((err) => {
@@ -192,29 +218,31 @@ function ChangePassword(props: any) {
   };
 
   return (
-    <Box m="10px 7%">
+    <Box>
       {/* <WaitingPopup open={loading} /> */}
+      {popupNotify.open && (
+        <PopupNotify
+          title={popupNotify.title}
+          desc={popupNotify.desc}
+          open={popupNotify.open}
+          toggleModal={toggleNotify}
+        />
+      )}
       <Typography className={classes.title}>{_get(t, "title")}</Typography>
-      <Grid item my={2} alignItems="center" container xs="auto">
-        <Typography className={classes.formTitle}>
-          {_get(t, "form.title")}
-        </Typography>
-        <PriorityHighIcon className={classes.icon} />
-      </Grid>
       <Box component="form" onSubmit={handleSubmit}>
         <Grid item my={2}>
           <Typography>
             {_get(t, "form.label.oldPassword")}
-
             <span className={classes.important}>*</span>
           </Typography>
           <Grid container item xs="auto">
             <InputCustom
-              type={"password"}
+              isPassword
+              // type={!eyeStatus ? "password" : "text"}
               style={{ marginTop: 5 }}
               required
               name="old-password"
-              placeholder="XXXXXXXXXX"
+              placeholder={_get(t, "form.label.oldPassword")}
               errorMsg={oldPasswordErrMessage}
               error={oldPasswordErrMessage ? true : false}
             />
@@ -228,10 +256,11 @@ function ChangePassword(props: any) {
           <Grid container item xs="auto">
             <InputCustom
               required
-              type={"password"}
+              isPassword
+              // type={!eyeStatus2 ? "password" : "text"}
               style={{ marginTop: 5 }}
               name="password1"
-              placeholder="XXXXXXXXXX"
+              placeholder={_get(t, "form.label.newPassword")}
               errorMsg={password1ErrMessage}
               error={password1ErrMessage ? true : false}
             />
@@ -244,26 +273,43 @@ function ChangePassword(props: any) {
           </Typography>
           <Grid container item xs="auto">
             <InputCustom
+              isPassword
               required
-              type={"password"}
+              // type={!eyeStatus3 ? "password" : "text"}
               style={{ marginTop: 5 }}
               name="password2"
-              placeholder="XXXXXXXXXX"
+              placeholder={_get(t, "form.label.reNewPassword")}
               errorMsg={password2ErrMessage}
               error={password2ErrMessage ? true : false}
             />
           </Grid>
         </Grid>
-        <Grid mt={3.5} container justifyContent="center">
-          <ButtonCustom
-            variant="contained"
-            color="secondary"
-            loading={loadingBtnSubmit}
-            fullWidth
-            type="submit"
-          >
-            {_get(t, "form.button.submit")}
-          </ButtonCustom>
+        <Grid
+          textAlign="center"
+          mt={3.5}
+          container={!isMobile}
+          justifyContent="center"
+        >
+          <Grid my={1.5} mx={1}>
+            <ButtonCustom
+              variant="contained"
+              color="secondary"
+              fullWidth
+              type="submit"
+            >
+              {_get(t, "form.button.submit")}
+            </ButtonCustom>
+          </Grid>
+          <Grid my={1.5} mx={1}>
+            <ButtonCustom
+              variant="contained"
+              className={classes.closeButton}
+              fullWidth
+              type="reset"
+            >
+              {_get(t, "form.button.close")}
+            </ButtonCustom>
+          </Grid>
         </Grid>
       </Box>
     </Box>

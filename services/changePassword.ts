@@ -29,7 +29,7 @@ export const createOTPApi = async (userId: string) => {
     },
   };
   const resp: AxiosResponse<CreateOTPResponse> = await axios.post(
-    "/sso/api/createOTP",
+    "/sso-changePassword/api/createOTP",
     body
   );
   return resp;
@@ -49,7 +49,7 @@ export const verifyOTPApi = async (userId: string, otp: string) => {
       otp,
     },
   };
-  const resp: AxiosResponse<any> = await axios.post("/sso/api/verifyOTP", body);
+  const resp: AxiosResponse<any> = await axios.post("/sso-changePassword/api/verifyOTP", body);
   return resp;
 };
 
@@ -65,7 +65,7 @@ export const changePass = async (credential: string, key: string) => {
     },
   };
   const resp: AxiosResponse<any> = await axios.post(
-    "/sso/api/changePassword",
+    "/sso-changePassword/api/changePassword",
     body
   );
   return resp;

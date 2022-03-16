@@ -40,135 +40,142 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const SectionHeader = () => {
-  const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const { locale, asPath } = useRouter();
-  const router = useRouter();
+interface Props {}
 
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+const SectionHeader = React.forwardRef(
+  (props: Props, ref: React.Ref<HTMLDivElement>) => {
+    const classes = useStyles();
+    const [anchorEl, setAnchorEl] = useState(null);
+    const { locale, asPath } = useRouter();
+    const router = useRouter();
 
-  const _openLanguage = (event: any) => {
-    setAnchorEl(event.currentTarget);
-  };
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const _closeLanguage = () => {
-    setAnchorEl(null);
-  };
+    const _openLanguage = (event: any) => {
+      setAnchorEl(event.currentTarget);
+    };
 
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+    const _closeLanguage = () => {
+      setAnchorEl(null);
+    };
 
-  const _redirectHome = () => {
-    router.push("https://hdbank.com.vn/");
-  };
+    const open = Boolean(anchorEl);
+    const id = open ? "simple-popover" : undefined;
 
-  return (
-    <div className={cn(classes.root, isMobile && classes.rootMobile)}>
-      <Grid container alignItems="center" justifyContent="space-between">
-        <Grid item xs="auto">
-          <Grid alignItems="center" container spacing={2}>
-            <Grid onClick={_redirectHome} item xs="auto">
-              {isMobile ? (
-                <Image src={hdBankLogoMobilePic} alt="hdBank-mobile-logo" />
-              ) : (
-                <Image src={hdBankLogoPic} alt="hdBank-logo" height={72} />
-              )}
+    const _redirectHome = () => {
+      router.push("https://hdbank.com.vn/");
+    };
+
+    return (
+      <div
+        ref={ref}
+        className={cn(classes.root, isMobile && classes.rootMobile)}
+      >
+        <Grid container alignItems="center" justifyContent="space-between">
+          <Grid item xs="auto">
+            <Grid alignItems="center" container spacing={2}>
+              <Grid onClick={_redirectHome} item xs="auto">
+                {isMobile ? (
+                  <Image src={hdBankLogoMobilePic} alt="hdBank-mobile-logo" />
+                ) : (
+                  <Image src={hdBankLogoPic} alt="hdBank-logo" height={72} />
+                )}
+              </Grid>
             </Grid>
           </Grid>
+          {!isMobile ? (
+            <Grid item xs="auto">
+              <Grid
+                onClick={_openLanguage}
+                spacing={1}
+                alignItems="center"
+                container
+                className={classes.pointer}
+              >
+                <Grid item xs="auto" className={classes.languageIcon}>
+                  <Image
+                    width={35}
+                    height={35}
+                    src={locale === LANGUAGE.VI ? languageViPic : languageEnPic}
+                    alt="star-icon"
+                  />
+                </Grid>
+                <Grid item xs="auto">
+                  <Image src={downPic} alt="down-pic" />
+                </Grid>
+              </Grid>
+              <Popover
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                onClose={_closeLanguage}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+              >
+                <div className={classes.languageContainer}>
+                  <Box mb={2}>
+                    <Link href={asPath} locale={LANGUAGE.VI}>
+                      <Grid
+                        onClick={_closeLanguage}
+                        alignItems="center"
+                        container
+                        className={classes.pointer}
+                      >
+                        <Grid item xs={4} className={classes.wrapperIcon}>
+                          <Image
+                            width={30}
+                            height={30}
+                            src={languageViPic}
+                            alt="star-icon"
+                          />
+                        </Grid>
+                        <Grid item xs={8}>
+                          <b>Tiếng Việt</b>
+                        </Grid>
+                      </Grid>
+                    </Link>
+                  </Box>
+                  <Box>
+                    <Link href={asPath} locale={LANGUAGE.EN}>
+                      <Grid
+                        onClick={_closeLanguage}
+                        alignItems="center"
+                        container
+                        className={classes.pointer}
+                      >
+                        <Grid item xs={4} className={classes.wrapperIcon}>
+                          <Image
+                            width={30}
+                            height={30}
+                            src={languageEnPic}
+                            alt="star-icon"
+                          />
+                        </Grid>
+                        <Grid item xs={8}>
+                          <b>English</b>
+                        </Grid>
+                      </Grid>
+                    </Link>
+                  </Box>
+                </div>
+              </Popover>
+            </Grid>
+          ) : (
+            <Grid item xs="auto">
+              <Image src={logoSBH} alt="hdBank-logo" height={25} />
+            </Grid>
+          )}
         </Grid>
-        {!isMobile ? (
-          <Grid item xs="auto">
-            <Grid
-              onClick={_openLanguage}
-              spacing={1}
-              alignItems="center"
-              container
-              className={classes.pointer}
-            >
-              <Grid item xs="auto" className={classes.languageIcon}>
-                <Image
-                  width={35}
-                  height={35}
-                  src={locale === LANGUAGE.VI ? languageViPic : languageEnPic}
-                  alt="star-icon"
-                />
-              </Grid>
-              <Grid item xs="auto">
-                <Image src={downPic} alt="down-pic" />
-              </Grid>
-            </Grid>
-            <Popover
-              id={id}
-              open={open}
-              anchorEl={anchorEl}
-              onClose={_closeLanguage}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-            >
-              <div className={classes.languageContainer}>
-                <Box mb={2}>
-                  <Link href={asPath} locale={LANGUAGE.VI}>
-                    <Grid
-                      onClick={_closeLanguage}
-                      alignItems="center"
-                      container
-                      className={classes.pointer}
-                    >
-                      <Grid item xs={4} className={classes.wrapperIcon}>
-                        <Image
-                          width={30}
-                          height={30}
-                          src={languageViPic}
-                          alt="star-icon"
-                        />
-                      </Grid>
-                      <Grid item xs={8}>
-                        <b>Tiếng Việt</b>
-                      </Grid>
-                    </Grid>
-                  </Link>
-                </Box>
-                <Box>
-                  <Link href={asPath} locale={LANGUAGE.EN}>
-                    <Grid
-                      onClick={_closeLanguage}
-                      alignItems="center"
-                      container
-                      className={classes.pointer}
-                    >
-                      <Grid item xs={4} className={classes.wrapperIcon}>
-                        <Image
-                          width={30}
-                          height={30}
-                          src={languageEnPic}
-                          alt="star-icon"
-                        />
-                      </Grid>
-                      <Grid item xs={8}>
-                        <b>English</b>
-                      </Grid>
-                    </Grid>
-                  </Link>
-                </Box>
-              </div>
-            </Popover>
-          </Grid>
-        ) : (
-          <Grid item xs="auto">
-            <Image src={logoSBH} alt="hdBank-logo" height={25} />
-          </Grid>
-        )}
-      </Grid>
-    </div>
-  );
-};
+      </div>
+    );
+  }
+);
 
 export default SectionHeader;

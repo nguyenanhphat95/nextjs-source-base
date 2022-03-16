@@ -12,6 +12,7 @@ export interface UpdateLeadStatusRequest {
   leadId: string;
   campaignId: string;
   statusId: STATUS_ID;
+  eBanking: string;
 }
 // export interface UpdateLeadStatusResponse extends ResponseData {
 //   data: UpdateNumberFailRequest;

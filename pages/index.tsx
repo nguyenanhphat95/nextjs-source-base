@@ -86,13 +86,14 @@ const OTPPage = () => {
   }, [timerRef.current, validPage]);
 
   useEffect(() => {
+    
     if (!query.uuid || !query.bTxnId) return;
+    console.log(query);
 
     async function callApi() {
       const resCheckSession = await sbhOTPServices.checkSessionOTPApi(
         query.uuid as string
-      );
-
+      );        
       if (resCheckSession?.data?.code === CheckSessionOTPCode.valid) {
         const resInfo = await sbhOTPServices.getInfoByTokenApi(
           query.bTxnId as string
@@ -104,7 +105,7 @@ const OTPPage = () => {
       if (resCheckSession?.data?.code === CheckSessionOTPCode.expired) {
         const resInfo = await sbhOTPServices.getInfoByTokenApi(
           query.bTxnId as string
-        );
+        );        
         if (resInfo?.response?.responseCode === ERROR_CODE.Success) {
           _callPurchaseSbh(resInfo.data);
         }
@@ -123,7 +124,7 @@ const OTPPage = () => {
   const _callPurchaseSbh = useCallback(
     (purchaseInfoParam?: SbhPurchaseInfo) => {
       const formData = purchaseInfoParam || purchaseInfo;
-
+      
       if (!formData) {
         return;
       }
@@ -140,6 +141,7 @@ const OTPPage = () => {
   );
 
   const _handleVerifyOTP = () => {
+    console.log(bTxnId.current);
     sbhOTPServices.verifySbhOTPApi(otp, bTxnId.current).then((res) => {
       const code = _get(res, "response.responseCode");
       const message = _get(res, "response.responseMessage");
@@ -193,7 +195,7 @@ const OTPPage = () => {
 
   return (
     <div className={classes.root}>
-      <Script id="jsencrypt-id" src="/js/jsencrypt.min.js" />
+      <Script id="jsencrypt-id" src="sso-changePassword/js/jsencrypt.min.js" />
       {popupNotify.open && (
         <PopupNotify
           title={popupNotify.title}
@@ -202,7 +204,7 @@ const OTPPage = () => {
           toggleModal={toggleNotify}
         />
       )}
-      {validPage && (
+      {/* {validPage && ( */}
         <Grid container direction="column" spacing={2}>
           <Grid item className={classes.textCenter}>
             <Image src={HDBankLogo} alt="hdbank-logo" />
@@ -234,7 +236,7 @@ const OTPPage = () => {
             <span className={classes.textTime} ref={timerRef} />
           </Grid>
         </Grid>
-      )}
+      {/* )} */}
     </div>
   );
 };

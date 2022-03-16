@@ -32,7 +32,7 @@ import {
 } from "commons/helpers";
 
 import desktopPic from "public/images/desktop.png";
-import bannerMobile from "public/images/sbh/banner.png";
+import bannerMobile from "public/images/sbh/banner2.png";
 import STKContext from "components/STKPage/contexts/STKContextValue";
 import _get from "lodash/get";
 import { UpdateNumberFailRequest } from "interfaces/LockUser/IUpdateNumberFail";
@@ -249,7 +249,8 @@ const SBHPage = () => {
       .updateLeadStatus(
         query.leadId as string,
         query.campaignId as string,
-        _getStatusIdByKey(typeLock)
+        _getStatusIdByKey(typeLock),
+        usernameRef.current
       )
       .then((res) => {
         console.log(res);
@@ -299,7 +300,7 @@ const SBHPage = () => {
           });
           usernameRef.current = data.username;
           passwordRef.current = data.password;
-          setLoginStep(LOGIN_STEP.step2);
+          _nextStep(LOGIN_STEP.step2);
           return;
         }
         _updateNumberFail(KEY_LOGIN_FAIL);
@@ -318,32 +319,43 @@ const SBHPage = () => {
       });
   };
 
-  const _sendOTP = () => {
-    if (+_get(manageLock, `${KEY_SEND_OTP_FAIL}.value`, 0) === NUMBER_FAILED) {
-      toggleNotify(
-        "Thông báo",
-        ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.LockUserSendOTP5]
-      );
+  function _nextStep(step: string) {
+    setLoginStep(step);
+
+    if (!bannerEl.current) {
       return;
     }
+    bannerEl.current.scrollIntoView({ behavior: "smooth" });
+  }
+
+  const _sendOTP = () => {
+    // if (+_get(manageLock, `${KEY_SEND_OTP_FAIL}.value`, 0) === NUMBER_FAILED) {
+    //   toggleNotify(
+    //     "Thông báo",
+    //     ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.LockUserSendOTP5]
+    //   );
+    //   return;
+    // }
     _toggleLoading("loadingBtnSubmit", true);
     stkService
       .createOTPApi(usernameRef.current)
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
         const errorCode = _get(res, "data.resultCode");
+        const isErrorMaximumRequest =
+          errorCode === ERROR_CODE.MaximumRequestSendOTP;
         if (_get(res, "data.data.userId")) {
-          _updateNumberFail(KEY_SEND_OTP_FAIL);
-          setLoginStep(LOGIN_STEP.step3);
+          _nextStep(LOGIN_STEP.step3);
           return;
         }
-        // if (errorCode === ERROR_CODE.MaximumRequestSendOTP) {
-        //   _updateNumberFail(KEY_SEND_OTP_FAIL, 5);
-        // }
+        if (isErrorMaximumRequest) {
+          _updateLeadStatus(KEY_SEND_OTP_FAIL);
+        }
         toggleNotify(
           "Thông báo",
           _get(ERROR_MESSAGE_VERIFY_USER, errorCode) ||
-            ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.SendOTPFailed]
+            ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.SendOTPFailed],
+          isErrorMaximumRequest && _nextStep(LOGIN_STEP.step1)
         );
       })
       .catch((err) => {
@@ -368,20 +380,21 @@ const SBHPage = () => {
       .then((res) => {
         _toggleLoading("loadingBtnSubmit", false);
         const errorCode = _get(res, "data.resultCode");
+        const isErrorLockOTP = errorCode !== ERROR_CODE.OTPInValid;
         if (_get(res, "data.data.userId")) {
-          _updateNumberFail(KEY_SEND_OTP_FAIL, null);
-          setLoginStep(LOGIN_STEP.step4);
+          _nextStep(LOGIN_STEP.step4);
           return;
         }
 
-        if (errorCode !== ERROR_CODE.OTPInValid) {
+        if (isErrorLockOTP) {
           _updateLeadStatus(KEY_VERIFY_OTP_FAIL);
         }
 
         toggleNotify(
           "Thông báo",
           _get(ERROR_MESSAGE_VERIFY_USER, errorCode) ||
-            ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.OTPInValid]
+            ERROR_MESSAGE_VERIFY_USER[ERROR_CODE.OTPInValid],
+          isErrorLockOTP && _nextStep(LOGIN_STEP.step1)
         );
       })
       .catch((err) => {
@@ -476,13 +489,15 @@ const SBHPage = () => {
         )}
 
         <Grid item xs={12}>
-          <SectionHeader />
+          <Box ref={bannerEl}>
+            <SectionHeader />
+          </Box>
         </Grid>
 
         {isMobile && (
           <>
             <Grid item xs={12}>
-              <Box ref={bannerEl} className={classes.banner}>
+              <Box className={classes.banner}>
                 <Image src={bannerMobile} alt="banner-mobile" />
               </Box>
             </Grid>

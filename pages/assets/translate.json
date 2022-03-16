@@ -1,17 +1,18 @@
 {
   "vi": {
     "changePassword": {
-      "title": "Đổi mật khẩu",
+      "title": "Đổi mật khẩu của bạn",
       "sub": "Vui lòng đặt mật khẩu đăng nhập tài khoản thanh toán HD Money",
       "form": {
         "title": "Thông tin tài khoản",
         "label": {
           "oldPassword": "Mật khẩu cũ",
           "newPassword": "Mật khẩu mới",
-          "reNewPassword": "Nhập lại mật khẩu mới"
+          "reNewPassword": "Xác nhận mật khẩu mới"
         },
         "button": {
-          "submit": "Xác nhận"
+          "submit": "Tiếp theo",
+          "close": "Hủy bỏ"
         },
         "errors": {
           "password1_01": "Mật khẩu không được bỏ trống",
@@ -69,20 +70,6 @@
       "personal": "Cá nhân",
       "enterprise": "Doanh nghiệp",
       "textForgotAccount": "Quên tên đăng nhập/mật khẩu"
-    },
-    "otp": {
-      "title": "Xác thực số điện thoại",
-      "button": {
-        "submit": "Xác nhận",
-        "close": "Đóng"
-      },
-      "sub1": "Vui lòng nhập mã xác thực đã được gửi đến số điện thoại của bạn",
-      "sub2": "Nhận mã xác nhận",
-      "sub3": "Quý khách không nhận được tin nhắn? ",
-      "sub4": "Gửi lại OTP",
-      "errors": {
-        "99": "Hệ thống gián đoạn. Quí khách vui lòng thử lại sau ít phút"
-      }
     },
     "utilityBank": {
       "title": "Khám phá tiện ích eBanking",

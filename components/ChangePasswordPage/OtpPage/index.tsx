@@ -6,7 +6,7 @@ import resources from "pages/assets/translate.json";
 import React, { useState } from "react";
 import { makeStyles } from "@mui/styles";
 import { ButtonCustom } from "components/commons";
-import InputSingle from "components/commons/InputOTP/InputSingle";
+import InputSingle from "components/ChangePasswordPage/Commons/InputOTP/InputSingle";
 import { changePass, verifyOTPApi } from "services/changePassword";
 import WaitingPopup from "components/Popup";
 
@@ -50,30 +50,50 @@ interface IOtb {
   cre: string;
   publicKey: string;
   user: any;
-  onChangeStep: () => void;
+  code: string;
 }
 
 function Otp(props: IOtb) {
-  const { cre, publicKey, user, onChangeStep } = props;
+  const { cre, publicKey, user, code } = props;
   const router = useRouter();
   const classes = useStyles();
   const lang = getLanguage(router);
   const [loading, setLoading] = useState(false);
-  const t = _get(resources, [lang, "otp"]);
+  const t = _get(resources, [lang, "confirmOTP"]);
   const [otp, setOtp] = React.useState<string>("");
+  const [time, setTime] = React.useState<number>(30);
+
+  React.useEffect(() => {
+    var second = time;
+    let myInterval = setInterval(() => {
+      if (second > 0) {
+        setTime((prev) => prev - 1);
+      }
+
+      if (second === 0) {
+        clearInterval(myInterval);
+      }
+      second--;
+    }, 1000);
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoading(true)
+    setLoading(true);
     const otpResponse = await verifyOTPApi(user.user, otp);
-    console.log("verify otp: ", otpResponse);    
+    console.log("verify otp: ", otpResponse);
     if (otpResponse.data.resultCode !== "00") {
       const res = await changePass(cre, publicKey);
-      onChangeStep()
-      setLoading(false)
+      // setLoading(false);
       console.log("changepassword response: ", res);
-    }else{
-      setLoading(false)
+      router.push({
+        pathname: router.query.redirect_uri as string,
+        query: {
+          code,
+        },
+      });
+    } else {
+      setLoading(false);
     }
   };
 
@@ -82,20 +102,30 @@ function Otp(props: IOtb) {
       <WaitingPopup open={loading} />
       <Box component="form" onSubmit={handleSubmit} textAlign="center">
         <Typography className={classes.title}>{t.title}</Typography>
-        <Typography style={{margin: 10}}>{t.sub1}</Typography>
-        <Typography className={classes.formTitle}>{t.sub2}</Typography>
+        <Typography style={{ margin: 10 }}>{t.content}</Typography>
+        <Typography className={classes.formTitle}>{t.label}</Typography>
         <Box
-          maxWidth={320}
+          maxWidth={300}
           margin="auto"
           my={2}
-          display="flex"
-          justifyContent="space-between"
+          // display="flex"
+          // justifyContent="space-between"
         >
-          <InputSingle onChange={(value: string) => setOtp(value)} />
+          <InputSingle isPassword onChange={(value: string) => setOtp(value)} />
+        </Box>
+        <Typography>{t.question}</Typography>
+        <Typography className={classes.important}>{t.resendOTP}</Typography>
+        <Box color="#6F7279" my={2}>
+          <Typography>({time}s)</Typography>
         </Box>
         <Box mt={2}>
-          <ButtonCustom variant="contained" color="secondary" type="submit">
-            {t.button.submit}
+          <ButtonCustom
+            disabled={otp.length < 6}
+            variant="contained"
+            color="secondary"
+            type="submit"
+          >
+            {t.btnSubmit}
           </ButtonCustom>
         </Box>
       </Box>

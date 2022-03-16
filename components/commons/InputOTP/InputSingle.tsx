@@ -18,9 +18,10 @@ const InputSingle = (props: Props) => {
   const classes = useStyles();
   const { onChange } = props;
   const [value, setValue] = useState("");
+
   const _handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (+value > 999999) {
+    if (+value > 999999 || /\D/.test(value)) {
       return;
     }
     setValue(value);
@@ -30,7 +31,7 @@ const InputSingle = (props: Props) => {
     <InputCustom
       className={classes.customInput}
       value={value}
-      type="number"
+      type="password"
       onChange={_handleChangeInput}
     />
   );
