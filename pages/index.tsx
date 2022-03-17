@@ -16,6 +16,7 @@ import cn from "classnames";
 import _get from "lodash/get";
 import { LINK_VERIFY_CALLBACK_SBH_OTP } from "commons/constants";
 import { PopupNotify } from "components/commons";
+import * as commonServices from "services/commonService";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -127,8 +128,16 @@ const OTPPage = () => {
       if (!formData) {
         return;
       }
+      commonServices.writeLogApi({
+        content: "purchaseSbh request----------",
+        body: formData,
+      });
       sbhOTPServices.purchaseSbhApi(formData).then((resPurchase) => {
         if (resPurchase?.response?.responseCode === ERROR_CODE.Success) {
+          commonServices.writeLogApi({
+            content: "purchaseSbh response----------",
+            body: resPurchase,
+          });
           setValidPage(true);
           bTxnId.current = resPurchase?.data?.bTxnId;
         } else {
@@ -140,6 +149,16 @@ const OTPPage = () => {
   );
 
   const _handleVerifyOTP = () => {
+    commonServices.writeLogApi({
+      content: "handleVerifyOTP request",
+      body: {
+        bTxnId: bTxnId.current,
+      },
+    });
+    if (!bTxnId.current) {
+      toggleNotify("Thông báo", "Thiếu bTxnId");
+      return;
+    }
     sbhOTPServices.verifySbhOTPApi(otp, bTxnId.current).then((res) => {
       const code = _get(res, "response.responseCode");
       const message = _get(res, "response.responseMessage");

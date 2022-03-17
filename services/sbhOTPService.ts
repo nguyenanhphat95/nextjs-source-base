@@ -76,8 +76,8 @@ export const purchaseSbhApi = async (body: SbhPurchaseInfo) => {
     {
       ...generateBodyRequest({
         partnerId: PARTNER_ID_SBH_OTP || "",
-        tokenizeId: "77b495d9-188e-4349-bb32-c093c0c989be",
-        // tokenizeId: body.tokenizeId,
+        // tokenizeId: "77b495d9-188e-4349-bb32-c093c0c989be",
+        tokenizeId: body.tokenizeId,
         txnId,
         amount: body.amount,
         description: body.description,
@@ -85,7 +85,7 @@ export const purchaseSbhApi = async (body: SbhPurchaseInfo) => {
       data: {
         ...body,
         txnId,
-        tokenizeId: "77b495d9-188e-4349-bb32-c093c0c989be",
+        // tokenizeId: "77b495d9-188e-4349-bb32-c093c0c989be",
         addInfo2: "INTERNAL",
       },
     }

@@ -10,4 +10,5 @@ export default function handler(
 ) {
   const body: LogData = req.body;
   writeLog(ip.address(), new Date(), body.content, JSON.stringify(req.body));
+  res.status(200).json({});
 }

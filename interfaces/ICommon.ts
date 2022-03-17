@@ -11,5 +11,5 @@ export interface ResponseData {
 
 export interface LogData {
   content: string;
-  body?: Record<string, string>;
+  body?: Record<any, any>;
 }
