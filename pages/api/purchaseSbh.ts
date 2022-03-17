@@ -24,6 +24,7 @@ export default async function handler(
         },
       }
     );
+    console.log("PurchaseSbhResponse------:", resp.data);
     res.status(200).json(resp.data);
   } catch (e) {
     writeLog(ip.address(), new Date(), `purseChase sbh: ${_get(e, "message")}`);

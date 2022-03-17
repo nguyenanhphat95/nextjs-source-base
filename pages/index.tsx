@@ -173,13 +173,13 @@ const OTPPage = () => {
         urlRedirect && router.push(urlRedirect);
         return;
       }
-
-      urlRedirect = urlRedirect
-        ?.replace("{error}", "error")
-        .replace("{txid}", res?.data?.txnId || "")
-        .replace("{error_message}", message)
-        .replace("{error_code}", code);
-      urlRedirect && router.push(urlRedirect);
+      toggleNotify("Thông báo", "Mã xác thực không đúng");
+      // urlRedirect = urlRedirect
+      //   ?.replace("{error}", "error")
+      //   .replace("{txid}", res?.data?.txnId || "")
+      //   .replace("{error_message}", message)
+      //   .replace("{error_code}", code);
+      // urlRedirect && router.push(urlRedirect);
     });
   };
 
