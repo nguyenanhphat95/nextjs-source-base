@@ -16,7 +16,6 @@ import cn from "classnames";
 import _get from "lodash/get";
 import { LINK_VERIFY_CALLBACK_SBH_OTP } from "commons/constants";
 import { PopupNotify } from "components/commons";
-import * as commonServices from "services/commonService";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -88,10 +87,7 @@ const OTPPage = () => {
 
   useEffect(() => {
     if (!query.uuid || !query.bTxnId) return;
-    commonServices.writeLogApi({
-      content: "query",
-      body: query,
-    });
+    bTxnId.current = query.bTxnId as string;
     async function callApi() {
       const resCheckSession = await sbhOTPServices.checkSessionOTPApi(
         query.uuid as string
@@ -131,15 +127,8 @@ const OTPPage = () => {
       if (!formData) {
         return;
       }
-      commonServices.writeLogApi({
-        content: "purchaseSbh request----------",
-        body: formData,
-      });
+
       sbhOTPServices.purchaseSbhApi(formData).then((resPurchase) => {
-        commonServices.writeLogApi({
-          content: "purchaseSbh response----------",
-          body: resPurchase,
-        });
         if (resPurchase?.response?.responseCode === ERROR_CODE.Success) {
           setValidPage(true);
           bTxnId.current = resPurchase?.data?.bTxnId;
@@ -152,12 +141,6 @@ const OTPPage = () => {
   );
 
   const _handleVerifyOTP = () => {
-    commonServices.writeLogApi({
-      content: "handleVerifyOTP request",
-      body: {
-        bTxnId: bTxnId.current,
-      },
-    });
     if (!bTxnId.current) {
       toggleNotify("Thông báo", "Thiếu bTxnId");
       return;
