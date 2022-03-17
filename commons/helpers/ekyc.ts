@@ -15,10 +15,16 @@ interface EKYCData {
   nationalityName: string;
   email?: string;
   phoneNumber?: string;
+  imgBackKey: string;
+  imgFrontKey: string;
+  imgFaceKey: string;
 }
 
 export const parseInfoFromEKYC = (ekycData: any): EKYCData => {
   return {
+    imgBackKey: _get(ekycData, "ocr.imgs.img_back"),
+    imgFrontKey: _get(ekycData, "ocr.imgs.img_front"),
+    imgFaceKey: _get(ekycData, "masked.imgs.img"),
     idNumber:
       _get(ekycData, "ocr.object.id") === "-"
         ? ""

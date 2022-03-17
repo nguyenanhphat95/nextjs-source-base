@@ -260,6 +260,9 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
       "isBond",
       "isTranInternet",
       "isUttb",
+      "imgBackKey",
+      "imgFrontKey",
+      "imgFaceKey",
     ]),
     ekycType: data.ekycType ? data.ekycType : "CURRENT_CUSTOMER",
     requestId,
@@ -276,6 +279,23 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
     expireOfIssueOcr: getValidStringDate(data?.expireOfIssueOcr || ""),
     birthDateOcr: getValidStringDate(data?.birthDateOcr || ""),
     birthDate: getValidStringDate(data?.birthDate || ""),
+    files: [
+      {
+        fileValue: data?.imgBackKey || "",
+        fileName: "img_back.jpg",
+        fileId: "img_back",
+      },
+      {
+        fileValue: data?.imgFrontKey || "",
+        fileName: "img_front.jpg",
+        fileId: "img_front",
+      },
+      {
+        fileValue: data?.imgFaceKey || "",
+        fileName: "img_face.jpg",
+        fileId: "img_face",
+      },
+    ],
     checksum: generateCheckSum({
       userId,
       clientNo,

@@ -69,6 +69,13 @@ export interface InquiryEKYCPresentRequest {
   biometricsRate?: string;
   ekycId?: string;
   faceMatching?: string;
+  files?: FileItem[];
+}
+
+interface FileItem {
+  fileValue: string;
+  fileName: string;
+  fileId: string;
 }
 
 export interface InquiryEKYCPresentResponse {

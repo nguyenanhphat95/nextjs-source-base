@@ -12,6 +12,9 @@ export interface FormDataStep1 {
   isBond: boolean;
 }
 export interface FormDataStep3 {
+  imgBackKey?: string;
+  imgFrontKey?: string;
+  imgFaceKey?: string;
   idNumber?: string;
   idNumberType?: string;
   fullNameOcr?: string;

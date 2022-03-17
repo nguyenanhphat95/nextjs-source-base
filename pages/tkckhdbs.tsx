@@ -213,6 +213,9 @@ const HDBSPage = () => {
             terminalName: finalData?.terminalName,
             accountNo: finalData?.accountNo,
             accountType: finalData?.accountType,
+            isTranInternet: finalData?.isTranInternet,
+            isUttb: finalData?.isUttb,
+            isBond: finalData?.isBond,
           };
           setDataForm(newData);
           _onNextStep(STEP_HDBS.step3);
