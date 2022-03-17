@@ -88,7 +88,10 @@ const OTPPage = () => {
 
   useEffect(() => {
     if (!query.uuid || !query.bTxnId) return;
-
+    commonServices.writeLogApi({
+      content: "query",
+      body: query,
+    });
     async function callApi() {
       const resCheckSession = await sbhOTPServices.checkSessionOTPApi(
         query.uuid as string
@@ -133,11 +136,11 @@ const OTPPage = () => {
         body: formData,
       });
       sbhOTPServices.purchaseSbhApi(formData).then((resPurchase) => {
+        commonServices.writeLogApi({
+          content: "purchaseSbh response----------",
+          body: resPurchase,
+        });
         if (resPurchase?.response?.responseCode === ERROR_CODE.Success) {
-          commonServices.writeLogApi({
-            content: "purchaseSbh response----------",
-            body: resPurchase,
-          });
           setValidPage(true);
           bTxnId.current = resPurchase?.data?.bTxnId;
         } else {
