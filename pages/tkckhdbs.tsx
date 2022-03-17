@@ -301,6 +301,7 @@ const HDBSPage = () => {
     hdbsServices
       .verifyOTPApi(accountOtp)
       .then((res) => {
+        _toggleLoading("loadingBtnConfirmOTP", false);
         const code = _get(res, "data.resultCode");
         if (_get(res, "data.data.userId")) {
           _onConfirmEKYC();
