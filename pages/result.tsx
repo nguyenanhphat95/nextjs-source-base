@@ -1,4 +1,5 @@
 import React from "react";
+import Script from "next/script";
 import { useRouter } from "next/router";
 import RegisterSuccessPage from "components/HDBSPage/pages/RegisterSuccessPage";
 import { TypeCustomer } from "components/HDBSPage/interfaces";
@@ -32,6 +33,9 @@ const ResultPage = () => {
         <title>{PAGE_TITLE[STEP_HDBS.step4]}</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
+
+      <Script id="md5-id" src="/asset/js/md5.min.js" />
+
       <RegisterSuccessPage onClickOtherTransaction={_handleOtherTransaction} />
     </>
   );
