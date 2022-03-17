@@ -16,6 +16,7 @@ import cn from "classnames";
 import _get from "lodash/get";
 import { LINK_VERIFY_CALLBACK_SBH_OTP } from "commons/constants";
 import { PopupNotify } from "components/commons";
+import { TypeInputOTP } from "components/commons/InputOTP";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -73,7 +74,7 @@ const OTPPage = () => {
   });
 
   const [otp, setOtp] = useState("");
-  const [validPage, setValidPage] = useState(false);
+  const [validPage, setValidPage] = useState(true);
   const [isResendValid, setIsResendValid] = useState(false);
 
   const onCallTimer = useCallback(async () => {
@@ -220,7 +221,8 @@ const OTPPage = () => {
             {purchaseInfo?.amount}₫
           </Grid>
           <Grid item>
-            <InputOTP onChange={setOtp} />
+            <InputOTP typeInputOTP={TypeInputOTP.Single} onChange={setOtp} />
+            {/* <InputOTP onChange={setOtp} /> */}
           </Grid>
           <Grid item className={classes.textContent}>
             Quý khách không nhận được tin nhắn?

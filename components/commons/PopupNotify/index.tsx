@@ -1,5 +1,7 @@
 import React from "react";
 import Image from "next/image";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 
 import { makeStyles } from "@mui/styles";
 import Dialog, { DialogProps } from "@mui/material/Dialog";
@@ -12,6 +14,8 @@ import notifyError from "public/images/notifyError.png";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import CountDownTimer, { TimerInput } from "../CountDownTimer";
+import cn from "classnames";
+
 interface Props extends DialogProps {
   toggleModal: () => void;
   iconNotify?: React.ReactNode;
@@ -25,9 +29,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     "& .MuiPaper-root": {
       width: "20vw",
       borderRadius: "15px",
-      [theme.breakpoints?.down("sm")]: {
-        width: "90vw",
-      },
+      // [theme.breakpoints?.down("sm")]: {
+      //   width: "90vw",
+      // },
+    },
+  },
+  rootDialogMobile: {
+    "& .MuiPaper-root": {
+      width: "90vw",
     },
   },
   title: {
@@ -52,9 +61,15 @@ const PopupNotify = (props: Props) => {
     ...rest
   } = props;
   const classes = useStyles();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Dialog open={open} className={classes.rootDialog} {...rest}>
+    <Dialog
+      open={open}
+      className={cn(classes.rootDialog, classes.rootDialogMobile)}
+      {...rest}
+    >
       <Box pt={1} pb={2} px={2}>
         <Box display="flex" justifyContent="end">
           <IconButton onClick={toggleModal} edge="end">
