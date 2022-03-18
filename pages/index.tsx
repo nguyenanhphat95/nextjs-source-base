@@ -1,11 +1,6 @@
 import React from "react";
-import CameraPage from "./Camara/CameraPage";
 
 const Home = () => {
-  return (
-    <div>
-      <CameraPage />
-    </div>
-  );
+  return <div></div>;
 };
 export default Home;

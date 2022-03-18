@@ -16,8 +16,6 @@ export default async function handler(
   // try {
   const token = _get(req, "headers.authorization");
   const url = `${API_DOMAIN}/api/hdbs/submitRatingTrans`;
-  console.log("url--:", url);
-  console.log("token--:", token);
   const resp: AxiosResponse<RatingResponse> = await axiosWrapper.post(
     url,
     req.body,
@@ -29,7 +27,6 @@ export default async function handler(
   );
   res.status(200).json(resp.data);
   // } catch (e) {
-
   //   res
   //     .status(200)
   //     .json({ resultCode: ERROR_CODE.SystemError, resultMessage: "", id: "" });

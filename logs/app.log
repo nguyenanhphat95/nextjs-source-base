@@ -114,3 +114,5 @@
 [2022-02-22T14:13:43.255] [INFO] default - 10.0.112.97 - 22/02/2022 14:13:43----content: checkUserEKYC: Request failed with status code 504---withBodyData: 
 [2022-03-02T10:09:43.809] [INFO] default - 10.0.112.51 - 02/03/2022 10:09:43----content: checkUserEKYC: Request failed with status code 504---withBodyData: 
 [2022-03-02T10:16:09.940] [INFO] default - 10.0.112.51 - 02/03/2022 10:16:09----content: checkUserEKYC: Request failed with status code 504---withBodyData: 
+[2022-03-18T09:28:30.517] [INFO] default - 192.168.100.13 - 18/03/2022 9:28:30----content: inquiryEkycPresent: Request failed with status code 401---withBodyData: 
+[2022-03-18T09:28:53.237] [INFO] default - 192.168.100.13 - 18/03/2022 9:28:53----content: inquiryEkycPresent: Request failed with status code 401---withBodyData: 

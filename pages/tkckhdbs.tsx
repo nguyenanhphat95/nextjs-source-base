@@ -217,6 +217,7 @@ const HDBSPage = () => {
             isUttb: finalData?.isUttb,
             isBond: finalData?.isBond,
           };
+          console.log("newData----:", newData);
           setDataForm(newData);
           _onNextStep(STEP_HDBS.step3);
           return;

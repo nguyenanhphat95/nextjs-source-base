@@ -7,12 +7,12 @@ import { makeStyles } from "@mui/styles";
 import { getLanguage } from "commons/helpers";
 import { ButtonCustom, Rating } from "components/commons";
 import resources from "pages/assets/translate.json";
-import * as hdbsServices from "services/hdbsService";
 import _get from "lodash/get";
 import {
   useScreenshot,
   createFileName,
 } from "commons/hooks/sceenshot/useScreenShot";
+import ModalRating from "../components/ModalRating";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -57,6 +57,7 @@ interface Props {
 const RegisterSuccessPage = (props: Props) => {
   const { onClickOtherTransaction } = props;
   const rootRef = useRef<HTMLDivElement>(null);
+  const [showModalRating, setShowModalRating] = useState(false);
 
   const [image, takeScreenshot] = useScreenshot({
     type: "image/jpeg",
@@ -69,15 +70,6 @@ const RegisterSuccessPage = (props: Props) => {
   const router = useRouter();
   const lang = getLanguage(router);
   const t = _get(resources, [lang, "registerSuccessPage"]);
-
-  const _handleChangeRating = (numberRating: number) => {
-    setRateValue(numberRating);
-    if (!numberRating) {
-      return;
-    }
-
-    hdbsServices.createRatingApi(numberRating);
-  };
 
   const download = (
     image: string,
@@ -92,8 +84,13 @@ const RegisterSuccessPage = (props: Props) => {
   const downloadScreenshot = () =>
     takeScreenshot(rootRef.current).then(download);
 
+  const _toggleModalRating = () => {
+    setShowModalRating((prev) => !prev);
+  };
+
   return (
     <>
+      <ModalRating open={showModalRating} onClose={_toggleModalRating} />
       <div ref={rootRef} className={classes.root}>
         <Card>
           <Box p={2}>
@@ -145,7 +142,12 @@ const RegisterSuccessPage = (props: Props) => {
             </Grid>
           </Box>
 
-          <Box className={classes.ratingWrapper} p={2} mt={4}>
+          <Box
+            onClick={_toggleModalRating}
+            className={classes.ratingWrapper}
+            p={2}
+            mt={4}
+          >
             <Grid container spacing={1}>
               <Grid item xs={8} className={classes.textContent}>
                 {t?.question}
@@ -159,8 +161,13 @@ const RegisterSuccessPage = (props: Props) => {
               </Grid>
             </Grid>
           </Box>
-          <Box className={classes.bgRating} px={3} py={1}>
-            <Rating defaultValue={rateValue} onChange={_handleChangeRating} />
+          <Box
+            onClick={_toggleModalRating}
+            className={classes.bgRating}
+            px={3}
+            py={1}
+          >
+            <Rating defaultValue={rateValue} onChange={() => null} />
           </Box>
         </Card>
 
@@ -172,7 +179,6 @@ const RegisterSuccessPage = (props: Props) => {
             color="secondary"
           >
             {t?.otherTransaction}
-            {/* Giao dịch khác */}
           </ButtonCustom>
         </Box>
       </div>

@@ -127,6 +127,10 @@ const refreshAccessToken = async () => {
   const today = new Date();
   const timeToday = today.getTime();
 
+  if (!tokenExpired) {
+    return await getAccessToken();
+  }
+
   const expired = new Date(tokenExpired);
   const timeExpired = expired.getTime();
   if (timeToday > timeExpired) {
@@ -407,7 +411,10 @@ export const verifyOTPApi = async (otp: string) => {
   return resp;
 };
 
-export const createRatingApi = async (ratingNumber: number) => {
+export const createRatingApi = async (
+  ratingNumber: number,
+  ratingNote: string
+) => {
   await refreshAccessToken();
   const { requestId, language, transactionTime } = generateCommonBodyRequest();
   const body: RatingRequest = {
@@ -419,7 +426,7 @@ export const createRatingApi = async (ratingNumber: number) => {
     userId,
     clientNo,
     ratingNumber,
-    ratingNote: "",
+    ratingNote,
     ratingInfo: "success",
     ratingType: "RATING_TRANS_SUCCESS",
     ratingTypeName: "đánh giá giao dịch",

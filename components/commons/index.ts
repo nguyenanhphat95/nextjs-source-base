@@ -7,6 +7,7 @@ import LoadingPage from "./LoadingPage";
 import CheckboxCustom from "./Checkbox";
 import PopupNotify from "./PopupNotify";
 import Rating from "./Rating";
+import TextAreaCustom from "./TextArea";
 export {
   InputCustom,
   ButtonCustom,
@@ -17,4 +18,5 @@ export {
   CheckboxCustom,
   PopupNotify,
   Rating,
+  TextAreaCustom,
 };
