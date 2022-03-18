@@ -86,7 +86,6 @@ export const purchaseSbhApi = async (body: SbhPurchaseInfo) => {
         ...body,
         txnId,
         // tokenizeId: "77b495d9-188e-4349-bb32-c093c0c989be",
-        addInfo2: "INTERNAL",
       },
     }
   );

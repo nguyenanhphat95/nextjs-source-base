@@ -13,7 +13,7 @@ export default async function handler(
   res: NextApiResponse<PurchaseSbhResponse>
 ) {
   try {
-    const url = `${process.env.API_DOMAIN_SBH_OTP}/purchaseSbh`;
+    const url = `${process.env.API_DOMAIN_SBH_OTP}/purchaseSbhInternal`;
     const resp: AxiosResponse<PurchaseSbhResponse> = await axiosWrapper.post(
       url,
       req.body,
@@ -24,7 +24,6 @@ export default async function handler(
         },
       }
     );
-    console.log("PurchaseSbhResponse------:", resp.data);
     res.status(200).json(resp.data);
   } catch (e) {
     writeLog(ip.address(), new Date(), `purseChase sbh: ${_get(e, "message")}`);
