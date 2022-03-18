@@ -59,7 +59,7 @@ export function getStatusResponse(
     msg: _get(
       ERROR_CODE_WITH_MESSAGE,
       [language, code],
-      "Dịch vụ đang nâng cấp và đề nghị quý khách quay lại khai báo sau"
+      "Dịch vụ đang nâng cấp. Quý khách vui lòng thực hiện lại sau ít phút!"
     ),
   };
 }

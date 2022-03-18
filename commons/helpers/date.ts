@@ -19,6 +19,17 @@ export function addMinuteFromNow(
   return formatDate(date, format);
 }
 
+export function addYearFromDate(
+  date: Date,
+  yearsNumber: number,
+  format?: string
+): string {
+  const dateNew = _add(date, {
+    years: yearsNumber,
+  });
+  return formatDate(dateNew, format);
+}
+
 export function addYearFromNow(yearsNumber: number, format?: string): string {
   const date = _add(new Date(), {
     years: yearsNumber,
@@ -48,9 +59,16 @@ export function formatDate(date: Date, format?: string): string {
   );
 }
 
-export function compareTwoDateDesc(date1: Date, date2: Date): number {
+/**
+ * Returns of function
+ * @return {1} is date1 > date2
+ * @return {-1} is date1 < date2
+ * @return {0} is date1 = date2
+ */
+export function compareTwoDate(date1: Date, date2: Date): number {
   const time1 = date1.getTime();
   const time2 = date2.getTime();
+
   if (time1 > time2) {
     return 1;
   }

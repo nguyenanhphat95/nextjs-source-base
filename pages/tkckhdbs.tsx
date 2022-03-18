@@ -10,6 +10,7 @@ import {
   FormTKCKPage,
   EKYCVerifyPage,
   ConfirmInfoPage,
+  EkycErrorPage,
   VerifyOTP,
   HomePage,
 } from "components/HDBSPage";
@@ -38,9 +39,14 @@ import {
 import { getLanguage, parseJwt } from "commons/helpers/helper";
 
 import * as hdbsServices from "services/hdbsService";
-import { checkResultEkyc, parseInfoFromEKYC } from "commons/helpers/ekyc";
+import {
+  checkResultEkyc,
+  formatDateOfEKYC,
+  parseInfoFromEKYC,
+} from "commons/helpers/ekyc";
 import { InquiryEKYCPresentResponse } from "interfaces/IInquiryEKYCPresent";
 import _get from "lodash/get";
+import { compareTwoDateDesc, getTodayWithFormat } from "commons/helpers/date";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -108,40 +114,38 @@ const HDBSPage = () => {
   }, [query?.step]);
 
   useEffect(() => {
-    if (!md5 || !query?.jwt) return;
-    const jwtInfo = parseJwt(query.jwt as string);
-    const typeUser = _get(
-      query,
-      "typeCustomer",
-      TypeCustomer.KHHH
-    ) as TypeCustomer;
-    _updateDataByTypeUser(typeUser, query.step as string);
-    hdbsServices.getAccessToken().then((res) => {
-      hdbsServices.updateMasterData({
-        userId: _get(jwtInfo, "userName"),
-        clientNo: _get(jwtInfo, "clientNo"),
-        language: "vi",
-      });
-
-      Promise.all([
-        hdbsServices.getMerchant(),
-        hdbsServices.getListAccountApi(),
-      ])
-        .then((res) => {
-          const accounts = _get(res, "[1].data.data", []);
-
-          // If list account is empty, that is imoney user
-          if (!accounts || !accounts.length) {
-            isUserImoney.current = true;
-          }
-
-          _toggleLoading("loadingMasterData", false);
-          setListMerchant(_get(res, "[0].merchants", []));
-          setListTerminal(_get(res, "[0].terminals", []));
-          setListAccount(hdbsServices.filterListAccount(accounts));
-        })
-        .catch(() => _toggleLoading("loadingMasterData", false));
-    });
+    _toggleLoading("loadingMasterData", false);
+    // if (!md5 || !query?.jwt) return;
+    // const jwtInfo = parseJwt(query.jwt as string);
+    // const typeUser = _get(
+    //   query,
+    //   "typeCustomer",
+    //   TypeCustomer.KHHH
+    // ) as TypeCustomer;
+    // _updateDataByTypeUser(typeUser, query.step as string);
+    // hdbsServices.getAccessToken().then((res) => {
+    //   hdbsServices.updateMasterData({
+    //     userId: _get(jwtInfo, "userName"),
+    //     clientNo: _get(jwtInfo, "clientNo"),
+    //     language: "vi",
+    //   });
+    //   Promise.all([
+    //     hdbsServices.getMerchant(),
+    //     hdbsServices.getListAccountApi(),
+    //   ])
+    //     .then((res) => {
+    //       const accounts = _get(res, "[1].data.data", []);
+    //       // If list account is empty, that is imoney user
+    //       if (!accounts || !accounts.length) {
+    //         isUserImoney.current = true;
+    //       }
+    //       _toggleLoading("loadingMasterData", false);
+    //       setListMerchant(_get(res, "[0].merchants", []));
+    //       setListTerminal(_get(res, "[0].terminals", []));
+    //       setListAccount(hdbsServices.filterListAccount(accounts));
+    //     })
+    //     .catch(() => _toggleLoading("loadingMasterData", false));
+    // });
   }, [md5, query?.jwt]);
 
   function _updateDataByTypeUser(type: TypeCustomer, stepCurrentUrl: string) {
@@ -217,7 +221,6 @@ const HDBSPage = () => {
             isUttb: finalData?.isUttb,
             isBond: finalData?.isBond,
           };
-          console.log("newData----:", newData);
           setDataForm(newData);
           _onNextStep(STEP_HDBS.step3);
           return;
@@ -238,24 +241,25 @@ const HDBSPage = () => {
 
     const resultEKYC = checkResultEkyc(data);
     if (!resultEKYC.validEKYC) {
+      setStepCurrent(STEP_HDBS.stepErrorPage);
       toggleNotify(resultEKYC.messageEKYC, () => _onNextStep(STEP_HDBS.step2));
       return;
     }
 
-    const info = parseInfoFromEKYC(data);
-    const finalData = {
-      ...dataForm,
-      ...info,
-      fullName: info?.fullNameOcr,
-      birthDate: info?.birthDateOcr,
-      dateOfIssue: info?.dateOfIssueOcr,
-      placeOfIssue: info?.placeOfIssueOcr,
-      expireOfIssue: info?.expireOfIssueOcr,
-      idNumber: info?.idNumber as string,
-      ekycData: data,
-    };
-    setDataForm(finalData);
-    _inquiryEKYC(finalData);
+    // const info = parseInfoFromEKYC(data);
+    // const finalData = {
+    //   ...dataForm,
+    //   ...info,
+    //   fullName: info?.fullNameOcr,
+    //   birthDate: info?.birthDateOcr,
+    //   dateOfIssue: info?.dateOfIssueOcr,
+    //   placeOfIssue: info?.placeOfIssueOcr,
+    //   expireOfIssue: info?.expireOfIssueOcr,
+    //   idNumber: info?.idNumber as string,
+    //   ekycData: data,
+    // };
+    // setDataForm(finalData);
+    // _inquiryEKYC(finalData);
   };
 
   const _handleSubmitStep3 = (data: FormDataStep3) => {
@@ -301,27 +305,28 @@ const HDBSPage = () => {
   // };
 
   const _handleVerifyOtp = (accountOtp: string) => {
-    _toggleLoading("loadingBtnConfirmOTP", true);
-    hdbsServices
-      .verifyOTPApi(accountOtp)
-      .then((res) => {
-        _toggleLoading("loadingBtnConfirmOTP", false);
-        const code = _get(res, "data.resultCode");
-        if (_get(res, "data.data.userId")) {
-          _onConfirmEKYC();
-          return;
-        }
-        const status = getStatusOTPResponse(code, lang);
-        toggleNotify(
-          status.msg,
-          status.code === ERROR_CODE.InvalidOTP
-            ? () => null
-            : () => _toggleModalVerifyOTP()
-        );
-      })
-      .catch((err) => {
-        _toggleLoading("loadingBtnConfirmOTP", false);
-      });
+    _onConfirmEKYC();
+    // _toggleLoading("loadingBtnConfirmOTP", true);
+    // hdbsServices
+    //   .verifyOTPApi(accountOtp)
+    //   .then((res) => {
+    //     _toggleLoading("loadingBtnConfirmOTP", false);
+    //     const code = _get(res, "data.resultCode");
+    //     if (_get(res, "data.data.userId")) {
+    //       _onConfirmEKYC();
+    //       return;
+    //     }
+    //     const status = getStatusOTPResponse(code, lang);
+    //     toggleNotify(
+    //       status.msg,
+    //       status.code === ERROR_CODE.InvalidOTP
+    //         ? () => null
+    //         : () => _toggleModalVerifyOTP()
+    //     );
+    //   })
+    //   .catch((err) => {
+    //     _toggleLoading("loadingBtnConfirmOTP", false);
+    //   });
   };
 
   function _inquiryEKYC(data: FormDataFinal) {
@@ -496,11 +501,7 @@ const HDBSPage = () => {
                 redoEKYC={() => _onNextStep(STEP_HDBS.step2)}
               />
             )}
-            {/* {stepCurrent === STEP_HDBS.step4 && (
-              <RegisterSuccessPage
-                onClickOtherTransaction={_handleOtherTransaction}
-              />
-            )} */}
+            {stepCurrent === STEP_HDBS.stepErrorPage && <EkycErrorPage />}
           </TKCKContext.Provider>
         </div>
       )}
