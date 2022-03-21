@@ -133,7 +133,7 @@ export const checkResultEkyc = (
     };
   }
 
-  // Check expire of cmnd/cccd
+  // Start: check expire of cmnd/cccd
   const type_id = _get(ekycData, "ocr.object.type_id");
   const dateOfIssue =
     _get(ekycData, "ocr.object.issue_date") === "-"
@@ -143,6 +143,40 @@ export const checkResultEkyc = (
     _get(ekycData, "ocr.object.valid_date") === "-"
       ? ""
       : _get(ekycData, "ocr.object.valid_date");
+
+  const checkIdentityExpired = (dateOfIssue: string, expiredDate: string) => {
+    // Check hiệu lực cmnd/cccd < 30 ngày
+    if (
+      _differenceInDays(
+        new Date(new Date(dateOfIssue)),
+        new Date(new Date(expiredDate))
+      ) === 29
+    ) {
+      return {
+        validEKYC: true,
+        messageEKYC: `CMND/CCCD của quý khách sắp hết hạn. Quý khách vui lòng cập nhật thông tin giấy tờ tùy thân mới tại PGD gần nhất của HDBS trước ngày ${expiredDateNew}`,
+      };
+    }
+
+    // Kiểm tra cmnd/cccd đã hết hạn hay chưa
+    if (
+      compareTwoDate(
+        new Date(new Date(dateOfIssue)),
+        new Date(new Date(expiredDate))
+      )
+    ) {
+      return {
+        validEKYC: true,
+        messageEKYC:
+          "CMND/CCCD của quý khách đã hết hạn. Quý khách vui lòng cập nhật thông tin giấy tờ tùy thân mới tại PGD gần nhất của HDBS",
+      };
+    }
+
+    return {
+      validEKYC: false,
+      messageEKYC: "",
+    };
+  };
 
   if (!dateOfIssue) {
     return {
@@ -164,64 +198,14 @@ export const checkResultEkyc = (
         15,
         "MM/dd/yyyy"
       );
-
-      // Check hiệu lực cmnd/cccd < 30 ngày
-      if (
-        _differenceInDays(
-          new Date(new Date(dateOfIssueFormat)),
-          new Date(new Date(expiredDateNew))
-        ) === 29
-      ) {
-        return {
-          validEKYC: false,
-          messageEKYC: `CMND/CCCD của quý khách sắp hết hạn. Quý khách vui lòng cập nhật thông tin giấy tờ tùy thân mới tại PGD gần nhất của HDBS trước ngày ${expiredDateNew}`,
-        };
-      }
-      // Check hiệu lực cmnd/cccd < 30 ngày
-
-      if (
-        compareTwoDate(
-          new Date(new Date(dateOfIssueFormat)),
-          new Date(new Date(expiredDateNew))
-        )
-      ) {
-        return {
-          validEKYC: false,
-          messageEKYC: "CMND/CCCD của quý khách đã hết hạn",
-        };
-      }
+      return checkIdentityExpired(dateOfIssueFormat, expiredDateNew);
     }
 
     if (type_id === TYPE_ID.CCCD1 || type_id === TYPE_ID.CCCD2) {
       if (expiredDate) {
         const dateOfIssueFormat = formatDateOfEKYC(dateOfIssue);
         const expiredDateFormat = formatDateOfEKYC(expiredDate);
-
-        // Check hiệu lực cmnd/cccd < 30 ngày
-        if (
-          _differenceInDays(
-            new Date(new Date(dateOfIssueFormat)),
-            new Date(new Date(expiredDateFormat))
-          ) === 29
-        ) {
-          return {
-            validEKYC: false,
-            messageEKYC: `CMND/CCCD của quý khách sắp hết hạn. Quý khách vui lòng cập nhật thông tin giấy tờ tùy thân mới tại PGD gần nhất của HDBS trước ngày ${expiredDateFormat}`,
-          };
-        }
-        // Check hiệu lực cmnd/cccd < 30 ngày
-
-        if (
-          compareTwoDate(
-            new Date(new Date(dateOfIssueFormat)),
-            new Date(new Date(expiredDateFormat))
-          )
-        ) {
-          return {
-            validEKYC: false,
-            messageEKYC: "CMND/CCCD của quý khách đã hết hạn",
-          };
-        }
+        return checkIdentityExpired(dateOfIssueFormat, expiredDateFormat);
       }
     }
   } else {
@@ -230,7 +214,7 @@ export const checkResultEkyc = (
       messageEKYC: "Không đúng loại giấy tờ CMND hoặc CCCD. Vui lòng thữ lại",
     };
   }
-  // End check expire of cmnd/cccd
+  // End: check expire of cmnd/cccd
 
   return {
     validEKYC,

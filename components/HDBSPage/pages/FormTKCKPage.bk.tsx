@@ -1,6 +1,6 @@
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo, useRef, useContext } from "react";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
+import Image from "next/image";
 
 import { useForm, Controller } from "react-hook-form";
 
@@ -11,12 +11,13 @@ import { ButtonCustom, CheckboxCustom, SelectCustom } from "components/commons";
 import { FormDataStep1, TypeCustomer } from "../interfaces";
 import { OptionSelectType } from "commons/constants/types";
 import { getLanguage } from "commons/helpers";
+
+import TKCKContext from "components/HDBSPage/contexts/TKCKContextValue";
 import { Information } from "..";
+
 import { LANGUAGE } from "commons/constants";
 import resources from "pages/assets/translate.json";
 import warningIcon from "public/asset/images/warning.png";
-import reducer, { AppState, initialState } from "store/reducer";
-
 import _get from "lodash/get";
 import _delay from "lodash/delay";
 const useStyles = makeStyles(() => ({
@@ -45,6 +46,7 @@ const useStyles = makeStyles(() => ({
 interface Props {
   onSubmit: (data: FormDataStep1) => void;
   md5?: any;
+  typeCustomer: TypeCustomer;
 }
 
 type FormValues = {
@@ -75,7 +77,7 @@ const ERROR_FORM = {
 };
 
 const FormTKCKPage = (props: Props) => {
-  const { onSubmit } = props;
+  const { onSubmit, typeCustomer } = props;
   const classes = useStyles();
   const {
     handleSubmit,
@@ -97,14 +99,8 @@ const FormTKCKPage = (props: Props) => {
     },
   });
   const merchantIdValue = watch("merchantId");
-  const {
-    loading,
-    typeCustomer,
-    listMerchant,
-    listTerminal,
-    listAccount,
-  }: AppState = useSelector((state) => _get(state, "app"));
-
+  const { loadingBtnSubmit, listMerchant, listTerminal, listAccount } =
+    useContext(TKCKContext);
   const typeModal = useRef<string>("");
   const [openModalInfo, setOpenModalInfo] = useState(false);
   const [disabledWhenSetDefault, setDisabledWhenSetDefault] = useState(false);
@@ -369,7 +365,7 @@ const FormTKCKPage = (props: Props) => {
             color="secondary"
             type="submit"
             disabled={disabledWhenSetDefault}
-            loading={loading.loadingBtnSubmit}
+            loading={loadingBtnSubmit}
           >
             {t?.btnContinue}
           </ButtonCustom>

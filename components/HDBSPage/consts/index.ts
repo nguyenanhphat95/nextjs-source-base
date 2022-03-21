@@ -301,6 +301,15 @@ export const STEP_HDBS = {
   stepErrorPage: "stepErrorPage",
 };
 
+export const ROUTE_STEP = {
+  stepHome: "/tkckhdbs",
+  stepResult: "/result",
+  stepErrorEkyc: "/hdbs/StepErrorEkyc",
+  step1FormTKCK: "/hdbs/Step1FormTKCK",
+  step2EKYC: "/hdbs/Step2Ekyc",
+  step3ConfirmInfo: "/hdbs/Step3ConfirmInfo",
+};
+
 export const PAGE_TITLE = {
   [STEP_HDBS.stepHome]: "Chứng khoán",
   [STEP_HDBS.step1]: "Mở tài khoản Chứng khoán",
