@@ -1,7 +1,4 @@
-import React, { useReducer, useState } from "react";
-import Head from "next/head";
-import { useSelector, useDispatch } from "react-redux";
-
+import { Box, Dialog } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import {
   ERROR_CODE,
@@ -9,16 +6,17 @@ import {
   getStatusOTPResponse,
   getStatusResponse,
 } from "commons/helpers";
-import { useRouter } from "next/router";
-import resources from "pages/assets/translate.json";
 import { ConfirmInfoPage, VerifyOTP } from "components/HDBSPage";
 import { ROUTE_STEP } from "components/HDBSPage/consts";
-import reducer, { AppState, initialState } from "store/reducer";
 import { TypeCustomer } from "components/HDBSPage/interfaces";
-import * as hdbsServices from "services/hdbsService";
-import { Box, Dialog } from "@mui/material";
 import _get from "lodash/get";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import * as hdbsServices from "services/hdbsService";
 import { setToggleLoading } from "store/actions";
+import { AppState } from "store/reducer";
 
 const useStyles = makeStyles(() => ({
   rootPage: {
@@ -45,7 +43,6 @@ const Step3ConfirmInfo = (props: Props) => {
   const router = useRouter();
   const query = router.query;
   const lang = getLanguage(router);
-  const t = _get(resources, [lang, "homePage"]);
 
   const dispatch = useDispatch();
   const { dataForm, typeCustomer, allowSendOTP, loading }: AppState =

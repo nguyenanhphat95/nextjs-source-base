@@ -45,12 +45,15 @@ export default function MyApp(props: MyAppProps) {
       };
     });
   }
-
+  console.log("app-component");
   return (
     <CacheProvider value={emotionCache}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
+      <Script id="lottie-id" src="/asset/js/lottie.min.js" />
+      <Script id="jsqr-id" src="/asset/js/jsQR.js" />
+      <Script id="vnptbrowser-id" src="/asset/js/VNPTBrowserSDKAppV2.3.3.js" />
       <Script
         id="md5-id"
         src="/asset/js/md5.min.js"

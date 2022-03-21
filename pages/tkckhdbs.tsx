@@ -1,27 +1,24 @@
-import React, { useState, useEffect, useReducer, useRef } from "react";
-import Head from "next/head";
-import { useDispatch, useSelector } from "react-redux";
-
-import { Grid, Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { useRouter } from "next/router";
 import { getLanguage, parseJwt } from "commons/helpers";
-
-import resources from "pages/assets/translate.json";
-import * as hdbsServices from "services/hdbsService";
-import _get from "lodash/get";
-import { TypeCustomer } from "components/HDBSPage/interfaces";
 import { LoadingPage } from "components/commons";
-
+import { ROUTE_STEP } from "components/HDBSPage/consts";
+import { TypeCustomer } from "components/HDBSPage/interfaces";
+import _get from "lodash/get";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import resources from "pages/assets/translate.json";
+import React, { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import * as hdbsServices from "services/hdbsService";
 import {
-  setTypeCustomer,
   setFormData,
+  setListAccount,
   setListMerchant,
   setListTerminal,
-  setListAccount,
   setToggleLoading,
+  setTypeCustomer,
 } from "store/actions";
-import { ROUTE_STEP } from "components/HDBSPage/consts";
 
 const useStyles = makeStyles(() => ({
   rootPage: {
@@ -47,9 +44,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-interface Props {}
-
-const HDBSPage = (props: Props) => {
+const HDBSPage = () => {
   const classes = useStyles();
 
   const router = useRouter();

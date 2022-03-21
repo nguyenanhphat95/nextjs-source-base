@@ -1,21 +1,19 @@
-import React, { useReducer } from "react";
-import Head from "next/head";
-import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@mui/styles";
-import { checkResultEkyc, parseInfoFromEKYC } from "commons/helpers/ekyc";
-import { useRouter } from "next/router";
-import { ROUTE_STEP } from "components/HDBSPage/consts";
-import { EKYCComponent } from "components/HDBSPage";
-
-import { setFormData, setAllowSendOTP, setToggleLoading } from "store/actions";
-import reducer, { AppState, initialState } from "store/reducer";
-import { FormDataFinal } from "components/HDBSPage/interfaces";
-import * as hdbsServices from "services/hdbsService";
-import { InquiryEKYCPresentResponse } from "interfaces/IInquiryEKYCPresent";
 import { getLanguage, getStatusResponse } from "commons/helpers";
-import resources from "pages/assets/translate.json";
-import _get from "lodash/get";
+import { checkResultEkyc, parseInfoFromEKYC } from "commons/helpers/ekyc";
 import { LoadingPage } from "components/commons";
+import { EKYCComponent } from "components/HDBSPage";
+import { ROUTE_STEP } from "components/HDBSPage/consts";
+import { FormDataFinal } from "components/HDBSPage/interfaces";
+import { InquiryEKYCPresentResponse } from "interfaces/IInquiryEKYCPresent";
+import _get from "lodash/get";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import * as hdbsServices from "services/hdbsService";
+import { setAllowSendOTP, setFormData, setToggleLoading } from "store/actions";
+import { AppState } from "store/reducer";
 
 const useStyles = makeStyles(() => ({
   rootPage: {
@@ -35,12 +33,18 @@ const Step2Ekyc = (props: Props) => {
   const router = useRouter();
   const query = router.query;
   const lang = getLanguage(router);
-  const t = _get(resources, [lang, "homePage"]);
 
   const dispatch = useDispatch();
   const { dataForm, loading }: AppState = useSelector((state) =>
     _get(state, "app")
   );
+
+  const _onGoStep = (pathname: string) => {
+    router.push({
+      pathname,
+      query,
+    });
+  };
 
   const handleSubmit = (data: any) => {
     if (!data) {
@@ -49,16 +53,10 @@ const Step2Ekyc = (props: Props) => {
 
     const resultEKYC = checkResultEkyc(data);
     if (!resultEKYC.validEKYC) {
-      router.push({
-        pathname: ROUTE_STEP.stepErrorEkyc,
-        query,
-      });
+      _onGoStep(ROUTE_STEP.stepErrorEkyc);
 
       toggleNotify(resultEKYC.messageEKYC, () =>
-        router.push({
-          pathname: ROUTE_STEP.step2EKYC,
-          query,
-        })
+        _onGoStep(ROUTE_STEP.step2EKYC)
       );
       return;
     }
@@ -97,30 +95,24 @@ const Step2Ekyc = (props: Props) => {
         const code = _get(res, "resultCode");
         const status = getStatusResponse(code, lang);
         if (!status.success) {
+          _onGoStep(ROUTE_STEP.stepErrorEkyc);
+
           toggleNotify(status.msg, () => {
-            router.push({
-              pathname: ROUTE_STEP.step1FormTKCK,
-              query,
-            });
+            _onGoStep(ROUTE_STEP.step2EKYC);
           });
           return;
         }
 
         if (res.hasSendOtp) {
           updateDataAfterInquiry(res);
-          router.push({
-            pathname: ROUTE_STEP.step3ConfirmInfo,
-            query,
-          });
+          _onGoStep(ROUTE_STEP.step3ConfirmInfo);
+
           return;
         }
 
         dispatch(setAllowSendOTP(false));
         updateDataAfterInquiry(res);
-        router.push({
-          pathname: ROUTE_STEP.step3ConfirmInfo,
-          query,
-        });
+        _onGoStep(ROUTE_STEP.step3ConfirmInfo);
       })
       .catch(() => dispatch(setToggleLoading("loadingMasterData")));
   }

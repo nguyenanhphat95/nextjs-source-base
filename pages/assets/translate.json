@@ -6,7 +6,8 @@
       "notify": "Thông báo"
     },
     "homePage": {
-      "openStockAccount": "Mở tài khoản chứng khoán"
+      "openStockAccount": "Mở tài khoản chứng khoán",
+      "textComingSoon": "Sắp ra mắt"
     },
     "formTKCKPage": {
       "titleSection1": "Thông tin TKTT",
@@ -65,7 +66,8 @@
       "notify": "Notify"
     },
     "homePage": {
-      "openStockAccount": "Open a stock account"
+      "openStockAccount": "Open a stock account",
+      "textComingSoon": "Coming soon"
     },
     "formTKCKPage": {
       "titleSection1": "Information about TKTT",

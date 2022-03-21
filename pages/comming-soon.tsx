@@ -1,10 +1,10 @@
-import React from "react";
+import { Box, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { Grid, Box } from "@mui/material";
-import { useRouter } from "next/router";
-import resources from "pages/assets/translate.json";
 import { getLanguage } from "commons/helpers";
 import _get from "lodash/get";
+import { useRouter } from "next/router";
+import resources from "pages/assets/translate.json";
+import React from "react";
 
 const useStyles = makeStyles(() => ({
   rootPage: {
@@ -63,7 +63,9 @@ const ComingSoonPage = () => {
                     height={40}
                     src="/asset/images/openStockAccount.svg"
                   />
-                  <div className={classes.textComingSoon}>Sắp ra mắt</div>
+                  <div className={classes.textComingSoon}>
+                    {t?.textComingSoon}
+                  </div>
                 </Grid>
 
                 <Grid item>

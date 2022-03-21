@@ -1,20 +1,15 @@
-import React from "react";
-import Head from "next/head";
-import { useDispatch, useSelector } from "react-redux";
-
 import { makeStyles } from "@mui/styles";
-import { useRouter } from "next/router";
-
-import { FormTKCKPage } from "components/HDBSPage";
-import _get from "lodash/get";
-import { FormDataFinal, FormDataStep1 } from "components/HDBSPage/interfaces";
-
-import { setFormData, setToggleLoading } from "store/actions";
-import * as hdbsServices from "services/hdbsService";
-
 import { ERROR_CODE, getLanguage, getStatusResponse } from "commons/helpers";
-import resources from "pages/assets/translate.json";
+import { FormTKCKPage } from "components/HDBSPage";
 import { ROUTE_STEP } from "components/HDBSPage/consts";
+import { FormDataFinal, FormDataStep1 } from "components/HDBSPage/interfaces";
+import _get from "lodash/get";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import * as hdbsServices from "services/hdbsService";
+import { setFormData, setToggleLoading } from "store/actions";
 import { AppState } from "store/reducer";
 
 const useStyles = makeStyles(() => ({
@@ -35,7 +30,6 @@ const Step1FormTKCK = (props: Props) => {
   const router = useRouter();
   const query = router.query;
   const lang = getLanguage(router);
-  const t = _get(resources, [lang, "homePage"]);
 
   const dispatch = useDispatch();
   const { dataForm }: AppState = useSelector((state) => _get(state, "app"));

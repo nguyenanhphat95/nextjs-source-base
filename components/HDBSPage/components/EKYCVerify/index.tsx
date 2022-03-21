@@ -54,7 +54,7 @@ const EKYCComponent = (props: Props) => {
     try {
       let vnpt_ekyc_sdk = document.createElement("script");
       vnpt_ekyc_sdk.id = "vnpt_ekyc_sdk";
-      vnpt_ekyc_sdk.src = "./asset/js/ekyc-web-sdk-2.3.5.2.js";
+      vnpt_ekyc_sdk.src = "/asset/js/ekyc-web-sdk-2.3.5.2.js";
       vnpt_ekyc_sdk.async = true;
       vnpt_ekyc_sdk.defer = true;
       document.head.appendChild(vnpt_ekyc_sdk);
@@ -62,7 +62,7 @@ const EKYCComponent = (props: Props) => {
       let vnpt_ekyc_styles = document.createElement("link");
       vnpt_ekyc_styles.id = "vnpt_ekyc_styles";
       vnpt_ekyc_styles.rel = "stylesheet";
-      vnpt_ekyc_styles.href = "./asset/css/ekyc-web-sdk-2.3.5.css";
+      vnpt_ekyc_styles.href = "/asset/css/ekyc-web-sdk-2.3.5.css";
       document.head.appendChild(vnpt_ekyc_styles);
       const VNPT_CDN = "https://ekyc-web.vnpt.vn";
       vnpt_ekyc_sdk.onload = async function (_) {
@@ -176,7 +176,7 @@ const EKYCComponent = (props: Props) => {
             notice3_icon: VNPT_CDN + "/altiss/cmt_notice3.svg",
           },
           OTHER_CONFIG: {
-            loading_icon: "./asset/images/Spinner.gif",
+            loading_icon: "/asset/images/Spinner.gif",
             loading_styles: { "background-color": "white", opacity: "0.7" },
             oval_web: VNPT_CDN + "/kbsv/web_border.json",
             oval_mobile: VNPT_CDN + "/kbsv/mobile_border.json",
