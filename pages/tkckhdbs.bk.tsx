@@ -46,7 +46,7 @@ import {
 } from "commons/helpers/ekyc";
 import { InquiryEKYCPresentResponse } from "interfaces/IInquiryEKYCPresent";
 import _get from "lodash/get";
-import { compareTwoDateDesc, getTodayWithFormat } from "commons/helpers/date";
+import { getTodayWithFormat } from "commons/helpers/date";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -485,7 +485,7 @@ const HDBSPage = () => {
             )}
             {stepCurrent === STEP_HDBS.step1 && (
               <FormTKCKPage
-                typeCustomer={typeCustomer}
+                // typeCustomer={typeCustomer}
                 onSubmit={_handleSubmitStep1}
               />
             )}

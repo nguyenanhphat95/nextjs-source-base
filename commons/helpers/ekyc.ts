@@ -154,7 +154,7 @@ export const checkResultEkyc = (
     ) {
       return {
         validEKYC: true,
-        messageEKYC: `CMND/CCCD của quý khách sắp hết hạn. Quý khách vui lòng cập nhật thông tin giấy tờ tùy thân mới tại PGD gần nhất của HDBS trước ngày ${expiredDateNew}`,
+        messageEKYC: `CMND/CCCD của quý khách sắp hết hạn. Quý khách vui lòng cập nhật thông tin giấy tờ tùy thân mới tại PGD gần nhất của HDBS trước ngày ${expiredDate}`,
       };
     }
 
