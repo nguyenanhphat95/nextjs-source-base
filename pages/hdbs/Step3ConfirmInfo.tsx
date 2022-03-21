@@ -127,7 +127,9 @@ const Step3ConfirmInfo = (props: Props) => {
           _onNextStep(ROUTE_STEP.stepResult);
           return;
         }
-        toggleNotify(status.msg);
+        toggleNotify(status.msg, () => {
+          _onNextStep(ROUTE_STEP.step1FormTKCK);
+        });
       })
       .catch((err) => {
         dispatch(setToggleLoading("loadingBtnConfirmOTP"));
@@ -142,6 +144,7 @@ const Step3ConfirmInfo = (props: Props) => {
       </Head>
 
       <ConfirmInfoPage
+        loadingBtnSubmit={loading.loadingBtnSubmit}
         typeCustomer={typeCustomer}
         data={dataForm}
         onSubmit={_handleSubmit}

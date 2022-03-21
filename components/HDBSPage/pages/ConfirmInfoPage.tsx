@@ -48,6 +48,7 @@ interface Props {
   onSubmit: (data: FormDataStep3) => void;
   redoEKYC?: () => void;
   typeCustomer: TypeCustomer;
+  loadingBtnSubmit?: boolean;
 }
 
 type FormValues = {
@@ -61,7 +62,7 @@ type FormValues = {
 
 const ConfirmInfoPage = (props: Props) => {
   const classes = useStyles();
-  const { data, onSubmit, typeCustomer, redoEKYC } = props;
+  const { data, onSubmit, typeCustomer, loadingBtnSubmit, redoEKYC } = props;
 
   const [isAceptCondition, setIsAceptCondition] = useState(false);
   const [showModalCondition, setShowModalCondition] = useState(false);
@@ -75,8 +76,7 @@ const ConfirmInfoPage = (props: Props) => {
     ? checkResultEkyc(_get(data, "ekycData"))
     : { validEKYC: true, messageEKYC: "" };
 
-  const { loadingBtnSubmit, toggleNotify } = useContext(TKCKContext);
-
+  // const { loadingBtnSubmit, toggleNotify } = useContext(TKCKContext);
   const {
     handleSubmit,
     formState: { errors },
@@ -95,12 +95,12 @@ const ConfirmInfoPage = (props: Props) => {
   const lang = getLanguage(router);
   const t = _get(resources, [lang, "confirmInfoPage"]);
 
-  useEffect(() => {
-    if (resultEKYC.validEKYC) {
-      return;
-    }
-    toggleNotify(resultEKYC.messageEKYC, redoEKYC);
-  }, [resultEKYC.validEKYC]);
+  // useEffect(() => {
+  //   if (resultEKYC.validEKYC) {
+  //     return;
+  //   }
+  //   toggleNotify(resultEKYC.messageEKYC, redoEKYC);
+  // }, [resultEKYC.validEKYC]);
 
   const _handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setIsAceptCondition(event.target.checked);
