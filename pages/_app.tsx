@@ -12,6 +12,8 @@ import Script from "next/script";
 import _get from "lodash/get";
 import { Provider } from "react-redux";
 import store from "store/store";
+import { useRouter } from "next/router";
+import { PAGE_TITLE } from "components/HDBSPage/consts";
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
@@ -21,6 +23,9 @@ interface MyAppProps extends AppProps {
 
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+  const router = useRouter();
+  const pathname = router.pathname;
+
   const [popupNotify, setPopupNotify] = React.useState({
     open: false,
     desc: "",
@@ -45,10 +50,10 @@ export default function MyApp(props: MyAppProps) {
       };
     });
   }
-  console.log("app-component");
   return (
     <CacheProvider value={emotionCache}>
       <Head>
+        <title>{PAGE_TITLE[pathname]}</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <Script id="lottie-id" src="/asset/js/lottie.min.js" />

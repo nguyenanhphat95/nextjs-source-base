@@ -119,7 +119,7 @@ const Step2Ekyc = (props: Props) => {
   return (
     <div className={classes.rootPage}>
       <Head>
-        <title>Định danh</title>
+        {/* <title>Định danh</title> */}
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       {loading.loadingMasterData && <LoadingPage />}

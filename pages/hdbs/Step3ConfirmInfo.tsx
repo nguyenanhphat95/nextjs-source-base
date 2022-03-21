@@ -139,7 +139,7 @@ const Step3ConfirmInfo = (props: Props) => {
   return (
     <div className={classes.rootPage}>
       <Head>
-        <title>Xác nhận thông tin</title>
+        {/* <title>Xác nhận thông tin</title> */}
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
 

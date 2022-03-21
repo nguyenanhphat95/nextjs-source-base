@@ -92,7 +92,7 @@ const Step1FormTKCK = (props: Props) => {
   return (
     <>
       <Head>
-        <title>Mở tài khoản Chứng khoán</title>
+        {/* <title>Mở tài khoản Chứng khoán</title> */}
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <div className={classes.rootPage}>

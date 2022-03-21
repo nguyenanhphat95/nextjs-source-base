@@ -5,7 +5,7 @@ const StepErrorEkyc = () => {
   return (
     <div>
       <Head>
-        <title>Định danh</title>
+        {/* <title>Định danh</title> */}
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
     </div>

@@ -311,9 +311,9 @@ export const ROUTE_STEP = {
 };
 
 export const PAGE_TITLE = {
-  [STEP_HDBS.stepHome]: "Chứng khoán",
-  [STEP_HDBS.step1]: "Mở tài khoản Chứng khoán",
-  [STEP_HDBS.step2]: "Định danh",
-  [STEP_HDBS.step3]: "Xác nhận thông tin",
-  [STEP_HDBS.step4]: "Kết quả đăng ký",
+  [ROUTE_STEP.stepHome]: "Chứng khoán",
+  [ROUTE_STEP.step1FormTKCK]: "Mở tài khoản Chứng khoán",
+  [ROUTE_STEP.step2EKYC]: "Định danh",
+  [ROUTE_STEP.step3ConfirmInfo]: "Xác nhận thông tin",
+  [ROUTE_STEP.stepResult]: "Kết quả đăng ký",
 };
