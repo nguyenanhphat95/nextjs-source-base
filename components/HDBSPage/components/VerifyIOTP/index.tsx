@@ -47,6 +47,12 @@ const VerifyOTP = (props: Props) => {
   const classes = useStyles();
   const [otp, setOtp] = useState("");
 
+  const _handleResendOTP = () => {
+    if (loading) {
+      return;
+    }
+    onResendOTP();
+  };
   return (
     <div className={classes.root}>
       <Card elevation={0} className={classes.card}>
@@ -73,7 +79,10 @@ const VerifyOTP = (props: Props) => {
             </Grid>
             <Grid item>
               <Box mt={1} textAlign="center">
-                <span onClick={onResendOTP} className={classes.textResendOTP}>
+                <span
+                  onClick={_handleResendOTP}
+                  className={classes.textResendOTP}
+                >
                   Gửi lại OTP
                 </span>
               </Box>

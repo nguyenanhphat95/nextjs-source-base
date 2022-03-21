@@ -106,12 +106,12 @@ export const checkResultEkyc = (
   const livenessFace = _get(ekycData, "liveness_face.object.liveness");
   const livenessFaceMsg = _get(ekycData, "liveness_face.object.liveness_msg");
 
-  // if (compareObj === "NOMATCH") {
-  //   return {
-  //     validEKYC: false,
-  //     messageEKYC: compareMsg,
-  //   };
-  // }
+  if (compareObj === "NOMATCH") {
+    return {
+      validEKYC: false,
+      messageEKYC: compareMsg,
+    };
+  }
 
   if (livenessCardBack !== "success") {
     return {
@@ -126,12 +126,12 @@ export const checkResultEkyc = (
       messageEKYC: livenessCardFrontMsg,
     };
   }
-  // if (livenessFace !== "success") {
-  //   return {
-  //     validEKYC: false,
-  //     messageEKYC: livenessFaceMsg,
-  //   };
-  // }
+  if (livenessFace !== "success") {
+    return {
+      validEKYC: false,
+      messageEKYC: livenessFaceMsg,
+    };
+  }
 
   // Start: check expire of cmnd/cccd
   const type_id = _get(ekycData, "ocr.object.type_id");
