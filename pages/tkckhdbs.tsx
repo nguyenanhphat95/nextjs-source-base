@@ -1,6 +1,6 @@
 import { Box, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { getLanguage, parseJwt } from "commons/helpers";
+import { getLanguage, parseJwt, reloadToPage } from "commons/helpers";
 import { LoadingPage } from "components/commons";
 import { ROUTE_STEP } from "components/HDBSPage/consts";
 import { TypeCustomer } from "components/HDBSPage/interfaces";
@@ -59,6 +59,7 @@ const HDBSPage = () => {
 
   const isUserImoney = useRef<boolean>(false);
   const _redirectStepFormTKCK = () => {
+    // reloadToPage(ROUTE_STEP.step1FormTKCK, query);
     router.push({
       pathname: ROUTE_STEP.step1FormTKCK,
       query,
@@ -88,6 +89,7 @@ const HDBSPage = () => {
     if (!query?.jwt) return;
     const jwtInfo = parseJwt(query.jwt as string);
 
+    dispatch(setToggleLoading("loadingMasterData"));
     hdbsServices.getAccessToken().then((res) => {
       hdbsServices.updateMasterData({
         userId: _get(jwtInfo, "userName"),
@@ -116,7 +118,7 @@ const HDBSPage = () => {
   return (
     <>
       <Head>
-        <title>Chứng khoán</title>
+        {/* <title>Chứng khoán</title> */}
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
 

@@ -13,6 +13,7 @@ import {
   SET_TOGGLE_LOADING,
 } from "./actions";
 import _get from "lodash/get";
+import { KEY_DATA } from "commons/constants";
 
 export interface LoadingState {
   loadingBtnSubmit: boolean;
@@ -55,57 +56,93 @@ export const initialState: AppState = {
   loading: {
     loadingBtnSubmit: false,
     loadingBtnConfirmOTP: false,
-    loadingMasterData: true,
+    loadingMasterData: false,
   },
 };
 
-function reducer(state: AppState = initialState, action: AppActions): AppState {
+const storeDataToLocalStorage = (appState: AppState) => {
+  if (typeof window === "undefined") {
+    return;
+  }
+  localStorage.setItem(KEY_DATA, JSON.stringify(appState));
+};
+
+const getDataFromLocalStorage = (): AppState => {
+  // if (typeof window === "undefined") {
+  //   return initialState;
+  // }
+
+  // const appState = localStorage.getItem(KEY_DATA);
+  // if (appState) {
+  //   return JSON.parse(appState);
+  // }
+  return initialState;
+};
+
+function reducer(
+  state: AppState = getDataFromLocalStorage(),
+  action: AppActions
+): AppState {
   switch (action.type) {
     case SET_TOGGLE_LOADING: {
       const loadingStatus = _get(state, `loading.${action.payload}`);
-      return {
+      const newData = {
         ...state,
         loading: {
           ...state.loading,
           [action.payload]: loadingStatus ? false : true,
         },
       };
+      // storeDataToLocalStorage(newData);
+      return newData;
     }
     case SET_ALLOW_SEND_OTP: {
-      return {
+      const newData = {
         ...state,
         allowSendOTP: action.payload,
       };
+      // storeDataToLocalStorage(newData);
+      return newData;
     }
     case SET_LIST_ACCOUNT: {
-      return {
+      const newData = {
         ...state,
         listAccount: action.payload,
       };
+      // storeDataToLocalStorage(newData);
+      return newData;
     }
     case SET_LIST_TERMINAL: {
-      return {
+      const newData = {
         ...state,
         listTerminal: action.payload,
       };
+      // storeDataToLocalStorage(newData);
+      return newData;
     }
     case SET_LIST_MERCHANT: {
-      return {
+      const newData = {
         ...state,
         listMerchant: action.payload,
       };
+      // storeDataToLocalStorage(newData);
+      return newData;
     }
     case SET_FORM_DATA: {
-      return {
+      const newData = {
         ...state,
         dataForm: action.payload,
       };
+      // storeDataToLocalStorage(newData);
+      return newData;
     }
     case SET_TYPE_CUSTOMER: {
-      return {
+      const newData = {
         ...state,
         typeCustomer: action.payload,
       };
+      // storeDataToLocalStorage(newData);
+      return newData;
     }
     default:
       return state;

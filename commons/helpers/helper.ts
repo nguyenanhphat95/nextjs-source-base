@@ -3,6 +3,7 @@ import { LANGUAGE, PARTNER_ID } from "commons/constants";
 import { v4 as uuidv4 } from "uuid";
 import { NextRouter } from "next/router";
 import _get from "lodash/get";
+import * as qs from "query-string";
 
 export const generateRequestBody = () => {
   return {
@@ -75,4 +76,8 @@ export function getLanguage(router: NextRouter): string {
 
 export async function writeLogToServer(body: any) {
   await axios.post("/api/writeLog", body);
+}
+
+export async function reloadToPage(page: string, query: any) {
+  window.location.href = `${page}?${qs.stringify(query)}`;
 }

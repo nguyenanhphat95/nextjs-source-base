@@ -18,6 +18,7 @@ export const LANGUAGE = {
 };
 
 export const KEY_TOKEN = "HDBS_TOKEN";
+export const KEY_DATA = "HDBS_APP_DATA";
 
 export const ERROR_CODE_OTP_MESSAGE = {
   [LANGUAGE.VI]: {
