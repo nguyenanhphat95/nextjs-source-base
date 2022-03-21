@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import RegisterSuccessPage from "components/HDBSPage/pages/RegisterSuccessPage";
 import { TypeCustomer } from "components/HDBSPage/interfaces";
 import _get from "lodash/get";
-import { PAGE_TITLE, STEP_HDBS } from "components/HDBSPage/consts";
+import { PAGE_TITLE, ROUTE_STEP, STEP_HDBS } from "components/HDBSPage/consts";
 import Head from "next/head";
 import * as qs from "query-string";
 
@@ -15,11 +15,15 @@ const ResultPage = () => {
 
   const _handleOtherTransaction = () => {
     if (typeCustomer === TypeCustomer.KHHH) {
-      const params = {
-        ...query,
-        step: STEP_HDBS.stepHome,
-      };
-      window.location.href = `/tkckhdbs?${qs.stringify(params)}`;
+      router.push({
+        pathname: ROUTE_STEP.stepHome,
+        query,
+      });
+      // const params = {
+      //   ...query,
+      //   step: STEP_HDBS.stepHome,
+      // };
+      // window.location.href = `/tkckhdbs?${qs.stringify(params)}`;
       return;
     }
     router.push({

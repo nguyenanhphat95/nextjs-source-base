@@ -51,11 +51,13 @@ const Step2Ekyc = (props: Props) => {
     if (!resultEKYC.validEKYC) {
       router.push({
         pathname: ROUTE_STEP.stepErrorEkyc,
+        query,
       });
 
       toggleNotify(resultEKYC.messageEKYC, () =>
         router.push({
           pathname: ROUTE_STEP.step2EKYC,
+          query,
         })
       );
       return;
