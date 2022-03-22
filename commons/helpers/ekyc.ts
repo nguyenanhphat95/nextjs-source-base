@@ -166,7 +166,7 @@ export const checkResultEkyc = (
       )
     ) {
       return {
-        validEKYC: true,
+        validEKYC: false,
         messageEKYC:
           "CMND/CCCD của quý khách đã hết hạn. Quý khách vui lòng cập nhật thông tin giấy tờ tùy thân mới tại PGD gần nhất của HDBS",
       };
@@ -193,6 +193,7 @@ export const checkResultEkyc = (
   ) {
     if (type_id === TYPE_ID.CMND1 || type_id === TYPE_ID.CMND2) {
       const dateOfIssueFormat = formatDateOfEKYC(dateOfIssue);
+      // Với cmnd thì ngày hết hạn sẽ bằng ngày phát hành thẻ cộng thêm 15 năm
       const expiredDateNew = addYearFromDate(
         new Date(dateOfIssueFormat),
         15,
