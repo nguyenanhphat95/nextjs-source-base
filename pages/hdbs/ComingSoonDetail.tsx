@@ -47,7 +47,7 @@ const ComingSoonDetail = () => {
   return (
     <>
       <Head>
-        <title>Đăng ký mở tài khoản chứng khoán</title>
+        <title>Đăng ký mở TKCK</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <div className={classes.rootPage}>
@@ -73,7 +73,10 @@ const ComingSoonDetail = () => {
               {t?.textThankTo}
             </Box>
             <Box textAlign="center" className={classes.textDescription}>
-              {t?.textDescription}
+              {t?.textDescription1}
+            </Box>
+            <Box textAlign="center" className={classes.textDescription}>
+              {t?.textDescription2}
             </Box>
           </Grid>
         </Grid>
