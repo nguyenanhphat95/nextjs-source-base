@@ -26,6 +26,21 @@ export const ERROR_CODE = {
   LockUserVerifyOTP5: "LockUserVerifyOTP5",
 };
 
+export const ERROR_CODE_OTP_PAGE = {
+  Success: "00",
+  // Code relate to verify otp
+  SystemError: "16",
+  UserNoToken: "17",
+  OtpInvalid: "18",
+  OtpExpire: "19",
+  UserNoTokenActive: "20",
+  MaximumRequestOtp: "21",
+  MaxVerifyOtp: "22",
+  OtpError: "23",
+  TokenOutOfSync: "24",
+  // End Code relate to verify otp
+};
+
 export function handleErrorWithResponse(
   router: NextRouter,
   resp: ResponseData

@@ -30,7 +30,7 @@ const InputSingle = (props: Props) => {
     <InputCustom
       className={classes.customInput}
       value={value}
-      type="number"
+      type="tel"
       onChange={_handleChangeInput}
     />
   );
