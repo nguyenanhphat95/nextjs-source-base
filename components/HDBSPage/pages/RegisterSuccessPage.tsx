@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   textContent: {
     fontSize: 15,
-    textAlign: "justify",
+    textAlign: "left",
   },
   ratingWrapper: {
     background: "#FAFAFA",

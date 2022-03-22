@@ -12,7 +12,7 @@
     "formTKCKPage": {
       "titleSection1": "Thông tin TKTT",
       "placeholderAccount": "Chọn TKTT",
-      "titleSection2": "Thông tin bổ sung TKCK",
+      "titleSection2": "Thông tin bổ sung đăng ký mở TKCK",
       "placeholderMerchant": "Chọn công ty CK",
       "placeholderTerminal": "Chọn địa điểm mở TKCK",
       "labelCheckbox1": "Giao dịch qua Internet (Web và App)",

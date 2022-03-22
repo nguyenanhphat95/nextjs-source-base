@@ -144,3 +144,5 @@
 [2022-03-21T09:23:37.848] [INFO] default - 192.168.100.13 - 21/03/2022 9:23:37----content: Get list account api: socket hang up---withBodyData: {"requestId":"25c365c9-e945-40aa-9d22-71b2e9540273","data":{"clientNo":"00190484"}}
 [2022-03-21T09:23:51.892] [INFO] default - 192.168.100.13 - 21/03/2022 9:23:51----content: Get list account api: socket hang up---withBodyData: {"requestId":"12d2393c-9e0f-424c-b5b7-9182060be26c","data":{"clientNo":"00190484"}}
 [2022-03-21T09:24:08.851] [INFO] default - 192.168.100.13 - 21/03/2022 9:24:08----content: Get list account api: socket hang up---withBodyData: {"requestId":"9f6d56f7-8e3e-40d7-8d6c-a69b44fe06ee","data":{"clientNo":"00190484"}}
+[2022-03-22T13:43:26.856] [INFO] default - 192.168.1.6 - 22/03/2022 13:43:26----content: checkUserEKYC: Request failed with status code 504---withBodyData: 
+[2022-03-22T14:41:54.452] [INFO] default - 192.168.1.6 - 22/03/2022 14:41:54----content: checkUserEKYC: Request failed with status code 504---withBodyData: 

@@ -103,8 +103,10 @@ const FormTKCKPage = (props: Props) => {
     listMerchant,
     listTerminal,
     listAccount,
+    dataForm
   }: AppState = useSelector((state) => _get(state, "app"));
 
+  console.log(useSelector((state) => _get(state, "app")));
   const typeModal = useRef<string>("");
   const [openModalInfo, setOpenModalInfo] = useState(false);
   const [disabledWhenSetDefault, setDisabledWhenSetDefault] = useState(false);
@@ -114,6 +116,10 @@ const FormTKCKPage = (props: Props) => {
   const t = _get(resources, [lang, "formTKCKPage"]);
 
   const listAccountNew = useMemo(() => {
+    if(listAccount.length === 1) {
+      setValue("accountNo", listAccount[0].accountNo)
+    }
+    setValue("accountNo", dataForm.accountNo)
     return (listAccount || []).map((item) => ({
       id: item.accountNo,
       value: item.accountNo,
