@@ -53,7 +53,6 @@ const Step2Ekyc = (props: Props) => {
 
     const resultEKYC = checkResultEkyc(data);
     if (!resultEKYC.validEKYC) {
-      // _onGoStep(ROUTE_STEP.stepErrorEkyc);
       toggleNotify(resultEKYC.messageEKYC, () =>
         _onGoStep(ROUTE_STEP.step1FormTKCK)
       );
@@ -94,22 +93,21 @@ const Step2Ekyc = (props: Props) => {
         const code = _get(res, "resultCode");
         const status = getStatusResponse(code, lang);
         if (!status.success) {
-          // _onGoStep(ROUTE_STEP.stepErrorEkyc);
-          _onGoStep(ROUTE_STEP.step1FormTKCK);
-
+          // _onGoStep(ROUTE_STEP.step1FormTKCK);
           toggleNotify(status.msg, () => {
-            _onGoStep(ROUTE_STEP.step2EKYC);
+            _onGoStep(ROUTE_STEP.step1FormTKCK);
           });
           return;
         }
 
+        // hasSendOtp = true => user chưa có tài khoản chứng khoán
         if (res.hasSendOtp) {
           updateDataAfterInquiry(res);
           _onGoStep(ROUTE_STEP.step3ConfirmInfo);
-
           return;
         }
 
+        // hasSendOtp = false => user đã có tài khoản chứng khoán
         dispatch(setAllowSendOTP(false));
         updateDataAfterInquiry(res);
         _onGoStep(ROUTE_STEP.step3ConfirmInfo);
