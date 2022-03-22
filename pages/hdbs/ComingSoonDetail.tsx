@@ -2,10 +2,10 @@ import React from "react";
 import { makeStyles } from "@mui/styles";
 import { Box, Grid } from "@mui/material";
 import { useRouter } from "next/router";
-import { getLanguage } from "commons/helpers";
 import resources from "pages/assets/translate.json";
 import _get from "lodash/get";
 import Head from "next/head";
+import { getLanguage } from "commons/helpers";
 
 const useStyles = makeStyles(() => ({
   rootPage: {
@@ -16,14 +16,25 @@ const useStyles = makeStyles(() => ({
     paddingRight: "10px",
   },
   textComingSoon: {
-    fontSize: "22px",
-    color: "#464646",
+    position: "absolute",
+    top: 0,
+    fontSize: "10px",
     fontWeight: 600,
+    left: "50%",
+    color: "#454F5B",
+    background: "#ffba0f",
+    padding: "2px 4px",
+    borderRadius: "10px",
   },
   textDescription: {
     fontSize: "12px",
     color: "#464646",
     fontWeight: 400,
+  },
+
+  wrapperImage: {
+    position: "relative",
+    textAlign: "center",
   },
 }));
 
@@ -36,21 +47,26 @@ const ComingSoonDetail = () => {
   return (
     <>
       <Head>
-        <title>Chứng khoán</title>
+        <title>Đăng ký mở tài khoản chứng khoán</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <div className={classes.rootPage}>
         <Grid container direction="column" spacing={2}>
           <Grid item>
-            <Box textAlign="center">
-              <img width={120} src="/asset/images/coming-soon-detail.png" />
-            </Box>
+            <div className={classes.wrapperImage}>
+              <img
+                width={90}
+                height={90}
+                src="/asset/images/openStockAccount.svg"
+              />
+              <div className={classes.textComingSoon}>{t?.textComingSoon}</div>
+            </div>
           </Grid>
-          <Grid item>
+          {/* <Grid item>
             <Box textAlign="center" className={classes.textComingSoon}>
               {t?.textComingSoon}
             </Box>
-          </Grid>
+          </Grid> */}
 
           <Grid item>
             <Box textAlign="center" className={classes.textDescription}>

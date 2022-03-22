@@ -59,7 +59,7 @@ const ComingSoonPage = () => {
   return (
     <>
       <Head>
-        <title>Chứng khoán</title>
+        <title>Đăng ký mở tài khoản chứng khoán</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <div className={classes.rootPage}>

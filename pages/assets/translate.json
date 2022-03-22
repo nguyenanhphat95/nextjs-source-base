@@ -8,8 +8,8 @@
     "homePage": {
       "openStockAccount": "Mở tài khoản chứng khoán",
       "textComingSoon": "Sắp ra mắt",
-      "textThankTo": "Cảm ơn Quý khách!",
-      "textDescription": "Chức năng Mở tài khoản Chứng khoán sẽ ra mắt vào đầu Quý 2/2022"
+      "textThankTo": "Cảm ơn Quý khách đã quan tâm!",
+      "textDescription": "Chức năng Mở Tài khoản Chứng khoán sẽ sớm ra mắt để phục vụ Quý khách!"
     },
     "formTKCKPage": {
       "titleSection1": "Thông tin TKTT",
@@ -71,7 +71,7 @@
       "openStockAccount": "Open a stock account",
       "textComingSoon": "Coming soon",
       "textThankTo": "Thank you!",
-      "textDescription": "Securities account opening function will be available at the beginning of Q2/2022"
+      "textDescription": "Securities Account Opening function will be available soon to serve you!"
     },
     "formTKCKPage": {
       "titleSection1": "Information about TKTT",
