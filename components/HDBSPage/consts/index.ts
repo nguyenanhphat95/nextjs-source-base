@@ -308,6 +308,8 @@ export const ROUTE_STEP = {
   step1FormTKCK: "/hdbs/Step1FormTKCK",
   step2EKYC: "/hdbs/Step2Ekyc",
   step3ConfirmInfo: "/hdbs/Step3ConfirmInfo",
+  stepComingSoon: "/hdbs-coming-soon",
+  stepComingSoonDetail: "/hdbs/ComingSoonDetail",
 };
 
 export const PAGE_TITLE = {
@@ -316,4 +318,6 @@ export const PAGE_TITLE = {
   [ROUTE_STEP.step2EKYC]: "Định danh",
   [ROUTE_STEP.step3ConfirmInfo]: "Xác nhận thông tin",
   [ROUTE_STEP.stepResult]: "Kết quả đăng ký",
+  [ROUTE_STEP.stepComingSoon]: "Chứng khoán",
+  [ROUTE_STEP.stepComingSoonDetail]: "Chứng khoán",
 };

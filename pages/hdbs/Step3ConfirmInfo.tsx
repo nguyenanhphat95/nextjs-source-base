@@ -77,8 +77,12 @@ const Step3ConfirmInfo = (props: Props) => {
       _onCreateOTP();
       return;
     }
+
+    // User đã có tài khoản chứng khoán => show thông báo và redirect về step 1
     const { msg } = getStatusResponse("08", lang);
-    toggleNotify(msg);
+    toggleNotify(msg, () => {
+      _onNextStep(ROUTE_STEP.step1FormTKCK);
+    });
   };
 
   const _onNextStep = (pathname: string) => {
@@ -97,6 +101,7 @@ const Step3ConfirmInfo = (props: Props) => {
 
         const code = _get(res, "data.resultCode");
         if (_get(res, "data.data.userId")) {
+          // Tạo tài khoản chứng khoán
           _onConfirmEKYC();
           return;
         }

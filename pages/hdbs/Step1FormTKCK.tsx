@@ -53,11 +53,14 @@ const Step1FormTKCK = (props: Props) => {
         const code = _get(res, "resultCode");
         const status = getStatusResponse(code, lang);
         if (status.success) {
+          // hasSendOtp = false => user đã có tài khoản chứng khoán rồi
           if (!res.hasSendOtp) {
             const { msg } = getStatusResponse("08", lang);
             toggleNotify(msg);
             return;
           }
+
+          // hasSendOtp = true => user chưa có tài khoản chứng khoán
           const newData: FormDataFinal = {
             ...dataForm,
             ...hdbsServices.convertInfoUserFromCore(res),

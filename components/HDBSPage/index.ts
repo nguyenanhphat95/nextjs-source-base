@@ -8,7 +8,6 @@ import EKYCNote from "./components/EKYCNote";
 import VerifyOTP from "./components/VerifyIOTP";
 import Information from "./components/Information";
 import EkycErrorPage from "./pages/EkycErrorPage";
-
 export {
   HomePage,
   FormTKCKPage,

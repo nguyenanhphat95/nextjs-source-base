@@ -1,6 +1,11 @@
 import { Box, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { getLanguage, parseJwt, reloadToPage } from "commons/helpers";
+import {
+  getLanguage,
+  getStatusResponse,
+  parseJwt,
+  reloadToPage,
+} from "commons/helpers";
 import { LoadingPage } from "components/commons";
 import { ROUTE_STEP } from "components/HDBSPage/consts";
 import { TypeCustomer } from "components/HDBSPage/interfaces";
@@ -44,7 +49,12 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const HDBSPage = () => {
+interface Props {
+  toggleNotify: (desc?: string, onClose?: any) => void;
+}
+
+const HDBSPage = (props: Props) => {
+  const { toggleNotify } = props;
   const classes = useStyles();
 
   const router = useRouter();
@@ -53,13 +63,20 @@ const HDBSPage = () => {
   const t = _get(resources, [lang, "homePage"]);
 
   const dispatch = useDispatch();
-  const { dataForm, listMerchant, loading } = useSelector((state) =>
-    _get(state, "app")
+  const { dataForm, listAccount, typeCustomer, loading } = useSelector(
+    (state) => _get(state, "app")
   );
-
   const isUserImoney = useRef<boolean>(false);
+
   const _redirectStepFormTKCK = () => {
-    // reloadToPage(ROUTE_STEP.step1FormTKCK, query);
+    if (!listAccount?.length && typeCustomer === TypeCustomer.KHHH) {
+      const status = getStatusResponse(
+        isUserImoney.current ? "isUserImoney" : "userDontEnoughAccount",
+        lang
+      );
+      toggleNotify(status.msg);
+      return;
+    }
     router.push({
       pathname: ROUTE_STEP.step1FormTKCK,
       query,

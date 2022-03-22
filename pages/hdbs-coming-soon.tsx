@@ -2,6 +2,7 @@ import { Box, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { getLanguage } from "commons/helpers";
 import _get from "lodash/get";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import resources from "pages/assets/translate.json";
 import React from "react";
@@ -50,33 +51,44 @@ const ComingSoonPage = () => {
   const lang = getLanguage(router);
   const t = _get(resources, [lang, "homePage"]);
 
+  const _redirectDetail = () => {
+    router.push({
+      pathname: "/hdbs/ComingSoonDetail",
+    });
+  };
   return (
-    <div className={classes.rootPage}>
-      <div className={classes.root}>
-        <Grid container>
-          <Grid item xs={4}>
-            <div className={classes.item}>
-              <Grid container direction="column">
-                <Grid item className={classes.wrapperImage}>
-                  <img
-                    width={40}
-                    height={40}
-                    src="/asset/images/openStockAccount.svg"
-                  />
-                  <div className={classes.textComingSoon}>
-                    {t?.textComingSoon}
-                  </div>
-                </Grid>
+    <>
+      <Head>
+        <title>Đăng ký mở TKCK</title>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+      </Head>
+      <div className={classes.rootPage}>
+        <div className={classes.root}>
+          <Grid container>
+            <Grid item xs={4}>
+              <div className={classes.item} onClick={_redirectDetail}>
+                <Grid container direction="column">
+                  <Grid item className={classes.wrapperImage}>
+                    <img
+                      width={40}
+                      height={40}
+                      src="/asset/images/openStockAccount.svg"
+                    />
+                    <div className={classes.textComingSoon}>
+                      {t?.textComingSoon}
+                    </div>
+                  </Grid>
 
-                <Grid item>
-                  <Box px={1}>{t?.openStockAccount}</Box>
+                  <Grid item>
+                    <Box px={1}>{t?.openStockAccount}</Box>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </div>
+              </div>
+            </Grid>
           </Grid>
-        </Grid>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
