@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from "react";
-import Image from "next/image";
+
 import { useRouter } from "next/router";
 
 import { Grid, Box } from "@mui/material";
@@ -71,7 +71,7 @@ const LoginSuccessForm = (props: Props) => {
       <Grid container direction="column" spacing={2}>
         <Grid item>
           <Box display="flex" justifyContent="center">
-            <Image src={tickSquareIcon} alt="tick square" />
+            <img src="/sso/images/TickSquare.png" alt="tick square" />
           </Box>
         </Grid>
         <Grid item>

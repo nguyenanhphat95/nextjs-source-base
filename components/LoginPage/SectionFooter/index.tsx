@@ -1,5 +1,5 @@
 import React from "react";
-// import Image from "next/image";
+//
 import { useRouter } from "next/router";
 
 import { Grid, Box, Divider } from "@mui/material";
@@ -53,18 +53,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const INFO = [
   {
-    icon: "/images/address.png",
+    icon: "/sso/images/address.png",
     name: `25Bis Nguyễn Thị Minh Khai, P. Bến Nghé,
     Quận 1, TP. Hồ Chí Minh`,
     url: "",
   },
   {
-    icon: "/images/Phone.png",
+    icon: "/sso/images/Phone.png",
     name: "19006060",
     url: "tel:19006060",
   },
   {
-    icon: "/images/Mail.png",
+    icon: "/sso/images/Mail.png",
     name: "info@hdbank.com.vn",
     url: 'mailto:info@hdbank.com.vn"',
   },
@@ -184,16 +184,19 @@ const LIST_OTHER_INFO = [
 
 const LIST_ICON_APP = [
   {
-    icon: "/images/fb.png",
+    icon: "/sso/images/fb.png",
     url: "https://www.facebook.com/hdbankfanpage/",
   },
   {
-    icon: "/images/zalo.png",
+    icon: "/sso/images/zalo.png",
     url: "https://zalo.me/1148028551726591727",
   },
-  { icon: "/images/titok.png", url: "https://www.tiktok.com/@hdbankvietnam" },
   {
-    icon: "/images/youtube.png",
+    icon: "/sso/images/titok.png",
+    url: "https://www.tiktok.com/@hdbankvietnam",
+  },
+  {
+    icon: "/sso/images/youtube.png",
     url: "https://www.youtube.com/c/HDBankOfficial",
   },
 ];
@@ -223,7 +226,7 @@ const SectionFooter = () => {
             <Grid item xs={12} md={5}>
               <Box mb={3}>
                 <img
-                  src="/images/HDBanklogo.png"
+                  src="/sso/images/HDBanklogo.png"
                   alt="hdBank-logo"
                   height={72}
                 />
@@ -305,7 +308,7 @@ const SectionFooter = () => {
               <Grid container spacing={1}>
                 {!isMobile && (
                   <Grid item xs={12} md="auto">
-                    <img src="/images/QRcode.png" alt="qr-code" />
+                    <img src="/sso/images/QRcode.png" alt="qr-code" />
                   </Grid>
                 )}
                 <Grid item xs={12} md="auto">
@@ -315,7 +318,10 @@ const SectionFooter = () => {
                         href="https://play.google.com/store/apps/details?id=com.vnpay.hdbank"
                         target="_blank"
                       >
-                        <img src="/images/GooglePlay.png" alt="google-play" />
+                        <img
+                          src="/sso/images/GooglePlay.png"
+                          alt="google-play"
+                        />
                       </a>
                     </Grid>
                     <Grid item xs={6} md={12}>
@@ -323,7 +329,7 @@ const SectionFooter = () => {
                         href="https://itunes.apple.com/vn/app/hdbank/id1461658565?mt=8"
                         target="_blank"
                       >
-                        <img src="/images/AppStore.png" alt="app-store" />
+                        <img src="/sso/images/AppStore.png" alt="app-store" />
                       </a>
                     </Grid>
                   </Grid>

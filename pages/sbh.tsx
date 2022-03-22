@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState, useRef } from "react";
-import Image from "next/image";
+//
 import Script from "next/script";
 import { useRouter } from "next/router";
 import { makeStyles } from "@mui/styles";
@@ -31,8 +31,8 @@ import {
   handleErrorWithResponse,
 } from "commons/helpers";
 
-import desktopPic from "public/images/desktop.png";
-import bannerMobile from "public/images/sbh/banner2.png";
+// import desktopPic from "public/images/desktop.png";
+// import bannerMobile from "public/images/sbh/banner2.png";
 import STKContext from "components/STKPage/contexts/STKContextValue";
 import _get from "lodash/get";
 import { UpdateNumberFailRequest } from "interfaces/LockUser/IUpdateNumberFail";
@@ -50,9 +50,14 @@ import {
 createTheme();
 const useStyles = makeStyles(() => ({
   banner: {
-    "&  > span": {
-      width: "100% !important",
-    },
+    height: "400px",
+    width: "100%",
+    // "&  > span": {
+    //   width: "100% !important",
+    // },
+    // "& img": {
+    //   width: "100% !important",
+    // },
   },
   rootMobileUtility: {
     margin: "50px 40px",
@@ -497,9 +502,13 @@ const SBHPage = () => {
         {isMobile && (
           <>
             <Grid item xs={12}>
-              <Box className={classes.banner}>
-                <Image src={bannerMobile} alt="banner-mobile" />
-              </Box>
+              {/* <Box className={classes.banner}> */}
+              <img
+                className={classes.banner}
+                src={"/sso/images/sbh/banner2.png"}
+                alt="banner-mobile"
+              />
+              {/* </Box> */}
             </Grid>
             <Grid item xs={12}>
               <STKContext.Provider value={stkContextValue}>
@@ -520,7 +529,7 @@ const SBHPage = () => {
           <>
             <Grid item xs={12}>
               <Box className={classes.banner}>
-                <Image src={desktopPic} alt="desktop" />
+                <img src={"/sso/images/desktop.png"} alt="desktop" />
               </Box>
             </Grid>
 

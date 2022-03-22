@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Image from "next/image";
+
 import { useRouter } from "next/router";
 
 import { Grid, Typography } from "@mui/material";
@@ -58,7 +58,7 @@ const ToggleItem = (props: Props) => {
             </Grid>
             {isMobile && (
               <Grid item xs="auto">
-                <img src={"/images/down.png"} alt="down-pic" />
+                <img src={"/sso/images/down.png"} alt="down-pic" />
               </Grid>
             )}
           </Grid>

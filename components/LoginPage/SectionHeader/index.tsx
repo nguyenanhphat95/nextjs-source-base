@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Image from "next/image";
+
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -64,7 +64,11 @@ const SectionHeader = () => {
               item
               xs="auto"
             >
-              <img src="/images/HDBanklogo.png" alt="hdBank-logo" height={72} />
+              <img
+                src="/sso/images/HDBanklogo.png"
+                alt="hdBank-logo"
+                height={72}
+              />
             </Grid>
           </Grid>
         </Grid>
@@ -83,14 +87,14 @@ const SectionHeader = () => {
                 height={35}
                 src={
                   locale === LANGUAGE.VI
-                    ? "/images/language-vi.png"
-                    : "/images/en.png"
+                    ? "/sso/images/language-vi.png"
+                    : "/sso/images/en.png"
                 }
                 alt="star-icon"
               />
             </Grid>
             <Grid item xs="auto">
-              <img src="/images/down.png" alt="down-pic" />
+              <img src="/sso/images/down.png" alt="down-pic" />
             </Grid>
           </Grid>
           <Popover
@@ -120,7 +124,7 @@ const SectionHeader = () => {
                       <img
                         width={30}
                         height={30}
-                        src="/images/language-vi.png"
+                        src="/sso/images/language-vi.png"
                         alt="star-icon"
                       />
                     </Grid>
@@ -142,7 +146,7 @@ const SectionHeader = () => {
                       <img
                         width={30}
                         height={30}
-                        src={"/images/en.png"}
+                        src={"/sso/images/en.png"}
                         alt="star-icon"
                       />
                     </Grid>

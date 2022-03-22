@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, useContext } from "react";
 import Script from "next/script";
-// import Image from "next/image";
+//
 import { useRouter } from "next/router";
 
 import { Grid, Box } from "@mui/material";
@@ -141,11 +141,7 @@ const LoginForm = (props: Props) => {
       <Script id="jsencrypt-id" src="/sso/js/jsencrypt.min.js" />
       <Grid container direction="column" spacing={3}>
         <Grid item xs={12}>
-          <Box
-            className={classes.loginTitle}
-            display="flex"
-            justifyContent="center"
-          >
+          <Box className={classes.loginTitle} textAlign="center">
             {t?.title}
           </Box>
         </Grid>
@@ -173,7 +169,9 @@ const LoginForm = (props: Props) => {
             <Grid item>
               <InputCustom
                 InputProps={{
-                  startAdornment: <img src="/images/user.png" alt="username" />,
+                  startAdornment: (
+                    <img src="/sso/images/user.png" alt="username" />
+                  ),
                 }}
                 id="username"
                 placeholder={t?.username}
@@ -185,7 +183,9 @@ const LoginForm = (props: Props) => {
             <Grid item>
               <InputCustom
                 InputProps={{
-                  startAdornment: <img src="/images/pwd.png" alt="username" />,
+                  startAdornment: (
+                    <img src="/sso/images/pwd.png" alt="username" />
+                  ),
                 }}
                 id="password"
                 placeholder={t?.password}
@@ -199,7 +199,7 @@ const LoginForm = (props: Props) => {
             <Grid item>
               <ButtonCustom
                 startIcon={
-                  <img src="/images/rightloging.png" alt="icon-right" />
+                  <img src="/sso/images/rightloging.png" alt="icon-right" />
                 }
                 variant="contained"
                 color="secondary"
@@ -218,7 +218,7 @@ const LoginForm = (props: Props) => {
             <Grid item>
               <ButtonCustom
                 startIcon={
-                  <img src="/images/rightloging.png" alt="icon-right" />
+                  <img src="/sso/images/rightloging.png" alt="icon-right" />
                 }
                 variant="outlined"
                 fullWidth

@@ -40,6 +40,9 @@ const useStyles = makeStyles(() => ({
     "&  > span": {
       width: "100% !important",
     },
+    "& img": {
+      width: "100% !important",
+    },
   },
   nameNotify: {
     fontWeight: 600,

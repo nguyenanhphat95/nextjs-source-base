@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Image from "next/image";
+
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -8,12 +8,6 @@ import { createTheme, useTheme } from "@mui/material/styles";
 import { Grid, Popover, Box, Theme } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-import hdBankLogoPic from "public/images/HDBanklogo.png";
-import hdBankLogoMobilePic from "public/images/HDBanklogoMobile.png";
-import languageViPic from "public/images/language-vi.png";
-import languageEnPic from "public/images/en.png";
-import downPic from "public/images/down.png";
-import logoSBH from "public/images/sbh/logoSBH.png";
 import { LANGUAGE } from "commons/constants";
 import cn from "classnames";
 
@@ -77,9 +71,16 @@ const SectionHeader = React.forwardRef(
             <Grid alignItems="center" container spacing={2}>
               <Grid onClick={_redirectHome} item xs="auto">
                 {isMobile ? (
-                  <Image src={hdBankLogoMobilePic} alt="hdBank-mobile-logo" />
+                  <img
+                    src="/sso/images/HDBanklogoMobile.png"
+                    alt="hdBank-mobile-logo"
+                  />
                 ) : (
-                  <Image src={hdBankLogoPic} alt="hdBank-logo" height={72} />
+                  <img
+                    src="/sso/images/HDBanklogo.png"
+                    alt="hdBank-logo"
+                    height={72}
+                  />
                 )}
               </Grid>
             </Grid>
@@ -94,15 +95,19 @@ const SectionHeader = React.forwardRef(
                 className={classes.pointer}
               >
                 <Grid item xs="auto" className={classes.languageIcon}>
-                  <Image
+                  <img
                     width={35}
                     height={35}
-                    src={locale === LANGUAGE.VI ? languageViPic : languageEnPic}
+                    src={
+                      locale === LANGUAGE.VI
+                        ? "/sso/images/language-vi.png"
+                        : "/sso/images/en.png"
+                    }
                     alt="star-icon"
                   />
                 </Grid>
                 <Grid item xs="auto">
-                  <Image src={downPic} alt="down-pic" />
+                  <img src={"/sso/images/down.png"} alt="down-pic" />
                 </Grid>
               </Grid>
               <Popover
@@ -129,10 +134,10 @@ const SectionHeader = React.forwardRef(
                         className={classes.pointer}
                       >
                         <Grid item xs={4} className={classes.wrapperIcon}>
-                          <Image
+                          <img
                             width={30}
                             height={30}
-                            src={languageViPic}
+                            src={"/sso/images/language-vi.png"}
                             alt="star-icon"
                           />
                         </Grid>
@@ -151,10 +156,10 @@ const SectionHeader = React.forwardRef(
                         className={classes.pointer}
                       >
                         <Grid item xs={4} className={classes.wrapperIcon}>
-                          <Image
+                          <img
                             width={30}
                             height={30}
-                            src={languageEnPic}
+                            src={"/sso/images/en.png"}
                             alt="star-icon"
                           />
                         </Grid>
@@ -169,7 +174,11 @@ const SectionHeader = React.forwardRef(
             </Grid>
           ) : (
             <Grid item xs="auto">
-              <Image src={logoSBH} alt="hdBank-logo" height={25} />
+              <img
+                src={"/sso/images/sbh/logoSBH.png"}
+                alt="hdBank-logo"
+                height={25}
+              />
             </Grid>
           )}
         </Grid>

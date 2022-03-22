@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useCallback, useState } from "react";
-import Image from "next/image";
+//
 import { useRouter } from "next/router";
 import Script from "next/script";
 
@@ -9,7 +9,7 @@ import { InputOTP } from "components/commons";
 import { ERROR_CODE, startTimer } from "commons/helpers";
 import * as sbhOTPServices from "services/sbhOTPService";
 
-import HDBankLogo from "public/images/HDBanklogo.png";
+// import HDBankLogo from "public/images/HDBanklogo.png";
 import { CheckSessionOTPCode } from "commons/constants/sbhOTP";
 import { SbhPurchaseInfo } from "interfaces/ISbhOTP";
 import cn from "classnames";
@@ -211,7 +211,7 @@ const OTPPage = () => {
       {validPage && (
         <Grid container direction="column" spacing={2}>
           <Grid item className={classes.textCenter}>
-            <Image src={HDBankLogo} alt="hdbank-logo" />
+            <img src={"/sso/images/HDBanklogo.png"} alt="hdbank-logo" />
           </Grid>
           <Grid item className={classes.textHeader}>
             Xác thực OTP thanh toán

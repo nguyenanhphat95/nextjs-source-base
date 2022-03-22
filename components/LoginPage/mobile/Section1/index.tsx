@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+
 import { useRouter } from "next/router";
 
 import { makeStyles } from "@mui/styles";
@@ -31,6 +31,9 @@ const useStyles = makeStyles(() => ({
   },
   wrapperImage: {
     "&  > span": {
+      width: "100% !important",
+    },
+    "& img": {
       width: "100% !important",
     },
   },

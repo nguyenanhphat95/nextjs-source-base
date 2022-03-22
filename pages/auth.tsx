@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useState } from "react";
-import Image from "next/image";
+//
 import { useRouter } from "next/router";
 
 import { makeStyles } from "@mui/styles";
@@ -26,7 +26,7 @@ import {
   getPublicKey,
 } from "services";
 import { generateRequestBody, handleErrorWithResponse } from "commons/helpers";
-import desktopPic from "public/images/desktop.png";
+// import desktopPic from "public/images/desktop.png";
 import STKContext from "components/STKPage/contexts/STKContextValue";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -39,9 +39,8 @@ import { ERROR_MESSAGE_VERIFY_USER } from "components/STKPage/const";
 createTheme();
 const useStyles = makeStyles(() => ({
   banner: {
-    "&  > span": {
-      width: "100% !important",
-    },
+    height: "400px",
+    width: "100%",
   },
   rootMobileUtility: {
     margin: "50px 40px",
@@ -202,12 +201,17 @@ const AuthPage = () => {
       {!isMobile && (
         <>
           <Grid item xs={12}>
-            <Box
+            {/* <Box
               onClick={_redirectDOP}
               className={cn(classes.banner, classes.pointer)}
-            >
-              <Image src={desktopPic} alt="desktop" />
-            </Box>
+            > */}
+            <img
+              onClick={_redirectDOP}
+              src={"/sso/images/desktop.png"}
+              alt="desktop"
+              className={classes.banner}
+            />
+            {/* </Box> */}
           </Grid>
 
           <Grid item xs={12}>

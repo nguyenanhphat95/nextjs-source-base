@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+//
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 
@@ -80,7 +80,7 @@ const PopupNotify = (props: Props) => {
           <Grid container direction="column" spacing={2}>
             <Grid item>
               <Box display="flex" justifyContent="center">
-                <img src="/images/notifyError.png" alt="notify" />
+                <img src="/sso/images/notifyError.png" alt="notify" />
               </Box>
             </Grid>
             <Grid item className={classes.title}>

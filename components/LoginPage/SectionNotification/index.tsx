@@ -1,5 +1,5 @@
 import React from "react";
-// import Image from "next/image";
+//
 import { useRouter } from "next/router";
 
 import { Grid, Box } from "@mui/material";
@@ -45,31 +45,31 @@ const useStyles = makeStyles(() => ({
 
 export const LIST_NOTIFICATION = [
   {
-    image: "/images/noti1.png",
+    image: "/sso/images/noti1.png",
     title: "itemTitle1",
     content: "itemContent1",
     shortContent: "itemShortContent1",
   },
   {
-    image: "/images/noti2.png",
+    image: "/sso/images/noti2.png",
     title: "itemTitle2",
     content: "itemContent2",
     shortContent: "itemShortContent2",
   },
   {
-    image: "/images/noti3.png",
+    image: "/sso/images/noti3.png",
     title: "itemTitle3",
     content: "itemContent3",
     shortContent: "",
   },
   {
-    image: "/images/noti4.png",
+    image: "/sso/images/noti4.png",
     title: "itemTitle3",
     content: "itemContent3",
     shortContent: "",
   },
   {
-    image: "/images/noti4.png",
+    image: "/sso/images/noti4.png",
     title: "itemTitle3",
     content: "itemContent3",
     shortContent: "",
