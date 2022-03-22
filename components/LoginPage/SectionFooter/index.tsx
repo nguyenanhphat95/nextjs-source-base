@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import { useRouter } from "next/router";
 
 import { Grid, Box, Divider } from "@mui/material";
@@ -8,18 +8,18 @@ import { createTheme, Theme } from "@mui/material/styles";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-import hdBankLogoPic from "public/images/HDBanklogo.png";
-import addressIcon from "public/images/address.png";
-import phoneIcon from "public/images/Phone.png";
-import mailIcon from "public/images/Mail.png";
-import qrIcon from "public/images/QRcode.png";
-import googlePlayIcon from "public/images/GooglePlay.png";
-import appStoreIcon from "public/images/AppStore.png";
-import fbIcon from "public/images/fb.png";
-import titokIcon from "public/images/titok.png";
-import youtubeIcon from "public/images/youtube.png";
-import instagramIcon from "public/images/instagram.png";
-import zaloIcon from "public/images/zalo.png";
+// import hdBankLogoPic from "public/images/HDBanklogo.png";
+// import addressIcon from "public/images/address.png";
+// import phoneIcon from "public/images/Phone.png";
+// import mailIcon from "public/images/Mail.png";
+// import qrIcon from "public/images/QRcode.png";
+// import googlePlayIcon from "public/images/GooglePlay.png";
+// import appStoreIcon from "public/images/AppStore.png";
+// import fbIcon from "public/images/fb.png";
+// import titokIcon from "public/images/titok.png";
+// import youtubeIcon from "public/images/youtube.png";
+// import instagramIcon from "public/images/instagram.png";
+// import zaloIcon from "public/images/zalo.png";
 // import ellipseIcon from "public/images/Ellipse.png";
 // import whatsappIcon from "public/images/whatsapp.png";
 import twitterIcon from "public/images/twitter.png";
@@ -53,18 +53,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const INFO = [
   {
-    icon: addressIcon,
+    icon: "/images/address.png",
     name: `25Bis Nguyễn Thị Minh Khai, P. Bến Nghé,
     Quận 1, TP. Hồ Chí Minh`,
     url: "",
   },
   {
-    icon: phoneIcon,
+    icon: "/images/Phone.png",
     name: "19006060",
     url: "tel:19006060",
   },
   {
-    icon: mailIcon,
+    icon: "/images/Mail.png",
     name: "info@hdbank.com.vn",
     url: 'mailto:info@hdbank.com.vn"',
   },
@@ -184,15 +184,18 @@ const LIST_OTHER_INFO = [
 
 const LIST_ICON_APP = [
   {
-    icon: fbIcon,
+    icon: "/images/fb.png",
     url: "https://www.facebook.com/hdbankfanpage/",
   },
   {
-    icon: zaloIcon,
+    icon: "/images/zalo.png",
     url: "https://zalo.me/1148028551726591727",
   },
-  { icon: titokIcon, url: "https://www.tiktok.com/@hdbankvietnam" },
-  { icon: youtubeIcon, url: "https://www.youtube.com/c/HDBankOfficial" },
+  { icon: "/images/titok.png", url: "https://www.tiktok.com/@hdbankvietnam" },
+  {
+    icon: "/images/youtube.png",
+    url: "https://www.youtube.com/c/HDBankOfficial",
+  },
 ];
 
 const SectionFooter = () => {
@@ -219,14 +222,18 @@ const SectionFooter = () => {
           <Grid container spacing={3}>
             <Grid item xs={12} md={5}>
               <Box mb={3}>
-                <Image src={hdBankLogoPic} alt="hdBank-logo" height={72} />
+                <img
+                  src="/images/HDBanklogo.png"
+                  alt="hdBank-logo"
+                  height={72}
+                />
               </Box>
               {INFO.map((info, index) => (
                 <Box key={index}>
                   <Grid container alignItems="center" spacing={1}>
                     {info.icon && (
                       <Grid item xs="auto">
-                        <Image width={20} src={info.icon} alt="icon" />
+                        <img width={20} src={info.icon} alt="icon" />
                       </Grid>
                     )}
                     <Grid item xs={true}>
@@ -298,7 +305,7 @@ const SectionFooter = () => {
               <Grid container spacing={1}>
                 {!isMobile && (
                   <Grid item xs={12} md="auto">
-                    <Image src={qrIcon} alt="qr-code" />
+                    <img src="/images/QRcode.png" alt="qr-code" />
                   </Grid>
                 )}
                 <Grid item xs={12} md="auto">
@@ -308,7 +315,7 @@ const SectionFooter = () => {
                         href="https://play.google.com/store/apps/details?id=com.vnpay.hdbank"
                         target="_blank"
                       >
-                        <Image src={googlePlayIcon} alt="google-play" />
+                        <img src="/images/GooglePlay.png" alt="google-play" />
                       </a>
                     </Grid>
                     <Grid item xs={6} md={12}>
@@ -316,7 +323,7 @@ const SectionFooter = () => {
                         href="https://itunes.apple.com/vn/app/hdbank/id1461658565?mt=8"
                         target="_blank"
                       >
-                        <Image src={appStoreIcon} alt="app-store" />
+                        <img src="/images/AppStore.png" alt="app-store" />
                       </a>
                     </Grid>
                   </Grid>
@@ -344,7 +351,7 @@ const SectionFooter = () => {
                     item
                     xs="auto"
                   >
-                    <Image src={item.icon} alt="icon-share" />
+                    <img src={item.icon} alt="icon-share" />
                   </Grid>
                 ))}
               </Grid>

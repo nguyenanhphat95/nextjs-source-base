@@ -7,10 +7,6 @@ import { makeStyles } from "@mui/styles";
 import { createTheme } from "@mui/material/styles";
 import { Grid, Popover, Box } from "@mui/material";
 
-import hdBankLogoPic from "public/images/HDBanklogo.png";
-import languageViPic from "public/images/language-vi.png";
-import languageEnPic from "public/images/en.png";
-import downPic from "public/images/down.png";
 import { DOMAIN_DOP, LANGUAGE } from "commons/constants";
 
 createTheme();
@@ -68,7 +64,7 @@ const SectionHeader = () => {
               item
               xs="auto"
             >
-              <Image src={hdBankLogoPic} alt="hdBank-logo" height={72} />
+              <img src="/images/HDBanklogo.png" alt="hdBank-logo" height={72} />
             </Grid>
           </Grid>
         </Grid>
@@ -82,15 +78,19 @@ const SectionHeader = () => {
             className={classes.pointer}
           >
             <Grid item xs="auto" className={classes.languageIcon}>
-              <Image
+              <img
                 width={35}
                 height={35}
-                src={locale === LANGUAGE.VI ? languageViPic : languageEnPic}
+                src={
+                  locale === LANGUAGE.VI
+                    ? "/images/language-vi.png"
+                    : "/images/en.png"
+                }
                 alt="star-icon"
               />
             </Grid>
             <Grid item xs="auto">
-              <Image src={downPic} alt="down-pic" />
+              <img src="/images/down.png" alt="down-pic" />
             </Grid>
           </Grid>
           <Popover
@@ -117,10 +117,10 @@ const SectionHeader = () => {
                     className={classes.pointer}
                   >
                     <Grid item xs={4} className={classes.wrapperIcon}>
-                      <Image
+                      <img
                         width={30}
                         height={30}
-                        src={languageViPic}
+                        src="/images/language-vi.png"
                         alt="star-icon"
                       />
                     </Grid>
@@ -139,10 +139,10 @@ const SectionHeader = () => {
                     className={classes.pointer}
                   >
                     <Grid item xs={4} className={classes.wrapperIcon}>
-                      <Image
+                      <img
                         width={30}
                         height={30}
-                        src={languageEnPic}
+                        src={"/images/en.png"}
                         alt="star-icon"
                       />
                     </Grid>

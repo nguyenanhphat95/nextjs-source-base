@@ -78,7 +78,7 @@ const SectionMobile1 = (props: Props) => {
               <Grid key={index} item xs={6}>
                 <Box className={classes.notifyItem}>
                   <Box className={classes.wrapperImage}>
-                    <Image src={item.image} alt="icon-image" />
+                    <img src={item.image} alt="icon-image" />
                   </Box>
                   <Box p={2}>
                     <div className={classes.nameNotify}>{t[item.title]}</div>

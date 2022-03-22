@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+// import Image from "next/image";
 import { useRouter } from "next/router";
 
 import { Grid, Box } from "@mui/material";
@@ -7,10 +7,10 @@ import { makeStyles } from "@mui/styles";
 import { createTheme } from "@mui/material/styles";
 
 import cn from "classnames";
-import notifyIcon1 from "public/images/noti1.png";
-import notifyIcon2 from "public/images/noti2.png";
-import notifyIcon3 from "public/images/noti3.png";
-import notifyIcon4 from "public/images/noti4.png";
+// import notifyIcon1 from "public/images/noti1.png";
+// import notifyIcon2 from "public/images/noti2.png";
+// import notifyIcon3 from "public/images/noti3.png";
+// import notifyIcon4 from "public/images/noti4.png";
 
 import resources from "pages/assets/translate.json";
 import { LANGUAGE } from "commons/constants";
@@ -45,31 +45,31 @@ const useStyles = makeStyles(() => ({
 
 export const LIST_NOTIFICATION = [
   {
-    image: notifyIcon1,
+    image: "/images/noti1.png",
     title: "itemTitle1",
     content: "itemContent1",
     shortContent: "itemShortContent1",
   },
   {
-    image: notifyIcon2,
+    image: "/images/noti2.png",
     title: "itemTitle2",
     content: "itemContent2",
     shortContent: "itemShortContent2",
   },
   {
-    image: notifyIcon3,
+    image: "/images/noti3.png",
     title: "itemTitle3",
     content: "itemContent3",
     shortContent: "",
   },
   {
-    image: notifyIcon4,
+    image: "/images/noti4.png",
     title: "itemTitle3",
     content: "itemContent3",
     shortContent: "",
   },
   {
-    image: notifyIcon4,
+    image: "/images/noti4.png",
     title: "itemTitle3",
     content: "itemContent3",
     shortContent: "",
@@ -107,7 +107,7 @@ const SectionNotification = () => {
                 >
                   <Grid container spacing={2}>
                     <Grid item xs="auto">
-                      <Image src={item.image} alt="icon-image" />
+                      <img src={item.image} alt="icon-image" />
                     </Grid>
                     <Grid item xs={true}>
                       <Box className={cn(classes.title, "title")}>

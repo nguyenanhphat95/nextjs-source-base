@@ -1,0 +1,58 @@
+SUCCESS ("00", "Thành công"),
+    
+    
+	//
+    NAME_NOT_MATCH ("03", "Tên và tài khoản không trùng khớp"),
+    ACCOUNT_TYPE_INVALID ("04", "Không đúng loại tài khoản được phép liên kết"),
+    VERIFY_TRANSACTION_ECRM_INVALID ("06", "Verify transaction invalid"),
+    ACCOUNT_DEACTIVE ("07", "Tài khoản đã đóng/không còn liên kết"),
+    FORMAT_MESSAGE_INVALID ("09", "Format message không hợp lệ"),
+    AMOUNT_FORMAT_INVALID ("10", "Số tiền không hợp lệ/nhỏ hơn số tiền quy định"),
+    REQUEST_EXISTED ("13", "RequestId đã tồn tại"),
+    RESTRAINT_NO_NOT_MATCH ("15", "Mã hold không đúng"),
+    BANK_EOD("25", "Khóa ngày trong core bank"),
+    CCY_INVALID("26", "Loại tiền không hợp lệ"),
+    SAME_ACCOUNT("27", "Tài khoản nguồn và tài khoản đích trùng nhau"),
+    EXPIRED_DATE_30_TOKENIZE("30", "Tokenize hết hạn 3 tháng"),
+    TRANSACTION_TIMEOUT ("68", "Transaction timeout"),
+    ATM_MESSAGE_ERROR ("80", "ATM message error"),
+    TXN_ID_NO_EXISTED ("28", "TxnId không tồn tại"),
+    WHITE_LIST_IP ("29", "IP không tồn tại"),
+
+
+
+////Liên quan đến Purchase
+    ACCOUNT_WRONG("02", "Tài khoản ngân hàng không đúng"),
+	SIGNATURE_NOT_MATCH ("08", "Chữ ký điện tử không hợp lệ"),
+	PARTNERID_NOT_EXIST ("12", "PartnerId không tồn tại"),
+	LIMIT_REACHED ("11", "Số tiền vượt quá giới hạn"),
+	TXN_ID_EXISTED ("14", "TxnId đã tồn tại"),
+	ACCOUNT_NOT_EXIST ("01", "Tài khoản/SyncID không tồn tại"),
+	NOT_ENOUGH_MONEY ("05", "Tài khoản không đủ tiền"),
+    SYSTEM_ERROR("99", "Giao dịch đang chờ xử lý"),
+    EXPIRED_SESSION("30", "Hết hạn otp"),
+    NON_EXPIRED_SESSION("31", "Còn hạn otp"),
+    BTXN_ID_NO_EXIST("32", "bTxnId không tồn tại"),
+    ;
+	
+	///OTP 
+	
+	SUCCESS("00", "Thành công"),
+    SYSTEM_ERROR("16",
+            "Xin lỗi Quý khách, dịch vụ này đang được bảo trì. Quý khách vui lòng thử lại giao dịch sau ít phút hoặc liên hệ 19006060 để biết thêm chi tiết."),
+    USER_NO_TOKEN("17",
+            "Tài khoản của Quý khách chưa đăng ký Phương thức xác thực. Quý khách vui lòng đăng ký Phương thức xác thực để thực hiện giao dịch."),
+    OTP_INVALID("18",
+            "Mật khẩu giao dịch không đúng. Quý khách vui lòng nhập lại."),
+    OTP_EXPIRE("19",
+            "Mật khẩu giao dịch đã hết hạn. Quý khách vui lòng thực hiện lại giao dịch."),
+    USER_NO_TOKEN_ACTIVE("20",
+            "Tài khoản của Quý khách chưa kích hoạt Phương thức xác thực. Quý khách vui lòng kích hoạt Phương thức xác thực để thực hiện giao dịch."),
+    MAX_REQUEST_OTP("21",
+            "Phương thức xác thực của Quý khách đã bị khóa do không xác nhận quá số lần quy định. Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ."),
+    MAX_VERIFY_OTP("22",
+            "Phương thức xác thực của Quý khách đã bị khóa do nhập sai mật khẩu quá số lần quy định. Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ."),
+    OTP_ERROR("23",
+            "Đã có lỗi xảy ra trong quá trình xác thực. Quý khách vui lòng thực hiện lại hoặc liên hệ tổng đài 19006060 để được hỗ trợ."),
+    TOKEN_OUT_OF_SYNC("24",
+            "HDBank OTP của Quý khách đã mất đồng bộ với máy chủ. Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ.");

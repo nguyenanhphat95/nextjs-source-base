@@ -80,7 +80,7 @@ const PopupNotify = (props: Props) => {
           <Grid container direction="column" spacing={2}>
             <Grid item>
               <Box display="flex" justifyContent="center">
-                <Image src={notifyError} alt="notify" />
+                <img src="/images/notifyError.png" alt="notify" />
               </Box>
             </Grid>
             <Grid item className={classes.title}>

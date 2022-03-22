@@ -58,7 +58,7 @@ const ToggleItem = (props: Props) => {
             </Grid>
             {isMobile && (
               <Grid item xs="auto">
-                <Image src={downPic} alt="down-pic" />
+                <img src={"/images/down.png"} alt="down-pic" />
               </Grid>
             )}
           </Grid>

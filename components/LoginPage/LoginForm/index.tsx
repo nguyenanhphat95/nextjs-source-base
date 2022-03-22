@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, useContext } from "react";
 import Script from "next/script";
-import Image from "next/image";
+// import Image from "next/image";
 import { useRouter } from "next/router";
 
 import { Grid, Box } from "@mui/material";
@@ -173,7 +173,7 @@ const LoginForm = (props: Props) => {
             <Grid item>
               <InputCustom
                 InputProps={{
-                  startAdornment: <Image src={userIcon} alt="username" />,
+                  startAdornment: <img src="/images/user.png" alt="username" />,
                 }}
                 id="username"
                 placeholder={t?.username}
@@ -185,7 +185,7 @@ const LoginForm = (props: Props) => {
             <Grid item>
               <InputCustom
                 InputProps={{
-                  startAdornment: <Image src={passIcon} alt="username" />,
+                  startAdornment: <img src="/images/pwd.png" alt="username" />,
                 }}
                 id="password"
                 placeholder={t?.password}
@@ -198,7 +198,9 @@ const LoginForm = (props: Props) => {
 
             <Grid item>
               <ButtonCustom
-                startIcon={<Image src={rightIcon} alt="icon-right" />}
+                startIcon={
+                  <img src="/images/rightloging.png" alt="icon-right" />
+                }
                 variant="contained"
                 color="secondary"
                 fullWidth
@@ -215,7 +217,9 @@ const LoginForm = (props: Props) => {
 
             <Grid item>
               <ButtonCustom
-                startIcon={<Image src={rightIcon} alt="icon-right" />}
+                startIcon={
+                  <img src="/images/rightloging.png" alt="icon-right" />
+                }
                 variant="outlined"
                 fullWidth
                 className={classes.btnCustomRegister}
