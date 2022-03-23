@@ -136,11 +136,11 @@ export const checkResultEkyc = (
 
   // Start: check expire of cmnd/cccd
   const type_id = _get(ekycData, "ocr.object.type_id");
-  // const dateOfIssue = "20/01/2021";
-  const dateOfIssue =
-    _get(ekycData, "ocr.object.issue_date") === "-"
-      ? ""
-      : _get(ekycData, "ocr.object.issue_date");
+  const dateOfIssue = "20/01/2021";
+  // const dateOfIssue =
+  //   _get(ekycData, "ocr.object.issue_date") === "-"
+  //     ? ""
+  //     : _get(ekycData, "ocr.object.issue_date");
   const expiredDate =
     _get(ekycData, "ocr.object.valid_date") === "-"
       ? ""
