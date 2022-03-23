@@ -10,6 +10,7 @@ import { CreateOTPRequest, CreateOTPResponse } from "interfaces/ICreateOTP";
 import {
   ListAccountResponse,
   ListAccountRequest,
+  AccountItem,
 } from "interfaces/IListAccount";
 import { VerifyOTPRequest, VerifyOTPResponse } from "interfaces/IVerifyOTP";
 import { v4 as uuidv4 } from "uuid";
@@ -20,6 +21,43 @@ import {
   VerifyWithTokenSBHResponse,
 } from "interfaces/IVerifyWithTokenSBH";
 import { CheckUserRequest } from "interfaces/ICheckUser";
+
+// Condition to filter list account 701;704;714;715;790;791;700;710;708;718;719;712;794;702;7SV;7ZR;7PR;7PL;7CO;7SG;70G;70M;799;7OL
+export function filterListAccount(data: AccountItem[]): AccountItem[] {
+  if (data && data.length) {
+    return data.filter((item) => {
+      if (
+        item.AcctType === "701" ||
+        item.AcctType === "704" ||
+        item.AcctType === "714" ||
+        item.AcctType === "715" ||
+        item.AcctType === "790" ||
+        item.AcctType === "791" ||
+        item.AcctType === "700" ||
+        item.AcctType === "710" ||
+        item.AcctType === "708" ||
+        item.AcctType === "718" ||
+        item.AcctType === "719" ||
+        item.AcctType === "712" ||
+        item.AcctType === "794" ||
+        item.AcctType === "702" ||
+        item.AcctType === "7SV" ||
+        item.AcctType === "7ZR" ||
+        item.AcctType === "7PR" ||
+        item.AcctType === "7PL" ||
+        item.AcctType === "7CO" ||
+        item.AcctType === "7SG" ||
+        item.AcctType === "70G" ||
+        item.AcctType === "70M" ||
+        item.AcctType === "799" ||
+        item.AcctType === "7O"
+      ) {
+        return item;
+      }
+    });
+  }
+  return [];
+}
 
 export const getListAccountApi = async (clientNo: string) => {
   const body: ListAccountRequest = {
@@ -32,6 +70,7 @@ export const getListAccountApi = async (clientNo: string) => {
     "/sso/api/getAccountByCif",
     body
   );
+
   return resp;
 };
 

@@ -6,7 +6,11 @@ import Script from "next/script";
 import { makeStyles } from "@mui/styles";
 import { Grid } from "@mui/material";
 import { InputOTP } from "components/commons";
-import { ERROR_CODE, startTimer } from "commons/helpers";
+import {
+  ERROR_CODE,
+  getStatusResponseOtpPage,
+  startTimer,
+} from "commons/helpers";
 import * as sbhOTPServices from "services/sbhOTPService";
 
 // import HDBankLogo from "public/images/HDBanklogo.png";
@@ -87,6 +91,17 @@ const OTPPage = () => {
   }, [timerRef.current, validPage]);
 
   useEffect(() => {
+    if (!purchaseInfo?.accountNo) {
+      return;
+    }
+
+    if (!query?.userId || !query?.campaignId || !query.leadId) {
+      toggleNotify("Thông báo", "Thiếu userId, campaignId hoặc leadId");
+      return;
+    }
+  }, [purchaseInfo, query]);
+
+  useEffect(() => {
     if (!query.uuid || !query.bTxnId) return;
     bTxnId.current = query.bTxnId as string;
     async function callApi() {
@@ -106,6 +121,8 @@ const OTPPage = () => {
         const resInfo = await sbhOTPServices.getInfoByTokenApi(
           query.bTxnId as string
         );
+        setPurchaseInfo(resInfo.data);
+
         if (resInfo?.response?.responseCode === ERROR_CODE.Success) {
           _callPurchaseSbh(resInfo.data);
         }
@@ -130,11 +147,14 @@ const OTPPage = () => {
       }
 
       sbhOTPServices.purchaseSbhApi(formData).then((resPurchase) => {
-        if (resPurchase?.response?.responseCode === ERROR_CODE.Success) {
+        const code = _get(resPurchase, "response.responseCode");
+        const status = getStatusResponseOtpPage(code);
+
+        if (status.success) {
           setValidPage(true);
           bTxnId.current = resPurchase?.data?.bTxnId;
         } else {
-          toggleNotify("Thông báo", "Gửi otp không thành công");
+          toggleNotify("Thông báo", status.msg);
         }
       });
     },
@@ -148,10 +168,11 @@ const OTPPage = () => {
     }
     sbhOTPServices.verifySbhOTPApi(otp, bTxnId.current).then((res) => {
       const code = _get(res, "response.responseCode");
-      const message = _get(res, "response.responseMessage");
+      const status = getStatusResponseOtpPage(code);
+
       let urlRedirect = LINK_VERIFY_CALLBACK_SBH_OTP;
 
-      if (code === ERROR_CODE.Success) {
+      if (status.success) {
         urlRedirect = urlRedirect
           ?.replace("{error}", "success")
           .replace("{txid}", res?.data?.txnId || "")
@@ -160,7 +181,7 @@ const OTPPage = () => {
         urlRedirect && router.push(urlRedirect);
         return;
       }
-      toggleNotify("Thông báo", "Mã xác thực không đúng");
+      toggleNotify("Thông báo", status.msg);
       // urlRedirect = urlRedirect
       //   ?.replace("{error}", "error")
       //   .replace("{txid}", res?.data?.txnId || "")

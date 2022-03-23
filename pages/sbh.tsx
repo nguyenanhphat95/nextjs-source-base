@@ -301,7 +301,9 @@ const SBHPage = () => {
           _updateNumberFail(KEY_LOGIN_FAIL, null);
           const cif = _get(res, "data.data.cif");
           stkService.getListAccountApi(cif).then((res) => {
-            setListAccount(_get(res, "data.data", []));
+            setListAccount(
+              stkService.filterListAccount(_get(res, "data.data", []))
+            );
           });
           usernameRef.current = data.username;
           passwordRef.current = data.password;
