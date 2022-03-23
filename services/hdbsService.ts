@@ -363,6 +363,8 @@ export const getListAccountApi = async () => {
     "/api/getAccountByCif",
     body
   );
+  console.log('timeout client: ', resp);
+
   return resp;
 };
 

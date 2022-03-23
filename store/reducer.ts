@@ -11,6 +11,7 @@ import {
   SET_LIST_ACCOUNT,
   SET_ALLOW_SEND_OTP,
   SET_TOGGLE_LOADING,
+  SET_STEP
 } from "./actions";
 import _get from "lodash/get";
 import { KEY_DATA } from "commons/constants";
@@ -37,6 +38,7 @@ export interface AppState {
     desc: string;
     onClose: () => void;
   };
+  step: number;
 }
 
 export const initialState: AppState = {
@@ -45,7 +47,6 @@ export const initialState: AppState = {
   listAccount: [],
   typeCustomer: TypeCustomer.KHM,
   dataForm: INITIAL_VALUE,
-
   allowSendOTP: true,
   openVerifyOTP: false,
   statusModalNotify: {
@@ -58,6 +59,7 @@ export const initialState: AppState = {
     loadingBtnConfirmOTP: false,
     loadingMasterData: false,
   },
+  step: 0,
 };
 
 const storeDataToLocalStorage = (appState: AppState) => {
@@ -92,6 +94,21 @@ function reducer(
           ...state.loading,
           [action.payload]: loadingStatus ? false : true,
         },
+      };
+      // storeDataToLocalStorage(newData);
+      return newData;
+    }
+    case SET_STEP: {
+      console.log("action.payload: ", action.payload);
+      if(action.payload != 99){
+        return {
+          ...state,
+          step: action.payload,
+        }
+      }
+      const newData = {
+        ...state,
+        step: state.step + 1,
       };
       // storeDataToLocalStorage(newData);
       return newData;

@@ -1,5 +1,5 @@
 export interface ListAccountResponse {
-  data: AccountItem[];
+  data: AccountItem[] | null;
 }
 export interface AccountItem {
   AcctType: string;

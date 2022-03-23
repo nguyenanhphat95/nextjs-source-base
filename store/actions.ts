@@ -19,10 +19,24 @@ export interface SetAllowSendOTPAction {
   type: typeof SET_ALLOW_SEND_OTP;
   payload: boolean;
 }
+
 export function setAllowSendOTP(allowSendOTP: boolean): SetAllowSendOTPAction {
   return {
     type: SET_ALLOW_SEND_OTP,
     payload: allowSendOTP,
+  };
+}
+
+export const SET_STEP = "SET_STEP";
+export interface SetStep {
+  type: typeof SET_STEP;
+  payload: number;
+}
+
+export function setStep(step: number): SetStep {
+  return {
+    type: SET_STEP,
+    payload: step,
   };
 }
 
@@ -99,4 +113,5 @@ export type AppActions =
   | SetListTerminalAction
   | SetListAccountAction
   | SetAllowSendOTPAction
+  | SetStep
   | SetToggleLoadingAction;

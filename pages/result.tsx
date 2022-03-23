@@ -7,18 +7,23 @@ import _get from "lodash/get";
 import { PAGE_TITLE, ROUTE_STEP, STEP_HDBS } from "components/HDBSPage/consts";
 import Head from "next/head";
 import * as qs from "query-string";
+import { useDispatch, useSelector } from "react-redux";
+import { AppState } from "store/reducer";
+
 
 const ResultPage = () => {
   const router = useRouter();
   const query = router.query;
   const typeCustomer = _get(query, "typeCustomer", TypeCustomer.KHHH);
+  const { step }: AppState = useSelector((state) => _get(state, "app"));
 
   const _handleOtherTransaction = () => {
     if (typeCustomer === TypeCustomer.KHHH) {
-      router.push({
-        pathname: ROUTE_STEP.stepHome,
-        query,
-      });
+      // router.push({
+      //   pathname: ROUTE_STEP.stepHome,
+      //   query,
+      // });
+      console.log(step);
       // const params = {
       //   ...query,
       //   step: STEP_HDBS.stepHome,

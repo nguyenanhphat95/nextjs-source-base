@@ -10,8 +10,8 @@ export interface GetMerchantRequest {
 }
 
 export interface GetMerchantResponse {
-  merchants: MerchantNameItem[];
-  terminals: TerminalNameItem[];
+  merchants?: MerchantNameItem[] | null;
+  terminals?: TerminalNameItem[] | null;
 }
 
 export interface MerchantNameItem {

@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as hdbsServices from "services/hdbsService";
-import { setFormData, setToggleLoading } from "store/actions";
+import { setFormData, setStep, setToggleLoading } from "store/actions";
 import { AppState } from "store/reducer";
 
 const useStyles = makeStyles(() => ({
@@ -32,8 +32,8 @@ const Step1FormTKCK = (props: Props) => {
   const lang = getLanguage(router);
 
   const dispatch = useDispatch();
-  const { dataForm }: AppState = useSelector((state) => _get(state, "app"));
-
+  const { dataForm, step }: AppState = useSelector((state) => _get(state, "app"));
+  console.log("step ne: ", step);
   const _handleSubmit = (data: FormDataStep1) => {
     dispatch(setToggleLoading("loadingBtnSubmit"));
     const finalData = {
@@ -52,6 +52,7 @@ const Step1FormTKCK = (props: Props) => {
         dispatch(setToggleLoading("loadingBtnSubmit"));
         const code = _get(res, "resultCode");
         const status = getStatusResponse(code, lang);
+        dispatch(setStep(99));
         if (status.success) {
           // hasSendOtp = false => user đã có tài khoản chứng khoán rồi
           if (!res.hasSendOtp) {

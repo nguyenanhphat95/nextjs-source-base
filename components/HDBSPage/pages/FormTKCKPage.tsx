@@ -19,6 +19,7 @@ import reducer, { AppState, initialState } from "store/reducer";
 
 import _get from "lodash/get";
 import _delay from "lodash/delay";
+import { writeLogApi } from "services/commonService";
 const useStyles = makeStyles(() => ({
   root: {
     minHeight: "100vh",
@@ -106,7 +107,7 @@ const FormTKCKPage = (props: Props) => {
     dataForm
   }: AppState = useSelector((state) => _get(state, "app"));
 
-  console.log(useSelector((state) => _get(state, "app")));
+  
   const typeModal = useRef<string>("");
   const [openModalInfo, setOpenModalInfo] = useState(false);
   const [disabledWhenSetDefault, setDisabledWhenSetDefault] = useState(false);
@@ -117,9 +118,12 @@ const FormTKCKPage = (props: Props) => {
 
   const listAccountNew = useMemo(() => {
     if(listAccount.length === 1) {
+      
       setValue("accountNo", listAccount[0].accountNo)
     }
-    setValue("accountNo", dataForm.accountNo)
+    if(dataForm.accountNo){
+      setValue("accountNo", dataForm.accountNo)
+    }
     return (listAccount || []).map((item) => ({
       id: item.accountNo,
       value: item.accountNo,

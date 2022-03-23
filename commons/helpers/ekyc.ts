@@ -83,6 +83,7 @@ export const checkResultEkyc = (
   validEKYC: boolean;
   messageEKYC: string;
 } => {
+  console.log("ekycData: ", ekycData);
   let validEKYC = true;
   let messageEKYC = "";
   const compareObj = _get(ekycData, "compare.object.msg");
@@ -135,6 +136,7 @@ export const checkResultEkyc = (
 
   // Start: check expire of cmnd/cccd
   const type_id = _get(ekycData, "ocr.object.type_id");
+  // const dateOfIssue = "20/01/2021";
   const dateOfIssue =
     _get(ekycData, "ocr.object.issue_date") === "-"
       ? ""
@@ -144,12 +146,30 @@ export const checkResultEkyc = (
       ? ""
       : _get(ekycData, "ocr.object.valid_date");
 
+  console.log("dateOfIssue:", dateOfIssue);
+  console.log("expiredDate:", expiredDate);
+  console.log("type_id", type_id);
+  console.log(
+    "diferentIndate: ",
+    _differenceInDays(
+      new Date(new Date(formatDateOfEKYC(dateOfIssue))),
+      new Date(new Date(formatDateOfEKYC(expiredDate)))
+    ) === 29
+  );
+  console.log(
+    "compare: ",
+    compareTwoDate(
+      new Date(new Date(formatDateOfEKYC(dateOfIssue))),
+      new Date(new Date(formatDateOfEKYC(expiredDate)))
+    )
+  );
+
   const checkIdentityExpired = (dateOfIssue: string, expiredDate: string) => {
     // Check hiệu lực cmnd/cccd < 30 ngày
     if (
       _differenceInDays(
-        new Date(new Date(dateOfIssue)),
-        new Date(new Date(expiredDate))
+        new Date(new Date(formatDateOfEKYC(dateOfIssue))),
+        new Date(new Date(formatDateOfEKYC(expiredDate)))
       ) === 29
     ) {
       return {
@@ -159,10 +179,11 @@ export const checkResultEkyc = (
     }
 
     // Kiểm tra cmnd/cccd đã hết hạn hay chưa
+
     if (
       compareTwoDate(
-        new Date(new Date(dateOfIssue)),
-        new Date(new Date(expiredDate))
+        new Date(new Date(formatDateOfEKYC(dateOfIssue))),
+        new Date(new Date(formatDateOfEKYC(expiredDate)))
       )
     ) {
       return {
@@ -191,23 +212,23 @@ export const checkResultEkyc = (
     type_id === TYPE_ID.CMND1 ||
     type_id === TYPE_ID.CMND2
   ) {
-    // if (type_id === TYPE_ID.CMND1 || type_id === TYPE_ID.CMND2) {
-    //   const dateOfIssueFormat = formatDateOfEKYC(dateOfIssue);
-    //   // Với cmnd thì ngày hết hạn sẽ bằng ngày phát hành thẻ cộng thêm 15 năm
-    //   const expiredDateNew = addYearFromDate(
-    //     new Date(dateOfIssueFormat),
-    //     15,
-    //     "MM/dd/yyyy"
-    //   );
-    //   return checkIdentityExpired(dateOfIssueFormat, expiredDateNew);
-    // }
-    // if (type_id === TYPE_ID.CCCD1 || type_id === TYPE_ID.CCCD2) {
-    //   if (expiredDate) {
-    //     const dateOfIssueFormat = formatDateOfEKYC(dateOfIssue);
-    //     const expiredDateFormat = formatDateOfEKYC(expiredDate);
-    //     return checkIdentityExpired(dateOfIssueFormat, expiredDateFormat);
-    //   }
-    // }
+    if (type_id === TYPE_ID.CMND1 || type_id === TYPE_ID.CMND2) {
+      const dateOfIssueFormat = formatDateOfEKYC(dateOfIssue);
+      // Với cmnd thì ngày hết hạn sẽ bằng ngày phát hành thẻ cộng thêm 15 năm
+      const expiredDateNew = addYearFromDate(
+        new Date(dateOfIssueFormat),
+        15,
+        "MM/dd/yyyy"
+      );
+      return checkIdentityExpired(dateOfIssueFormat, expiredDateNew);
+    }
+    if (type_id === TYPE_ID.CCCD1 || type_id === TYPE_ID.CCCD2) {
+      if (expiredDate) {
+        const dateOfIssueFormat = formatDateOfEKYC(dateOfIssue);
+        const expiredDateFormat = formatDateOfEKYC(expiredDate);
+        return checkIdentityExpired(dateOfIssueFormat, expiredDateFormat);
+      }
+    }
   } else {
     return {
       validEKYC: false,

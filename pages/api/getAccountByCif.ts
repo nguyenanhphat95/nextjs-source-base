@@ -25,6 +25,7 @@ export default async function handler(
     );
     res.status(200).json(resp.data);
   } catch (err) {
+    res.status(200).json({ data: null });
     writeLog(
       ip.address(),
       getTodayWithFormat(),

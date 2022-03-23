@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as hdbsServices from "services/hdbsService";
-import { setToggleLoading } from "store/actions";
+import { setStep, setToggleLoading } from "store/actions";
 import { AppState } from "store/reducer";
 
 const useStyles = makeStyles(() => ({
@@ -128,11 +128,13 @@ const Step3ConfirmInfo = (props: Props) => {
         dispatch(setToggleLoading("loadingBtnConfirmOTP"));
 
         if (status.success) {
+          dispatch(setStep(99))
           _toggleModalVerifyOTP();
           _onNextStep(ROUTE_STEP.stepResult);
           return;
         }
         toggleNotify(status.msg, () => {
+          dispatch(setStep(1))
           _onNextStep(ROUTE_STEP.step1FormTKCK);
         });
       })

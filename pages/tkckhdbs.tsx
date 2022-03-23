@@ -21,6 +21,7 @@ import {
   setListAccount,
   setListMerchant,
   setListTerminal,
+  setStep,
   setToggleLoading,
   setTypeCustomer,
 } from "store/actions";
@@ -63,7 +64,7 @@ const HDBSPage = (props: Props) => {
   const t = _get(resources, [lang, "homePage"]);
 
   const dispatch = useDispatch();
-  const { dataForm, listAccount, typeCustomer, loading } = useSelector(
+  const { dataForm, listAccount, typeCustomer, loading, step } = useSelector(
     (state) => _get(state, "app")
   );
   const isUserImoney = useRef<boolean>(false);
@@ -77,6 +78,7 @@ const HDBSPage = (props: Props) => {
       toggleNotify(status.msg);
       return;
     }
+    dispatch(setStep(99));
     router.push({
       pathname: ROUTE_STEP.step1FormTKCK,
       query,
@@ -118,6 +120,12 @@ const HDBSPage = (props: Props) => {
         hdbsServices.getListAccountApi(),
       ])
         .then((res) => {
+          const merchantValid = _get(res, "[0].merchants")
+          const accountsValid = _get(res, "[1].data.data");          
+          if(!merchantValid || !accountsValid){
+            toggleNotify("Hệ thống đang được nâng cấp")
+          }
+          
           const accounts = _get(res, "[1].data.data", []);
           // If list account is empty, that is imoney user
           if (!accounts || !accounts.length) {
