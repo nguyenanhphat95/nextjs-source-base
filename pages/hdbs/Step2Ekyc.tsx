@@ -12,7 +12,12 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as hdbsServices from "services/hdbsService";
-import { setAllowSendOTP, setFormData, setStep, setToggleLoading } from "store/actions";
+import {
+  setAllowSendOTP,
+  setFormData,
+  setStep,
+  setToggleLoading,
+} from "store/actions";
 import { AppState } from "store/reducer";
 
 const useStyles = makeStyles(() => ({
@@ -57,7 +62,6 @@ const Step2Ekyc = (props: Props) => {
       );
       return;
     }
-
     const info = parseInfoFromEKYC(data);
     const finalData = {
       ...dataForm,
@@ -89,13 +93,13 @@ const Step2Ekyc = (props: Props) => {
       .inquiryENCYPresent(data)
       .then((res) => {
         console.log("ekyc xong ne`: ", res);
-        
+
         dispatch(setToggleLoading("loadingMasterData"));
         const code = _get(res, "resultCode");
         const status = getStatusResponse(code, lang);
         if (!status.success) {
           // _onGoStep(ROUTE_STEP.step1FormTKCK);
-          dispatch(setStep(1))
+          dispatch(setStep(1));
           toggleNotify(status.msg, () => {
             _onGoStep(ROUTE_STEP.step1FormTKCK);
           });
@@ -108,7 +112,7 @@ const Step2Ekyc = (props: Props) => {
           _onGoStep(ROUTE_STEP.step3ConfirmInfo);
           return;
         }
-        dispatch(setStep(99))
+        dispatch(setStep(99));
         // hasSendOtp = false => user đã có tài khoản chứng khoán
         dispatch(setAllowSendOTP(false));
         updateDataAfterInquiry(res);

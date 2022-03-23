@@ -27,6 +27,38 @@ const enum TYPE_ID {
   CCCD2 = 5,
 }
 
+const checkIdentityExpired = (dateOfIssue: string, expiredDate: string) => {
+  // Kiểm tra cmnd/cccd đã hết hạn hay chưa
+  const resultCheckExpire = compareTwoDate(
+    new Date(new Date(dateOfIssue)),
+    new Date(new Date(expiredDate))
+  );
+
+  if (resultCheckExpire === 1) {
+    return {
+      validEKYC: false,
+      messageEKYC:
+        "CMND/CCCD của quý khách đã hết hạn. Quý khách vui lòng cập nhật thông tin giấy tờ tùy thân mới tại PGD gần nhất của HDBS",
+    };
+  }
+  // Check hiệu lực cmnd/cccd < 30 ngày
+  const resultCheckWarning = _differenceInDays(
+    new Date(new Date(expiredDate)),
+    new Date(new Date(dateOfIssue))
+  );
+  if (resultCheckWarning < 30) {
+    return {
+      validEKYC: true,
+      messageEKYC: `CMND/CCCD của quý khách sắp hết hạn. Quý khách vui lòng cập nhật thông tin giấy tờ tùy thân mới tại PGD gần nhất của HDBS trước ngày ${expiredDate}`,
+    };
+  }
+
+  return {
+    validEKYC: true,
+    messageEKYC: "",
+  };
+};
+
 export const parseInfoFromEKYC = (ekycData: any): EKYCData => {
   return {
     imgBackKey: _get(ekycData, "ocr.imgs.img_back"),
@@ -136,7 +168,6 @@ export const checkResultEkyc = (
 
   // Start: check expire of cmnd/cccd
   const type_id = _get(ekycData, "ocr.object.type_id");
-  // const dateOfIssue = "20/01/2021";
   const dateOfIssue =
     _get(ekycData, "ocr.object.issue_date") === "-"
       ? ""
@@ -145,59 +176,6 @@ export const checkResultEkyc = (
     _get(ekycData, "ocr.object.valid_date") === "-"
       ? ""
       : _get(ekycData, "ocr.object.valid_date");
-
-  console.log("dateOfIssue:", dateOfIssue);
-  console.log("expiredDate:", expiredDate);
-  console.log("type_id", type_id);
-  console.log(
-    "diferentIndate: ",
-    _differenceInDays(
-      new Date(new Date(formatDateOfEKYC(dateOfIssue))),
-      new Date(new Date(formatDateOfEKYC(expiredDate)))
-    ) === 29
-  );
-  console.log(
-    "compare: ",
-    compareTwoDate(
-      new Date(new Date(formatDateOfEKYC(dateOfIssue))),
-      new Date(new Date(formatDateOfEKYC(expiredDate)))
-    )
-  );
-
-  const checkIdentityExpired = (dateOfIssue: string, expiredDate: string) => {
-    // Check hiệu lực cmnd/cccd < 30 ngày
-    if (
-      _differenceInDays(
-        new Date(new Date(formatDateOfEKYC(dateOfIssue))),
-        new Date(new Date(formatDateOfEKYC(expiredDate)))
-      ) === 29
-    ) {
-      return {
-        validEKYC: true,
-        messageEKYC: `CMND/CCCD của quý khách sắp hết hạn. Quý khách vui lòng cập nhật thông tin giấy tờ tùy thân mới tại PGD gần nhất của HDBS trước ngày ${expiredDate}`,
-      };
-    }
-
-    // Kiểm tra cmnd/cccd đã hết hạn hay chưa
-
-    if (
-      compareTwoDate(
-        new Date(new Date(formatDateOfEKYC(dateOfIssue))),
-        new Date(new Date(formatDateOfEKYC(expiredDate)))
-      )
-    ) {
-      return {
-        validEKYC: false,
-        messageEKYC:
-          "CMND/CCCD của quý khách đã hết hạn. Quý khách vui lòng cập nhật thông tin giấy tờ tùy thân mới tại PGD gần nhất của HDBS",
-      };
-    }
-
-    return {
-      validEKYC: false,
-      messageEKYC: "",
-    };
-  };
 
   if (!dateOfIssue) {
     return {
