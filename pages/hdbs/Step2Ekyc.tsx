@@ -96,14 +96,11 @@ const Step2Ekyc = (props: Props) => {
     hdbsServices
       .inquiryENCYPresent(data)
       .then((res) => {
-        console.log("ekyc xong ne`: ", res);
-
         dispatch(setToggleLoading("loadingMasterData"));
         const code = _get(res, "resultCode");
         const status = getStatusResponse(code, lang);
         if (!status.success) {
           // _onGoStep(ROUTE_STEP.step1FormTKCK);
-          dispatch(setStep(1));
           toggleNotify(status.msg, () => {
             _onGoStep(ROUTE_STEP.step1FormTKCK);
           });
@@ -116,7 +113,6 @@ const Step2Ekyc = (props: Props) => {
           _onGoStep(ROUTE_STEP.step3ConfirmInfo);
           return;
         }
-        dispatch(setStep(99));
         // hasSendOtp = false => user đã có tài khoản chứng khoán
         dispatch(setAllowSendOTP(false));
         updateDataAfterInquiry(res);

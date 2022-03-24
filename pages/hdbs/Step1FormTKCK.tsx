@@ -32,8 +32,7 @@ const Step1FormTKCK = (props: Props) => {
   const lang = getLanguage(router);
 
   const dispatch = useDispatch();
-  const { dataForm, step }: AppState = useSelector((state) => _get(state, "app"));
-  console.log("step ne: ", step);
+  const { dataForm }: AppState = useSelector((state) => _get(state, "app"));
   const _handleSubmit = (data: FormDataStep1) => {
     dispatch(setToggleLoading("loadingBtnSubmit"));
     const finalData = {
@@ -52,7 +51,6 @@ const Step1FormTKCK = (props: Props) => {
         dispatch(setToggleLoading("loadingBtnSubmit"));
         const code = _get(res, "resultCode");
         const status = getStatusResponse(code, lang);
-        dispatch(setStep(99));
         if (status.success) {
           // hasSendOtp = false => user đã có tài khoản chứng khoán rồi
           if (!res.hasSendOtp) {

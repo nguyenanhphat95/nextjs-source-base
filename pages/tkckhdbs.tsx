@@ -78,7 +78,7 @@ const HDBSPage = (props: Props) => {
       toggleNotify(status.msg);
       return;
     }
-    dispatch(setStep(99));
+    delete query.returnHome
     router.push({
       pathname: ROUTE_STEP.step1FormTKCK,
       query,

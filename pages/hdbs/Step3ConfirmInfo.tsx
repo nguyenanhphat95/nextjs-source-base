@@ -128,13 +128,11 @@ const Step3ConfirmInfo = (props: Props) => {
         dispatch(setToggleLoading("loadingBtnConfirmOTP"));
 
         if (status.success) {
-          dispatch(setStep(99))
           _toggleModalVerifyOTP();
           _onNextStep(ROUTE_STEP.stepResult);
           return;
         }
         toggleNotify(status.msg, () => {
-          dispatch(setStep(1))
           _onNextStep(ROUTE_STEP.step1FormTKCK);
         });
       })

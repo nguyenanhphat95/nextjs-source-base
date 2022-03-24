@@ -19,11 +19,12 @@ const ResultPage = () => {
 
   const _handleOtherTransaction = () => {
     if (typeCustomer === TypeCustomer.KHHH) {
-      // router.push({
-      //   pathname: ROUTE_STEP.stepHome,
-      //   query,
-      // });
-      console.log(step);
+      query.returnHome = "true"
+      router.push({
+        pathname: ROUTE_STEP.stepHome,
+        query,
+      });
+
       // const params = {
       //   ...query,
       //   step: STEP_HDBS.stepHome,
