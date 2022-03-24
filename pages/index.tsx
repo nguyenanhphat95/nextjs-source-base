@@ -1,34 +1,25 @@
-import React, { useRef, useEffect, useCallback, useState } from "react";
-//
-import { useRouter } from "next/router";
-import Script from "next/script";
-
-import { makeStyles } from "@mui/styles";
 import { Grid } from "@mui/material";
-import { InputOTP } from "components/commons";
+import { makeStyles } from "@mui/styles";
+import cn from "classnames";
+import { LINK_VERIFY_CALLBACK_SBH_OTP } from "commons/constants";
+import { CheckSessionOTPCode } from "commons/constants/sbhOTP";
 import {
   ERROR_CODE,
+  ERROR_CODE_OTP_PAGE,
   getStatusResponseOtpPage,
-  startTimer,
 } from "commons/helpers";
-import * as sbhOTPServices from "services/sbhOTPService";
-
-// import HDBankLogo from "public/images/HDBanklogo.png";
-import { CheckSessionOTPCode } from "commons/constants/sbhOTP";
-import { SbhPurchaseInfo } from "interfaces/ISbhOTP";
-import cn from "classnames";
-import _get from "lodash/get";
-import { LINK_VERIFY_CALLBACK_SBH_OTP } from "commons/constants";
-import { PopupNotify } from "components/commons";
+import { CountDownTimer, InputOTP, PopupNotify } from "components/commons";
 import { TypeInputOTP } from "components/commons/InputOTP";
-import * as lockUserService from "services/lockUserService";
-import {
-  KEY_LOGIN_FAIL,
-  KEY_VERIFY_OTP_FAIL,
-  NUMBER_FAILED,
-} from "components/STKPage/const";
-import { UpdateNumberFailRequest } from "interfaces/LockUser/IUpdateNumberFail";
+import { KEY_VERIFY_OTP_FAIL, NUMBER_FAILED } from "components/STKPage/const";
+import { SbhPurchaseInfo } from "interfaces/ISbhOTP";
 import { STATUS_ID } from "interfaces/LockUser/IUpdateLeadStatus";
+import { UpdateNumberFailRequest } from "interfaces/LockUser/IUpdateNumberFail";
+import _get from "lodash/get";
+import { useRouter } from "next/router";
+import Script from "next/script";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import * as lockUserService from "services/lockUserService";
+import * as sbhOTPServices from "services/sbhOTPService";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -71,7 +62,6 @@ const useStyles = makeStyles(() => ({
 
 const OTPPage = () => {
   const classes = useStyles();
-  const timerRef = useRef<any>();
 
   const router = useRouter();
   const query = router.query;
@@ -92,24 +82,11 @@ const OTPPage = () => {
   });
 
   const [otp, setOtp] = useState("");
-  const [validPage, setValidPage] = useState(true);
+  const [validPage, setValidPage] = useState(false);
   const [isResendValid, setIsResendValid] = useState(false);
 
-  const onCallTimer = useCallback(async () => {
-    const isDone = await startTimer(119, timerRef.current);
-    isDone && setIsResendValid(true);
-  }, []);
-
   useEffect(() => {
-    timerRef.current && onCallTimer();
-  }, [timerRef.current, validPage]);
-
-  useEffect(() => {
-    // if (!purchaseInfo?.accountNo) {
-    //   return;
-    // }
-    if (!query?.userId || !query?.campaignId || !query.leadId) {
-      toggleNotify("Thông báo", "Thiếu userId, campaignId hoặc leadId");
+    if (!query?.userId) {
       return;
     }
 
@@ -123,33 +100,33 @@ const OTPPage = () => {
           },
         });
       });
-  }, [query]);
+  }, [query.userId]);
 
   useEffect(() => {
-    // if (!query.uuid || !query.bTxnId) return;
-    // bTxnId.current = query.bTxnId as string;
-    // async function callApi() {
-    //   const resCheckSession = await sbhOTPServices.checkSessionOTPApi(
-    //     query.uuid as string
-    //   );
-    //   if (resCheckSession?.data?.code === CheckSessionOTPCode.valid) {
-    //     const resInfo = await sbhOTPServices.getInfoByTokenApi(
-    //       query.bTxnId as string
-    //     );
-    //     setPurchaseInfo(resInfo.data);
-    //     setValidPage(true);
-    //   }
-    //   if (resCheckSession?.data?.code === CheckSessionOTPCode.expired) {
-    //     const resInfo = await sbhOTPServices.getInfoByTokenApi(
-    //       query.bTxnId as string
-    //     );
-    //     setPurchaseInfo(resInfo.data);
-    //     if (resInfo?.response?.responseCode === ERROR_CODE.Success) {
-    //       _callPurchaseSbh(resInfo.data);
-    //     }
-    //   }
-    // }
-    // callApi();
+    if (!query.uuid || !query.bTxnId) return;
+    bTxnId.current = query.bTxnId as string;
+    async function callApi() {
+      const resCheckSession = await sbhOTPServices.checkSessionOTPApi(
+        query.uuid as string
+      );
+      if (resCheckSession?.data?.code === CheckSessionOTPCode.valid) {
+        const resInfo = await sbhOTPServices.getInfoByTokenApi(
+          query.bTxnId as string
+        );
+        setPurchaseInfo(resInfo.data);
+        setValidPage(true);
+      }
+      if (resCheckSession?.data?.code === CheckSessionOTPCode.expired) {
+        const resInfo = await sbhOTPServices.getInfoByTokenApi(
+          query.bTxnId as string
+        );
+        setPurchaseInfo(resInfo.data);
+        if (resInfo?.response?.responseCode === ERROR_CODE.Success) {
+          _callPurchaseSbh(resInfo.data);
+        }
+      }
+    }
+    callApi();
   }, [query.uuid, query.bTxnId]);
 
   useEffect(() => {
@@ -158,28 +135,26 @@ const OTPPage = () => {
     }
   }, [otp]);
 
-  const _callPurchaseSbh = useCallback(
-    (purchaseInfoParam?: SbhPurchaseInfo) => {
-      const formData = purchaseInfoParam || purchaseInfo;
+  const _callPurchaseSbh = (purchaseInfoParam?: SbhPurchaseInfo) => {
+    const formData = purchaseInfoParam || purchaseInfo;
 
-      if (!formData) {
-        return;
+    if (!formData) {
+      return;
+    }
+
+    sbhOTPServices.purchaseSbhApi(formData).then((resPurchase) => {
+      const code = _get(resPurchase, "response.responseCode");
+      const status = getStatusResponseOtpPage(code);
+      isResendValid && setIsResendValid(false);
+
+      if (status.success) {
+        setValidPage(true);
+        bTxnId.current = resPurchase?.data?.bTxnId;
+      } else {
+        toggleNotify("Thông báo", status.msg);
       }
-
-      sbhOTPServices.purchaseSbhApi(formData).then((resPurchase) => {
-        const code = _get(resPurchase, "response.responseCode");
-        const status = getStatusResponseOtpPage(code);
-
-        if (status.success) {
-          setValidPage(true);
-          bTxnId.current = resPurchase?.data?.bTxnId;
-        } else {
-          toggleNotify("Thông báo", status.msg);
-        }
-      });
-    },
-    []
-  );
+    });
+  };
 
   const _getStatusIdByKey = (key: string): STATUS_ID => {
     switch (key) {
@@ -216,7 +191,7 @@ const OTPPage = () => {
     }
     const dataFailUpdate = {
       ...dataFail,
-      value: numberLock === null ? numberLock : +dataFail.value + 1,
+      value: numberLock === 0 ? numberLock : +dataFail.value + 1,
     };
 
     lockUserService.updateNumberFailApi(dataFailUpdate).then((res) => {
@@ -224,7 +199,6 @@ const OTPPage = () => {
         ...manageLock,
         [typeLock]: dataFailUpdate,
       });
-
       if (+dataFailUpdate.value === NUMBER_FAILED) {
         // Call api update load status
         _updateLeadStatus(typeLock);
@@ -240,19 +214,19 @@ const OTPPage = () => {
     sbhOTPServices.verifySbhOTPApi(otp, bTxnId.current).then((res) => {
       const code = _get(res, "response.responseCode");
       const status = getStatusResponseOtpPage(code);
-
       let urlRedirect = LINK_VERIFY_CALLBACK_SBH_OTP;
-
       if (status.success) {
+        _updateNumberFail(KEY_VERIFY_OTP_FAIL, null);
         urlRedirect = urlRedirect
           ?.replace("{error}", "success")
           .replace("{txid}", res?.data?.txnId || "")
           .replace("&error={error_message}&error_code={error_code}", "");
-
         urlRedirect && router.push(urlRedirect);
         return;
       }
-
+      if (code === ERROR_CODE_OTP_PAGE.OtpInvalid) {
+        _updateNumberFail(KEY_VERIFY_OTP_FAIL);
+      }
       toggleNotify("Thông báo", status.msg);
       // urlRedirect = urlRedirect
       //   ?.replace("{error}", "error")
@@ -264,7 +238,7 @@ const OTPPage = () => {
   };
 
   const _resendOtp = () => {
-    if (!isResendValid || otp.length < 6) {
+    if (!isResendValid) {
       return;
     }
     _callPurchaseSbh();
@@ -291,7 +265,8 @@ const OTPPage = () => {
   }
   return (
     <div className={classes.root}>
-      <Script id="jsencrypt-id" src="/js/jsencrypt.min.js" />
+      <Script id="jsencrypt-id" src="/sso/js/jsencrypt.min.js" />
+      <Script id="md5-id" src="/sso/js/md5.min.js" />
       {popupNotify.open && (
         <PopupNotify
           title={popupNotify.title}
@@ -300,40 +275,46 @@ const OTPPage = () => {
           toggleModal={toggleNotify}
         />
       )}
-      {validPage && (
-        <Grid container direction="column" spacing={2}>
-          <Grid item className={classes.textCenter}>
-            <img src={"/sso/images/HDBanklogo.png"} alt="hdbank-logo" />
-          </Grid>
-          <Grid item className={classes.textHeader}>
-            Xác thực OTP thanh toán
-          </Grid>
-          <Grid item className={classes.textContent}>
-            Nhập mã đã được gửi đến số điện thoại của bạn để thanh toán số tiền{" "}
-            {purchaseInfo?.amount}₫
-          </Grid>
-          <Grid item>
-            <InputOTP typeInputOTP={TypeInputOTP.Single} onChange={setOtp} />
-            {/* <InputOTP onChange={setOtp} /> */}
-          </Grid>
-          <Grid item className={classes.textContent}>
-            Quý khách không nhận được tin nhắn?
-          </Grid>
-          <Grid
-            item
-            className={cn(
-              classes.textResendOTP,
-              !isResendValid && classes.disabledResentOTP
-            )}
-            onClick={_resendOtp}
-          >
-            Gửi lại OTP
-          </Grid>
-          <Grid item className={classes.textCenter}>
-            <span className={classes.textTime} ref={timerRef} />
-          </Grid>
+      <Grid container direction="column" spacing={2}>
+        <Grid item className={classes.textCenter}>
+          <img src={"/sso/images/HDBanklogo.png"} alt="hdbank-logo" />
         </Grid>
-      )}
+        <Grid item className={classes.textHeader}>
+          Xác thực OTP thanh toán
+        </Grid>
+        <Grid item className={classes.textContent}>
+          Mã xác thực (OTP) đã được gửi qua SMS hoặc đăng nhập Mobile App HDBank
+          để lấy OTP thanh toán số tiền {purchaseInfo?.amount}₫
+        </Grid>
+        <Grid item>
+          <InputOTP typeInputOTP={TypeInputOTP.Single} onChange={setOtp} />
+        </Grid>
+        <Grid item className={classes.textContent}>
+          Quý khách không nhận được tin nhắn?
+        </Grid>
+        <Grid
+          item
+          className={cn(
+            classes.textResendOTP,
+            !isResendValid && classes.disabledResentOTP
+          )}
+          onClick={_resendOtp}
+        >
+          Gửi lại OTP
+        </Grid>
+        <Grid item className={classes.textCenter}>
+          {!isResendValid && (
+            <CountDownTimer
+              onFinish={() => setIsResendValid(true)}
+              hoursMinSecs={{
+                hours: 0,
+                minutes: 1,
+                seconds: 30,
+              }}
+            />
+          )}
+        </Grid>
+      </Grid>
     </div>
   );
 };

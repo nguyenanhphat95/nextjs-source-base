@@ -39,10 +39,16 @@ interface Props {
   onFinish?: (otp: string) => void;
   onChange?: (otp: string) => void;
   typeInputOTP?: TypeInputOTP;
+  disabled?: boolean;
 }
 
 const InputOTP = (props: Props) => {
-  const { onFinish, onChange, typeInputOTP = TypeInputOTP.Multiple } = props;
+  const {
+    disabled,
+    onFinish,
+    onChange,
+    typeInputOTP = TypeInputOTP.Multiple,
+  } = props;
 
   const classes = useStyles();
   const otpEl1 = useRef<HTMLInputElement>(null);
@@ -116,7 +122,7 @@ const InputOTP = (props: Props) => {
       <Grid justifyContent="center" container spacing={2}>
         {typeInputOTP === TypeInputOTP.Single && (
           <Grid item xs={12}>
-            <InputSingle onChange={onChange} />
+            <InputSingle disabled={disabled} onChange={onChange} />
           </Grid>
         )}
         {typeInputOTP === TypeInputOTP.Multiple && (

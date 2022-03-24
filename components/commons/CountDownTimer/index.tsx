@@ -12,6 +12,7 @@ export interface TimerInput {
 interface Props {
   hoursMinSecs?: TimerInput;
   onFinish?: () => void;
+  textBefore?: string;
 }
 
 const useStyles = makeStyles(() => ({
@@ -23,7 +24,7 @@ const useStyles = makeStyles(() => ({
 
 const CountDownTimer = (props: Props) => {
   const classes = useStyles();
-  const { hoursMinSecs, onFinish } = props;
+  const { hoursMinSecs, onFinish, textBefore } = props;
   const { hours, minutes, seconds } = hoursMinSecs
     ? hoursMinSecs
     : {
@@ -63,7 +64,7 @@ const CountDownTimer = (props: Props) => {
 
   return (
     <div className={classes.root}>
-      Tự động đóng sau{" "}
+      {textBefore}{" "}
       <span>{`${hrs ? hrs.toString().padStart(2, "0") + ":" : ""}${
         mins ? mins.toString().padStart(2, "0") + ":" : ""
       }${secs.toString().padStart(2, "0")}`}</span>

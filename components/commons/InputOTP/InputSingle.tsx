@@ -12,11 +12,12 @@ const useStyles = makeStyles(() => ({
 
 interface Props {
   onChange?: (otp: string) => void;
+  disabled?: boolean;
 }
 
 const InputSingle = (props: Props) => {
   const classes = useStyles();
-  const { onChange } = props;
+  const { onChange, disabled } = props;
   const [value, setValue] = useState("");
   const _handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -28,6 +29,7 @@ const InputSingle = (props: Props) => {
   };
   return (
     <InputCustom
+      disabled={disabled}
       className={classes.customInput}
       value={value}
       type="tel"

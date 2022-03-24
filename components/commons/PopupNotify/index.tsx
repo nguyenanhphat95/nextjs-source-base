@@ -100,6 +100,7 @@ const PopupNotify = (props: Props) => {
             </Grid>
             <Grid item>
               <CountDownTimer
+                textBefore="Tự động đóng sau"
                 hoursMinSecs={hoursMinSecs}
                 onFinish={toggleModal}
               />
