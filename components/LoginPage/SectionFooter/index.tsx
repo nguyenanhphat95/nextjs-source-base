@@ -22,7 +22,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 // import zaloIcon from "public/images/zalo.png";
 // import ellipseIcon from "public/images/Ellipse.png";
 // import whatsappIcon from "public/images/whatsapp.png";
-import twitterIcon from "public/images/twitter.png";
+// import twitterIcon from "public/images/twitter.png";
 
 import resources from "pages/assets/translate.json";
 import { LANGUAGE } from "commons/constants";

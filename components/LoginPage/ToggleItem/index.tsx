@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 
 import { Grid, Typography } from "@mui/material";
-import downPic from "public/images/down.png";
+// import downPic from "public/images/down.png";
 
 interface Props {
   resources: Record<string, string>;

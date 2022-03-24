@@ -10,7 +10,7 @@ import Box from "@mui/system/Box";
 import { Theme } from "@mui/system/createTheme";
 
 import ButtonCustom from "../Button";
-import notifyError from "public/images/notifyError.png";
+// import notifyError from "public/images/notifyError.png";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import CountDownTimer, { TimerInput } from "../CountDownTimer";

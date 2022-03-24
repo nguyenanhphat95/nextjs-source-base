@@ -21,6 +21,14 @@ import _get from "lodash/get";
 import { LINK_VERIFY_CALLBACK_SBH_OTP } from "commons/constants";
 import { PopupNotify } from "components/commons";
 import { TypeInputOTP } from "components/commons/InputOTP";
+import * as lockUserService from "services/lockUserService";
+import {
+  KEY_LOGIN_FAIL,
+  KEY_VERIFY_OTP_FAIL,
+  NUMBER_FAILED,
+} from "components/STKPage/const";
+import { UpdateNumberFailRequest } from "interfaces/LockUser/IUpdateNumberFail";
+import { STATUS_ID } from "interfaces/LockUser/IUpdateLeadStatus";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -77,6 +85,12 @@ const OTPPage = () => {
     onClose: () => null,
   });
 
+  const [manageLock, setManageLock] = useState<{
+    [KEY_VERIFY_OTP_FAIL]: UpdateNumberFailRequest;
+  }>({
+    [KEY_VERIFY_OTP_FAIL]: {},
+  });
+
   const [otp, setOtp] = useState("");
   const [validPage, setValidPage] = useState(true);
   const [isResendValid, setIsResendValid] = useState(false);
@@ -91,45 +105,51 @@ const OTPPage = () => {
   }, [timerRef.current, validPage]);
 
   useEffect(() => {
-    if (!purchaseInfo?.accountNo) {
-      return;
-    }
-
+    // if (!purchaseInfo?.accountNo) {
+    //   return;
+    // }
     if (!query?.userId || !query?.campaignId || !query.leadId) {
       toggleNotify("Thông báo", "Thiếu userId, campaignId hoặc leadId");
       return;
     }
-  }, [purchaseInfo, query]);
+
+    lockUserService
+      .getNumberFailApi(`${KEY_VERIFY_OTP_FAIL}_${query.userId}`)
+      .then((res) => {
+        setManageLock({
+          [KEY_VERIFY_OTP_FAIL]: {
+            value: res?.data?.value || 0,
+            key: _get(res, "data.key"),
+          },
+        });
+      });
+  }, [query]);
 
   useEffect(() => {
-    if (!query.uuid || !query.bTxnId) return;
-    bTxnId.current = query.bTxnId as string;
-    async function callApi() {
-      const resCheckSession = await sbhOTPServices.checkSessionOTPApi(
-        query.uuid as string
-      );
-
-      if (resCheckSession?.data?.code === CheckSessionOTPCode.valid) {
-        const resInfo = await sbhOTPServices.getInfoByTokenApi(
-          query.bTxnId as string
-        );
-        setPurchaseInfo(resInfo.data);
-        setValidPage(true);
-      }
-
-      if (resCheckSession?.data?.code === CheckSessionOTPCode.expired) {
-        const resInfo = await sbhOTPServices.getInfoByTokenApi(
-          query.bTxnId as string
-        );
-        setPurchaseInfo(resInfo.data);
-
-        if (resInfo?.response?.responseCode === ERROR_CODE.Success) {
-          _callPurchaseSbh(resInfo.data);
-        }
-      }
-    }
-
-    callApi();
+    // if (!query.uuid || !query.bTxnId) return;
+    // bTxnId.current = query.bTxnId as string;
+    // async function callApi() {
+    //   const resCheckSession = await sbhOTPServices.checkSessionOTPApi(
+    //     query.uuid as string
+    //   );
+    //   if (resCheckSession?.data?.code === CheckSessionOTPCode.valid) {
+    //     const resInfo = await sbhOTPServices.getInfoByTokenApi(
+    //       query.bTxnId as string
+    //     );
+    //     setPurchaseInfo(resInfo.data);
+    //     setValidPage(true);
+    //   }
+    //   if (resCheckSession?.data?.code === CheckSessionOTPCode.expired) {
+    //     const resInfo = await sbhOTPServices.getInfoByTokenApi(
+    //       query.bTxnId as string
+    //     );
+    //     setPurchaseInfo(resInfo.data);
+    //     if (resInfo?.response?.responseCode === ERROR_CODE.Success) {
+    //       _callPurchaseSbh(resInfo.data);
+    //     }
+    //   }
+    // }
+    // callApi();
   }, [query.uuid, query.bTxnId]);
 
   useEffect(() => {
@@ -161,6 +181,57 @@ const OTPPage = () => {
     []
   );
 
+  const _getStatusIdByKey = (key: string): STATUS_ID => {
+    switch (key) {
+      case KEY_VERIFY_OTP_FAIL: {
+        return STATUS_ID.LOCK_VERIFY_OTP;
+      }
+      default: {
+        return STATUS_ID.LOCK_LOGIN;
+      }
+    }
+  };
+
+  const _updateLeadStatus = (typeLock: string) => {
+    if (!query.leadId || !query.campaignId || !query.userId) {
+      toggleNotify("Thông báo", "Thiếu leadId, campaignId hoặc userId");
+      return;
+    }
+
+    lockUserService
+      .updateLeadStatus(
+        query.leadId as string,
+        query.campaignId as string,
+        _getStatusIdByKey(typeLock),
+        query.userId as string
+      )
+      .then((res) => {
+        _updateNumberFail(typeLock, 0);
+      });
+  };
+  const _updateNumberFail = (typeLock: string, numberLock?: any) => {
+    const dataFail = _get(manageLock, [typeLock]);
+    if (!dataFail || +dataFail.value === NUMBER_FAILED) {
+      return;
+    }
+    const dataFailUpdate = {
+      ...dataFail,
+      value: numberLock === null ? numberLock : +dataFail.value + 1,
+    };
+
+    lockUserService.updateNumberFailApi(dataFailUpdate).then((res) => {
+      setManageLock({
+        ...manageLock,
+        [typeLock]: dataFailUpdate,
+      });
+
+      if (+dataFailUpdate.value === NUMBER_FAILED) {
+        // Call api update load status
+        _updateLeadStatus(typeLock);
+      }
+    });
+  };
+
   const _handleVerifyOTP = () => {
     if (!bTxnId.current) {
       toggleNotify("Thông báo", "Thiếu bTxnId");
@@ -181,6 +252,7 @@ const OTPPage = () => {
         urlRedirect && router.push(urlRedirect);
         return;
       }
+
       toggleNotify("Thông báo", status.msg);
       // urlRedirect = urlRedirect
       //   ?.replace("{error}", "error")
@@ -217,7 +289,6 @@ const OTPPage = () => {
       };
     });
   }
-
   return (
     <div className={classes.root}>
       <Script id="jsencrypt-id" src="/js/jsencrypt.min.js" />

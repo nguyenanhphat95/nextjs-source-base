@@ -10,7 +10,7 @@ import { createTheme } from "@mui/material/styles";
 import { LANGUAGE } from "commons/constants";
 import resources from "pages/assets/translate.json";
 
-import tickSquareIcon from "public/images/TickSquare.png";
+// import tickSquareIcon from "public/images/TickSquare.png";
 import { ButtonCustom } from "components/commons";
 import _get from "lodash/get";
 import STKContext from "components/STKPage/contexts/STKContextValue";
