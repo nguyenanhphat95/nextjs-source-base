@@ -20,6 +20,9 @@ export const LANGUAGE = {
 export const KEY_TOKEN = "HDBS_TOKEN";
 export const KEY_DATA = "HDBS_APP_DATA";
 
+export const ERROR_MESSAGE_TIMEOUT = "Dịch vụ đang nâng cấp. Quý khách vui lòng thực hiện lại sau ít phút!";
+
+
 export const ERROR_CODE_OTP_MESSAGE = {
   [LANGUAGE.VI]: {
     "20": "Phương thức xác thực của Quý khách đã bị khóa do không xác nhận quá số lần quy định. Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ",

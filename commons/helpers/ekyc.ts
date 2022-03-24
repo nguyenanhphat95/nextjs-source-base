@@ -1,5 +1,5 @@
 import _get from "lodash/get";
-import { compareTwoDate, addYearFromNow, addYearFromDate } from "./date";
+import { compareTwoDate, addYearFromNow, addYearFromDate, formatDate } from "./date";
 import _differenceInDays from "date-fns/differenceInDays";
 interface EKYCData {
   idNumber: string | number;
@@ -166,6 +166,16 @@ export const checkResultEkyc = (
     };
   }
 
+  //validate birthdate
+
+   const birthdate = _get(ekycData, "ocr.object.birth_day");
+   if(!checkValidDate(birthdate)) {
+    return {
+      validEKYC: false,
+      messageEKYC: "Không đọc được ngày sinh. Vui lòng thử lại",
+    };
+   }
+
   // Start: check expire of cmnd/cccd
   const type_id = _get(ekycData, "ocr.object.type_id");
   const dateOfIssue =
@@ -220,6 +230,17 @@ export const checkResultEkyc = (
     messageEKYC,
   };
 };
+
+export const checkValidDate = (date: string) => {
+  if (!date) {
+    return false;
+  }
+  const dateSplit = date.split("/");
+  if (dateSplit.length === 3) {
+    return true
+  }
+  return false
+}
 
 export const formatDateOfEKYC = (dateEkyc: string): string => {
   if (!dateEkyc) {

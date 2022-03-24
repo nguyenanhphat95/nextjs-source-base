@@ -1,5 +1,6 @@
 import { Box, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { ERROR_MESSAGE_TIMEOUT } from "commons/constants";
 import {
   getLanguage,
   getStatusResponse,
@@ -62,6 +63,7 @@ const HDBSPage = (props: Props) => {
   const query = router.query;
   const lang = getLanguage(router);
   const t = _get(resources, [lang, "homePage"]);
+  const [timeOutErr, setTimeOutErr] = React.useState(false);
 
   const dispatch = useDispatch();
   const { dataForm, listAccount, typeCustomer, loading, step } = useSelector(
@@ -70,6 +72,12 @@ const HDBSPage = (props: Props) => {
   const isUserImoney = useRef<boolean>(false);
 
   const _redirectStepFormTKCK = () => {
+
+    if(timeOutErr){
+      toggleNotify(ERROR_MESSAGE_TIMEOUT);
+      return
+    }
+
     if (!listAccount?.length && typeCustomer === TypeCustomer.KHHH) {
       const status = getStatusResponse(
         isUserImoney.current ? "isUserImoney" : "userDontEnoughAccount",
@@ -123,7 +131,9 @@ const HDBSPage = (props: Props) => {
           const merchantValid = _get(res, "[0].merchants")
           const accountsValid = _get(res, "[1].data.data");          
           if(!merchantValid || !accountsValid){
-            toggleNotify("Hệ thống đang được nâng cấp")
+            toggleNotify(ERROR_MESSAGE_TIMEOUT)
+            setTimeOutErr(true)
+            return
           }
           
           const accounts = _get(res, "[1].data.data", []);
