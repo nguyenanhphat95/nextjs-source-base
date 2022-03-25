@@ -20,6 +20,7 @@ import Script from "next/script";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import * as lockUserService from "services/lockUserService";
 import * as sbhOTPServices from "services/sbhOTPService";
+import * as qs from "query-string";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -65,7 +66,11 @@ const OTPPage = () => {
 
   const router = useRouter();
   const query = router.query;
+
   const bTxnId = useRef<string>("");
+  const campaignId = useRef<string>("");
+  const leadId = useRef<string>("");
+  const userId = useRef<string>("");
 
   const [purchaseInfo, setPurchaseInfo] = useState<SbhPurchaseInfo>();
   const [popupNotify, setPopupNotify] = useState({
@@ -106,34 +111,60 @@ const OTPPage = () => {
     if (!query.data) {
       return;
     }
-  }, [query.data]);
 
-  useEffect(() => {
-    if (!query.uuid || !query.bTxnId) return;
-    bTxnId.current = query.bTxnId as string;
     async function callApi() {
       const resCheckSession = await sbhOTPServices.checkSessionOTPApi(
-        query.bTxnId as string
+        bTxnId.current
       );
-      if (resCheckSession?.data?.code === CheckSessionOTPCode.valid) {
-        const resInfo = await sbhOTPServices.getInfoByTokenApi(
-          query.bTxnId as string
-        );
+      if (
+        resCheckSession?.response?.responseCode === CheckSessionOTPCode.valid
+      ) {
+        const resInfo = await sbhOTPServices.getInfoByTokenApi(bTxnId.current);
         setPurchaseInfo(resInfo.data);
         setValidPage(true);
       }
-      if (resCheckSession?.data?.code === CheckSessionOTPCode.expired) {
-        const resInfo = await sbhOTPServices.getInfoByTokenApi(
-          query.bTxnId as string
-        );
+
+      if (
+        resCheckSession?.response?.responseCode === CheckSessionOTPCode.expired
+      ) {
+        const resInfo = await sbhOTPServices.getInfoByTokenApi(bTxnId.current);
         setPurchaseInfo(resInfo.data);
         if (resInfo?.response?.responseCode === ERROR_CODE.Success) {
           _callPurchaseSbh(resInfo.data);
         }
       }
     }
-    callApi();
-  }, [query.uuid, query.bTxnId]);
+
+    function getNumberLockAccount() {
+      if (!userId.current) {
+        toggleNotify("Thông báo", "Thiếu userId");
+        return;
+      }
+      lockUserService
+        .getNumberFailApi(`${KEY_VERIFY_OTP_FAIL}_${userId.current}`)
+        .then((res) => {
+          setManageLock({
+            [KEY_VERIFY_OTP_FAIL]: {
+              value: res?.data?.value || 0,
+              key: _get(res, "data.key"),
+            },
+          });
+        });
+    }
+
+    if (typeof query.data === "string") {
+      const queryStr = decodeURIComponent(escape(window.atob(query.data)));
+      const queryParse = qs.parse(queryStr);
+
+      bTxnId.current = queryParse?.bTxnId as string;
+      campaignId.current = queryParse?.campaignId as string;
+      leadId.current = queryParse?.leadId as string;
+      userId.current = queryParse?.userId as string;
+
+      callApi();
+      getNumberLockAccount();
+    }
+  }, [query.data]);
 
   useEffect(() => {
     if (otp && otp.length === 6) {
@@ -174,17 +205,17 @@ const OTPPage = () => {
   };
 
   const _updateLeadStatus = (typeLock: string) => {
-    if (!query.leadId || !query.campaignId || !query.userId) {
+    if (!leadId.current || !campaignId.current || !userId.current) {
       toggleNotify("Thông báo", "Thiếu leadId, campaignId hoặc userId");
       return;
     }
 
     lockUserService
       .updateLeadStatus(
-        query.leadId as string,
-        query.campaignId as string,
+        leadId.current as string,
+        campaignId.current as string,
         _getStatusIdByKey(typeLock),
-        query.userId as string
+        userId.current as string
       )
       .then((res) => {
         _updateNumberFail(typeLock, 0);

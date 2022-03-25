@@ -28,3 +28,20 @@
 [2022-03-24T09:07:34.935] [INFO] default - 192.168.100.13 - Thu Mar 24 2022 09:07:34 GMT+0700 (Indochina Time)----content: Get number login fail api: timeout of 15000ms exceeded---withBodyData: 
 [2022-03-24T09:07:34.937] [INFO] default - 192.168.100.13 - Thu Mar 24 2022 09:07:34 GMT+0700 (Indochina Time)----content: Get number login fail api: timeout of 15000ms exceeded---withBodyData: 
 [2022-03-24T09:07:34.938] [INFO] default - 192.168.100.13 - Thu Mar 24 2022 09:07:34 GMT+0700 (Indochina Time)----content: Get number login fail api: timeout of 15000ms exceeded---withBodyData: 
+[2022-03-25T13:41:59.341] [INFO] default - 192.168.100.13 - Fri Mar 25 2022 13:41:59 GMT+0700 (Indochina Time)----content: purseChase sbh: Request failed with status code 500---withBodyData: 
+[2022-03-25T13:41:59.344] [INFO] default - 192.168.100.13 - Fri Mar 25 2022 13:41:59 GMT+0700 (Indochina Time)----content: purseChase sbh: Request failed with status code 500---withBodyData: 
+[2022-03-25T13:42:00.286] [INFO] default - 192.168.100.13 - Fri Mar 25 2022 13:42:00 GMT+0700 (Indochina Time)----content: purseChase sbh: Request failed with status code 500---withBodyData: 
+[2022-03-25T13:42:00.311] [INFO] default - 192.168.100.13 - Fri Mar 25 2022 13:42:00 GMT+0700 (Indochina Time)----content: purseChase sbh: Request failed with status code 500---withBodyData: 
+[2022-03-25T13:42:03.775] [INFO] default - 192.168.100.13 - Fri Mar 25 2022 13:42:03 GMT+0700 (Indochina Time)----content: purseChase sbh: Request failed with status code 500---withBodyData: 
+[2022-03-25T13:42:39.684] [INFO] default - 192.168.100.13 - Fri Mar 25 2022 13:42:39 GMT+0700 (Indochina Time)----content: purseChase sbh: Request failed with status code 500---withBodyData: 
+[2022-03-25T13:42:39.705] [INFO] default - 192.168.100.13 - Fri Mar 25 2022 13:42:39 GMT+0700 (Indochina Time)----content: purseChase sbh: Request failed with status code 500---withBodyData: 
+[2022-03-25T13:42:44.453] [INFO] default - 192.168.100.13 - Fri Mar 25 2022 13:42:44 GMT+0700 (Indochina Time)----content: purseChase sbh: Request failed with status code 500---withBodyData: 
+[2022-03-25T13:42:44.495] [INFO] default - 192.168.100.13 - Fri Mar 25 2022 13:42:44 GMT+0700 (Indochina Time)----content: purseChase sbh: Request failed with status code 500---withBodyData: 
+[2022-03-25T13:43:01.290] [INFO] default - 192.168.100.13 - Fri Mar 25 2022 13:43:01 GMT+0700 (Indochina Time)----content: purseChase sbh: Request failed with status code 500---withBodyData: 
+[2022-03-25T13:43:01.316] [INFO] default - 192.168.100.13 - Fri Mar 25 2022 13:43:01 GMT+0700 (Indochina Time)----content: purseChase sbh: Request failed with status code 500---withBodyData: 
+[2022-03-25T13:43:05.546] [INFO] default - 192.168.100.13 - Fri Mar 25 2022 13:43:05 GMT+0700 (Indochina Time)----content: purseChase sbh: Request failed with status code 500---withBodyData: 
+[2022-03-25T13:43:05.575] [INFO] default - 192.168.100.13 - Fri Mar 25 2022 13:43:05 GMT+0700 (Indochina Time)----content: purseChase sbh: Request failed with status code 500---withBodyData: 
+[2022-03-25T13:44:39.925] [INFO] default - 192.168.100.13 - Fri Mar 25 2022 13:44:39 GMT+0700 (Indochina Time)----content: purseChase sbh: Request failed with status code 500---withBodyData: 
+[2022-03-25T14:04:56.610] [INFO] default - 192.168.100.13 - Fri Mar 25 2022 14:04:56 GMT+0700 (Indochina Time)----content: purseChase sbh: Request failed with status code 500---withBodyData: 
+[2022-03-25T14:05:40.371] [INFO] default - 192.168.100.13 - Fri Mar 25 2022 14:05:40 GMT+0700 (Indochina Time)----content: purseChase sbh: Request failed with status code 500---withBodyData: 
+[2022-03-25T14:05:40.479] [INFO] default - 192.168.100.13 - Fri Mar 25 2022 14:05:40 GMT+0700 (Indochina Time)----content: purseChase sbh: Request failed with status code 500---withBodyData: 

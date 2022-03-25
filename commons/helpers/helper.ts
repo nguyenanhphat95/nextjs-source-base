@@ -65,12 +65,3 @@ export const getMobileOperatingSystem = (): string => {
 
   return "unknown";
 };
-
-export function decodeBase64ToString(base64Str: string): string {
-  if (!base64Str) {
-    return "";
-  }
-  const buff = new Buffer(base64Str, "base64");
-  const text = buff.toString("ascii");
-  return text;
-}
