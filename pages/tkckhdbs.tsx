@@ -133,6 +133,7 @@ const HDBSPage = (props: Props) => {
           if(!merchantValid || !accountsValid){
             toggleNotify(ERROR_MESSAGE_TIMEOUT)
             setTimeOutErr(true)
+            dispatch(setToggleLoading("loadingMasterData"));
             return
           }
           
