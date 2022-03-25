@@ -41,14 +41,14 @@ function generateStrSignature(object: Record<string, string>): string {
   return sh256;
 }
 
-export const checkSessionOTPApi = async (uuid: string) => {
+export const checkSessionOTPApi = async (bTxnId: string) => {
   const body: CheckSessionOTPRequest = {
-    uuid,
+    bTxnId,
   };
   const resp: AxiosResponse<CheckSessionOTPResponse> = await axios.post(
     "/sso/api/checkSessionOTP",
     {
-      ...generateBodyRequest({ partnerId: PARTNER_ID_SBH_OTP || "", uuid }),
+      ...generateBodyRequest({ partnerId: PARTNER_ID_SBH_OTP || "", bTxnId }),
       data: body,
     }
   );

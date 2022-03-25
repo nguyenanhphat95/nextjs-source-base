@@ -103,11 +103,17 @@ const OTPPage = () => {
   }, [query.userId]);
 
   useEffect(() => {
+    if (!query.data) {
+      return;
+    }
+  }, [query.data]);
+
+  useEffect(() => {
     if (!query.uuid || !query.bTxnId) return;
     bTxnId.current = query.bTxnId as string;
     async function callApi() {
       const resCheckSession = await sbhOTPServices.checkSessionOTPApi(
-        query.uuid as string
+        query.bTxnId as string
       );
       if (resCheckSession?.data?.code === CheckSessionOTPCode.valid) {
         const resInfo = await sbhOTPServices.getInfoByTokenApi(

@@ -1,7 +1,7 @@
 import { ResponseData } from "./ICommon";
 
 export interface CheckSessionOTPRequest {
-  uuid: string;
+  bTxnId: string;
 }
 
 export interface CheckSessionOTPResponse extends ResponseData {
