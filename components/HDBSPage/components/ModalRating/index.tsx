@@ -10,7 +10,6 @@ import * as hdbsServices from "services/hdbsService";
 import { useRouter } from "next/router";
 import { ROUTE_STEP } from "components/HDBSPage/consts";
 
-
 import {
   ButtonCustom,
   InputCustom,
@@ -21,6 +20,8 @@ interface Props {
   open: boolean;
   onClose: () => void;
   toggleNotify: (desc?: string, onClose?: any, isSuccess?: boolean) => void;
+  ratingSelected: number;
+  onChangeRating: (rating: number) => void;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -53,19 +54,18 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const ModalRating = (props: Props) => {
   const classes = useStyles();
-  const { open, onClose, toggleNotify } = props;
-  const [rateValue, setRateValue] = useState(0);
+  const { open, onClose, toggleNotify, ratingSelected, onChangeRating } = props;
   const [ratingNote, setRatingNote] = useState("");
   const router = useRouter();
   const query = router.query;
 
   const _handleRating = () => {
-    if (!rateValue) {
+    if (!ratingSelected) {
       return;
     }
     query.returnHome = "true";
     hdbsServices
-      .createRatingApi(rateValue, ratingNote)
+      .createRatingApi(ratingSelected, ratingNote)
       .then((res) => {
         // onClose();
         toggleNotify(
@@ -123,9 +123,8 @@ const ModalRating = (props: Props) => {
         </Grid>
       </Box>
       <Box className={classes.bgRating} px={1} py={2}>
-        <Rating defaultValue={rateValue} onChange={setRateValue} />
+        <Rating defaultValue={ratingSelected} onChange={onChangeRating} />
       </Box>
-
       <Box p={2}>
         <TextAreaCustom
           value={ratingNote}
@@ -141,7 +140,7 @@ const ModalRating = (props: Props) => {
           fullWidth
           variant="contained"
           color="secondary"
-          disabled={!rateValue}
+          disabled={!ratingSelected}
         >
           Gửi đánh giá
         </ButtonCustom>

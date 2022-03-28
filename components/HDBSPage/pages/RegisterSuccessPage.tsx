@@ -59,31 +59,11 @@ const RegisterSuccessPage = (props: Props) => {
   const { onClickOtherTransaction, toggleNotify } = props;
   const rootRef = useRef<HTMLDivElement>(null);
   const [showModalRating, setShowModalRating] = useState(false);
-
-  const [image, takeScreenshot] = useScreenshot({
-    type: "image/jpeg",
-    quality: 1.0,
-  });
-
-  const [rateValue, setRateValue] = useState(0);
+  const [ratingSelected, setRatingSelected] = useState(0);
   const classes = useStyles();
-
   const router = useRouter();
   const lang = getLanguage(router);
   const t = _get(resources, [lang, "registerSuccessPage"]);
-
-  const download = (
-    image: string,
-    { name = "HDBS", extension = "png" } = {}
-  ) => {
-    const a = document.createElement("a");
-    a.href = image;
-    a.download = createFileName(extension, name);
-    a.click();
-  };
-
-  const downloadScreenshot = () =>
-    takeScreenshot(rootRef.current).then(download);
 
   const _toggleModalRating = () => {
     setShowModalRating((prev) => !prev);
@@ -91,7 +71,13 @@ const RegisterSuccessPage = (props: Props) => {
 
   return (
     <>
-      <ModalRating toggleNotify={toggleNotify} open={showModalRating} onClose={_toggleModalRating} />
+      <ModalRating
+        onChangeRating={setRatingSelected}
+        ratingSelected={ratingSelected}
+        toggleNotify={toggleNotify}
+        open={showModalRating}
+        onClose={_toggleModalRating}
+      />
       <div ref={rootRef} className={classes.root}>
         <Card>
           <Box p={2}>
@@ -117,16 +103,6 @@ const RegisterSuccessPage = (props: Props) => {
               <Grid item>
                 <Box textAlign="center" className={classes.textTitle}>
                   {t?.title}
-                </Box>
-              </Grid>
-              <Grid item>
-                <Box textAlign="center">
-                  <span
-                    onClick={downloadScreenshot}
-                    className={classes.textShare}
-                  >
-                    Chia sẻ
-                  </span>
                 </Box>
               </Grid>
               <Grid item>
@@ -168,7 +144,10 @@ const RegisterSuccessPage = (props: Props) => {
             px={3}
             py={1}
           >
-            <Rating defaultValue={rateValue} onChange={() => null} />
+            <Rating
+              defaultValue={ratingSelected}
+              onChange={setRatingSelected}
+            />
           </Box>
         </Card>
 

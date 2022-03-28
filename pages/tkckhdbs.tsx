@@ -129,7 +129,9 @@ const HDBSPage = (props: Props) => {
       ])
         .then((res) => {
           const merchantValid = _get(res, "[0].merchants")
-          const accountsValid = _get(res, "[1].data.data");          
+          const accountsValid = _get(res, "[1].data.data");
+          console.log(merchantValid, accountsValid);
+                    
           if(!merchantValid || !accountsValid){
             toggleNotify(ERROR_MESSAGE_TIMEOUT)
             setTimeOutErr(true)
