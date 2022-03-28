@@ -282,7 +282,7 @@ const OTPPage = () => {
     if (!isResendValid) {
       return;
     }
-    _callPurchaseSbh(null, true);
+    _callPurchaseSbh(undefined, true);
   };
 
   function toggleNotify(
@@ -357,8 +357,8 @@ const OTPPage = () => {
               onFinish={() => setIsResendValid(true)}
               hoursMinSecs={{
                 hours: 0,
-                minutes: 1,
-                seconds: 30,
+                minutes: 5,
+                seconds: 0,
               }}
             />
           )}
