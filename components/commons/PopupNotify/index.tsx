@@ -22,6 +22,7 @@ interface Props extends DialogProps {
   title?: string;
   desc?: string;
   hoursMinSecs?: TimerInput;
+  isSuccess?: boolean;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -58,6 +59,7 @@ const PopupNotify = (props: Props) => {
     toggleModal,
     open,
     hoursMinSecs,
+    isSuccess,
     ...rest
   } = props;
   const classes = useStyles();
@@ -80,7 +82,11 @@ const PopupNotify = (props: Props) => {
           <Grid container direction="column" spacing={2}>
             <Grid item>
               <Box display="flex" justifyContent="center">
-                <img src="/sso/images/notifyError.png" alt="notify" />
+                {isSuccess ? (
+                  <img src="/sso/images/TickSquare.png" alt="notify" />
+                ) : (
+                  <img src="/sso/images/notifyError.png" alt="notify" />
+                )}
               </Box>
             </Grid>
             <Grid item className={classes.title}>

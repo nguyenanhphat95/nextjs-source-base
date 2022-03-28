@@ -22,6 +22,7 @@ import * as lockUserService from "services/lockUserService";
 import * as sbhOTPServices from "services/sbhOTPService";
 import * as qs from "query-string";
 import { writeLogApi } from "services/commonService";
+import numeral from "numeral";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -79,6 +80,7 @@ const OTPPage = () => {
     title: "",
     desc: "",
     onClose: () => null,
+    isSuccess: false,
   });
 
   const [manageLock, setManageLock] = useState<{
@@ -117,17 +119,14 @@ const OTPPage = () => {
       const resCheckSession = await sbhOTPServices.checkSessionOTPApi(
         bTxnId.current
       );
-      if (
-        resCheckSession?.response?.responseCode === CheckSessionOTPCode.valid
-      ) {
+      if (resCheckSession?.data?.code === CheckSessionOTPCode.valid) {
         const resInfo = await sbhOTPServices.getInfoByTokenApi(bTxnId.current);
+
         setPurchaseInfo(resInfo.data);
         setValidPage(true);
       }
 
-      if (
-        resCheckSession?.response?.responseCode === CheckSessionOTPCode.expired
-      ) {
+      if (resCheckSession?.data?.code === CheckSessionOTPCode.expired) {
         const resInfo = await sbhOTPServices.getInfoByTokenApi(bTxnId.current);
         setPurchaseInfo(resInfo.data);
         if (resInfo?.response?.responseCode === ERROR_CODE.Success) {
@@ -153,27 +152,17 @@ const OTPPage = () => {
         });
     }
 
-    if (typeof query.data === "string") {
-      const queryStr = decodeURIComponent(escape(window.atob(query.data)));
-      const queryParse = qs.parse(queryStr);
+    const queryStr = decodeURIComponent(
+      escape(window.atob(query.data as string))
+    );
+    const queryParse = qs.parse(queryStr);
 
-      bTxnId.current = queryParse?.bTxnId as string;
-      campaignId.current = queryParse?.campaignId as string;
-      leadId.current = queryParse?.leadId as string;
-      userId.current = queryParse?.userId as string;
-      writeLogApi({
-        content: "SBH_OTP_URL_BEFORE_PARSE",
-        body: {
-          url: query.data,
-        },
-      });
-      writeLogApi({
-        content: "SBH_OTP_URL_AFTER_PARSE",
-        body: queryParse,
-      });
-      callApi();
-      getNumberLockAccount();
-    }
+    bTxnId.current = queryParse.bTxnId as string;
+    campaignId.current = queryParse.campaignId as string;
+    leadId.current = queryParse.leadId as string;
+    userId.current = queryParse.userId as string;
+    callApi();
+    getNumberLockAccount();
   }, [query]);
 
   useEffect(() => {
@@ -182,7 +171,10 @@ const OTPPage = () => {
     }
   }, [otp]);
 
-  const _callPurchaseSbh = (purchaseInfoParam?: SbhPurchaseInfo) => {
+  const _callPurchaseSbh = (
+    purchaseInfoParam?: SbhPurchaseInfo,
+    showMessage?: boolean
+  ) => {
     const formData = purchaseInfoParam || purchaseInfo;
 
     if (!formData) {
@@ -197,6 +189,8 @@ const OTPPage = () => {
       if (status.success) {
         setValidPage(true);
         bTxnId.current = resPurchase?.data?.bTxnId;
+        showMessage &&
+          toggleNotify("Thông báo", "Gửi OTP thành công", () => null, true);
       } else {
         toggleNotify("Thông báo", status.msg);
       }
@@ -288,10 +282,15 @@ const OTPPage = () => {
     if (!isResendValid) {
       return;
     }
-    _callPurchaseSbh();
+    _callPurchaseSbh(null, true);
   };
 
-  function toggleNotify(title?: string, desc?: string, onClose?: any) {
+  function toggleNotify(
+    title?: string,
+    desc?: string,
+    onClose?: any,
+    isSuccess?: boolean
+  ) {
     setPopupNotify((prev) => {
       if (title && desc) {
         return {
@@ -299,6 +298,7 @@ const OTPPage = () => {
           title,
           desc,
           onClose: onClose ? onClose : () => null,
+          isSuccess: isSuccess || false,
         };
       }
       prev.onClose && prev?.onClose();
@@ -307,6 +307,7 @@ const OTPPage = () => {
         title: "",
         desc: "",
         onClose: () => null,
+        isSuccess: false,
       };
     });
   }
@@ -331,7 +332,8 @@ const OTPPage = () => {
         </Grid>
         <Grid item className={classes.textContent}>
           Mã xác thực (OTP) đã được gửi qua SMS hoặc đăng nhập Mobile App HDBank
-          để lấy OTP thanh toán số tiền {purchaseInfo?.amount}₫
+          để lấy OTP thanh toán số tiền{" "}
+          {numeral(purchaseInfo?.amount || 0).format(",")}₫
         </Grid>
         <Grid item>
           <InputOTP typeInputOTP={TypeInputOTP.Single} onChange={setOtp} />
