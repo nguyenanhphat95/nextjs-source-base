@@ -150,7 +150,8 @@ export const verifyWithTokenSBH = async (
     password: string;
   },
   bankAccount: string,
-  publicKey: string
+  publicKey: string,
+  txid: string
 ) => {
   const JSEnscript = _get(window, "JSEncrypt");
   const crypt = new JSEnscript();
@@ -167,7 +168,7 @@ export const verifyWithTokenSBH = async (
     data: {
       credential,
       key: publicKey,
-      bankAccount: bankAccountEncrypted,
+      bankAccount: bankAccountEncrypted + `#${txid}`,
     },
   };
 

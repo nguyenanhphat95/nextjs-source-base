@@ -107,7 +107,8 @@ const SBHPage = () => {
       !query.redirect_uri ||
       !query.response_type ||
       !query.scope ||
-      !query.nationaId
+      !query.nationaId ||
+      !query.txid
     ) {
       return false;
     }
@@ -419,7 +420,12 @@ const SBHPage = () => {
     };
     _toggleLoading("loadingBtnSubmit", true);
     stkService
-      .verifyWithTokenSBH(formData, accountRef.current as string, publicKey)
+      .verifyWithTokenSBH(
+        formData,
+        accountRef.current as string,
+        publicKey,
+        query.txid as string
+      )
       .then((res) => {
         const code = _get(res, "data.data.code");
         _toggleLoading("loadingBtnSubmit", false);
