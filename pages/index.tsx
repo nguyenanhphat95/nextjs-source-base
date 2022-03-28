@@ -21,6 +21,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import * as lockUserService from "services/lockUserService";
 import * as sbhOTPServices from "services/sbhOTPService";
 import * as qs from "query-string";
+import { writeLogApi } from "services/commonService";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -160,11 +161,20 @@ const OTPPage = () => {
       campaignId.current = queryParse?.campaignId as string;
       leadId.current = queryParse?.leadId as string;
       userId.current = queryParse?.userId as string;
-
+      writeLogApi({
+        content: "SBH_OTP_URL_BEFORE_PARSE",
+        body: {
+          url: query.data,
+        },
+      });
+      writeLogApi({
+        content: "SBH_OTP_URL_AFTER_PARSE",
+        body: queryParse,
+      });
       callApi();
       getNumberLockAccount();
     }
-  }, [query.data]);
+  }, [query]);
 
   useEffect(() => {
     if (otp && otp.length === 6) {
