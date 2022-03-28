@@ -15,11 +15,12 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface Props {
   onFinish?: (data: any) => void;
+  onFinishCMND?: (data: any) => void;
 }
 
 const EKYCComponent = (props: Props) => {
   const classes = useStyles();
-  const { onFinish } = props;
+  const { onFinish, onFinishCMND } = props;
   useEffect(() => {
     callEkyc();
   }, []);
@@ -199,7 +200,9 @@ const EKYCComponent = (props: Props) => {
           ekycsdk.init(
             initObj,
             (res: any) => {
-              console.log("init ekycSDK success");
+              onFinishCMND && onFinishCMND(res)
+              // onFinish && onFinish(res);
+              console.log("init ekycSDK successssssssss");
             },
             call_after_end_flow
           );

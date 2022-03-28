@@ -28,18 +28,20 @@ export default function MyApp(props: MyAppProps) {
 
   const [popupNotify, setPopupNotify] = React.useState({
     open: false,
+    isSuccess: false,
     desc: "",
     onClose: () => null,
   });
   const [md5, setMd5] = React.useState(null);
 
-  function toggleNotify(desc?: string, onClose?: any) {
+  function toggleNotify(desc?: string, onClose?: any, isSuccess?: boolean) {
     setPopupNotify((prev) => {
       if (desc && typeof desc === "string") {
         return {
           open: true,
           desc,
           onClose: onClose ? onClose : () => null,
+          isSuccess: isSuccess || false
         };
       }
       prev.onClose && prev?.onClose();
@@ -47,6 +49,7 @@ export default function MyApp(props: MyAppProps) {
         open: false,
         desc: "",
         onClose: () => null,
+        isSuccess: false
       };
     });
   }
@@ -76,6 +79,7 @@ export default function MyApp(props: MyAppProps) {
             title="Thông báo"
             desc={popupNotify.desc}
             open={popupNotify.open}
+            isSuccess={popupNotify.isSuccess}
             toggleModal={toggleNotify}
           />
         </ThemeProvider>

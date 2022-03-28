@@ -52,10 +52,11 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface Props {
   onClickOtherTransaction: () => void;
+  toggleNotify: (desc?: string, onClose?: any, isSuccess?: boolean) => void;
 }
 
 const RegisterSuccessPage = (props: Props) => {
-  const { onClickOtherTransaction } = props;
+  const { onClickOtherTransaction, toggleNotify } = props;
   const rootRef = useRef<HTMLDivElement>(null);
   const [showModalRating, setShowModalRating] = useState(false);
 
@@ -90,7 +91,7 @@ const RegisterSuccessPage = (props: Props) => {
 
   return (
     <>
-      <ModalRating open={showModalRating} onClose={_toggleModalRating} />
+      <ModalRating toggleNotify={toggleNotify} open={showModalRating} onClose={_toggleModalRating} />
       <div ref={rootRef} className={classes.root}>
         <Card>
           <Box p={2}>

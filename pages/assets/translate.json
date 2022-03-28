@@ -39,7 +39,7 @@
       "accountNo": "Số TKTT tại HDBank",
       "doEKYCAgain": "Thực hiện lại",
       "btnContinue": "Tiếp tục",
-      "termCondition1": "Tôi đồng ý và ủy quyền cho HDBank để cung cấp các thông tin cá nhân, thông tài khoản của tôi cho",
+      "termCondition1": "Tôi đồng ý và ủy quyền cho HDBank để cung cấp các thông tin cá nhân, thông tin tài khoản của tôi cho",
       "termCondition2": "để thực hiện các thủ tục mở tài khoản chứng khoán tại",
       "termCondition3": "Tôi đã đọc, hiểu rõ và đồng ý với ",
       "termCondition4": "Điều khoản và Điều kiện",
@@ -49,17 +49,17 @@
       "title": "ĐĂNG KÝ THÀNH CÔNG",
       "textShare": "Chia sẻ",
       "subtitle": "Công ty cổ phần chứng khoán HDBS",
-      "content": "Quý khách đã yêu cầu đăng ký mở tài khoản giao dịch chứng khoán HDBS thành công. HDBS sẽ liên hệ với Quý khách để hướng dẫn hoàn tất thủ tục trong vòng 1 ngày làm việc. Trường hợp cần hỗ trợ. Quý khách vui lòng liên hệ hotline của HDBS theo số",
-      "question": "Quý khách đã thực hiện đăng ký mở tài khoản chứng khoán thành công. Quý khách đánh giá giao dịch này thế nào ?",
+      "content": "Quý khách đã yêu cầu đăng ký mở tài khoản giao dịch chứng khoán HDBS thành công. HDBS sẽ liên hệ với Quý khách để hướng dẫn hoàn tất thủ tục trong vòng 1 ngày làm việc. Trường hợp cần hỗ trợ. Quý khách vui lòng liên hệ hotline của HDBS theo số.",
+      "question": "Quý khách đã thực hiện đăng ký mở tài khoản chứng khoán thành công. Quý khách đánh giá giao dịch này thế nào?",
       "otherTransaction": "Giao dịch khác"
     },
     "informationModal": {
       "titleTransferInternet": "Giao dịch qua Internet",
-      "contentTransferInternet": "HDBS sẽ cung cấp Tài khoản và Mật khẩu cho Quý Khách hàng đăng nhập vào Hệ thống trực tuyến của HDBS để đặt lệnh giao dịch và quản lý danh mục đầu tư",
+      "contentTransferInternet": "HDBS sẽ cung cấp Tài khoản và Mật khẩu cho Quý Khách hàng đăng nhập vào Hệ thống trực tuyến của HDBS để đặt lệnh giao dịch và quản lý danh mục đầu tư.",
       "titleTransferAuto": "Ứng trước tiền bán chứng khoán tự động",
-      "contentTransferAuto": "Dịch vụ ứng trước tiền bán chứng khoán tự động cung cấp cho Quý khách để gia tăng sức mua chứng khoán ngay sau khi lệnh bán chứng khoán trước đó đã khớp lệnh thành công, đồng thời giảm thiểu thời gian thao tác cho Quý khách",
+      "contentTransferAuto": "Dịch vụ ứng trước tiền bán chứng khoán tự động cung cấp cho Quý khách để gia tăng sức mua chứng khoán ngay sau khi lệnh bán chứng khoán trước đó đã khớp lệnh thành công, đồng thời giảm thiểu thời gian thao tác cho Quý khách.",
       "titleTransferBonds": "Giao dịch trái phiếu phát hành riêng lẻ",
-      "contentTransferBonds": "Là Trái phiếu chưa thực hiện niêm yết trên Thị trường Chứng khoán. Trái phiếu do HDBS thực hiện tư vấn, phát hành và làm Đại lý đăng ký Lưu ký, quản lý chuyển nhượng"
+      "contentTransferBonds": "Là Trái phiếu chưa thực hiện niêm yết trên Thị trường Chứng khoán. Trái phiếu do HDBS thực hiện tư vấn, phát hành và làm Đại lý đăng ký Lưu ký, quản lý chuyển nhượng."
     }
   },
   "en": {

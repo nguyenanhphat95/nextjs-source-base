@@ -70,11 +70,11 @@ export function compareTwoDate(date1: Date, date2: Date): number {
   const time2 = date2.getTime();
 
   if (time1 > time2) {
-    return 1;
+    return -1;
   }
 
   if (time1 < time2) {
-    return -1;
+    return 1;
   }
   return 0;
 }

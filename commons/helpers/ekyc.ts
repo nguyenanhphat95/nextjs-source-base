@@ -30,7 +30,7 @@ const enum TYPE_ID {
 const checkIdentityExpired = (dateOfIssue: string, expiredDate: string) => {
   // Kiểm tra cmnd/cccd đã hết hạn hay chưa
   const resultCheckExpire = compareTwoDate(
-    new Date(new Date(dateOfIssue)),
+    new Date(new Date()),
     new Date(new Date(expiredDate))
   );
 
@@ -44,7 +44,7 @@ const checkIdentityExpired = (dateOfIssue: string, expiredDate: string) => {
   // Check hiệu lực cmnd/cccd < 30 ngày
   const resultCheckWarning = _differenceInDays(
     new Date(new Date(expiredDate)),
-    new Date(new Date(dateOfIssue))
+    new Date(new Date())
   );
   if (resultCheckWarning < 30) {
     return {
@@ -109,13 +109,15 @@ export const parseInfoFromEKYC = (ekycData: any): EKYCData => {
   };
 };
 
+
+
 export const checkResultEkyc = (
   ekycData: any
 ): {
   validEKYC: boolean;
   messageEKYC: string;
 } => {
-  console.log("ekycData: ", ekycData);
+
   let validEKYC = true;
   let messageEKYC = "";
   const compareObj = _get(ekycData, "compare.object.msg");

@@ -7,6 +7,10 @@ import Box from "@mui/system/Box";
 import { makeStyles } from "@mui/styles";
 import { Theme } from "@mui/system/createTheme";
 import * as hdbsServices from "services/hdbsService";
+import { useRouter } from "next/router";
+import { ROUTE_STEP } from "components/HDBSPage/consts";
+
+
 import {
   ButtonCustom,
   InputCustom,
@@ -16,6 +20,7 @@ import {
 interface Props {
   open: boolean;
   onClose: () => void;
+  toggleNotify: (desc?: string, onClose?: any, isSuccess?: boolean) => void;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -48,18 +53,30 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 const ModalRating = (props: Props) => {
   const classes = useStyles();
-  const { open, onClose } = props;
+  const { open, onClose, toggleNotify } = props;
   const [rateValue, setRateValue] = useState(0);
   const [ratingNote, setRatingNote] = useState("");
+  const router = useRouter();
+  const query = router.query;
 
   const _handleRating = () => {
     if (!rateValue) {
       return;
     }
+    query.returnHome = "true";
     hdbsServices
       .createRatingApi(rateValue, ratingNote)
       .then((res) => {
-        onClose();
+        // onClose();
+        toggleNotify(
+          "Cảm ơn quý khách đã gửi đánh giá!",
+          () =>
+            router.push({
+              pathname: ROUTE_STEP.stepHome,
+              query,
+            }),
+          true
+        );
       })
       .catch(() => onClose());
   };

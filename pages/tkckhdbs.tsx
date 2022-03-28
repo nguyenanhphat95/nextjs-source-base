@@ -52,7 +52,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface Props {
-  toggleNotify: (desc?: string, onClose?: any) => void;
+  toggleNotify: (desc?: string, onClose?: any, isSuccess?: boolean) => void;
 }
 
 const HDBSPage = (props: Props) => {

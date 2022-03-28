@@ -7,7 +7,7 @@ interface TKCKContextValue {
   listMerchant: MerchantNameItem[];
   listTerminal: TerminalNameItem[];
   listAccount: AccountItem[];
-  toggleNotify: (desc?: string, onClose?: any) => void;
+  toggleNotify: ( isSuccess?: any, desc?: string, onClose?: any) => void;
 }
 
 const TKCKContext = React.createContext<TKCKContextValue>({

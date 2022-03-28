@@ -10,8 +10,12 @@ import * as qs from "query-string";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "store/reducer";
 
+interface Props {
+  toggleNotify: (desc?: string, onClose?: any) => void;
+}
 
-const ResultPage = () => {
+const ResultPage = (props: Props) => {
+  const { toggleNotify } = props;
   const router = useRouter();
   const query = router.query;
   const typeCustomer = _get(query, "typeCustomer", TypeCustomer.KHHH);
@@ -46,7 +50,7 @@ const ResultPage = () => {
 
       <Script id="md5-id" src="/asset/js/md5.min.js" />
 
-      <RegisterSuccessPage onClickOtherTransaction={_handleOtherTransaction} />
+      <RegisterSuccessPage toggleNotify={toggleNotify} onClickOtherTransaction={_handleOtherTransaction} />
     </>
   );
 };

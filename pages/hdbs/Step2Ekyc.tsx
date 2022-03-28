@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface Props {
-  toggleNotify: (desc?: string, onClose?: any) => void;
+  toggleNotify: (desc?: string, onClose?: any, isSuccess?: boolean) => void;
 }
 
 const Step2Ekyc = (props: Props) => {
@@ -38,6 +38,7 @@ const Step2Ekyc = (props: Props) => {
   const router = useRouter();
   const query = router.query;
   const lang = getLanguage(router);
+  const [isShowEKYC, setIsShowEKYC] = React.useState<boolean>(true);
 
   const dispatch = useDispatch();
   const { dataForm, loading, step }: AppState = useSelector((state) =>
@@ -50,17 +51,26 @@ const Step2Ekyc = (props: Props) => {
     });
   };
 
+  const onFinishCMND = (data: any) => {
+    // debugger;  
+    const PaperMsg = _get(data, "ocr.errors[0]");
+    if(PaperMsg === "Dau vao mat truoc va sau khong cung loai"){
+      toggleNotify("Đầu vào mặt trước và mặt sau không cùng loại");
+      return
+    }
+    if (PaperMsg) {
+      toggleNotify(PaperMsg);
+    }
+  };
+
   const handleSubmit = (data: any) => {
     if (!data) {
       return;
     }
-
     const resultEKYC = checkResultEkyc(data);
-    console.log("ekyc result: --- ", resultEKYC);
     if (!resultEKYC.validEKYC) {
-      toggleNotify(resultEKYC.messageEKYC, () =>
-        _onGoStep(ROUTE_STEP.step1FormTKCK)
-      );
+      setIsShowEKYC(false);
+      toggleNotify(resultEKYC.messageEKYC, () => setIsShowEKYC(true));
       return;
     }
     if (resultEKYC.messageEKYC) {
@@ -127,7 +137,9 @@ const Step2Ekyc = (props: Props) => {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       {loading.loadingMasterData && <LoadingPage />}
-      <EKYCComponent onFinish={handleSubmit} />
+      {isShowEKYC && (
+        <EKYCComponent onFinishCMND={onFinishCMND} onFinish={handleSubmit} />
+      )}
     </div>
   );
 };
