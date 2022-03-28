@@ -20,8 +20,9 @@ export const ERROR_MESSAGE_VERIFY_USER = {
   [ERROR_CODE.LockUserLoginFail5]:
     "Tài khoản của Quý khách đang bị tạm khóa do đăng nhập sai nhiều lần. Vui lòng gọi 1900 6060 hoặc liên hệ PGD gần nhất để được hỗ trợ",
   [ERROR_CODE.UsernameNotMatch]:
-    "Quý khách vui lòng sử dụng username đã đăng ký ban đầu",
-  [ERROR_CODE.SendOTPFailed]: "Gửi OTP không thành công",
+    "Quý khách vui lòng sử dụng tài khoản đã đăng ký ban đầu",
+  [ERROR_CODE.SendOTPFailed]:
+    "Gửi OTP không thành công, vui lòng thử lại sau ít phút",
   [ERROR_CODE.Timeout]: "Kết nối gián đoạn. Qúy khách vui lòng thử lại sau",
   [ERROR_CODE.LockSendOTP]:
     "Quý khách chưa đăng ký phương thức xác thực hoặc đã bị khóa. Quý khách vui lòng liên hệ tổng đài 19006060 để được hỗ trợ",
@@ -33,15 +34,16 @@ export const ERROR_MESSAGE_VERIFY_USER = {
   [ERROR_CODE.PhoneNumberLock]: `Quý khách đã nhập sai OTP quá 5 lần. Vui lòng liên hệ 1900 6060 hoặc đến điểm giao dịch HDBank gần nhất để được hỗ trợ`,
   [ERROR_CODE.Unauthorized]:
     "Tên đăng nhập hoặc Mật khẩu không đúng. Quý khách vui lòng kiểm tra lại",
-  [ERROR_CODE.SessionExpired]: "Session Expired",
-  [ERROR_CODE.UserNotExist]: "User Not Exist",
-  [ERROR_CODE.SessionIdNotFound]: "Session Id Not Found",
+  [ERROR_CODE.SessionExpired]: "Phiên làm việc hết hạn, vui lòng đăng nhập lại",
+  [ERROR_CODE.UserNotExist]: "Người dùng không tồn tại",
+  [ERROR_CODE.SessionIdNotFound]:
+    "Phiên làm việc hết hạn, vui lòng đăng nhập lại",
   [ERROR_CODE.FormatMessageInvalid]:
     "Tên đăng nhập hoặc Mật khẩu không hợp lệ. Qúy khách vui lòng kiểm tra lại",
-  [ERROR_CODE.SystemError]: "System Error",
+  [ERROR_CODE.SystemError]: "Hệ thống gián đoạn vui lòng thử lại sau ít phút",
   [ERROR_CODE.PasswordExpired]:
-    "Expired password requires accessing ebank.hdbank.com.vn to change password",
-  [ERROR_CODE.VerifyClientFailed]: "Verify client failed",
+    "Mật khẩu hết hạn, vui lòng truy cập HDBank mbanking để đổi mật khẩu",
+  [ERROR_CODE.VerifyClientFailed]: "Thông tin oauth client chưa hợp lệ",
   [ERROR_CODE.AccountLocked]:
     "Tài khoản của Quý khách đang bị tạm khóa. Vui lòng thử lại sau 24 giờ để sử dụng tiếp dịch vụ",
 };

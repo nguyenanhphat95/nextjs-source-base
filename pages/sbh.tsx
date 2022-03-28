@@ -418,6 +418,11 @@ const SBHPage = () => {
       username: usernameRef.current,
       password: passwordRef.current,
     };
+    if (!query.txid) {
+      toggleNotify("Thông báo", "Thiếu txid");
+      return;
+    }
+
     _toggleLoading("loadingBtnSubmit", true);
     stkService
       .verifyWithTokenSBH(
