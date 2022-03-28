@@ -158,7 +158,7 @@ export const verifyWithTokenSBH = async (
   crypt.setPublicKey(publicKey);
 
   const credential = crypt.encrypt(JSON.stringify(data));
-  const bankAccountEncrypted = crypt.encrypt(bankAccount);
+  const bankAccountEncrypted = crypt.encrypt(bankAccount + `#${txid}`);
 
   const body: VerifyWithTokenSBHRequest = {
     request: {
@@ -168,7 +168,7 @@ export const verifyWithTokenSBH = async (
     data: {
       credential,
       key: publicKey,
-      bankAccount: bankAccountEncrypted + `#${txid}`,
+      bankAccount: bankAccountEncrypted,
     },
   };
 
