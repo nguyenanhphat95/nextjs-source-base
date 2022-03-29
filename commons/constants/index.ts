@@ -7,6 +7,8 @@ export const KEY_CHECK_SUM = process.env.KEY_CHECK_SUM_CLIENT;
 export const CHANNEL_HDBS = process.env.CHANNEL_HDBS_CLIENT;
 export const TOKEN_USERNAME = process.env.TOKEN_USERNAME_CLIENT;
 export const TOKEN_PASSWORD = process.env.TOKEN_PASSWORD_CLIENT;
+export const SECRET_KEY_ACCESS_TOKEN = process.env.SECRET_KEY_ACCESS_TOKEN;
+
 
 export const API_DOMAIN_SBH_SANDBOX = process.env.API_DOMAIN_SANDBOX_SBH_CLIENT;
 export const SERVICE_CODE_HDBS = process.env.SERVICE_CODE_CLIENT;

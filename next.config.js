@@ -8,7 +8,7 @@ module.exports = {
   env: {
     PORT: process.env.PORT,
     ENABLE_WRITE_LOG_CLIENT: process.env.ENABLE_WRITE_LOG,
-
+    SECRET_KEY_ACCESS_TOKEN: process.env.SECRET_KEY_ACCESS_TOKEN,
     API_DOMAIN_CLIENT: process.env.API_DOMAIN,
     PARTNER_ID_CLIENT: process.env.PARTNER_ID,
     KEY_CHECK_SUM_CLIENT: process.env.KEY_CHECK_SUM,
