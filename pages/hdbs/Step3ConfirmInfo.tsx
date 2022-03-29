@@ -48,13 +48,24 @@ const Step3ConfirmInfo = (props: Props) => {
   const { dataForm, typeCustomer, allowSendOTP, loading }: AppState =
     useSelector((state) => _get(state, "app"));
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
+  const [isAbleSendOtp, setIsAbleSendOtp] = useState(false);
+
 
   const _toggleModalVerifyOTP = () => {
     setOpenVerifyOTP((prev) => !prev);
   };
 
   const _onCreateOTP = (isToggleModal = true) => {
+    setIsAbleSendOtp(false)
     dispatch(setToggleLoading("loadingBtnSubmit"));
+    let count = 30
+    var x = setInterval(function() {
+      count--;
+      if (count < 0) {
+        clearInterval(x);
+        setIsAbleSendOtp(true)
+      }
+    }, 1000);
     hdbsServices
       .createOTPApi()
       .then((res) => {
@@ -163,6 +174,7 @@ const Step3ConfirmInfo = (props: Props) => {
       >
         <Box px={1} py={2} className={classes.otpContainer}>
           <VerifyOTP
+            isAbleSendOtp={isAbleSendOtp}
             loading={loading.loadingBtnConfirmOTP}
             onSubmit={_handleVerifyOtp}
             onResendOTP={() => _onCreateOTP(false)}

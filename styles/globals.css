@@ -2,7 +2,34 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: BeVietnam;
+  font-family: Helvetica;
+}
+
+#ekyc_sdk_intergrated {
+  background: none !important;
+}
+
+#ekyc_sdk_intergrated .take-picture-btn {
+  background: linear-gradient(rgb(255, 222, 1) 0%, rgb(250, 167, 26) 100%) !important;
+}
+.tutorial-mobile {
+  color: #cca300 !important;
+}
+
+#header-title {
+  color: black !important;
+  font-family: Helvetica !important;
+}
+
+#re-capture-title, #step1-next-step-title {
+  color: black !important;
+  font-family: Helvetica !important;
+  font-weight: 500 !important;
+}
+#step1-closebtn-title, #ekyc_description, #take-picture-webcam-title {
+  color: black !important;
+  font-family: Helvetica !important;
+  font-weight: 500 !important;
 }
 
 a {
@@ -13,7 +40,7 @@ a {
 * {
   box-sizing: border-box;
 }
-@font-face {
+/* @font-face {
   font-family: "BeVietnam";
   src: url("../public/asset/fonts/BeVietnam/BeVietnamPro-Light.ttf"),
     url("../public/asset/fonts/BeVietnam/BeVietnamPro-LightItalic.ttf");
@@ -35,6 +62,14 @@ a {
   src: url("../public/asset/fonts/BeVietnam/BeVietnamPro-Medium.ttf"),
     url("../public/asset/fonts/BeVietnam/BeVietnamPro-MediumItalic.ttf");
   font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+} */
+
+@font-face {
+  font-family: "Helvetical";
+  src: url("../public/asset/fonts/Helvetical/helvetica-neue-medium.ttf");
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }

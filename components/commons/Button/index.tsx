@@ -11,6 +11,7 @@ export interface Props extends ButtonProps {
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
+    background: "linear-gradient(rgb(255, 222, 1) 0%, rgb(250, 167, 26) 100%)",
     borderRadius: "10px !important",
     boxShadow: "none !important",
     height: "50px !important",

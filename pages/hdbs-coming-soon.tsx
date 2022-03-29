@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => ({
     borderRadius: 10,
     cursor: "pointer",
     fontSize: 12,
-    fontWeight: 500,
+    fontWeight: 600,
   },
   wrapperImage: {
     position: "relative",

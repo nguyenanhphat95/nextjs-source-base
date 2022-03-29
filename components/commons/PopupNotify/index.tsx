@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   title: {
     fontSize: 22,
-    fontWeight: 500,
+    fontWeight: 600,
     textAlign: "center",
   },
   desc: {

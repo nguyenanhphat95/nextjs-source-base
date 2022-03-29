@@ -52,7 +52,7 @@ const useStyles = makeStyles(() => ({
     borderRadius: 10,
     cursor: "pointer",
     fontSize: 12,
-    fontWeight: 500,
+    fontWeight: 600,
   },
 }));
 
@@ -99,7 +99,7 @@ const HDBSPage = (props: Props) => {
 
   useEffect(() => {
     if (!query?.typeCustomer) {
-      router.push("/_error");
+      // router.push("/_error");
       return;
     }
 
@@ -121,56 +121,56 @@ const HDBSPage = (props: Props) => {
 
   useEffect(() => {
     if (!query?.jwt) {
-      router.push("/_error");
+      // router.push("/_error");
       return;
     }
-    try {
-      const jwtInfo = jwt.verify(
-        query.jwt as string,
-        SECRET_KEY_ACCESS_TOKEN as string
-      );
 
-      // const jwtInfo = parseJwt(query.jwt as string);
+    // const jwtInfo = jwt.verify(
+    //   query.jwt as string,
+    //   SECRET_KEY_ACCESS_TOKEN as string
+    // );
 
-      dispatch(setToggleLoading("loadingMasterData"));
-      hdbsServices.getAccessToken().then((res) => {
-        hdbsServices.updateMasterData({
-          userId: _get(jwtInfo, "userName"),
-          clientNo: _get(jwtInfo, "clientNo"),
-          language: "vi",
-        });
-        Promise.all([
-          hdbsServices.getMerchant(),
-          hdbsServices.getListAccountApi(),
-        ])
-          .then((res) => {
-            const merchantValid = _get(res, "[0].merchants");
-            const accountsValid = _get(res, "[1].data.data");
-            // console.log(merchantValid, accountsValid);
+    const jwtInfo = parseJwt(query.jwt as string);
 
-            if (!merchantValid || !accountsValid) {
-              toggleNotify(ERROR_MESSAGE_TIMEOUT);
-              setTimeOutErr(true);
-              dispatch(setToggleLoading("loadingMasterData"));
-              return;
-            }
-
-            const accounts = _get(res, "[1].data.data", []);
-            // If list account is empty, that is imoney user
-            if (!accounts || !accounts.length) {
-              isUserImoney.current = true;
-            }
-            dispatch(setToggleLoading("loadingMasterData"));
-            dispatch(setListMerchant(_get(res, "[0].merchants", [])));
-            dispatch(setListTerminal(_get(res, "[0].terminals", [])));
-            dispatch(setListAccount(hdbsServices.filterListAccount(accounts)));
-          })
-          .catch(() => dispatch(setToggleLoading("loadingMasterData")));
+    dispatch(setToggleLoading("loadingMasterData"));
+    hdbsServices.getAccessToken().then((res) => {
+      hdbsServices.updateMasterData({
+        userId: _get(jwtInfo, "userName"),
+        clientNo: _get(jwtInfo, "clientNo"),
+        language: "vi",
       });
-    } catch {
-      router.push("/_error");
-      return;
-    }
+      Promise.all([
+        hdbsServices.getMerchant(),
+        hdbsServices.getListAccountApi(),
+      ])
+        .then((res) => {
+          const merchantValid = _get(res, "[0].merchants");
+          const accountsValid = _get(res, "[1].data.data");
+          // console.log(merchantValid, accountsValid);
+
+          if (!merchantValid || !accountsValid) {
+            toggleNotify(ERROR_MESSAGE_TIMEOUT);
+            setTimeOutErr(true);
+            dispatch(setToggleLoading("loadingMasterData"));
+            return;
+          }
+
+          const accounts = _get(res, "[1].data.data", []);
+          // If list account is empty, that is imoney user
+          if (!accounts || !accounts.length) {
+            isUserImoney.current = true;
+          }
+          dispatch(setToggleLoading("loadingMasterData"));
+          dispatch(setListMerchant(_get(res, "[0].merchants", [])));
+          dispatch(setListTerminal(_get(res, "[0].terminals", [])));
+          dispatch(setListAccount(hdbsServices.filterListAccount(accounts)));
+        })
+        .catch(() => dispatch(setToggleLoading("loadingMasterData")));
+    });
+    // } catch {
+    //   router.push("/_error");
+    //   return;
+    // }
   }, [query]);
 
   return (

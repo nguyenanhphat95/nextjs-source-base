@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Card, Box, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import InputOTP from "components/commons/InputOTP";
+import InputOTP from "components/commons/InputOTP/InputSingle";
 import ButtonCustom from "components/commons/Button";
 
 const useStyles = makeStyles(() => ({
@@ -28,7 +28,7 @@ const useStyles = makeStyles(() => ({
     color: "#c81d25",
     textDecoration: "underline",
     fontSize: 15,
-    fontWeight: 500,
+    fontWeight: 600,
     cursor: "pointer",
   },
   borderBottom: {
@@ -40,17 +40,19 @@ interface Props {
   onSubmit?: (otp: string) => void;
   loading?: boolean;
   onResendOTP: () => void;
+  isAbleSendOtp: boolean;
 }
 
 const VerifyOTP = (props: Props) => {
-  const { onSubmit, loading, onResendOTP } = props;
+  const { onSubmit, loading, onResendOTP, isAbleSendOtp } = props;
   const classes = useStyles();
   const [otp, setOtp] = useState("");
 
   const _handleResendOTP = () => {
-    if (loading) {
+    if (loading || !isAbleSendOtp) {
       return;
     }
+    setOtp("")
     onResendOTP();
   };
   return (

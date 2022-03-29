@@ -33,7 +33,7 @@ const checkIdentityExpired = (dateOfIssue: string, expiredDate: string) => {
     new Date(new Date()),
     new Date(new Date(expiredDate))
   );
-
+  
   if (resultCheckExpire === 1) {
     return {
       validEKYC: false,
@@ -169,8 +169,9 @@ export const checkResultEkyc = (
   }
 
   //validate birthdate
-
+    
    const birthdate = _get(ekycData, "ocr.object.birth_day");
+
    if(!checkValidDate(birthdate)) {
     return {
       validEKYC: false,

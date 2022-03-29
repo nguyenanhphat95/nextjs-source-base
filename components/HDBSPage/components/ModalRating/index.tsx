@@ -67,16 +67,8 @@ const ModalRating = (props: Props) => {
     hdbsServices
       .createRatingApi(ratingSelected, ratingNote)
       .then((res) => {
-        // onClose();
-        toggleNotify(
-          "Cảm ơn quý khách đã gửi đánh giá!",
-          () =>
-            router.push({
-              pathname: ROUTE_STEP.stepHome,
-              query,
-            }),
-          true
-        );
+        onClose();
+        toggleNotify("Cảm ơn quý khách đã gửi đánh giá!", () => null, true);
       })
       .catch(() => onClose());
   };
@@ -85,15 +77,24 @@ const ModalRating = (props: Props) => {
     setRatingNote(e.target.value);
   };
 
+  const hanldeCloseRating = () => {
+    onClose();
+    onChangeRating(0);
+  };
+
   return (
-    <Dialog fullScreen open={open} onClose={onClose}>
+    <Dialog fullScreen open={open} onClose={hanldeCloseRating}>
       <Box p={1} className={classes.header}>
         <Grid alignItems="center" container spacing={1} wrap="nowrap">
           <Grid item xs={true}>
             Đánh giá giao dịch
           </Grid>
           <Grid item xs="auto">
-            <IconButton color="inherit" onClick={onClose} aria-label="close">
+            <IconButton
+              color="inherit"
+              onClick={hanldeCloseRating}
+              aria-label="close"
+            >
               <CloseIcon />
             </IconButton>
           </Grid>

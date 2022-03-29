@@ -33,7 +33,7 @@ const useStyles = makeStyles(() => ({
   },
   title: {
     fontSize: 18,
-    fontWeight: 500,
+    fontWeight: 600,
   },
   modalInfo: {
     top: "unset !important",

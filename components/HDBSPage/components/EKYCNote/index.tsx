@@ -12,7 +12,7 @@ const useStyles = makeStyles(() => ({
   },
   title: {
     fontSize: 16,
-    fontWeight: 500,
+    fontWeight: 600,
   },
   textContent: {
     fontSize: 14,

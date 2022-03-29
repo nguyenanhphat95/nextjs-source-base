@@ -41,6 +41,10 @@ const useStyles = makeStyles((theme: Theme) => ({
   h100: {
     height: "100%",
   },
+  info: {
+    width: "60%",
+    textAlign: "right",
+  },
 }));
 
 interface Props {
@@ -141,16 +145,21 @@ const ConfirmInfoPage = (props: Props) => {
       )} */}
       {resultEKYC.validEKYC && (
         <div className={classes.root}>
-          <div className={classes.tittle}>{t?.title}</div>
+          {/* <div className={classes.tittle}>{t?.title}</div> */}
           <form className={classes.root} onSubmit={handleSubmit(_handleSubmit)}>
             <Box mt={1} className={classes.content}>
               <Grid container direction="column" spacing={1}>
-                <Grid item>
-                  <Grid container spacing={1} direction="column">
-                    <Grid item>
-                      {t?.username}: <b>{data?.fullNameOcr}</b>
-                    </Grid>
-                    {/* {isKHHH && (
+                <Grid
+                  py={1}
+                  container
+                  direction="column"
+                  borderBottom="1px solid #c0c0c073"
+                >
+                  <Grid container item>
+                    <span style={{ width: "40%" }}>{t?.username}:</span>{" "}
+                    <b className={classes.info}>{data?.fullNameOcr}</b>
+                  </Grid>
+                  {/* {isKHHH && (
                       <Grid item>
                         <Controller
                           name="fullName"
@@ -169,28 +178,42 @@ const ConfirmInfoPage = (props: Props) => {
                         />
                       </Grid>
                     )} */}
+                </Grid>
+                <Grid
+                  py={1}
+                  container
+                  direction="column"
+                  borderBottom="1px solid #c0c0c073"
+                >
+                  <Grid container item>
+                    <span style={{ width: "40%" }}>{t?.gender}: </span>{" "}
+                    <b className={classes.info}>
+                      {data?.gender === "M" ? "Nam" : "Nữ"}
+                    </b>
                   </Grid>
                 </Grid>
-                <Grid item>
-                  <Grid container spacing={1} direction="column">
-                    <Grid item>
-                      {t?.gender}: <b>{data?.gender === "M" ? "Nam" : "Nữ"}</b>
-                    </Grid>
+                <Grid
+                  py={1}
+                  container
+                  direction="column"
+                  borderBottom="1px solid #c0c0c073"
+                >
+                  <Grid container item>
+                    <span style={{ width: "40%" }}>{t?.birthday}: </span>{" "}
+                    <b className={classes.info}>{data?.birthDateOcr}</b>
                   </Grid>
                 </Grid>
-                <Grid item>
-                  <Grid container spacing={1} direction="column">
-                    <Grid item>
-                      {t?.birthday}: <b>{data?.birthDateOcr}</b>
-                    </Grid>
+                <Grid
+                  py={1}
+                  container
+                  direction="column"
+                  borderBottom="1px solid #c0c0c073"
+                >
+                  <Grid container item>
+                    <span style={{ width: "40%" }}>CMND/CCCD: </span>{" "}
+                    <b className={classes.info}>{data?.idNumber}</b>
                   </Grid>
-                </Grid>
-                <Grid item>
-                  <Grid container spacing={1} direction="column">
-                    <Grid item>
-                      CMND/CCCD: <b>{data?.idNumber}</b>
-                    </Grid>
-                    {/* {isKHHH && (
+                  {/* {isKHHH && (
                       <Grid item>
                         <Controller
                           name="idNumber"
@@ -210,70 +233,111 @@ const ConfirmInfoPage = (props: Props) => {
                         />
                       </Grid>
                     )} */}
+                </Grid>
+                <Grid
+                  py={1}
+                  container
+                  direction="column"
+                  borderBottom="1px solid #c0c0c073"
+                >
+                  <Grid container item>
+                    <span style={{ width: "40%" }}>{t?.dateIssue}: </span>{" "}
+                    <b className={classes.info}>{data?.dateOfIssueOcr}</b>
                   </Grid>
                 </Grid>
-                <Grid item>
-                  <Grid container spacing={1} direction="column">
-                    <Grid item>
-                      {t?.dateIssue}: <b>{data?.dateOfIssueOcr}</b>
-                    </Grid>
+                <Grid
+                  py={1}
+                  container
+                  direction="column"
+                  borderBottom="1px solid #c0c0c073"
+                >
+                  <Grid container item>
+                    <span style={{ width: "40%" }}>{t?.placeIssue}: </span>{" "}
+                    <b className={classes.info}>{data?.placeOfIssueOcr}</b>
                   </Grid>
                 </Grid>
-                <Grid item>
-                  <Grid container spacing={1} direction="column">
-                    <Grid item>
-                      {t?.placeIssue}: <b>{data?.placeOfIssueOcr}</b>
-                    </Grid>
+                <Grid
+                  py={1}
+                  container
+                  direction="column"
+                  borderBottom="1px solid #c0c0c073"
+                >
+                  <Grid container item>
+                    <span style={{ width: "40%" }}>{t?.address}: </span>{" "}
+                    <b className={classes.info}>{data?.address}</b>
                   </Grid>
                 </Grid>
-                <Grid item>
-                  <Grid container spacing={1} direction="column">
-                    <Grid item>
-                      {t?.address}: <b>{data?.address}</b>
-                    </Grid>
+
+                <Grid
+                  py={1}
+                  container
+                  direction="column"
+                  borderBottom="1px solid #c0c0c073"
+                >
+                  <Grid container item>
+                    <span style={{ width: "40%" }}>{t?.nationality}: </span>{" "}
+                    <b className={classes.info}>{data?.nationalityName}</b>
                   </Grid>
                 </Grid>
-                <Grid item>
-                  <Grid container spacing={1} direction="column">
-                    <Grid item>
-                      {t?.nationality}: <b>{data?.nationalityName}</b>
-                    </Grid>
+
+                <Grid
+                  py={1}
+                  container
+                  direction="column"
+                  borderBottom="1px solid #c0c0c073"
+                >
+                  <Grid container item>
+                    <span style={{ width: "40%" }}> {t?.phoneNumber}: </span>{" "}
+                    <b className={classes.info}>{data?.phoneNumber}</b>
                   </Grid>
                 </Grid>
-                <Grid item>
-                  <Grid container spacing={1} direction="column">
-                    <Grid item>
-                      {t?.phoneNumber}: <b>{data?.phoneNumber}</b>
-                    </Grid>
+
+                <Grid
+                  py={1}
+                  container
+                  direction="column"
+                  borderBottom="1px solid #c0c0c073"
+                >
+                  <Grid container item>
+                    <span style={{ width: "40%" }}>{t?.contactAddress}: </span>{" "}
+                    <b className={classes.info}>{data?.address2}</b>
                   </Grid>
                 </Grid>
-                <Grid item>
-                  <Grid container spacing={1} direction="column">
-                    <Grid item>
-                      {t?.contactAddress}: <b>{data?.address2}</b>
-                    </Grid>
+
+                <Grid
+                  py={1}
+                  container
+                  direction="column"
+                  borderBottom="1px solid #c0c0c073"
+                >
+                  <Grid container item>
+                    <span style={{ width: "40%" }}>{t?.email}: </span>
+                    <b className={classes.info}>{data?.email}</b>
                   </Grid>
                 </Grid>
-                <Grid item>
-                  <Grid container spacing={1} direction="column">
-                    <Grid item>
-                      {t?.email}: <b>{data?.email}</b>
-                    </Grid>
+
+                <Grid
+                  py={1}
+                  container
+                  direction="column"
+                  borderBottom="1px solid #c0c0c073"
+                >
+                  <Grid container item>
+                    <span style={{ width: "40%" }}>{t?.terminalName}: </span>{" "}
+                    <b className={classes.info}>{data.terminalName}</b>
                   </Grid>
                 </Grid>
-                <Grid item>
-                  <Grid container spacing={1} direction="column">
-                    <Grid item>
-                      {t?.terminalName}: <b>{data.terminalName}</b>
-                    </Grid>
-                  </Grid>
-                </Grid>
+
                 {isKHHH && (
-                  <Grid item>
-                    <Grid container spacing={1} direction="column">
-                      <Grid item>
-                        {t?.accountNo}: <b>{data.accountNo}</b>
-                      </Grid>
+                  <Grid
+                    py={1}
+                    container
+                    direction="column"
+                    borderBottom="1px solid #c0c0c073"
+                  >
+                    <Grid container item>
+                      <span style={{ width: "40%" }}>{t?.accountNo}: </span>{" "}
+                      <b className={classes.info}>{data.accountNo}</b>
                     </Grid>
                   </Grid>
                 )}

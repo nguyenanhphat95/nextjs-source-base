@@ -20,14 +20,14 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   textShare: {
     color: "#a4a4a4",
-    fontWeight: 500,
+    fontWeight: 600,
     textDecoration: "underline",
     cursor: "pointer",
   },
   textTitle: {
     color: "#b80000",
     fontSize: 17,
-    fontWeight: 500,
+    fontWeight: 600,
   },
   textSubTitle: {
     fontSize: 16,
@@ -146,7 +146,7 @@ const RegisterSuccessPage = (props: Props) => {
           >
             <Rating
               defaultValue={ratingSelected}
-              onChange={setRatingSelected}
+              // onChange={setRatingSelected}
             />
           </Box>
         </Card>

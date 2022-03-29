@@ -56,7 +56,7 @@ export default function MyApp(props: MyAppProps) {
   return (
     <CacheProvider value={emotionCache}>
       <Head>
-        <title>Đăng ký mở TKCK</title>
+        <title>Đăng ký mở TKCK HDSecurities</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <Script id="lottie-id" src="/asset/js/lottie.min.js" />
