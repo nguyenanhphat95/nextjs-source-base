@@ -39,11 +39,9 @@
       "accountNo": "Số TKTT tại HDBank",
       "doEKYCAgain": "Thực hiện lại",
       "btnContinue": "Tiếp tục",
-      "termCondition1": "Tôi đồng ý và ủy quyền cho HDBank để cung cấp các thông tin cá nhân, thông tin tài khoản của tôi cho",
-      "termCondition2": "để thực hiện các thủ tục mở tài khoản chứng khoán tại",
-      "termCondition3": "Tôi đã đọc, hiểu rõ và đồng ý với ",
-      "termCondition4": "Điều khoản và Điều kiện",
-      "termCondition5": "đính kèm"
+      "termCondition1": "Tôi đã đọc, hiểu rõ và đồng ý với ",
+      "termCondition2": "đồng ý để HDBank cung cấp các thông tin cá nhân, thông tin tài khoản cho ",
+      "termCondition4": "Điều khoản và Điều kiện, "
     },
     "registerSuccessPage": {
       "title": "ĐĂNG KÝ THÀNH CÔNG",

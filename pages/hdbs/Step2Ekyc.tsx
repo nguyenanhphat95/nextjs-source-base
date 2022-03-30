@@ -11,6 +11,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { writeLogApi } from "services/commonService";
 import * as hdbsServices from "services/hdbsService";
 import {
   setAllowSendOTP,
@@ -88,6 +89,11 @@ const Step2Ekyc = (props: Props) => {
       idNumber: info?.idNumber as string,
       ekycData: data,
     };
+
+    // writeLogApi({content: "request of inquiry: ", body: finalData as any})
+    // writeLogApi({content: "info after ekyc: ", body: info as any})
+    // writeLogApi({content: "birthdate in client: ", body: info?.birthDateOcr as any})
+
     dispatch(setFormData(finalData));
     _inquiryEKYC(finalData);
   };
@@ -101,7 +107,7 @@ const Step2Ekyc = (props: Props) => {
         })
       );
     };
-
+    writeLogApi({content: "birthdate in client: ", body: data?.birthDateOcr as any})
     dispatch(setToggleLoading("loadingMasterData"));
     hdbsServices
       .inquiryENCYPresent(data)

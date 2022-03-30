@@ -1,6 +1,12 @@
 import _get from "lodash/get";
-import { compareTwoDate, addYearFromNow, addYearFromDate, formatDate } from "./date";
+import {
+  compareTwoDate,
+  addYearFromNow,
+  addYearFromDate,
+  formatDate,
+} from "./date";
 import _differenceInDays from "date-fns/differenceInDays";
+import { writeLogApi } from "services/commonService";
 interface EKYCData {
   idNumber: string | number;
   idNumberType: string;
@@ -33,7 +39,7 @@ const checkIdentityExpired = (dateOfIssue: string, expiredDate: string) => {
     new Date(new Date()),
     new Date(new Date(expiredDate))
   );
-  
+
   if (resultCheckExpire === 1) {
     return {
       validEKYC: false,
@@ -109,15 +115,12 @@ export const parseInfoFromEKYC = (ekycData: any): EKYCData => {
   };
 };
 
-
-
 export const checkResultEkyc = (
   ekycData: any
 ): {
   validEKYC: boolean;
   messageEKYC: string;
 } => {
-
   let validEKYC = true;
   let messageEKYC = "";
   const compareObj = _get(ekycData, "compare.object.msg");
@@ -169,15 +172,9 @@ export const checkResultEkyc = (
   }
 
   //validate birthdate
-    
-   const birthdate = _get(ekycData, "ocr.object.birth_day");
 
-   if(!checkValidDate(birthdate)) {
-    return {
-      validEKYC: false,
-      messageEKYC: "Không đọc được ngày sinh. Vui lòng thử lại",
-    };
-   }
+  //  const birthdate = _get(ekycData, "ocr.object.birth_day");
+  //  writeLogApi({content: "birth date in verify: ", body: birthdate})
 
   // Start: check expire of cmnd/cccd
   const type_id = _get(ekycData, "ocr.object.type_id");
@@ -189,6 +186,9 @@ export const checkResultEkyc = (
     _get(ekycData, "ocr.object.valid_date") === "-"
       ? ""
       : _get(ekycData, "ocr.object.valid_date");
+
+  // writeLogApi({content: "ngay phat hanh: ", body: dateOfIssue})    
+  // writeLogApi({content: "ngay het han: ", body: expiredDate})    
 
   if (!dateOfIssue) {
     return {
@@ -240,10 +240,10 @@ export const checkValidDate = (date: string) => {
   }
   const dateSplit = date.split("/");
   if (dateSplit.length === 3) {
-    return true
+    return true;
   }
-  return false
-}
+  return false;
+};
 
 export const formatDateOfEKYC = (dateEkyc: string): string => {
   if (!dateEkyc) {

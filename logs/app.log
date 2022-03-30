@@ -37,3 +37,38 @@
 [2022-03-28T11:03:07.920] [INFO] default - 192.168.164.25 - 28/03/2022 11:03:07----content: Get list account api: Request failed with status code 404---withBodyData: {"requestId":"720f926a-61d7-4fd2-916e-e9c9cfda3f81","data":{"clientNo":"06035696"}}
 [2022-03-28T11:03:08.633] [INFO] default - 192.168.164.25 - 28/03/2022 11:03:08----content: Get list account api: Request failed with status code 404---withBodyData: {"userId":"0905092105","clientNo":"06035696","requestId":"e573d25b-5340-45ee-a1dd-5c57beccbcec","language":"VI","channel":"mbank","transactionTime":"28/03/2022 11:03:06","partnerId":"HDBS","checksum":"9f07a0a528f733f62ec7ffc10ac400e0"}
 [2022-03-28T11:03:08.692] [INFO] default - 192.168.164.25 - 28/03/2022 11:03:08----content: Get list account api: Request failed with status code 404---withBodyData: {"userId":"0905092105","clientNo":"06035696","requestId":"29f36a74-6495-4528-a78a-2294998c33f9","language":"VI","channel":"mbank","transactionTime":"28/03/2022 11:03:07","partnerId":"HDBS","checksum":"5b5e12abab8c94e6762bc798f7a8390b"}
+[2022-03-29T17:31:22.212] [INFO] default - 192.168.164.25 - 29/03/2022 17:31:22----content: undefined---withBodyData: {"03/06/1999":""}
+[2022-03-30T08:30:59.370] [INFO] default - 192.168.164.25 - 30/03/2022 8:30:59----content: ngay sinh hahahahehe---withBodyData: {"content":"ngay sinh hahahahehe","body":"03/06/1999"}
+[2022-03-30T08:30:59.374] [INFO] default - 192.168.164.25 - 30/03/2022 8:30:59----content: check ngay sinh ne---withBodyData: {"content":"check ngay sinh ne","body":true}
+[2022-03-30T09:42:43.990] [INFO] default - 192.168.164.25 - 30/03/2022 9:42:43----content: ngay sinh: ---withBodyData: {"content":"ngay sinh: ","body":"03/06/1999"}
+[2022-03-30T10:41:20.471] [INFO] default - 192.168.164.25 - 30/03/2022 10:41:20----content: birthdate in client: ---withBodyData: {"content":"birthdate in client: ","body":""}
+[2022-03-30T10:41:20.963] [INFO] default - 192.168.164.25 - 30/03/2022 10:41:20----content: valid date: ---withBodyData: {"content":"valid date: ","body":"20/01/2022"}
+[2022-03-30T10:41:20.967] [INFO] default - 192.168.164.25 - 30/03/2022 10:41:20----content: check valid date: ---withBodyData: {"content":"check valid date: ","body":false}
+[2022-03-30T10:41:20.972] [INFO] default - 192.168.164.25 - 30/03/2022 10:41:20----content: valid date: ---withBodyData: {"content":"valid date: ","body":"20/01/2022"}
+[2022-03-30T10:41:20.976] [INFO] default - 192.168.164.25 - 30/03/2022 10:41:20----content: check valid date: ---withBodyData: {"content":"check valid date: ","body":false}
+[2022-03-30T10:41:20.981] [INFO] default - 192.168.164.25 - 30/03/2022 10:41:20----content: valid date: ---withBodyData: {"content":"valid date: ","body":"03/06/2024"}
+[2022-03-30T10:41:20.986] [INFO] default - 192.168.164.25 - 30/03/2022 10:41:20----content: check valid date: ---withBodyData: {"content":"check valid date: ","body":true}
+[2022-03-30T10:41:20.993] [INFO] default - 192.168.164.25 - 30/03/2022 10:41:20----content: valid date: ---withBodyData: {"content":"valid date: ","body":"03/06/2024"}
+[2022-03-30T10:41:20.996] [INFO] default - 192.168.164.25 - 30/03/2022 10:41:20----content: check valid date: ---withBodyData: {"content":"check valid date: ","body":true}
+[2022-03-30T10:41:21.000] [INFO] default - 192.168.164.25 - 30/03/2022 10:41:21----content: valid date: ---withBodyData: {"content":"valid date: ","body":""}
+[2022-03-30T10:41:21.004] [INFO] default - 192.168.164.25 - 30/03/2022 10:41:21----content: check valid date: ---withBodyData: {"content":"check valid date: ","body":false}
+[2022-03-30T10:41:21.008] [INFO] default - 192.168.164.25 - 30/03/2022 10:41:21----content: valid date: ---withBodyData: {"content":"valid date: ","body":""}
+[2022-03-30T10:41:21.013] [INFO] default - 192.168.164.25 - 30/03/2022 10:41:21----content: check valid date: ---withBodyData: {"content":"check valid date: ","body":false}
+[2022-03-30T10:43:12.248] [INFO] default - 192.168.164.25 - 30/03/2022 10:43:12----content: birthdate in client: ---withBodyData: {"content":"birthdate in client: ","body":"03/06/1999"}
+[2022-03-30T10:43:13.194] [INFO] default - 192.168.164.25 - 30/03/2022 10:43:13----content: valid date: ---withBodyData: {"content":"valid date: ","body":"20/01/2022"}
+[2022-03-30T10:43:13.198] [INFO] default - 192.168.164.25 - 30/03/2022 10:43:13----content: check valid date: ---withBodyData: {"content":"check valid date: ","body":false}
+[2022-03-30T10:43:13.203] [INFO] default - 192.168.164.25 - 30/03/2022 10:43:13----content: valid date: ---withBodyData: {"content":"valid date: ","body":"20/01/2022"}
+[2022-03-30T10:43:13.206] [INFO] default - 192.168.164.25 - 30/03/2022 10:43:13----content: check valid date: ---withBodyData: {"content":"check valid date: ","body":false}
+[2022-03-30T10:43:13.210] [INFO] default - 192.168.164.25 - 30/03/2022 10:43:13----content: valid date: ---withBodyData: {"content":"valid date: ","body":"03/06/2024"}
+[2022-03-30T10:43:13.218] [INFO] default - 192.168.164.25 - 30/03/2022 10:43:13----content: check valid date: ---withBodyData: {"content":"check valid date: ","body":true}
+[2022-03-30T10:43:13.226] [INFO] default - 192.168.164.25 - 30/03/2022 10:43:13----content: valid date: ---withBodyData: {"content":"valid date: ","body":"03/06/2024"}
+[2022-03-30T10:43:13.229] [INFO] default - 192.168.164.25 - 30/03/2022 10:43:13----content: check valid date: ---withBodyData: {"content":"check valid date: ","body":true}
+[2022-03-30T10:43:13.234] [INFO] default - 192.168.164.25 - 30/03/2022 10:43:13----content: valid date: ---withBodyData: {"content":"valid date: ","body":"03/06/1999"}
+[2022-03-30T10:43:13.237] [INFO] default - 192.168.164.25 - 30/03/2022 10:43:13----content: check valid date: ---withBodyData: {"content":"check valid date: ","body":true}
+[2022-03-30T10:43:13.241] [INFO] default - 192.168.164.25 - 30/03/2022 10:43:13----content: valid date: ---withBodyData: {"content":"valid date: ","body":"03/06/1999"}
+[2022-03-30T10:43:13.245] [INFO] default - 192.168.164.25 - 30/03/2022 10:43:13----content: check valid date: ---withBodyData: {"content":"check valid date: ","body":true}
+[2022-03-30T10:47:33.410] [INFO] default - 192.168.164.25 - 30/03/2022 10:47:33----content: birthdate in client: ---withBodyData: {"content":"birthdate in client: ","body":"03/06/1999"}
+[2022-03-30T15:10:18.878] [INFO] default - 192.168.164.25 - 30/03/2022 15:10:18----content: checkUserEKYC request-----: [object Object]---withBodyData: 
+[2022-03-30T15:10:19.128] [INFO] default - 192.168.164.25 - 30/03/2022 15:10:19----content: checkUserEKYC response -------: [object Object]---withBodyData: 
+[2022-03-30T15:22:23.251] [INFO] default - 192.168.164.25 - 30/03/2022 15:22:23----content: checkUserEKYC request-----: [object Object]---withBodyData: 
+[2022-03-30T15:22:23.472] [INFO] default - 192.168.164.25 - 30/03/2022 15:22:23----content: checkUserEKYC response -------: [object Object]---withBodyData: 

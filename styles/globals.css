@@ -2,7 +2,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: Helvetica;
+  font-family: Helvetica !important;
 }
 
 #ekyc_sdk_intergrated {

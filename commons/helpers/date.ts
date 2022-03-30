@@ -1,6 +1,7 @@
+import { writeLogApi } from 'services/commonService';
 import _add from "date-fns/add";
 import _format from "date-fns/format";
-import _isValid from "date-fns/isValid";
+// import _isValid from "date-fns/isValid";
 
 export function addHourFromNow(hoursNumber: number, format?: string): string {
   const date = _add(new Date(), {
@@ -42,7 +43,7 @@ export function getTodayWithFormat(format?: string): string {
   return formatDate(date, format);
 }
 export function formatDate(date: Date, format?: string): string {
-  if (!date || !_isValid(date)) {
+  if (!date) {
     return "";
   }
 
@@ -80,7 +81,9 @@ export function compareTwoDate(date1: Date, date2: Date): number {
 }
 
 export function getValidStringDate(dateStr: string): string {
-  if (!dateStr || !_isValid(new Date(dateStr))) {
+  // writeLogApi({content: "valid date: ", body: dateStr as any});
+  // writeLogApi({content: "check valid date: ", body: _isValid(new Date(dateStr)) as any})
+  if (!dateStr) {
     return "";
   }
   return dateStr;

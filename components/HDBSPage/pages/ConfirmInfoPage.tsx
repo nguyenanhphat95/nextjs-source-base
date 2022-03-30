@@ -7,7 +7,7 @@ import { useForm, Controller } from "react-hook-form";
 import ModalCondition from "../components/ModalCondition";
 
 import { ButtonCustom, CheckboxCustom, InputCustom } from "components/commons";
-import { parseInfoFromEKYC, checkResultEkyc } from "commons/helpers/ekyc";
+import { parseInfoFromEKYC, checkResultEkyc, formatDateOfEKYC } from "commons/helpers/ekyc";
 import { FormDataFinal, FormDataStep3, TypeCustomer } from "../interfaces";
 import TKCKContext from "components/HDBSPage/contexts/TKCKContextValue";
 
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     justifyContent: "space-between",
   },
   root: {
-    padding: "5px",
+    padding: "5px 3px 5px 6px",
   },
   content: {
     paddingLeft: "18px",
@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   info: {
     width: "60%",
     textAlign: "right",
+    wordWrap: "break-word",
   },
 }));
 
@@ -156,7 +157,7 @@ const ConfirmInfoPage = (props: Props) => {
                   borderBottom="1px solid #c0c0c073"
                 >
                   <Grid container item>
-                    <span style={{ width: "40%" }}>{t?.username}:</span>{" "}
+                    <span style={{ width: "40%" }}>{t?.username}:</span>
                     <b className={classes.info}>{data?.fullNameOcr}</b>
                   </Grid>
                   {/* {isKHHH && (
@@ -200,7 +201,7 @@ const ConfirmInfoPage = (props: Props) => {
                 >
                   <Grid container item>
                     <span style={{ width: "40%" }}>{t?.birthday}: </span>{" "}
-                    <b className={classes.info}>{data?.birthDateOcr}</b>
+                    <b className={classes.info}>{formatDateOfEKYC(data?.birthDateOcr as string)}</b>
                   </Grid>
                 </Grid>
                 <Grid
@@ -242,7 +243,7 @@ const ConfirmInfoPage = (props: Props) => {
                 >
                   <Grid container item>
                     <span style={{ width: "40%" }}>{t?.dateIssue}: </span>{" "}
-                    <b className={classes.info}>{data?.dateOfIssueOcr}</b>
+                    <b className={classes.info}>{formatDateOfEKYC(data?.dateOfIssueOcr as string)}</b>
                   </Grid>
                 </Grid>
                 <Grid
@@ -311,8 +312,8 @@ const ConfirmInfoPage = (props: Props) => {
                   borderBottom="1px solid #c0c0c073"
                 >
                   <Grid container item>
-                    <span style={{ width: "40%" }}>{t?.email}: </span>
-                    <b className={classes.info}>{data?.email}</b>
+                    <span style={{ width: "40%" }}>{t?.email}: </span>{" "}
+                    <b className={classes.info}>{data.email}</b>
                   </Grid>
                 </Grid>
 
@@ -349,9 +350,7 @@ const ConfirmInfoPage = (props: Props) => {
                 onChange={_handleChange}
                 label={
                   <div>
-                    {t?.termCondition1} {data?.merchantName},{" "}
-                    {t?.termCondition2} {data?.merchantName}.{" "}
-                    {t?.termCondition3}
+                    {t?.termCondition1}
                     <span
                       onClick={(e) => {
                         e.preventDefault();
@@ -361,7 +360,7 @@ const ConfirmInfoPage = (props: Props) => {
                     >
                       {t?.termCondition4}
                     </span>{" "}
-                    {t?.termCondition5}
+                    {t?.termCondition2} {data?.merchantName}
                   </div>
                 }
               />
