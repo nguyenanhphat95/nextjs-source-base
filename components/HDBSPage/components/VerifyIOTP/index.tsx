@@ -57,7 +57,7 @@ interface Props {
   }) => void;
 }
 
-const hoursMinSecsCurrent = { hours: 0, minutes: 0, seconds: 30 };
+const hoursMinSecsCurrent = { hours: 0, minutes: 0, seconds: 10 };
 
 const VerifyOTP = (props: Props) => {
   const {

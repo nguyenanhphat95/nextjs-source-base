@@ -54,14 +54,14 @@ const CountDownTimer = (props: Props) => {
 
   const reset = () => setTime([hours, minutes, seconds]);
 
-  // React.useEffect(() => {
-  //   onChange &&
-  //     onChange({
-  //       hours: hrs,
-  //       minutes: mins,
-  //       seconds: secs,
-  //     });
-  // }, [hrs, mins, secs]);
+  React.useEffect(() => {
+    onChange &&
+      onChange({
+        hours: hrs,
+        minutes: mins,
+        seconds: secs,
+      });
+  }, [hrs, mins, secs]);
 
   React.useEffect(() => {
     const timerId = setInterval(() => tick(), 1000);
