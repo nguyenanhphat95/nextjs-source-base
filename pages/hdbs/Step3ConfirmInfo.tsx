@@ -43,44 +43,48 @@ const Step3ConfirmInfo = (props: Props) => {
   const router = useRouter();
   const query = router.query;
   const lang = getLanguage(router);
-
   const dispatch = useDispatch();
   const { dataForm, typeCustomer, allowSendOTP, loading }: AppState =
     useSelector((state) => _get(state, "app"));
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
-  const [isAbleSendOtp, setIsAbleSendOtp] = useState(false);
-
+  const [isAbleSendOtp, setIsAbleSendOtp] = useState(true);
+  const [hoursMinSecs, setHoursMinSecs] = useState({ hours: 0, minutes: 0, seconds: 10 });
 
   const _toggleModalVerifyOTP = () => {
     setOpenVerifyOTP((prev) => !prev);
   };
 
   const _onCreateOTP = (isToggleModal = true) => {
-    setIsAbleSendOtp(false)
-    dispatch(setToggleLoading("loadingBtnSubmit"));
-    let count = 30
-    var x = setInterval(function() {
-      count--;
-      if (count < 0) {
-        clearInterval(x);
-        setIsAbleSendOtp(true)
-      }
-    }, 1000);
-    hdbsServices
-      .createOTPApi()
-      .then((res) => {
-        dispatch(setToggleLoading("loadingBtnSubmit"));
-        const code = _get(res, "data.resultCode");
-        if (_get(res, "data.data.userId")) {
-          isToggleModal && _toggleModalVerifyOTP();
-          return;
-        }
-        const status = getStatusOTPResponse(code, lang);
-        toggleNotify(status.msg);
-      })
-      .catch((err) => {
-        dispatch(setToggleLoading("loadingBtnSubmit"));
-      });
+    setIsAbleSendOtp(false);
+    // dispatch(setToggleLoading("loadingBtnSubmit"));
+    // let count = 10;
+    // var x = setInterval(function () {
+    //   count--;
+    //   if (count < 0) {
+    //     clearInterval(x);
+    //     setIsAbleSendOtp(true);
+    //   }
+    // }, 1000);
+    // if(!openVerifyOTP){
+    //   clearInterval(x);
+    //   setIsAbleSendOtp(true);
+    // }
+    isToggleModal && _toggleModalVerifyOTP();
+    // hdbsServices
+    //   .createOTPApi()
+    //   .then((res) => {
+    //     dispatch(setToggleLoading("loadingBtnSubmit"));
+    //     const code = _get(res, "data.resultCode");
+    //     if (_get(res, "data.data.userId")) {
+    //       isToggleModal && _toggleModalVerifyOTP();
+    //       return;
+    //     }
+    //     const status = getStatusOTPResponse(code, lang);
+    //     toggleNotify(status.msg);
+    //   })
+    //   .catch((err) => {
+    //     dispatch(setToggleLoading("loadingBtnSubmit"));
+    //   });
   };
 
   const _handleSubmit = () => {
@@ -163,6 +167,7 @@ const Step3ConfirmInfo = (props: Props) => {
         loadingBtnSubmit={loading.loadingBtnSubmit}
         typeCustomer={typeCustomer}
         data={dataForm}
+        isAbleSendOtp={isAbleSendOtp}
         onSubmit={_handleSubmit}
         redoEKYC={() => _onNextStep(ROUTE_STEP.step2EKYC)}
       />
@@ -174,6 +179,7 @@ const Step3ConfirmInfo = (props: Props) => {
       >
         <Box px={1} py={2} className={classes.otpContainer}>
           <VerifyOTP
+            setIsAbleSendOtp={setIsAbleSendOtp}
             isAbleSendOtp={isAbleSendOtp}
             loading={loading.loadingBtnConfirmOTP}
             onSubmit={_handleVerifyOtp}

@@ -3,6 +3,7 @@ import { Card, Box, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import InputOTP from "components/commons/InputOTP/InputSingle";
 import ButtonCustom from "components/commons/Button";
+import CountDownTimer from "components/commons/CountDownTimer";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -31,6 +32,12 @@ const useStyles = makeStyles(() => ({
     fontWeight: 600,
     cursor: "pointer",
   },
+  disableText: {
+    color: "#808080a1",
+    textDecoration: "underline",
+    fontSize: 15,
+    fontWeight: 600,
+  },
   borderBottom: {
     borderBottom: "1px dashed #e8e8e8",
   },
@@ -41,10 +48,12 @@ interface Props {
   loading?: boolean;
   onResendOTP: () => void;
   isAbleSendOtp: boolean;
+  setIsAbleSendOtp: (isAbleSendOtp: boolean) => void;
 }
 
 const VerifyOTP = (props: Props) => {
-  const { onSubmit, loading, onResendOTP, isAbleSendOtp } = props;
+  const { onSubmit, loading, onResendOTP, isAbleSendOtp, setIsAbleSendOtp } = props;
+  const hoursMinSecs = { hours: 0, minutes: 0, seconds: 10 };
   const classes = useStyles();
   const [otp, setOtp] = useState("");
 
@@ -77,22 +86,27 @@ const VerifyOTP = (props: Props) => {
               Nhập mã OTP
             </Grid>
             <Grid item>
-              <InputOTP onChange={setOtp} />
+              <InputOTP otp={otp} onChange={setOtp} />
             </Grid>
             <Grid item>
               <Box mt={1} textAlign="center">
                 <span
                   onClick={_handleResendOTP}
-                  className={classes.textResendOTP}
+                  className={isAbleSendOtp ? classes.textResendOTP : classes.disableText}
                 >
                   Gửi lại OTP
                 </span>
+                <Box mt={1}>
+                  {!isAbleSendOtp && (
+                    <CountDownTimer onFinish={() => setIsAbleSendOtp(true)} hoursMinSecs={hoursMinSecs} otp={true} />
+                  )}
+                </Box>
               </Box>
             </Grid>
           </Grid>
         </Box>
       </Card>
-      <Box px={2} mt={4}>
+      <Box px={2} mt={2}>
         <ButtonCustom
           loading={loading}
           disabled={otp.length < 6}

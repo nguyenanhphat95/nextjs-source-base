@@ -12,6 +12,7 @@ export interface TimerInput {
 interface Props {
   hoursMinSecs?: TimerInput;
   onFinish?: () => void;
+  otp?: boolean
 }
 
 const useStyles = makeStyles(() => ({
@@ -23,7 +24,7 @@ const useStyles = makeStyles(() => ({
 
 const CountDownTimer = (props: Props) => {
   const classes = useStyles();
-  const { hoursMinSecs, onFinish } = props;
+  const { hoursMinSecs, onFinish, otp } = props;
   const { hours, minutes, seconds } = hoursMinSecs
     ? hoursMinSecs
     : {
@@ -61,12 +62,13 @@ const CountDownTimer = (props: Props) => {
     }
   }, [secs]);
 
+
   return (
     <div className={classes.root}>
-      Tự động đóng sau{" "}
+      {!otp && <span>Tự động đóng sau </span>}
       <span>{`${hrs ? hrs.toString().padStart(2, "0") + ":" : ""}${
         mins ? mins.toString().padStart(2, "0") + ":" : ""
-      }${secs.toString().padStart(2, "0")}`}</span>
+      }${secs.toString().padStart(2, "0")}`}s</span>
     </div>
   );
 };

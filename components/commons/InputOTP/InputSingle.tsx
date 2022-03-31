@@ -12,24 +12,24 @@ const useStyles = makeStyles(() => ({
 
 interface Props {
   onChange?: (otp: string) => void;
+  otp: string;
 }
 
 const InputSingle = (props: Props) => {
   const classes = useStyles();
-  const { onChange } = props;
-  const [value, setValue] = useState("");
+  const { onChange, otp } = props;
+  // const [value, setValue] = useState("");
   const _handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (+value > 999999) {
       return;
     }
-    setValue(value);
     onChange && onChange(value);
   };
   return (
     <InputCustom
       // className={classes.customInput}
-      value={value}
+      value={otp}
       type="number"
       onChange={_handleChangeInput}
       inputProps={{min: 0, style: { textAlign: 'center' }}}

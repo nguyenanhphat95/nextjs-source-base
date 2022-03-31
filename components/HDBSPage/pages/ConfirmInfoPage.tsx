@@ -54,6 +54,7 @@ interface Props {
   redoEKYC?: () => void;
   typeCustomer: TypeCustomer;
   loadingBtnSubmit?: boolean;
+  isAbleSendOtp?: boolean
 }
 
 type FormValues = {
@@ -67,7 +68,7 @@ type FormValues = {
 
 const ConfirmInfoPage = (props: Props) => {
   const classes = useStyles();
-  const { data, onSubmit, typeCustomer, loadingBtnSubmit, redoEKYC } = props;
+  const { data, onSubmit, typeCustomer, loadingBtnSubmit, redoEKYC, isAbleSendOtp } = props;
 
   const [isAceptCondition, setIsAceptCondition] = useState(false);
   const [showModalCondition, setShowModalCondition] = useState(false);
