@@ -49,11 +49,23 @@ interface Props {
   onResendOTP: () => void;
   isAbleSendOtp: boolean;
   setIsAbleSendOtp: (isAbleSendOtp: boolean) => void;
+  setHoursMinSecs: (time: {
+    hours: number;
+    minutes: number;
+    seconds: number;
+  }) => void;
 }
 
 const VerifyOTP = (props: Props) => {
-  const { onSubmit, loading, onResendOTP, isAbleSendOtp, setIsAbleSendOtp } = props;
-  const hoursMinSecs = { hours: 0, minutes: 0, seconds: 10 };
+  const {
+    onSubmit,
+    loading,
+    onResendOTP,
+    isAbleSendOtp,
+    setIsAbleSendOtp,
+    setHoursMinSecs,
+  } = props;
+  const hoursMinSecsCurrent = { hours: 0, minutes: 0, seconds: 10 };
   const classes = useStyles();
   const [otp, setOtp] = useState("");
 
@@ -61,7 +73,7 @@ const VerifyOTP = (props: Props) => {
     if (loading || !isAbleSendOtp) {
       return;
     }
-    setOtp("")
+    setOtp("");
     onResendOTP();
   };
   return (
@@ -92,13 +104,20 @@ const VerifyOTP = (props: Props) => {
               <Box mt={1} textAlign="center">
                 <span
                   onClick={_handleResendOTP}
-                  className={isAbleSendOtp ? classes.textResendOTP : classes.disableText}
+                  className={
+                    isAbleSendOtp ? classes.textResendOTP : classes.disableText
+                  }
                 >
                   Gửi lại OTP
                 </span>
                 <Box mt={1}>
                   {!isAbleSendOtp && (
-                    <CountDownTimer onFinish={() => setIsAbleSendOtp(true)} hoursMinSecs={hoursMinSecs} otp={true} />
+                    <CountDownTimer
+                      onChange={setHoursMinSecs}
+                      onFinish={() => setIsAbleSendOtp(true)}
+                      hoursMinSecs={hoursMinSecsCurrent}
+                      otp={true}
+                    />
                   )}
                 </Box>
               </Box>

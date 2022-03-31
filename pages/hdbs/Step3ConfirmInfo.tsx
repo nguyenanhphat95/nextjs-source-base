@@ -6,6 +6,7 @@ import {
   getStatusOTPResponse,
   getStatusResponse,
 } from "commons/helpers";
+import CountDownTimer from "components/commons/CountDownTimer";
 import { ConfirmInfoPage, VerifyOTP } from "components/HDBSPage";
 import { ROUTE_STEP } from "components/HDBSPage/consts";
 import { TypeCustomer } from "components/HDBSPage/interfaces";
@@ -15,7 +16,7 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as hdbsServices from "services/hdbsService";
-import { setStep, setToggleLoading } from "store/actions";
+import { setToggleLoading } from "store/actions";
 import { AppState } from "store/reducer";
 
 const useStyles = makeStyles(() => ({
@@ -48,7 +49,11 @@ const Step3ConfirmInfo = (props: Props) => {
     useSelector((state) => _get(state, "app"));
   const [openVerifyOTP, setOpenVerifyOTP] = useState(false);
   const [isAbleSendOtp, setIsAbleSendOtp] = useState(true);
-  const [hoursMinSecs, setHoursMinSecs] = useState({ hours: 0, minutes: 0, seconds: 10 });
+  const [hoursMinSecs, setHoursMinSecs] = useState({
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  });
 
   const _toggleModalVerifyOTP = () => {
     setOpenVerifyOTP((prev) => !prev);
@@ -57,18 +62,6 @@ const Step3ConfirmInfo = (props: Props) => {
   const _onCreateOTP = (isToggleModal = true) => {
     setIsAbleSendOtp(false);
     // dispatch(setToggleLoading("loadingBtnSubmit"));
-    // let count = 10;
-    // var x = setInterval(function () {
-    //   count--;
-    //   if (count < 0) {
-    //     clearInterval(x);
-    //     setIsAbleSendOtp(true);
-    //   }
-    // }, 1000);
-    // if(!openVerifyOTP){
-    //   clearInterval(x);
-    //   setIsAbleSendOtp(true);
-    // }
     isToggleModal && _toggleModalVerifyOTP();
     // hdbsServices
     //   .createOTPApi()
@@ -86,7 +79,6 @@ const Step3ConfirmInfo = (props: Props) => {
     //     dispatch(setToggleLoading("loadingBtnSubmit"));
     //   });
   };
-
   const _handleSubmit = () => {
     if (allowSendOTP || typeCustomer === TypeCustomer.KHM) {
       _onCreateOTP();
@@ -172,6 +164,17 @@ const Step3ConfirmInfo = (props: Props) => {
         redoEKYC={() => _onNextStep(ROUTE_STEP.step2EKYC)}
       />
 
+      {!openVerifyOTP && hoursMinSecs.seconds ? (
+        <CountDownTimer
+          onChange={setHoursMinSecs}
+          onFinish={() => setIsAbleSendOtp(true)}
+          hoursMinSecs={hoursMinSecs}
+          otp={true}
+        />
+      ) : (
+        <></>
+      )}
+
       <Dialog
         className={classes.dialogCustom}
         open={openVerifyOTP}
@@ -179,6 +182,7 @@ const Step3ConfirmInfo = (props: Props) => {
       >
         <Box px={1} py={2} className={classes.otpContainer}>
           <VerifyOTP
+            setHoursMinSecs={setHoursMinSecs}
             setIsAbleSendOtp={setIsAbleSendOtp}
             isAbleSendOtp={isAbleSendOtp}
             loading={loading.loadingBtnConfirmOTP}

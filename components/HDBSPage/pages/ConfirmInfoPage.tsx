@@ -7,7 +7,11 @@ import { useForm, Controller } from "react-hook-form";
 import ModalCondition from "../components/ModalCondition";
 
 import { ButtonCustom, CheckboxCustom, InputCustom } from "components/commons";
-import { parseInfoFromEKYC, checkResultEkyc, formatDateOfEKYC } from "commons/helpers/ekyc";
+import {
+  parseInfoFromEKYC,
+  checkResultEkyc,
+  formatDateOfEKYC,
+} from "commons/helpers/ekyc";
 import { FormDataFinal, FormDataStep3, TypeCustomer } from "../interfaces";
 import TKCKContext from "components/HDBSPage/contexts/TKCKContextValue";
 
@@ -54,7 +58,7 @@ interface Props {
   redoEKYC?: () => void;
   typeCustomer: TypeCustomer;
   loadingBtnSubmit?: boolean;
-  isAbleSendOtp?: boolean
+  isAbleSendOtp?: boolean;
 }
 
 type FormValues = {
@@ -68,7 +72,14 @@ type FormValues = {
 
 const ConfirmInfoPage = (props: Props) => {
   const classes = useStyles();
-  const { data, onSubmit, typeCustomer, loadingBtnSubmit, redoEKYC, isAbleSendOtp } = props;
+  const {
+    data,
+    onSubmit,
+    typeCustomer,
+    loadingBtnSubmit,
+    redoEKYC,
+    isAbleSendOtp,
+  } = props;
 
   const [isAceptCondition, setIsAceptCondition] = useState(false);
   const [showModalCondition, setShowModalCondition] = useState(false);
@@ -202,7 +213,9 @@ const ConfirmInfoPage = (props: Props) => {
                 >
                   <Grid container item>
                     <span style={{ width: "40%" }}>{t?.birthday}: </span>{" "}
-                    <b className={classes.info}>{formatDateOfEKYC(data?.birthDateOcr as string)}</b>
+                    <b className={classes.info}>
+                      {formatDateOfEKYC(data?.birthDateOcr as string)}
+                    </b>
                   </Grid>
                 </Grid>
                 <Grid
@@ -244,7 +257,9 @@ const ConfirmInfoPage = (props: Props) => {
                 >
                   <Grid container item>
                     <span style={{ width: "40%" }}>{t?.dateIssue}: </span>{" "}
-                    <b className={classes.info}>{formatDateOfEKYC(data?.dateOfIssueOcr as string)}</b>
+                    <b className={classes.info}>
+                      {formatDateOfEKYC(data?.dateOfIssueOcr as string)}
+                    </b>
                   </Grid>
                 </Grid>
                 <Grid
@@ -370,7 +385,7 @@ const ConfirmInfoPage = (props: Props) => {
             <Box mt={2} className={classes.content}>
               <ButtonCustom
                 loading={loadingBtnSubmit}
-                disabled={!isAceptCondition}
+                disabled={!isAceptCondition || !isAbleSendOtp}
                 fullWidth
                 variant="contained"
                 color="secondary"

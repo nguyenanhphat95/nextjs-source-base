@@ -12,7 +12,8 @@ export interface TimerInput {
 interface Props {
   hoursMinSecs?: TimerInput;
   onFinish?: () => void;
-  otp?: boolean
+  otp?: boolean;
+  onChange: (time: { hours: number; minutes: number; seconds: number }) => void;
 }
 
 const useStyles = makeStyles(() => ({
@@ -24,7 +25,7 @@ const useStyles = makeStyles(() => ({
 
 const CountDownTimer = (props: Props) => {
   const classes = useStyles();
-  const { hoursMinSecs, onFinish, otp } = props;
+  const { hoursMinSecs, onFinish, otp, onChange } = props;
   const { hours, minutes, seconds } = hoursMinSecs
     ? hoursMinSecs
     : {
@@ -52,6 +53,15 @@ const CountDownTimer = (props: Props) => {
   const reset = () => setTime([hours, minutes, seconds]);
 
   React.useEffect(() => {
+    onChange &&
+      onChange({
+        hours: hrs,
+        minutes: mins,
+        seconds: secs,
+      });
+  }, [hrs, mins, secs]);
+
+  React.useEffect(() => {
     const timerId = setInterval(() => tick(), 1000);
     return () => clearInterval(timerId);
   });
@@ -62,13 +72,15 @@ const CountDownTimer = (props: Props) => {
     }
   }, [secs]);
 
-
   return (
     <div className={classes.root}>
       {!otp && <span>Tự động đóng sau </span>}
-      <span>{`${hrs ? hrs.toString().padStart(2, "0") + ":" : ""}${
-        mins ? mins.toString().padStart(2, "0") + ":" : ""
-      }${secs.toString().padStart(2, "0")}`}s</span>
+      <span>
+        {`${hrs ? hrs.toString().padStart(2, "0") + ":" : ""}${
+          mins ? mins.toString().padStart(2, "0") + ":" : ""
+        }${secs.toString().padStart(2, "0")}`}
+        s
+      </span>
     </div>
   );
 };
