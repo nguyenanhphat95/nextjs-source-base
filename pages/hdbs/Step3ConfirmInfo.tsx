@@ -169,7 +169,6 @@ const Step3ConfirmInfo = (props: Props) => {
           onChange={setHoursMinSecs}
           onFinish={() => setIsAbleSendOtp(true)}
           hoursMinSecs={hoursMinSecs}
-          otp={true}
         />
       ) : (
         <></>

@@ -116,7 +116,6 @@ const VerifyOTP = (props: Props) => {
                       onChange={setHoursMinSecs}
                       onFinish={() => setIsAbleSendOtp(true)}
                       hoursMinSecs={hoursMinSecsCurrent}
-                      otp={true}
                     />
                   )}
                 </Box>

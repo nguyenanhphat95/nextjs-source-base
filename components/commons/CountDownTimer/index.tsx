@@ -12,8 +12,9 @@ export interface TimerInput {
 interface Props {
   hoursMinSecs?: TimerInput;
   onFinish?: () => void;
-  otp?: boolean;
   onChange: (time: { hours: number; minutes: number; seconds: number }) => void;
+  textBeforeTime?: string;
+  textAfterTime?: string;
 }
 
 const useStyles = makeStyles(() => ({
@@ -25,7 +26,8 @@ const useStyles = makeStyles(() => ({
 
 const CountDownTimer = (props: Props) => {
   const classes = useStyles();
-  const { hoursMinSecs, onFinish, otp, onChange } = props;
+  const { hoursMinSecs, onFinish, onChange, textBeforeTime, textAfterTime } =
+    props;
   const { hours, minutes, seconds } = hoursMinSecs
     ? hoursMinSecs
     : {
@@ -74,13 +76,14 @@ const CountDownTimer = (props: Props) => {
 
   return (
     <div className={classes.root}>
-      {!otp && <span>Tự động đóng sau </span>}
+      {textBeforeTime}
       <span>
         {`${hrs ? hrs.toString().padStart(2, "0") + ":" : ""}${
           mins ? mins.toString().padStart(2, "0") + ":" : ""
         }${secs.toString().padStart(2, "0")}`}
         s
       </span>
+      {textAfterTime}
     </div>
   );
 };
