@@ -89,23 +89,26 @@ const Step3ConfirmInfo = (props: Props) => {
   };
 
   const _onCreateOTP = (isToggleModal = true) => {
+    // dispatch(setToggleLoading("loadingBtnSubmit"));
+              isToggleModal && _toggleModalVerifyOTP();
+
     setIsAbleSendOtp(false);
-    dispatch(setToggleLoading("loadingBtnSubmit"));
-    hdbsServices
-      .createOTPApi()
-      .then((res) => {
-        dispatch(setToggleLoading("loadingBtnSubmit"));
-        const code = _get(res, "data.resultCode");
-        if (_get(res, "data.data.userId")) {
-          isToggleModal && _toggleModalVerifyOTP();
-          return;
-        }
-        const status = getStatusOTPResponse(code, lang);
-        toggleNotify(status.msg);
-      })
-      .catch((err) => {
-        dispatch(setToggleLoading("loadingBtnSubmit"));
-      });
+    // hdbsServices
+    //   .createOTPApi()
+    //   .then((res) => {
+    //     dispatch(setToggleLoading("loadingBtnSubmit"));
+    //     const code = _get(res, "data.resultCode");
+    //     if (_get(res, "data.data.userId")) {
+    //       isToggleModal && _toggleModalVerifyOTP();
+    //       return;
+    //     }
+    //     const status = getStatusOTPResponse(code, lang);
+    //     toggleNotify(status.msg);
+    //     setIsAbleSendOtp(true);
+    //   })
+    //   .catch((err) => {
+    //     dispatch(setToggleLoading("loadingBtnSubmit"));
+    //   });
   };
   const _handleSubmit = () => {
     if (allowSendOTP || typeCustomer === TypeCustomer.KHM) {
