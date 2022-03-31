@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Card, Box, Grid } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import InputOTP from "components/commons/InputOTP/InputSingle";
 import ButtonCustom from "components/commons/Button";
 import CountDownTimer from "components/commons/CountDownTimer";
+import { InputCustom } from "components/commons";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -56,6 +57,8 @@ interface Props {
   }) => void;
 }
 
+const hoursMinSecsCurrent = { hours: 0, minutes: 0, seconds: 30 };
+
 const VerifyOTP = (props: Props) => {
   const {
     onSubmit,
@@ -65,7 +68,6 @@ const VerifyOTP = (props: Props) => {
     setIsAbleSendOtp,
     setHoursMinSecs,
   } = props;
-  const hoursMinSecsCurrent = { hours: 0, minutes: 0, seconds: 30 };
   const classes = useStyles();
   const [otp, setOtp] = useState("");
 
@@ -76,6 +78,19 @@ const VerifyOTP = (props: Props) => {
     setOtp("");
     onResendOTP();
   };
+
+  const CountDownElement = useMemo(() => {
+    if (!isAbleSendOtp) {
+      return (
+        <CountDownTimer
+          onChange={setHoursMinSecs}
+          onFinish={() => setIsAbleSendOtp(true)}
+          hoursMinSecs={hoursMinSecsCurrent}
+        />
+      );
+    }
+    return <></>;
+  }, [isAbleSendOtp]);
   return (
     <div className={classes.root}>
       <Card elevation={0} className={classes.card}>
@@ -110,15 +125,7 @@ const VerifyOTP = (props: Props) => {
                 >
                   Gửi lại OTP
                 </span>
-                <Box mt={1}>
-                  {!isAbleSendOtp && (
-                    <CountDownTimer
-                      onChange={setHoursMinSecs}
-                      onFinish={() => setIsAbleSendOtp(true)}
-                      hoursMinSecs={hoursMinSecsCurrent}
-                    />
-                  )}
-                </Box>
+                <Box mt={1}>{CountDownElement}</Box>
               </Box>
             </Grid>
           </Grid>
