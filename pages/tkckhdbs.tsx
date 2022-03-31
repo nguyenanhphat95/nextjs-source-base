@@ -58,10 +58,38 @@ const useStyles = makeStyles(() => ({
 
 interface Props {
   toggleNotify: (desc?: string, onClose?: any, isSuccess?: boolean) => void;
+  jwtInfo: string;
+}
+
+export async function getServerSideProps(router: any) {
+  const token = router.query.jwt;
+  try {
+    if (!token) {
+      return {
+        redirect: {
+          destination: "/_error",
+          permanent: false,
+        },
+      };
+    }
+    const jwtInfo = jwt.verify(token, SECRET_KEY_ACCESS_TOKEN as string);
+    return {
+      props: {
+        jwtInfo,
+      },
+    };
+  } catch {
+    return {
+      redirect: {
+        destination: "/_error",
+        permanent: false,
+      },
+    };
+  }
 }
 
 const HDBSPage = (props: Props) => {
-  const { toggleNotify } = props;
+  const { toggleNotify, jwtInfo } = props;
   const classes = useStyles();
 
   const router = useRouter();
@@ -120,17 +148,19 @@ const HDBSPage = (props: Props) => {
   }, [query?.typeCustomer]);
 
   useEffect(() => {
-    if (!query?.jwt) {
-      // router.push("/_error");
-      return;
-    }
+    // if (!query?.jwt) {
+    //   router.push("/_error");
+    //   return;
+    // }
+    // try {
+    //   const jwtInfo = jwt.verify(
+    //     query.jwt as string,
+    //     SECRET_KEY_ACCESS_TOKEN as string
+    //   );
 
-    // const jwtInfo = jwt.verify(
-    //   query.jwt as string,
-    //   SECRET_KEY_ACCESS_TOKEN as string
-    // );
+    //   console.log(jwtInfo);
 
-    const jwtInfo = parseJwt(query.jwt as string);
+    // const jwtInfo = parseJwt(query.jwt as string);
 
     dispatch(setToggleLoading("loadingMasterData"));
     hdbsServices.getAccessToken().then((res) => {
@@ -168,7 +198,7 @@ const HDBSPage = (props: Props) => {
         .catch(() => dispatch(setToggleLoading("loadingMasterData")));
     });
     // } catch {
-    //   router.push("/_error");
+    //   // router.push("/_error");
     //   return;
     // }
   }, [query]);

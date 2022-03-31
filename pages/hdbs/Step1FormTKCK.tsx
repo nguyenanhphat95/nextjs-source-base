@@ -1,8 +1,10 @@
 import { makeStyles } from "@mui/styles";
+import { SECRET_KEY_ACCESS_TOKEN } from "commons/constants";
 import { ERROR_CODE, getLanguage, getStatusResponse } from "commons/helpers";
 import { FormTKCKPage } from "components/HDBSPage";
 import { ROUTE_STEP } from "components/HDBSPage/consts";
 import { FormDataFinal, FormDataStep1 } from "components/HDBSPage/interfaces";
+import jwt from "jsonwebtoken";
 import _get from "lodash/get";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -19,6 +21,33 @@ const useStyles = makeStyles(() => ({
     position: "relative",
   },
 }));
+
+export async function getServerSideProps(router: any) {
+  const token = router.query.jwt;
+  try {
+    if (!token) {
+      return {
+        redirect: {
+          destination: "/_error",
+          permanent: false,
+        },
+      };
+    }
+    const jwtInfo = jwt.verify(token, SECRET_KEY_ACCESS_TOKEN as string);
+    return {
+      props: {
+        jwtInfo,
+      },
+    };
+  } catch {
+    return {
+      redirect: {
+        destination: "/_error",
+        permanent: false,
+      },
+    };
+  }
+}
 
 interface Props {
   toggleNotify: (desc?: string, onClose?: any, isSuccess?: boolean) => void;

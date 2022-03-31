@@ -9,9 +9,38 @@ import Head from "next/head";
 import * as qs from "query-string";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "store/reducer";
+import { SECRET_KEY_ACCESS_TOKEN } from "commons/constants";
+import jwt from "jsonwebtoken";
 
 interface Props {
   toggleNotify: (desc?: string, onClose?: any) => void;
+}
+
+export async function getServerSideProps(router: any) {
+  const token = router.query.jwt;
+  try {
+    if (!token) {
+      return {
+        redirect: {
+          destination: "/_error",
+          permanent: false,
+        },
+      };
+    }
+    const jwtInfo = jwt.verify(token, SECRET_KEY_ACCESS_TOKEN as string);
+    return {
+      props: {
+        jwtInfo,
+      },
+    };
+  } catch {
+    return {
+      redirect: {
+        destination: "/_error",
+        permanent: false,
+      },
+    };
+  }
 }
 
 const ResultPage = (props: Props) => {
@@ -28,12 +57,6 @@ const ResultPage = (props: Props) => {
         pathname: ROUTE_STEP.stepHome,
         query,
       });
-
-      // const params = {
-      //   ...query,
-      //   step: STEP_HDBS.stepHome,
-      // };
-      // window.location.href = `/tkckhdbs?${qs.stringify(params)}`;
       return;
     }
     router.push({
@@ -45,7 +68,6 @@ const ResultPage = (props: Props) => {
     <>
       <Head>
         <title>{PAGE_TITLE[STEP_HDBS.step4]}</title>
-        <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
 
       <Script id="md5-id" src="/asset/js/md5.min.js" />

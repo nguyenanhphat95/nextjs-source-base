@@ -20,6 +20,8 @@ import {
   setToggleLoading,
 } from "store/actions";
 import { AppState } from "store/reducer";
+import { SECRET_KEY_ACCESS_TOKEN } from "commons/constants";
+import jwt from "jsonwebtoken";
 
 const useStyles = makeStyles(() => ({
   rootPage: {
@@ -28,6 +30,33 @@ const useStyles = makeStyles(() => ({
     position: "relative",
   },
 }));
+
+export async function getServerSideProps(router: any) {
+  const token = router.query.jwt;
+  try {
+    if (!token) {
+      return {
+        redirect: {
+          destination: "/_error",
+          permanent: false,
+        },
+      };
+    }
+    const jwtInfo = jwt.verify(token, SECRET_KEY_ACCESS_TOKEN as string);
+    return {
+      props: {
+        jwtInfo,
+      },
+    };
+  } catch {
+    return {
+      redirect: {
+        destination: "/_error",
+        permanent: false,
+      },
+    };
+  }
+}
 
 interface Props {
   toggleNotify: (desc?: string, onClose?: any, isSuccess?: boolean) => void;

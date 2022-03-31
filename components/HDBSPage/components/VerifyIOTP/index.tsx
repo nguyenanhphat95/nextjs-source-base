@@ -65,7 +65,7 @@ const VerifyOTP = (props: Props) => {
     setIsAbleSendOtp,
     setHoursMinSecs,
   } = props;
-  const hoursMinSecsCurrent = { hours: 0, minutes: 0, seconds: 10 };
+  const hoursMinSecsCurrent = { hours: 0, minutes: 0, seconds: 30 };
   const classes = useStyles();
   const [otp, setOtp] = useState("");
 

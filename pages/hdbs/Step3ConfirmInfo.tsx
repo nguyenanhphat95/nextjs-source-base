@@ -18,6 +18,8 @@ import { useDispatch, useSelector } from "react-redux";
 import * as hdbsServices from "services/hdbsService";
 import { setToggleLoading } from "store/actions";
 import { AppState } from "store/reducer";
+import { SECRET_KEY_ACCESS_TOKEN } from "commons/constants";
+import jwt from "jsonwebtoken";
 
 const useStyles = makeStyles(() => ({
   rootPage: {
@@ -36,6 +38,33 @@ const useStyles = makeStyles(() => ({
 }));
 interface Props {
   toggleNotify: (desc?: string, onClose?: any, isSuccess?: boolean) => void;
+}
+
+export async function getServerSideProps(router: any) {
+  const token = router.query.jwt;
+  try {
+    if (!token) {
+      return {
+        redirect: {
+          destination: "/_error",
+          permanent: false,
+        },
+      };
+    }
+    const jwtInfo = jwt.verify(token, SECRET_KEY_ACCESS_TOKEN as string);
+    return {
+      props: {
+        jwtInfo,
+      },
+    };
+  } catch {
+    return {
+      redirect: {
+        destination: "/_error",
+        permanent: false,
+      },
+    };
+  }
 }
 
 const Step3ConfirmInfo = (props: Props) => {
@@ -61,23 +90,22 @@ const Step3ConfirmInfo = (props: Props) => {
 
   const _onCreateOTP = (isToggleModal = true) => {
     setIsAbleSendOtp(false);
-    // dispatch(setToggleLoading("loadingBtnSubmit"));
-    isToggleModal && _toggleModalVerifyOTP();
-    // hdbsServices
-    //   .createOTPApi()
-    //   .then((res) => {
-    //     dispatch(setToggleLoading("loadingBtnSubmit"));
-    //     const code = _get(res, "data.resultCode");
-    //     if (_get(res, "data.data.userId")) {
-    //       isToggleModal && _toggleModalVerifyOTP();
-    //       return;
-    //     }
-    //     const status = getStatusOTPResponse(code, lang);
-    //     toggleNotify(status.msg);
-    //   })
-    //   .catch((err) => {
-    //     dispatch(setToggleLoading("loadingBtnSubmit"));
-    //   });
+    dispatch(setToggleLoading("loadingBtnSubmit"));
+    hdbsServices
+      .createOTPApi()
+      .then((res) => {
+        dispatch(setToggleLoading("loadingBtnSubmit"));
+        const code = _get(res, "data.resultCode");
+        if (_get(res, "data.data.userId")) {
+          isToggleModal && _toggleModalVerifyOTP();
+          return;
+        }
+        const status = getStatusOTPResponse(code, lang);
+        toggleNotify(status.msg);
+      })
+      .catch((err) => {
+        dispatch(setToggleLoading("loadingBtnSubmit"));
+      });
   };
   const _handleSubmit = () => {
     if (allowSendOTP || typeCustomer === TypeCustomer.KHM) {

@@ -78,10 +78,10 @@ const CountDownTimer = (props: Props) => {
     <div className={classes.root}>
       {textBeforeTime}
       <span>
-        {`${hrs ? hrs.toString().padStart(2, "0") + ":" : ""}${
+        ({`${hrs ? hrs.toString().padStart(2, "0") + ":" : ""}${
           mins ? mins.toString().padStart(2, "0") + ":" : ""
         }${secs.toString().padStart(2, "0")}`}
-        s
+        s)
       </span>
       {textAfterTime}
     </div>
