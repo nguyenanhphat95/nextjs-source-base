@@ -319,54 +319,54 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
   return resp.data;
 };
 
-export const confirmEKYCPresent = async (data: FormDataFinal) => {
-  await refreshAccessToken();
-  const { requestId, language, transactionTime } = generateCommonBodyRequest();
-  const body: ConfirmEKYCRequest = {
-    requestId,
-    channel: CHANNEL_HDBS as string,
-    userId,
-    clientNo,
-    transactionTime,
-    partnerId: PARTNER_ID as string,
-    isTranInternet: data.isTranInternet,
-    isUttb: data.isUttb,
-    isBond: data.isBond,
-    language,
-    checksum: generateCheckSum({
-      userId,
-      clientNo,
-      transactionTime,
-      partnerId: PARTNER_ID as string,
-    }),
-  };
-  const resp: AxiosResponse<ConfirmEKYCResponse> = await axios.post(
-    "/api/confirmEKYCPresent",
-    body,
-    {
-      headers: {
-        Authorization: Cookies.get(KEY_TOKEN) || "",
-      },
-    }
-  );
-  return resp.data;
-};
+// export const confirmEKYCPresent = async (data: FormDataFinal) => {
+//   await refreshAccessToken();
+//   const { requestId, language, transactionTime } = generateCommonBodyRequest();
+//   const body: ConfirmEKYCRequest = {
+//     requestId,
+//     channel: CHANNEL_HDBS as string,
+//     userId,
+//     clientNo,
+//     transactionTime,
+//     partnerId: PARTNER_ID as string,
+//     isTranInternet: data.isTranInternet,
+//     isUttb: data.isUttb,
+//     isBond: data.isBond,
+//     language,
+//     checksum: generateCheckSum({
+//       userId,
+//       clientNo,
+//       transactionTime,
+//       partnerId: PARTNER_ID as string,
+//     }),
+//   };
+//   const resp: AxiosResponse<ConfirmEKYCResponse> = await axios.post(
+//     "/api/confirmEKYCPresent",
+//     body,
+//     {
+//       headers: {
+//         Authorization: Cookies.get(KEY_TOKEN) || "",
+//       },
+//     }
+//   );
+//   return resp.data;
+// };
 
-export const getListAccountApi = async () => {
-  const body: ListAccountRequest = {
-    requestId: uuidv4() as string,
-    data: {
-      clientNo,
-    },
-  };
-  const resp: AxiosResponse<ListAccountResponse> = await axios.post(
-    "/api/getAccountByCif",
-    body
-  );
-  console.log('timeout client: ', resp);
+// export const getListAccountApi = async () => {
+//   const body: ListAccountRequest = {
+//     requestId: uuidv4() as string,
+//     data: {
+//       clientNo: clientNo,
+//     },
+//   };
+//   const resp: AxiosResponse<ListAccountResponse> = await axios.post(
+//     "/api/getAccountByCif",
+//     body
+//   );
+//   console.log("timeout client: ", resp);
 
-  return resp;
-};
+//   return resp;
+// };
 
 export const createOTPApi = async () => {
   const { requestId } = generateCommonBodyRequest();
@@ -382,7 +382,7 @@ export const createOTPApi = async () => {
       clientImei: "",
       partner: "",
       isReqChalCode: IS_REQ_CHAL_CODE_HDBS as string,
-      mediaType: "",
+      mediaType: "58",
     },
   };
   const resp: AxiosResponse<CreateOTPResponse> = await axios.post(
@@ -392,23 +392,51 @@ export const createOTPApi = async () => {
   return resp;
 };
 
-export const verifyOTPApi = async (otp: string) => {
+export const verifyOTPApi = async (otp: string, data: any) => {
+  await refreshAccessToken();
+  const { language, transactionTime } = generateCommonBodyRequest();
+
   const body: VerifyOTPRequest = {
-    requestId: uuidv4() as string,
-    data: {
+    dataOtp: {
+      requestId: uuidv4() as string,
+      data: {
+        channel: CHANNEL_HDBS as string,
+        serviceCode: SERVICE_CODE_HDBS as string,
+        userId,
+        serialNo: "",
+        narrative: NARRATIVE_HDBS as string,
+        mediaType: "",
+        challengeCode: "",
+        otp,
+      },
+    },
+    dataForm: {
+      requestId: uuidv4() as string,
       channel: CHANNEL_HDBS as string,
-      serviceCode: SERVICE_CODE_HDBS as string,
       userId,
-      serialNo: "",
-      narrative: NARRATIVE_HDBS as string,
-      mediaType: "",
-      challengeCode: "",
-      otp,
+      clientNo,
+      transactionTime,
+      partnerId: PARTNER_ID as string,
+      isTranInternet: data.isTranInternet,
+      isUttb: data.isUttb,
+      isBond: data.isBond,
+      language,
+      checksum: generateCheckSum({
+        userId,
+        clientNo,
+        transactionTime,
+        partnerId: PARTNER_ID as string,
+      }),
     },
   };
   const resp: AxiosResponse<VerifyOTPResponse> = await axios.post(
     "/api/verifyOTP",
-    body
+    body,
+    {
+      headers: {
+        Authorization: Cookies.get(KEY_TOKEN) || "",
+      },
+    }
   );
   return resp;
 };

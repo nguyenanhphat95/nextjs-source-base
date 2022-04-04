@@ -20,7 +20,9 @@ const InputSingle = (props: Props) => {
   const { onChange, otp } = props;
   // const [value, setValue] = useState("");
   const _handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
+    const regex = /^\d+$/;    
+    const value = e.target.value;    
+    console.log("test: ", regex.test(value));
     if (+value > 999999) {
       return;
     }
@@ -30,9 +32,11 @@ const InputSingle = (props: Props) => {
     <InputCustom
       // className={classes.customInput}
       value={otp}
-      type="number"
+      // type="number"
+      type="number" 
+      // inputmode="numeric"       
       onChange={_handleChangeInput}
-      inputProps={{min: 0, style: { textAlign: 'center' }}}
+      inputProps={{min: 0, style: { textAlign: 'center' }, inputmode: "numeric", pattern: "[0-9]*"}}
     />
   );
 };

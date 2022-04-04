@@ -9,6 +9,10 @@ body {
   background: none !important;
 }
 
+#__next-build-watcher{
+  display: none;
+}
+
 #ekyc_sdk_intergrated .take-picture-btn {
   background: linear-gradient(rgb(255, 222, 1) 0%, rgb(250, 167, 26) 100%) !important;
 }

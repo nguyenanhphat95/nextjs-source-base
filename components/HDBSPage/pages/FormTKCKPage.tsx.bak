@@ -1,0 +1,397 @@
+import React, { useState, useMemo, useRef } from "react";
+import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+
+import { useForm, Controller } from "react-hook-form";
+
+import { makeStyles } from "@mui/styles";
+import { Card, Grid, Box, Modal } from "@mui/material";
+import { ButtonCustom, CheckboxCustom, SelectCustom } from "components/commons";
+
+import { FormDataStep1, TypeCustomer } from "../interfaces";
+import { OptionSelectType } from "commons/constants/types";
+import { getLanguage } from "commons/helpers";
+import { Information } from "..";
+import { LANGUAGE } from "commons/constants";
+import resources from "pages/assets/translate.json";
+import warningIcon from "public/asset/images/warning.png";
+import reducer, { AppState, initialState } from "store/reducer";
+
+import _get from "lodash/get";
+import _delay from "lodash/delay";
+const useStyles = makeStyles(() => ({
+  root: {
+    minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column",
+  },
+  content: {
+    padding: 10,
+    boxShadow: "none",
+    flexGrow: 1,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: 500,
+  },
+  modalInfo: {
+    top: "unset !important",
+    "& .MuiPaper-root": {
+      borderRadius: "5px 5px 0px 0px",
+    },
+  },
+}));
+
+interface Props {
+  onSubmit: (data: FormDataStep1) => void;
+  md5?: any;
+}
+
+type FormValues = {
+  accountNo: string;
+  accountType: string;
+  merchantId: string;
+  terminalId: string;
+  isTranInternet: boolean;
+  isUttb: boolean;
+  isBond: boolean;
+  merchantName: string;
+  terminalName: string;
+};
+
+export const TYPE_MODAL_INFO = {
+  transferInternet: "transferInternet",
+  transferAuto: "transferAuto",
+  transferBonds: "transferBonds",
+};
+
+const ERROR_FORM = {
+  [LANGUAGE.EN]: {
+    required: "This field is required",
+  },
+  [LANGUAGE.VI]: {
+    required: "Trường này là bắt buộc",
+  },
+};
+
+const FormTKCKPage = (props: Props) => {
+  const { onSubmit } = props;
+  const classes = useStyles();
+  const {
+    handleSubmit,
+    formState: { errors },
+    control,
+    setValue,
+    watch,
+  } = useForm<FormValues>({
+    defaultValues: {
+      accountNo: "",
+      accountType: "",
+      merchantId: "",
+      merchantName: "",
+      terminalId: "",
+      terminalName: "",
+      isTranInternet: true,
+      isUttb: true,
+      isBond: true,
+    },
+  });
+  const merchantIdValue = watch("merchantId");
+  const {
+    loading,
+    typeCustomer,
+    listMerchant,
+    listTerminal,
+    listAccount,
+    dataForm
+  }: AppState = useSelector((state) => _get(state, "app"));
+
+  console.log(useSelector((state) => _get(state, "app")));
+  const typeModal = useRef<string>("");
+  const [openModalInfo, setOpenModalInfo] = useState(false);
+  const [disabledWhenSetDefault, setDisabledWhenSetDefault] = useState(false);
+
+  const router = useRouter();
+  const lang = getLanguage(router);
+  const t = _get(resources, [lang, "formTKCKPage"]);
+
+  const listAccountNew = useMemo(() => {
+    if(listAccount.length === 1) {
+      setValue("accountNo", listAccount[0].accountNo)
+    }
+	console.log("listAccount", listAccount)
+    setValue("accountNo", dataForm.accountNo)
+    return (listAccount || []).map((item) => ({
+      id: item.accountNo,
+      value: item.accountNo,
+      label: item.AcctType,
+    }));
+  }, [listAccount]);
+
+  const listMerchantNew = useMemo(() => {
+    // Set default for merchant select
+    const defaultMerchant = listMerchant.find((item) => item.merchantDefault);
+    if (defaultMerchant) {
+      setDisabledWhenSetDefault(true);
+      _delay(() => {
+        setValue("merchantName", defaultMerchant.merchantName);
+        setValue("merchantId", defaultMerchant.merchantId);
+      }, 1000);
+    }
+
+    return (listMerchant || []).map((item) => ({
+      id: item.merchantId,
+      value: item.merchantName,
+    }));
+  }, [listMerchant]);
+
+  const listTerminalNew = useMemo(() => {
+    if (!listTerminal.length || !merchantIdValue) {
+      return [];
+    }
+
+    // Set default for terminal select
+    const listData: OptionSelectType[] = [];
+    listTerminal.forEach((item) => {
+      if (item.merchantId === merchantIdValue) {
+        listData.push({
+          id: item.terminalId,
+          value: item.terminalName,
+          defaultValue: item.terminalDefault,
+        });
+      }
+    });
+    const defaultTerminal = listData.find((item) => item.defaultValue);
+    if (defaultTerminal) {
+      _delay(() => {
+        setDisabledWhenSetDefault(false);
+        setValue("terminalId", defaultTerminal.id as string);
+        setValue("terminalName", defaultTerminal.value);
+      }, 500);
+    }
+    return listData;
+  }, [listTerminal, merchantIdValue]);
+
+  const _handleShowInfo = (key: string) => {
+    typeModal.current = key;
+    _toggleModalInfo();
+  };
+
+  const _toggleModalInfo = () => {
+    setOpenModalInfo((prev) => {
+      if (prev) typeModal.current = "";
+      return !prev;
+    });
+  };
+
+  return (
+    <>
+      <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
+        <Card className={classes.content}>
+          <Grid container direction="column" spacing={2}>
+            {typeCustomer === TypeCustomer.KHHH && (
+              <>
+                <Grid item className={classes.title}>
+                  {t?.titleSection1}
+                </Grid>
+                <Grid item>
+                  <Controller
+                    name="accountNo"
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field: { onChange: _onChange, ...rest } }) => (
+                      <SelectCustom
+                        errorMsg={
+                          errors.accountNo &&
+                          _get(ERROR_FORM, [lang, "required"])
+                        }
+                        placeholder={t?.placeholderAccount}
+                        options={listAccountNew}
+                        loading={listAccountNew.length ? false : true}
+                        fullWidth
+                        onChange={(e) => {
+                          const id = e.target.value;
+                          const itemSelected = listAccountNew.find(
+                            (item) => item.id === id
+                          );
+                          setValue("accountType", itemSelected?.label || "");
+                          _onChange(e);
+                        }}
+                        {...rest}
+                      />
+                    )}
+                  />
+                </Grid>
+              </>
+            )}
+            <Grid item className={classes.title}>
+              {t?.titleSection2}
+            </Grid>
+            <Grid item>
+              <Controller
+                name="merchantId"
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange: _onChange, ...rest } }) => (
+                  <SelectCustom
+                    errorMsg={
+                      errors.merchantId && _get(ERROR_FORM, [lang, "required"])
+                    }
+                    placeholder={t?.placeholderMerchant}
+                    options={listMerchantNew}
+                    fullWidth
+                    onChange={(e) => {
+                      const id = e.target.value;
+                      const itemSelected = listMerchantNew.find(
+                        (item) => item.id === id
+                      );
+                      setValue("terminalId", "");
+                      setValue("terminalName", "");
+                      itemSelected &&
+                        setValue("merchantName", itemSelected.value);
+                      _onChange(e);
+                    }}
+                    {...rest}
+                  />
+                )}
+              />
+            </Grid>
+            <Grid item>
+              <Controller
+                name="terminalId"
+                control={control}
+                rules={{ required: true }}
+                render={({ field: { onChange: _onChange, ...rest } }) => (
+                  <SelectCustom
+                    errorMsg={
+                      errors.terminalId && _get(ERROR_FORM, [lang, "required"])
+                    }
+                    placeholder={t?.placeholderTerminal}
+                    options={listTerminalNew}
+                    onChange={(e) => {
+                      const id = e.target.value;
+                      const itemSelected = listTerminalNew.find(
+                        (item) => item.id === id
+                      );
+                      itemSelected &&
+                        setValue("terminalName", itemSelected.value);
+                      _onChange(e);
+                    }}
+                    fullWidth
+                    {...rest}
+                  />
+                )}
+              />
+            </Grid>
+          </Grid>
+
+          <Box mt={3}>
+            <Grid container direction="column" spacing={1}>
+              <Grid item>
+                <Controller
+                  name="isTranInternet"
+                  control={control}
+                  render={({ field: { value, ...rest } }) => {
+                    return (
+                      <CheckboxCustom
+                        checked={value}
+                        endIcon={
+                          <img
+                            width={20}
+                            height={20}
+                            src="/asset/images/warning.png"
+                          />
+                        }
+                        label={t?.labelCheckbox1}
+                        onClickEndIcon={() =>
+                          _handleShowInfo(TYPE_MODAL_INFO.transferInternet)
+                        }
+                        {...rest}
+                      />
+                    );
+                  }}
+                />
+              </Grid>
+
+              <Grid item>
+                <Controller
+                  name="isUttb"
+                  control={control}
+                  render={({ field: { value, ...rest } }) => {
+                    return (
+                      <CheckboxCustom
+                        checked={value}
+                        endIcon={
+                          <img
+                            width={20}
+                            height={20}
+                            src="/asset/images/warning.png"
+                          />
+                        }
+                        label={t?.labelCheckbox2}
+                        onClickEndIcon={() =>
+                          _handleShowInfo(TYPE_MODAL_INFO.transferAuto)
+                        }
+                        {...rest}
+                      />
+                    );
+                  }}
+                />
+              </Grid>
+              {typeCustomer === TypeCustomer.KHHH && (
+                <Grid item>
+                  <Controller
+                    name="isBond"
+                    control={control}
+                    render={({ field: { value, ...rest } }) => {
+                      return (
+                        <CheckboxCustom
+                          checked={value}
+                          endIcon={
+                            <img
+                              width={20}
+                              height={20}
+                              src="/asset/images/warning.png"
+                            />
+                          }
+                          label={t?.labelCheckbox3}
+                          onClickEndIcon={() =>
+                            _handleShowInfo(TYPE_MODAL_INFO.transferBonds)
+                          }
+                          {...rest}
+                        />
+                      );
+                    }}
+                  />
+                </Grid>
+              )}
+            </Grid>
+          </Box>
+        </Card>
+
+        <Box px={3} py={1}>
+          <ButtonCustom
+            fullWidth
+            variant="contained"
+            color="secondary"
+            type="submit"
+            disabled={disabledWhenSetDefault}
+            loading={loading.loadingBtnSubmit}
+          >
+            {t?.btnContinue}
+          </ButtonCustom>
+        </Box>
+
+        <Modal
+          className={classes.modalInfo}
+          open={openModalInfo}
+          onClose={_toggleModalInfo}
+        >
+          <Information type={typeModal.current} onClose={_toggleModalInfo} />
+        </Modal>
+      </form>
+    </>
+  );
+};
+
+export default FormTKCKPage;

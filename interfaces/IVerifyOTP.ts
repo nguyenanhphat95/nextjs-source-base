@@ -1,15 +1,16 @@
+import { ConfirmEKYCRequest } from './IConfirmEKYCPresent';
 export interface VerifyOTPRequest {
-  requestId: string;
-  data: {
-    channel: string;
-    serviceCode: string;
-    userId: string;
-    serialNo: string;
-    narrative: string;
-    mediaType: string;
-    otp: string;
-    challengeCode: string;
-  };
+    dataOtp: { requestId: string, data: {
+      channel: string;
+      serviceCode: string;
+      userId: string;
+      serialNo: string;
+      narrative: string;
+      mediaType: string;
+      otp: string;
+      challengeCode: string;
+    }}
+    dataForm: ConfirmEKYCRequest;
 }
 
 export interface VerifyOTPResponse {

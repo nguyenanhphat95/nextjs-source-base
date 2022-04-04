@@ -13,6 +13,8 @@ export default async function handler(
   res: NextApiResponse<CreateOTPResponse>
 ) {
   try {
+    console.log("create otp req: ", req.body);
+
     const url = `${API_DOMAIN_SBH_SANDBOX}/oauthservice/createOtp`;
     const resp: AxiosResponse<CreateOTPResponse> = await axiosWrapper.post(
       url,
@@ -24,6 +26,8 @@ export default async function handler(
         },
       }
     );
+    console.log("create otp res: ", resp.data);
+    
     res.status(200).json(resp.data);
   } catch (e) {
     writeLog(

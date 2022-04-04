@@ -89,26 +89,27 @@ const Step3ConfirmInfo = (props: Props) => {
   };
 
   const _onCreateOTP = (isToggleModal = true) => {
-    // dispatch(setToggleLoading("loadingBtnSubmit"));
-              isToggleModal && _toggleModalVerifyOTP();
-
+    dispatch(setToggleLoading("loadingBtnSubmit"));
     setIsAbleSendOtp(false);
-    // hdbsServices
-    //   .createOTPApi()
-    //   .then((res) => {
-    //     dispatch(setToggleLoading("loadingBtnSubmit"));
-    //     const code = _get(res, "data.resultCode");
-    //     if (_get(res, "data.data.userId")) {
-    //       isToggleModal && _toggleModalVerifyOTP();
-    //       return;
-    //     }
-    //     const status = getStatusOTPResponse(code, lang);
-    //     toggleNotify(status.msg);
-    //     setIsAbleSendOtp(true);
-    //   })
-    //   .catch((err) => {
-    //     dispatch(setToggleLoading("loadingBtnSubmit"));
-    //   });
+    // isToggleModal && _toggleModalVerifyOTP();
+    hdbsServices
+      .createOTPApi()
+      .then((res) => {
+        console.log("res create otp", res);
+        
+        dispatch(setToggleLoading("loadingBtnSubmit"));
+        const code = _get(res, "data.resultCode");
+        if (_get(res, "data.data.userId")) {
+          isToggleModal && _toggleModalVerifyOTP();
+          return;
+        }
+        const status = getStatusOTPResponse(code, lang);
+        toggleNotify(status.msg);
+        setIsAbleSendOtp(true);
+      })
+      .catch((err) => {
+        dispatch(setToggleLoading("loadingBtnSubmit"));
+      });
   };
   const _handleSubmit = () => {
     if (allowSendOTP || typeCustomer === TypeCustomer.KHM) {
@@ -133,16 +134,23 @@ const Step3ConfirmInfo = (props: Props) => {
   const _handleVerifyOtp = (accountOtp: string) => {
     dispatch(setToggleLoading("loadingBtnConfirmOTP"));
     hdbsServices
-      .verifyOTPApi(accountOtp)
+      .verifyOTPApi(accountOtp, dataForm)
       .then((res) => {
         dispatch(setToggleLoading("loadingBtnConfirmOTP"));
-
-        const code = _get(res, "data.resultCode");
-        if (_get(res, "data.data.userId")) {
-          // Tạo tài khoản chứng khoán
-          _onConfirmEKYC();
+        if (_get(res, "data.respConfirm")) {
+          const code = _get(res, "data.respConfirm.resultCode");
+          const status = getStatusResponse(code, lang);
+          if (status.success) {
+            _toggleModalVerifyOTP();
+            _onNextStep(ROUTE_STEP.stepResult);
+            return;
+          }
+          toggleNotify(status.msg, () => {
+            _onNextStep(ROUTE_STEP.step1FormTKCK);
+          });
           return;
         }
+        const code = _get(res, "data.respOtp.resultCode");
         const status = getStatusOTPResponse(code, lang);
         toggleNotify(
           status.msg,
@@ -156,28 +164,28 @@ const Step3ConfirmInfo = (props: Props) => {
       });
   };
 
-  const _onConfirmEKYC = () => {
-    dispatch(setToggleLoading("loadingBtnConfirmOTP"));
-    hdbsServices
-      .confirmEKYCPresent(dataForm)
-      .then((res) => {
-        const code = _get(res, "resultCode");
-        const status = getStatusResponse(code, lang);
-        dispatch(setToggleLoading("loadingBtnConfirmOTP"));
+  // const _onConfirmEKYC = () => {
+  //   dispatch(setToggleLoading("loadingBtnConfirmOTP"));
+  //   hdbsServices
+  //     .confirmEKYCPresent(dataForm)
+  //     .then((res) => {
+  //       const code = _get(res, "resultCode");
+  //       const status = getStatusResponse(code, lang);
+  //       dispatch(setToggleLoading("loadingBtnConfirmOTP"));
 
-        if (status.success) {
-          _toggleModalVerifyOTP();
-          _onNextStep(ROUTE_STEP.stepResult);
-          return;
-        }
-        toggleNotify(status.msg, () => {
-          _onNextStep(ROUTE_STEP.step1FormTKCK);
-        });
-      })
-      .catch((err) => {
-        dispatch(setToggleLoading("loadingBtnConfirmOTP"));
-      });
-  };
+  //       if (status.success) {
+  //         _toggleModalVerifyOTP();
+  //         _onNextStep(ROUTE_STEP.stepResult);
+  //         return;
+  //       }
+  //       toggleNotify(status.msg, () => {
+  //         _onNextStep(ROUTE_STEP.step1FormTKCK);
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       dispatch(setToggleLoading("loadingBtnConfirmOTP"));
+  //     });
+  // };
 
   return (
     <div className={classes.rootPage}>
@@ -195,7 +203,7 @@ const Step3ConfirmInfo = (props: Props) => {
         redoEKYC={() => _onNextStep(ROUTE_STEP.step2EKYC)}
       />
 
-      {!openVerifyOTP && hoursMinSecs.seconds ? (
+      {/* {!openVerifyOTP && hoursMinSecs.seconds ? (
         <CountDownTimer
           onChange={setHoursMinSecs}
           onFinish={() => setIsAbleSendOtp(true)}
@@ -203,7 +211,7 @@ const Step3ConfirmInfo = (props: Props) => {
         />
       ) : (
         <></>
-      )}
+      )} */}
 
       <Dialog
         className={classes.dialogCustom}
