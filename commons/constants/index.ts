@@ -52,7 +52,7 @@ export const ERROR_CODE_WITH_MESSAGE = {
     "05": "Private key không tìm thấy",
     "06": "Ekyc user đã tồn tại",
     "07": "Register eKyc user thất bại",
-    "08": "Quý khách đã mở TKCK tại Công ty chứng khoán HDB. Quý khách vui lòng chọn Công ty Chứng khoán khác!",
+    "08": "Quý khách đã có TKCK  tại Công ty Chứng khoán HDB (HDBS). Vui lòng liên hệ HDBS hoặc gọi (84.28) 7307 6966 để được hỗ trợ.",
     "09": "Account otp không khớp",
     "10": "Ekyc account không tìm thấy",
     "11": "Thông tin CMND/CCCD khác với thông tin trên hệ thống",

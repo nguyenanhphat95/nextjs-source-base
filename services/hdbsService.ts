@@ -319,55 +319,6 @@ export const inquiryENCYPresent = async (data: FormDataFinal) => {
   return resp.data;
 };
 
-// export const confirmEKYCPresent = async (data: FormDataFinal) => {
-//   await refreshAccessToken();
-//   const { requestId, language, transactionTime } = generateCommonBodyRequest();
-//   const body: ConfirmEKYCRequest = {
-//     requestId,
-//     channel: CHANNEL_HDBS as string,
-//     userId,
-//     clientNo,
-//     transactionTime,
-//     partnerId: PARTNER_ID as string,
-//     isTranInternet: data.isTranInternet,
-//     isUttb: data.isUttb,
-//     isBond: data.isBond,
-//     language,
-//     checksum: generateCheckSum({
-//       userId,
-//       clientNo,
-//       transactionTime,
-//       partnerId: PARTNER_ID as string,
-//     }),
-//   };
-//   const resp: AxiosResponse<ConfirmEKYCResponse> = await axios.post(
-//     "/api/confirmEKYCPresent",
-//     body,
-//     {
-//       headers: {
-//         Authorization: Cookies.get(KEY_TOKEN) || "",
-//       },
-//     }
-//   );
-//   return resp.data;
-// };
-
-// export const getListAccountApi = async () => {
-//   const body: ListAccountRequest = {
-//     requestId: uuidv4() as string,
-//     data: {
-//       clientNo: clientNo,
-//     },
-//   };
-//   const resp: AxiosResponse<ListAccountResponse> = await axios.post(
-//     "/api/getAccountByCif",
-//     body
-//   );
-//   console.log("timeout client: ", resp);
-
-//   return resp;
-// };
-
 export const createOTPApi = async () => {
   const { requestId } = generateCommonBodyRequest();
   const body: CreateOTPRequest = {

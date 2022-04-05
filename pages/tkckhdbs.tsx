@@ -114,8 +114,6 @@ export async function getServerSideProps(
           },
         }
       );
-      console.log("account ne: ", _get(resp.data, "data", []));
-
       return {
         props: {
           jwtInfo,
